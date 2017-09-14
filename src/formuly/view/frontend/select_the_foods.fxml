@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane id="BorderPane" prefHeight="559.0" prefWidth="715.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+<BorderPane id="fenetrePaletteFood" prefHeight="559.0" prefWidth="715.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
    <top>
       <BorderPane prefHeight="60.0" prefWidth="636.0" BorderPane.alignment="CENTER">
          <right>
@@ -86,14 +86,28 @@
             </Label>
          </top>
          <bottom>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER" />
+            <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0" startX="0.3380952380952381">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="BLACK" offset="0.4879725085910653" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
          </bottom>
       </BorderPane>
    </center>
    <right>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
-            <Label text="Liste des aliments du menu" BorderPane.alignment="CENTER" />
+            <Label text="Liste des aliments du menu" textFill="#831515" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
          </top>
          <center>
             <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
