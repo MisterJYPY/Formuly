@@ -510,6 +510,7 @@ public class MainPrincipalController implements Initializable {
                 }
             }
         );
+         //ddjjdjdj
           aliment11111.setItems(formulyTools.getobservableListMainModel("Mali"));
          
     }    
