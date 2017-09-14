@@ -29,7 +29,7 @@
             </ImageView>
          </left>
          <center>
-            <Label alignment="CENTER" prefHeight="62.0" prefWidth="549.0" text="PALETTE DE CONFECTION DE MENU DIETHETIQUE" textAlignment="CENTER" textFill="#430707" BorderPane.alignment="CENTER">
+            <Label id="panelTitre" alignment="CENTER" mouseTransparent="true" prefHeight="81.0" prefWidth="555.0" text="PALETTE DE CONFECTION DE MENU DIETHETIQUE" textAlignment="CENTER" textFill="#430707" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Berlin Sans FB" size="24.0" />
                </font>

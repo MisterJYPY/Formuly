@@ -16,5 +16,9 @@ and open the template in the editor.
 
 #fenetrePaletteFood
 {
-      -fx-background-color:linear-gradient(to top,#DBF7F3,white);
+      -fx-background-color:linear-gradient(to top right,#DBF7F3,white);
+}
+#panelTitre
+{
+    
 }
