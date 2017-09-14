@@ -1,11 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="BorderPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Select_the_foodsController">
-    
+
+<BorderPane id="BorderPane" prefHeight="559.0" prefWidth="715.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+   <top>
+      <BorderPane prefHeight="60.0" prefWidth="636.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <VBox prefHeight="370.0" prefWidth="165.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator prefHeight="0.0" prefWidth="165.0" visible="false" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="167.0" text="Categories" textAlignment="CENTER" />
+            <ComboBox prefHeight="25.0" prefWidth="164.0" />
+            <Separator prefHeight="21.0" prefWidth="165.0" visible="false" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="167.0" text="Pays" />
+            <ComboBox layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="167.0" visibleRowCount="3" />
+            <Separator prefHeight="21.0" prefWidth="119.0" visible="false" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="165.0" text="Mode de cuisson" />
+            <ComboBox layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="168.0" visibleRowCount="3" />
+            <Separator prefHeight="26.0" prefWidth="119.0" visible="false" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="118.0" text="Nom Aliment" />
+            <TextField prefHeight="33.0" prefWidth="119.0" />
+            <Separator prefHeight="22.0" prefWidth="119.0" visible="false" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="126.0" text="Code Aliment" />
+            <TextField layoutX="10.0" layoutY="253.0" prefHeight="33.0" prefWidth="119.0" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <BorderPane prefHeight="374.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+         <center>
+            <TableView prefHeight="316.0" prefWidth="206.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn minWidth="0.0" prefWidth="275.0" text="Nom des Aliments " />
+                <TableColumn maxWidth="500.0" minWidth="0.0" prefWidth="60.0" text="Quantite" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <right>
+            <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+         </right>
+         <top>
+            <Label text="Liste des aliments de selection" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </center>
+   <right>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <Label text="Liste des aliments du menu" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="142.0" text="aliments" />
+                <TableColumn prefWidth="37.0" text="qte" />
+              </columns>
+            </TableView>
+         </center>
+         <right>
+            <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+         </right>
+         <left>
+            <Separator orientation="VERTICAL" prefHeight="357.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+         </left>
+         <bottom>
+            <Button ellipsisString="" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Valider le repas" textOverrun="LEADING_ELLIPSIS" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </right>
 </BorderPane>
