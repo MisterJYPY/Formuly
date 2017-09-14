@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="fenetrePrincipal" fx:id="fenetrePrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="1393.0" stylesheets="@../../css/frontend/fenetrePrincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.MainPrincipalController">
+     
+    <top>
+      <BorderPane prefHeight="47.0" prefWidth="600.0">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MenuBar>
+                     <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Edit">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Delete" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="About" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="42.0" text="Button" />
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="Button" />
+                        <Button layoutX="66.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="42.0" text="Button" />
+                    </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <TabPane prefHeight="314.0" prefWidth="423.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab id="tableIngredient" fx:id="aliments" text="All Foods">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment" editable="true" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn id="numeroAliment" fx:id="numero" prefWidth="30.0" resizable="false" text="N°" />
+                            <TableColumn id="clumAliment" fx:id="nom_aliment" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb9" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita" prefWidth="76.0" resizable="false" text="VitA" />
+                          </columns>
+                        </TableView>
+                     </content></Tab>
+                  <Tab id="tableBurkina" fx:id="aliments1" text="Burkina Faso">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment1" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero1" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment1" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte1" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide1" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide1" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide1" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide1" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide1" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide1" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie1" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer1" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg1" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na1" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka1" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc1" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite1" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb91" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita1" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableNigeria" fx:id="aliments11" text="Nigeria">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment11" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero11" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment11" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte11" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide11" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide11" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide11" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide11" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide11" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide11" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie11" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer11" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg11" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na11" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka11" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc11" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite11" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb911" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita11" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableBenin" fx:id="aliments111" text="Benin">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb9111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableGhana" fx:id="aliments1111" text="Ghana">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment1111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero1111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment1111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte1111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide1111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide1111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide1111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide1111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide1111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide1111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie1111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer1111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg1111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na1111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka1111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc1111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite1111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb91111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita1111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableMali" fx:id="aliments11111" text="Mali">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment11111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero11111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment11111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte11111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide11111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide11111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide11111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide11111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide11111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide11111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie11111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer11111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg11111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na11111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka11111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc11111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite11111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb911111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita11111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableGambie" fx:id="aliments111111" text="Gambie">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment111111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero111111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment111111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte111111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide111111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide111111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide111111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide111111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide111111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide111111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie111111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer111111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg111111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na111111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka111111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc111111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite111111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb9111111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita111111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableGuinee" fx:id="aliments1111111" text="Guinee">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment1111111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero1111111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment1111111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte1111111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide1111111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide1111111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide1111111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide1111111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide1111111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide1111111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie1111111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer1111111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg1111111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na1111111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka1111111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc1111111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite1111111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb91111111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita1111111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableNiger" fx:id="aliments11111111" text="Niger">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment11111111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero11111111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment11111111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte11111111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide11111111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide11111111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide11111111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide11111111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide11111111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide11111111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie11111111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer11111111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg11111111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na11111111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka11111111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc11111111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite11111111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb911111111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita11111111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab id="tableSenegal" fx:id="aliments111111111" text="Senegal">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment111111111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero111111111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment111111111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte111111111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide111111111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide111111111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide111111111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide111111111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide111111111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide111111111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie111111111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer111111111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg111111111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na111111111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka111111111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc111111111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite111111111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb9111111111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita111111111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+         </top>
+         <right>
+            <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </center>
+   <right>
+      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

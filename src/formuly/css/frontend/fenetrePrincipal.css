@@ -1,0 +1,96 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12 sept. 2017, 21:22:42
+    Author     : Mr_JYPY
+*/
+
+#fenetrePrincipal
+{
+    
+    -fx-background-color:#F4FEFE;
+    -fx-background-size: 100%;
+}
+.columnGlucide
+{
+    -fx-font-family: bold;
+     -fx-font-size:13;
+    -fx-background-color:burlywood;
+}
+.Energie
+{
+     -fx-background-color:#FFF0BC;
+     -fx-font-family: bold;
+     -fx-font-size:13;
+     -fx-text-alignment: center;
+}
+#coloumPclipide
+{
+    -fx-background-color:#BBD2E1;
+     -fx-font-family: bold;
+     -fx-font-size:13;
+     -fx-text-alignment: center;
+}
+#coloumPcprotide
+{
+       -fx-background-color:#80D0D0;
+     -fx-font-family: bold;
+     -fx-font-size:13;
+     -fx-text-alignment: center;
+}
+#tableAliment
+{
+   
+}
+#tableIngredient
+{
+     -fx-background-color:#80D0D0;
+}
+.table-view .column-header  {
+    -fx-background-color:#BABABA;
+    -fx-font-weight: bold;
+}
+ #numeroAliment
+ {
+     -fx-background-color:#B3B191;
+ }
+ #tableBurkina
+ {
+     -fx-background-color:#00561B;
+ }
+ #tableNigeria
+ {
+      -fx-background-color:#C2F732;
+ }
+ #tableBenin
+ {
+     -fx-background-color:#FF0921;  
+ }
+  #tableGhana
+ {
+     -fx-background-color:#463F32;  
+    
+ }
+ #tableSenegal
+ {
+     
+ }
+  #tableMali
+ {
+      -fx-background-color:#DFAF2C;
+ }
+  #tableNiger
+ {
+     -fx-background-color:#708D23; 
+ }
+ #tableGambie
+ {
+      -fx-background-color:#1E7FCB;
+ }
+  #tableGuinee
+ {
+      -fx-background-color:#DFF2FF;
+ }

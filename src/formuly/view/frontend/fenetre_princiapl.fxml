@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="fenetrePrincipal" fx:id="fenetrePrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="1393.0" stylesheets="@../../css/frontend/fenetrePrincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.MainPrincipalController">
+    <top>
+      <BorderPane prefHeight="47.0" prefWidth="600.0">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MenuBar>
+                     <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Edit">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Delete" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="About" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="42.0" text="Button" />
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="Button" />
+                        <Button layoutX="66.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="42.0" text="Button" />
+                    </items>
+                  </ToolBar>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <TabPane prefHeight="314.0" prefWidth="423.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab id="tableIngredient" fx:id="aliments" text="Ingredients">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment" editable="true" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn id="numeroAliment" fx:id="numero" prefWidth="30.0" resizable="false" />
+                            <TableColumn id="clumAliment" fx:id="nom_aliment" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb9" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita" prefWidth="76.0" resizable="false" text="VitA" />
+                          </columns>
+                        </TableView>
+                     </content></Tab>
+              </tabs>
+            </TabPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+         </top>
+         <right>
+            <Slider orientation="VERTICAL" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </center>
+</BorderPane>

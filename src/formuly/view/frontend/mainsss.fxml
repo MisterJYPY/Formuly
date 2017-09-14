@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="568.0" prefWidth="1055.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.MainController">
+    <stylesheets>
+        <URL value="@/formuly/css/frontend/main.css" />
+    </stylesheets>
+   <children>
+      <BorderPane prefHeight="39.0" prefWidth="737.0">
+         <left>
+            <MenuBar prefHeight="36.0" prefWidth="736.0" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </left>
+      </BorderPane>
+      <ScrollPane layoutX="-3.0" layoutY="70.0" prefHeight="572.0" prefWidth="778.0">
+         <content>
+            <TableView id="tableAliments" fx:id="tableAliments" prefHeight="558.0" prefWidth="826.0" styleClass="tableAliments">
+               <columns>
+                  <TableColumn id="numero" prefWidth="40.0" />
+                  <TableColumn id="nomAliment" prefWidth="125.0" text="Aliments" />
+                  <TableColumn id="quantite" prefWidth="94.0" text="quantite" />
+                  <TableColumn id="glucide" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="lipide(%)" />
+               </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
