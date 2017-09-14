@@ -30,6 +30,7 @@ public class Select_the_foodsController implements Initializable {
     @FXML private TextField  nom_aliment;
     @FXML private TextField  code_aliment;
     @FXML private TableView table_aliment_a_choisir;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
