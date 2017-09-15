@@ -6,17 +6,25 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.classe.mainModel;
+import formuly.model.frontend.mainModel;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 
@@ -28,6 +36,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 public class MainPrincipalController implements Initializable {
  
     //Injection For All Foods
+    @FXML private Button ok;
     @FXML  
   private TableView<mainModel>  aliment;
    @FXML 
@@ -514,5 +523,17 @@ public class MainPrincipalController implements Initializable {
           aliment11111.setItems(formulyTools.getobservableListMainModel("Mali"));
          
     }    
+    public void stageencor(ActionEvent evt) throws IOException
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/formuly/view/frontend/select_the_foods.fxml"));
+         Parent root = loader.load();
+         Stage st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("formuly ww");
+          st.initModality(Modality.APPLICATION_MODAL);
+          st.initOwner(ok.getScene().getWindow());
+          st.showAndWait();
+    }
    
 }

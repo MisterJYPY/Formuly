@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane id="fenetrePaletteFood" prefHeight="559.0" prefWidth="715.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+<BorderPane id="fenetrePaletteFood" prefHeight="611.0" prefWidth="790.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
    <top>
       <BorderPane prefHeight="60.0" prefWidth="636.0" BorderPane.alignment="CENTER">
          <right>
@@ -51,8 +51,8 @@
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="167.0" text="Pays" />
             <ComboBox fx:id="pays_foods" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="167.0" visibleRowCount="3" />
             <Separator prefHeight="21.0" prefWidth="119.0" visible="false" />
-            <Label fx:id="mode_cuisson" alignment="CENTER" prefHeight="17.0" prefWidth="165.0" text="Mode de cuisson" />
-            <ComboBox layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="168.0" visibleRowCount="3" />
+            <Label fx:id="mode_cuissons" alignment="CENTER" prefHeight="17.0" prefWidth="165.0" text="Mode de cuisson" />
+            <ComboBox fx:id="mode_cuisson" layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="168.0" visibleRowCount="3" />
             <Separator prefHeight="26.0" prefWidth="119.0" visible="false" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="118.0" text="Nom Aliment" />
             <TextField fx:id="nom_aliment" prefHeight="33.0" prefWidth="119.0" />
@@ -67,17 +67,14 @@
          <center>
             <TableView fx:id="table_aliment_a_choisir" prefHeight="316.0" prefWidth="206.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn minWidth="0.0" prefWidth="275.0" text="Nom des Aliments " />
-                <TableColumn maxWidth="500.0" minWidth="0.0" prefWidth="60.0" text="Quantite" />
+                <TableColumn fx:id="nomAliment" minWidth="0.0" prefWidth="351.0" text="Nom des Aliments " />
+                <TableColumn fx:id="quantite" maxWidth="500.0" minWidth="0.0" prefWidth="73.0" text="Quantite" />
               </columns>
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
             </TableView>
          </center>
-         <right>
-            <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
-         </right>
          <top>
             <Label text="Liste des aliments pour la selection" textFill="#805959" BorderPane.alignment="CENTER">
                <font>
