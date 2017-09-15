@@ -6,7 +6,6 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.entities.FmGroupeAliment;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
 import java.net.URL;
