@@ -108,6 +108,46 @@ public class RetentionAlments {
            Aliments=null;
          return retentionAl;
    }
+   /**
+    * methode pour recuperer les aliments et toutes leurs retentions en mineraus
+    * en fonction d'une requete PLSQL 
+    * @param NameQuery le nom de la requete
+    * @param champ     le champ a indexer
+    * @param parametre  la valeur du champ
+    * @return  une list contenenant les aliments
+    */
+     public static List<RetentionAlments> getAllAlimentRetention(String NameQuery,String champ,Object parametre)
+           
+   {
+          instance=null;
+          List<RetentionAlments> retentionAl = null;
+          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+          EntityManager entityM=emf.createEntityManager(); 
+           entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNamedQuery(NameQuery);//FmAliments.findByPays
+                reqAliment.setParameter(champ,parametre);
+          List<FmAliments> Aliments= reqAliment.getResultList();
+            int cpt=0;
+            retentionAl=new LinkedList();
+          for(FmAliments aliments: Aliments)
+          {
+             // System.out.println("aliments: "+aliments.getNomFr());
+               RetentionAlments reta= getRetentionAliment(aliments);
+               
+//             if(reta.rm!=null && reta.rn!=null)
+//             {
+//                 
+                 retentionAl.add(cpt,reta);
+                
+                  cpt++;
+         //    }
+          }      
+             entityM.getTransaction().commit();
+          //   System.out.println("nbre element: "+retentionAl.size());
+          entityM.close();
+           Aliments=null;
+         return retentionAl;
+   }
      public static List<RetentionAlments> getAllAlimentRetention(String Pays)
            
    {

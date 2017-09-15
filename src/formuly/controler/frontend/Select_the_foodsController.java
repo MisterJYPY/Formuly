@@ -63,6 +63,7 @@ public class Select_the_foodsController implements Initializable {
     {
        //initialisation des pays
      List<String> list = new ArrayList<String>();
+         list.add("nd");
         list.add("Cote Ivoire");
         list.add("Mali");
         list.add("Nigeria");
@@ -72,6 +73,7 @@ public class Select_the_foodsController implements Initializable {
         list.add("Niger");
         list.add("Senegal");
         list.add("Guinee");
+        list.add("Ghana");
         list.add("Benin");
         ObservableList obList = FXCollections.observableList(list);
         pays_foods.getItems().clear();
@@ -93,6 +95,8 @@ public class Select_the_foodsController implements Initializable {
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
       
+        table_aliment_a_choisir.setEditable(true);
+      
        quantite.setCellFactory(TextFieldTableCell.forTableColumn());
        quantite.setOnEditCommit(
             new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
@@ -104,6 +108,7 @@ public class Select_the_foodsController implements Initializable {
                 }
             }
         );
+       
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel());
       }
     public void rechercher(ActionEvent e)
@@ -111,20 +116,43 @@ public class Select_the_foodsController implements Initializable {
         Object obj=e.getSource();
         if(e.getSource().equals(categorie_Foods))
         {
-            String mc;
-             if(mode_cuisson.getValue()!=null)
-             {
-         mc=mode_cuisson.getValue().toString();
-            System.out.println("mc: "+mc);
-             }
+            Object md= mode_cuisson.getValue();
+            Object pf=pays_foods.getValue();
+            String Concatenantion="";
+            String requete="select f from fm";
+            if(md==null && pf==null)
+            {
+               
+            }
         }
+        
          if(e.getSource().equals(mode_cuisson))
-        {
+         {
            
-        }
+         }
            if(e.getSource().equals(pays_foods))
-        {
-            
+         {
+             initialiserLeTableauAchoisir("FmAliments.findByPays","pays",pays_foods.getValue());
         }
     }
+      public void initialiserLeTableauAchoisir(String NameQuery,String champ ,Object parametre)
+      {
+          
+      nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+      quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+      
+       table_aliment_a_choisir.setEditable(true);
+       quantite.setCellFactory(TextFieldTableCell.forTableColumn());
+       quantite.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(t.getNewValue());
+                }
+            }
+        );
+        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery, champ, parametre));
+      }
 }

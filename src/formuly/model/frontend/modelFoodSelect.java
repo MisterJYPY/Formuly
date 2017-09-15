@@ -5,9 +5,7 @@
  */
 package formuly.model.frontend;
 
-import formuly.classe.RetentionAlments;
 import formuly.classe.formulyTools;
-import formuly.entities.FmAliments;
 import formuly.entities.FmGroupeAliment;
 import java.util.List;
 import javafx.collections.FXCollections;
