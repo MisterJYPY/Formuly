@@ -90,6 +90,8 @@ public class formulyTools {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
       mainModel mainM=null;
      List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention(requeteNative, model);
+      System.out.println(requeteNative);
+     System.out.println("nbre pri: "+retentionAliment.size());
       if(retentionAliment!=null)
       {
            int cpt=1;

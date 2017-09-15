@@ -151,6 +151,7 @@ public class FmRetentionMinerauxJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public int getFmRetentionMinerauxCount() {
         EntityManager em = getEntityManager();

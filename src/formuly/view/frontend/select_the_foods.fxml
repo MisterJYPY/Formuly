@@ -10,8 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane id="fenetrePaletteFood" prefHeight="611.0" prefWidth="790.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+<BorderPane id="fenetrePaletteFood" prefHeight="611.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Select_the_foodsController">
    <top>
       <BorderPane prefHeight="60.0" prefWidth="636.0" BorderPane.alignment="CENTER">
          <right>

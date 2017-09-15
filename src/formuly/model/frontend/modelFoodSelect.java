@@ -27,7 +27,7 @@ import javax.persistence.Query;
  */
 public class modelFoodSelect {
     
-       EntityManagerFactory emf;
+      public EntityManagerFactory emf;
     /**
      * methode retournant la liste des modes de cuissons
      * @return 

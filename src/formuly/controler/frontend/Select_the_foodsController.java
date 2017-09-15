@@ -9,6 +9,7 @@ import formuly.classe.formulyTools;
 import formuly.entities.FmGroupeAliment;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import jdk.nashorn.internal.objects.NativeRegExp;
 
 /**
  * FXML Controller class
@@ -63,10 +65,71 @@ public class Select_the_foodsController implements Initializable {
         // TODO
        initialisationCombobox();
        initialiserLeTableauAchoisir();
+       nom_aliment.setOnKeyReleased(
+     event->{
+         String sql="";
+           String val="";
+             String nom_ali=nom_aliment.getText();
+             String pays=pays_foods.getValue().toString();
+             String mode_cuiss=mode_cuisson.getValue().toString();
+             String groupe=categorie_Foods.getValue().toString();
+            String code=code_aliment.getText();
+             //val=nom_aliment.getText();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);                  
+             int idGrouep=grpe.getId();
+            if(categorie_Foods.getValue()==null && pays_foods.getValue()==null && mode_cuisson.getValue()==null && !nom_aliment.getText().isEmpty() && code_aliment.getText().isEmpty())
+            {
+     sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%') OR (f.nom_eng LIKE "+"'%"+nom_ali+"%')";
+       // initialiserLeTableauAchoisir(sql,"");
+        }
+          else{
+               if(categorie_Foods.getValue()!=null && pays_foods.getValue()!=null && mode_cuisson.getValue()!=null && !nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty()){
+      sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+ code+"%' and f.pays LIKE "+"'%"+pays+"%' and f.mode_cuisson="+"'"+mode_cuiss+"'"
+              + " and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') and f.groupe="+idGrouep+"";        
+                   System.out.println(sql);
+               }
+              }
+             if(!sql.isEmpty())
+             {
+               initialiserLeTableauAchoisir(sql,"");   
+             }
+        }
+        );
+       
+       code_aliment.setOnKeyReleased(
+        event->{
+            String sql="";
+             String val=code_aliment.getText();
+              if(categorie_Foods.getValue()==null && pays_foods.getValue()==null && mode_cuisson.getValue()==null && nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty())
+            {    
+     sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%'";
+   
+        }
+          else{
+             String nom_ali=nom_aliment.getText();
+             String pays=pays_foods.getValue().toString();
+             String mode_cuiss=mode_cuisson.getValue().toString();
+              String groupe=categorie_Foods.getValue().toString();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
+             int idGrouep=grpe.getId();
+               if(categorie_Foods.getValue()!=null && pays_foods.getValue()!=null && mode_cuisson.getValue()!=null && !nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty()){
+      sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' and f.pays LIKE "+"'%"+pays+"%' and f.mode_cuisson="+"'"+mode_cuiss+"'"
+              + " and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') and f.groupe="+idGrouep+"";        
+              }
+              }
+             if(!sql.isEmpty())
+             {
+               initialiserLeTableauAchoisir(sql,"");   
+             }
+        }
+        );
     }    
     public void initialisationCombobox()
     {
        //initialisation des pays
+       
      List<String> list = new ArrayList<String>();
          list.add("nd");
         list.add("Cote Ivoire");
@@ -92,6 +155,12 @@ public class Select_the_foodsController implements Initializable {
         mode_cuisson.getItems().clear();
         categorie_Foods.setItems(groupe);
         mode_cuisson.setItems(ModeCuisson);
+        
+       code_aliment.setOnKeyReleased(
+        event->{
+            System.out.println("prieregdgdggd: "+code_aliment.getText());
+        }
+        );
          
     }
     public void initialiserLeTableauAchoisir()
@@ -177,5 +246,10 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery,model));
       }
-        
+
+       public void invoqueKeyReleased(String valueTape)
+       {
+           System.out.println("action entendu");
+       }
+       
 }
