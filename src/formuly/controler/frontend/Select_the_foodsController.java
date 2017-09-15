@@ -111,7 +111,12 @@ public class Select_the_foodsController implements Initializable {
         Object obj=e.getSource();
         if(e.getSource().equals(categorie_Foods))
         {
-            
+            String mc;
+             if(mode_cuisson.getValue()!=null)
+             {
+         mc=mode_cuisson.getValue().toString();
+            System.out.println("mc: "+mc);
+             }
         }
          if(e.getSource().equals(mode_cuisson))
         {
