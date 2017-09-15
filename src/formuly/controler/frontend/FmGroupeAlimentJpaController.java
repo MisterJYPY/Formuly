@@ -180,6 +180,14 @@ public class FmGroupeAlimentJpaController implements Serializable {
             em.close();
         }
     }
+     public  FmGroupeAliment findFmGroupeAlimentByName(String name) {
+        EntityManager em = getEntityManager();
+        Query requete=em.createNamedQuery("FmGroupeAliment.findByNomFr");
+        requete.setParameter("nomFr", name);
+         FmGroupeAliment result=(FmGroupeAliment) requete.getSingleResult();
+        em.close();
+        return result;
+    }
 
     public int getFmGroupeAlimentCount() {
         EntityManager em = getEntityManager();

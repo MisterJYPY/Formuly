@@ -6,6 +6,7 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
+import formuly.entities.FmGroupeAliment;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
 import java.net.URL;
@@ -114,15 +115,9 @@ public class Select_the_foodsController implements Initializable {
     {
         Object obj=e.getSource();
         if(e.getSource().equals(categorie_Foods))
-        {
-            Object md= mode_cuisson.getValue();
-            Object pf=pays_foods.getValue();
-            String Concatenantion="";
-            String requete="select f from fm";
-            if(md==null && pf==null)
-            {
-               
-            }
+        {   
+        FmGroupeAliment groupe=model.avoirGroupeAliment(categorie_Foods.getValue().toString());
+            initialiserLeTableauAchoisir("FmAliments.findAllByGroupe","groupe",groupe);
         }
         
          if(e.getSource().equals(mode_cuisson))
