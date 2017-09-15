@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -105,4 +106,20 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel());
       }
+    public void rechercher(ActionEvent e)
+    {
+        Object obj=e.getSource();
+        if(e.getSource().equals(categorie_Foods))
+        {
+            
+        }
+         if(e.getSource().equals(mode_cuisson))
+        {
+           
+        }
+           if(e.getSource().equals(pays_foods))
+        {
+            
+        }
+    }
 }

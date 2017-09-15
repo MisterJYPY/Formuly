@@ -46,13 +46,13 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="categorie_Foods" prefHeight="25.0" prefWidth="164.0" />
+            <ComboBox fx:id="categorie_Foods" onAction="#rechercher" prefHeight="25.0" prefWidth="164.0" />
             <Separator prefHeight="21.0" prefWidth="165.0" visible="false" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="167.0" text="Pays" />
-            <ComboBox fx:id="pays_foods" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="167.0" visibleRowCount="3" />
+            <ComboBox fx:id="pays_foods" layoutX="10.0" layoutY="10.0" onAction="#rechercher" prefHeight="25.0" prefWidth="167.0" visibleRowCount="3" />
             <Separator prefHeight="21.0" prefWidth="119.0" visible="false" />
             <Label fx:id="mode_cuissons" alignment="CENTER" prefHeight="17.0" prefWidth="165.0" text="Mode de cuisson" />
-            <ComboBox fx:id="mode_cuisson" layoutX="10.0" layoutY="130.0" prefHeight="25.0" prefWidth="168.0" visibleRowCount="3" />
+            <ComboBox fx:id="mode_cuisson" layoutX="10.0" layoutY="130.0" onAction="#rechercher" prefHeight="25.0" prefWidth="168.0" visibleRowCount="3" />
             <Separator prefHeight="26.0" prefWidth="119.0" visible="false" />
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="118.0" text="Nom Aliment" />
             <TextField fx:id="nom_aliment" prefHeight="33.0" prefWidth="119.0" />
