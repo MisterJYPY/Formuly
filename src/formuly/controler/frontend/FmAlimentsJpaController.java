@@ -316,5 +316,21 @@ public class FmAlimentsJpaController implements Serializable {
             em.close();
         }
     }
-    
+     public List<FmAliments> getAllAlimentByNativeRequete(String NativeRequete)
+    {
+       EntityManager em = getEntityManager();
+       Query req=  em.createNativeQuery(NativeRequete,FmAliments.class);
+       List<FmAliments> listeObject = (  List<FmAliments>)req.getResultList();
+       
+      return listeObject;
+    }
+      public List<Object> getAllAlimentByNativeRequete(String NativeRequete,int n)
+    {
+       EntityManager em = getEntityManager();
+       Query req=  em.createNativeQuery(NativeRequete);
+      List<Object> listeObject = req.getResultList();
+       
+      return listeObject;
+    }
+     
 }

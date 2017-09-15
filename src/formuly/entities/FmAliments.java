@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "FmAliments.findAll", query = "SELECT f FROM FmAliments f"),
     @NamedQuery(name = "FmAliments.findById", query = "SELECT f FROM FmAliments f WHERE f.id = :id"),
-     @NamedQuery(name = "FmAliments.findAllByGroupe", query = "SELECT f FROM FmAliments f WHERE f.groupe= :groupe"),
+    @NamedQuery(name = "FmAliments.findByModeCuisson", query = "SELECT f FROM FmAliments f WHERE f.modeCuisson = :mode_cuisson"),
+    @NamedQuery(name = "FmAliments.findAllByGroupe", query = "SELECT f FROM FmAliments f WHERE f.groupe= :groupe"),
     @NamedQuery(name = "FmAliments.findByNomEng", query = "SELECT f FROM FmAliments f WHERE f.nomEng = :nomEng"),
     @NamedQuery(name = "FmAliments.findByNomFr", query = "SELECT f FROM FmAliments f WHERE f.nomFr = :nomFr"),
     @NamedQuery(name = "FmAliments.findByDerniereModif", query = "SELECT f FROM FmAliments f WHERE f.derniereModif = :derniereModif"),

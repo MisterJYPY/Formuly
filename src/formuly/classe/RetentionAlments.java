@@ -9,6 +9,7 @@ import formuly.entities.FmAliments;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
+import formuly.model.frontend.modelFoodSelect;
 import java.util.AbstractList;
 import java.util.LinkedList;
 import java.util.List;
@@ -145,6 +146,33 @@ public class RetentionAlments {
              entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());
           entityM.close();
+           Aliments=null;
+         return retentionAl;
+   }
+    
+    public static List<RetentionAlments> getAllAlimentRetention(String requeteNative,modelFoodSelect model)
+           
+   {
+          instance=null;
+          List<RetentionAlments> retentionAl = null;
+               // reqAliment.setParameter(champ,parametre);
+          List<FmAliments> Aliments= model.getAllAlimentByFoods(requeteNative);
+            int cpt=0;
+            retentionAl=new LinkedList();
+          for(FmAliments aliments: Aliments)
+          {
+             // System.out.println("aliments: "+aliments.getNomFr());
+               RetentionAlments reta= getRetentionAliment(aliments);
+               
+//             if(reta.rm!=null && reta.rn!=null)
+//             {
+//                 
+                 retentionAl.add(cpt,reta);
+                
+                  cpt++;
+         //    }
+          }      
+  
            Aliments=null;
          return retentionAl;
    }

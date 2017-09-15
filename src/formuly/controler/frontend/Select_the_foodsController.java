@@ -50,6 +50,11 @@ public class Select_the_foodsController implements Initializable {
 
     public Select_the_foodsController() {
         model=new modelFoodSelect();
+//        String val="cru";
+//       // String sql="select f.id,f.nom from fm_aliments f ";
+//        String sql="select f.id,f.nom_fr from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
+//        
+//         model.getAllAlimentByFoods(sql);
     }
     
     
@@ -123,6 +128,9 @@ public class Select_the_foodsController implements Initializable {
          if(e.getSource().equals(mode_cuisson))
          {
            
+             String val=mode_cuisson.getValue().toString();
+       String sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
+        initialiserLeTableauAchoisir(sql,"");
          }
            if(e.getSource().equals(pays_foods))
          {
@@ -149,4 +157,25 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery, champ, parametre));
       }
+        public void initialiserLeTableauAchoisir(String NameQuery,String champ)
+      {
+          
+      nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+      quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+      
+       table_aliment_a_choisir.setEditable(true);
+       quantite.setCellFactory(TextFieldTableCell.forTableColumn());
+       quantite.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(t.getNewValue());
+                }
+            }
+        );
+        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery,model));
+      }
+        
 }
