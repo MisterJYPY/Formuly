@@ -86,7 +86,7 @@
             </Label>
          </top>
          <bottom>
-            <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER">
+            <Button fx:id="envoi" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#envoi" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0" startX="0.3380952380952381">
                      <stops>
