@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -40,13 +41,13 @@ public class Select_the_foodsController implements Initializable {
     @FXML private TableColumn<mainModel,String> nomAliment;
     @FXML private TableColumn<mainModel,String> quantite;
     @FXML private TableColumn<mainModel,Integer> number;
-    @FXML  private ComboBox categorie_Foods;
-    @FXML  private ComboBox  pays_foods;
-    @FXML  private ComboBox  mode_cuisson;
+    @FXML private ComboBox categorie_Foods;
+    @FXML private ComboBox  pays_foods;
+    @FXML private ComboBox  mode_cuisson;
     @FXML private TextField  nom_aliment;
     @FXML private TextField  code_aliment;
+    @FXML private Button  envoi;
    
-    
     private final modelFoodSelect model;
 
     public Select_the_foodsController() {
@@ -178,12 +179,6 @@ public class Select_the_foodsController implements Initializable {
         mode_cuisson.getItems().clear();
         categorie_Foods.setItems(groupe);
         mode_cuisson.setItems(ModeCuisson);
-        
-       code_aliment.setOnKeyReleased(
-        event->{
-            System.out.println("prieregdgdggd: "+code_aliment.getText());
-        }
-        );
          
     }
       public void initialiserLeTableauAchoisir()
@@ -212,7 +207,7 @@ public class Select_the_foodsController implements Initializable {
       public void rechercher(ActionEvent e)
     {
         Object obj=e.getSource();
-        if(e.getSource().equals(categorie_Foods))
+        if(e.getSource().equals(categorie_Foods) && categorie_Foods.getValue()!=null)
         {   
              String groupe=categorie_Foods.getValue().toString();
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
@@ -255,7 +250,7 @@ public class Select_the_foodsController implements Initializable {
              }
         }
         
-         if(e.getSource().equals(mode_cuisson))
+         if(e.getSource().equals(mode_cuisson) && mode_cuisson.getValue()!=null)
          {
            String mode_cuiss=mode_cuisson.getValue().toString();
           String   sqlmodec="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+mode_cuiss+"' ";   
@@ -297,7 +292,7 @@ public class Select_the_foodsController implements Initializable {
                initialiserLeTableauAchoisir(sql,"");   
              }
          }
-           if(e.getSource().equals(pays_foods))
+           if(e.getSource().equals(pays_foods) && pays_foods.getValue()!=null)
          {
           String pays=pays_foods.getValue().toString();
           String sqlpays="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
@@ -377,5 +372,16 @@ public class Select_the_foodsController implements Initializable {
             }
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery,model));
+      }
+      public void envoi(ActionEvent event)
+      {
+          initialisationCombobox();
+          initialiserJtextField();
+      }
+      public void initialiserJtextField()
+      {
+          code_aliment.setText("");
+          nom_aliment.setText("");
+          initialiserLeTableauAchoisir();
       }
 }
