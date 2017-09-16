@@ -54,8 +54,8 @@ public class Select_the_foodsController implements Initializable {
     }
     
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+      @Override
+      public void initialize(URL url, ResourceBundle rb) {
         // TODO
        initialisationCombobox();
        initialiserLeTableauAchoisir();
@@ -149,7 +149,7 @@ public class Select_the_foodsController implements Initializable {
           }
         });
     }    
-    public void initialisationCombobox()
+      public void initialisationCombobox()
     {
        //initialisation des pays
        
@@ -186,7 +186,7 @@ public class Select_the_foodsController implements Initializable {
         );
          
     }
-    public void initialiserLeTableauAchoisir()
+      public void initialiserLeTableauAchoisir()
       {
           
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
@@ -209,14 +209,11 @@ public class Select_the_foodsController implements Initializable {
        
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel());
       }
-    public void rechercher(ActionEvent e)
+      public void rechercher(ActionEvent e)
     {
         Object obj=e.getSource();
         if(e.getSource().equals(categorie_Foods))
         {   
-         // FmGroupeAliment groupe=model.avoirGroupeAliment(categorie_Foods.getValue().toString());
-           // initialiserLeTableauAchoisir("FmAliments.findAllByGroupe","groupe",groupe);
-            //pour la categorie
              String groupe=categorie_Foods.getValue().toString();
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
              FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
@@ -260,10 +257,6 @@ public class Select_the_foodsController implements Initializable {
         
          if(e.getSource().equals(mode_cuisson))
          {
-//           
-//             String val=mode_cuisson.getValue().toString();
-//       String sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
-//        initialiserLeTableauAchoisir(sql,"");
            String mode_cuiss=mode_cuisson.getValue().toString();
           String   sqlmodec="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+mode_cuiss+"' ";   
           String sqlcate="";
@@ -275,22 +268,22 @@ public class Select_the_foodsController implements Initializable {
           String sql1="";
                     if(!code_aliment.getText().isEmpty())
                     {
-                  String code=code_aliment.getText();
+          String code=code_aliment.getText();
          sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                        String nom_ali=nom_aliment.getText();
+          String nom_ali=nom_aliment.getText();
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
-                   String pays=pays_foods.getValue().toString();
+          String pays=pays_foods.getValue().toString();
                 sqlpays="and f.pays LIKE "+"'%"+pays+"%' ";   
                     }
                        if(categorie_Foods.getValue()!=null)
                     {
-                   String groupe=categorie_Foods.getValue().toString();
+          String groupe=categorie_Foods.getValue().toString();
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
              FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
              int idGrouep=grpe.getId();
@@ -306,13 +299,11 @@ public class Select_the_foodsController implements Initializable {
          }
            if(e.getSource().equals(pays_foods))
          {
-           //  initialiserLeTableauAchoisir("FmAliments.findByPays","pays",pays_foods.getValue());
-           String pays=pays_foods.getValue().toString();
-           String sqlpays="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
+          String pays=pays_foods.getValue().toString();
+          String sqlpays="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
           String   sqlmodec="";   
           String sqlcate="";
           String sql="";
-         // String val=code_aliment.getText();
           String sqlcode= "";     
           String sqlnomA="";
           String sql1="";
@@ -323,7 +314,7 @@ public class Select_the_foodsController implements Initializable {
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                        String nom_ali=nom_aliment.getText();
+                 String nom_ali=nom_aliment.getText();
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(mode_cuisson.getValue()!=null)
@@ -333,7 +324,7 @@ public class Select_the_foodsController implements Initializable {
                     }
                        if(categorie_Foods.getValue()!=null)
                     {
-                   String groupe=categorie_Foods.getValue().toString();
+                 String groupe=categorie_Foods.getValue().toString();
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
              FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
              int idGrouep=grpe.getId();
@@ -366,7 +357,7 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery, champ, parametre));
       }
-        public void initialiserLeTableauAchoisir(String NameQuery,String champ)
+      public void initialiserLeTableauAchoisir(String NameQuery,String champ)
       {
           
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
@@ -387,10 +378,4 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery,model));
       }
-
-       public void invoqueKeyReleased(String valueTape)
-       {
-           System.out.println("action entendu");
-       }
-       
 }
