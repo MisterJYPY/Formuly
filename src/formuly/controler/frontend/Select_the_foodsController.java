@@ -9,7 +9,6 @@ import formuly.classe.formulyTools;
 import formuly.entities.FmGroupeAliment;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
-import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import jdk.nashorn.internal.objects.NativeRegExp;
 
 /**
  * FXML Controller class
@@ -41,6 +39,7 @@ public class Select_the_foodsController implements Initializable {
     @FXML private TableView<mainModel> table_aliment_a_choisir;
     @FXML private TableColumn<mainModel,String> nomAliment;
     @FXML private TableColumn<mainModel,String> quantite;
+    @FXML private TableColumn<mainModel,Integer> number;
     @FXML  private ComboBox categorie_Foods;
     @FXML  private ComboBox  pays_foods;
     @FXML  private ComboBox  mode_cuisson;
@@ -67,64 +66,93 @@ public class Select_the_foodsController implements Initializable {
        initialiserLeTableauAchoisir();
        nom_aliment.setOnKeyReleased(
      event->{
-         String sql="";
-           String val="";
+       if(!nom_aliment.getText().isEmpty())
+       {
+          String sql="";
              String nom_ali=nom_aliment.getText();
-             String pays=pays_foods.getValue().toString();
-             String mode_cuiss=mode_cuisson.getValue().toString();
-             String groupe=categorie_Foods.getValue().toString();
-            String code=code_aliment.getText();
-             //val=nom_aliment.getText();
-             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
-             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);                  
-             int idGrouep=grpe.getId();
-            if(categorie_Foods.getValue()==null && pays_foods.getValue()==null && mode_cuisson.getValue()==null && !nom_aliment.getText().isEmpty() && code_aliment.getText().isEmpty())
-            {
-     sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%') OR (f.nom_eng LIKE "+"'%"+nom_ali+"%')";
-       // initialiserLeTableauAchoisir(sql,"");
-        }
-          else{
-               if(categorie_Foods.getValue()!=null && pays_foods.getValue()!=null && mode_cuisson.getValue()!=null && !nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty()){
-      sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+ code+"%' and f.pays LIKE "+"'%"+pays+"%' and f.mode_cuisson="+"'"+mode_cuiss+"'"
-              + " and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') and f.groupe="+idGrouep+"";        
-                   System.out.println(sql);
-               }
-              }
-             if(!sql.isEmpty())
-             {
-               initialiserLeTableauAchoisir(sql,"");   
-             }
-        }
-        );
-       
-       code_aliment.setOnKeyReleased(
-        event->{
-            String sql="";
-             String val=code_aliment.getText();
-              if(categorie_Foods.getValue()==null && pays_foods.getValue()==null && mode_cuisson.getValue()==null && nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty())
-            {    
-     sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%'";
-   
-        }
-          else{
-             String nom_ali=nom_aliment.getText();
-             String pays=pays_foods.getValue().toString();
-             String mode_cuiss=mode_cuisson.getValue().toString();
-              String groupe=categorie_Foods.getValue().toString();
+           String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%')  "; 
+        String sqlcate="";
+        String sqlmodec="";
+        String sqlpays="";
+         String sqlcode="";
+        String sql1="";
+                    if(categorie_Foods.getValue()!=null)
+                    {
+                String groupe=categorie_Foods.getValue().toString();
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
              FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
              int idGrouep=grpe.getId();
-               if(categorie_Foods.getValue()!=null && pays_foods.getValue()!=null && mode_cuisson.getValue()!=null && !nom_aliment.getText().isEmpty() && !code_aliment.getText().isEmpty()){
-      sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' and f.pays LIKE "+"'%"+pays+"%' and f.mode_cuisson="+"'"+mode_cuiss+"'"
-              + " and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') and f.groupe="+idGrouep+"";        
-              }
-              }
+                sqlcate="and f.groupe="+idGrouep+" ";   
+                    }
+                     if(!code_aliment.getText().isEmpty())
+                    {      
+                          String val=code_aliment.getText(); 
+                sqlcode= "and f.code LIKE "+"'%"+val+"%' ";
+                    }
+                      if(pays_foods.getValue()!=null)
+                    {
+                   String pays=pays_foods.getValue().toString();
+                sqlpays="and f.pays LIKE "+"'%"+pays+"%' ";   
+                    }
+                       if(mode_cuisson.getValue()!=null)
+                    {
+                   String mode_cuiss=mode_cuisson.getValue().toString();
+                sqlmodec="and f.mode_cuisson="+"'"+mode_cuiss+"'";   
+                    }
+                   sql= sqlnomA.concat(sqlcate).concat(sqlcode).concat(sqlpays).concat(sqlmodec);
+                   //System.out.println(sql1);
+             
+             if(!sql.isEmpty())
+             {
+                 //System.out.println(sql);
+                initialiserLeTableauAchoisir(sql,"");   
+             }
+       }
+     } );
+       
+       code_aliment.setOnKeyReleased(
+        event->{
+          if(!code_aliment.getText().isEmpty()){
+            String sql="";
+             String val=code_aliment.getText();
+           String sqlcode= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
+        String sqlcate="";
+        String sqlmodec="";
+        String sqlpays="";
+        String sqlnomA="";
+        String sql1="";
+                    if(categorie_Foods.getValue()!=null)
+                    {
+                String groupe=categorie_Foods.getValue().toString();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
+             int idGrouep=grpe.getId();
+                sqlcate="and f.groupe="+idGrouep+" ";   
+                    }
+                     if(!nom_aliment.getText().isEmpty())
+                    {
+                        String nom_ali=nom_aliment.getText();
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') ";   
+                    }
+                      if(pays_foods.getValue()!=null)
+                    {
+                   String pays=pays_foods.getValue().toString();
+                sqlpays="and f.pays LIKE "+"'%"+pays+"%' ";   
+                    }
+                       if(mode_cuisson.getValue()!=null)
+                    {
+                   String mode_cuiss=mode_cuisson.getValue().toString();
+                sqlmodec="and f.mode_cuisson="+"'"+mode_cuiss+"'";   
+                    }
+                   sql= sqlcode.concat(sqlcate).concat(sqlnomA).concat(sqlpays).concat(sqlmodec);
+                   System.out.println(sql1);
+             
              if(!sql.isEmpty())
              {
                initialiserLeTableauAchoisir(sql,"");   
              }
-        }
-        );
+          }
+        });
     }    
     public void initialisationCombobox()
     {
@@ -168,6 +196,7 @@ public class Select_the_foodsController implements Initializable {
           
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+      number.setCellValueFactory(new PropertyValueFactory<>("numero")); 
       
         table_aliment_a_choisir.setEditable(true);
       
@@ -211,7 +240,7 @@ public class Select_the_foodsController implements Initializable {
           
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
-      
+      number.setCellValueFactory(new PropertyValueFactory<>("numero")); 
        table_aliment_a_choisir.setEditable(true);
        quantite.setCellFactory(TextFieldTableCell.forTableColumn());
        quantite.setOnEditCommit(
@@ -231,6 +260,7 @@ public class Select_the_foodsController implements Initializable {
           
       nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+      number.setCellValueFactory(new PropertyValueFactory<>("numero")); 
       
        table_aliment_a_choisir.setEditable(true);
        quantite.setCellFactory(TextFieldTableCell.forTableColumn());

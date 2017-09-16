@@ -118,7 +118,7 @@ public class modelFoodSelect {
                emf=formulyTools.getEm("fx_formulyPU" );
               FmGroupeAlimentJpaController ctr=new FmGroupeAlimentJpaController(emf);
              grpeAl =ctr.findFmGroupeAlimentByName(nomGroupeFr);
-              emf.close();
+            
             return grpeAl;
              }
      public  ObservableList<mainModel> getobservableListMainModel(String requeteNative,String champ)

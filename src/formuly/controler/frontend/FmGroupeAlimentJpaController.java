@@ -185,7 +185,6 @@ public class FmGroupeAlimentJpaController implements Serializable {
         Query requete=em.createNamedQuery("FmGroupeAliment.findByNomFr");
         requete.setParameter("nomFr", name);
          FmGroupeAliment result=(FmGroupeAliment) requete.getSingleResult();
-        em.close();
         return result;
     }
 
