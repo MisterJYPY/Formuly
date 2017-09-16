@@ -47,15 +47,10 @@ public class Select_the_foodsController implements Initializable {
     @FXML private TextField  code_aliment;
    
     
-    private modelFoodSelect model;
+    private final modelFoodSelect model;
 
     public Select_the_foodsController() {
         model=new modelFoodSelect();
-//        String val="cru";
-//       // String sql="select f.id,f.nom from fm_aliments f ";
-//        String sql="select f.id,f.nom_fr from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
-//        
-//         model.getAllAlimentByFoods(sql);
     }
     
     
@@ -70,7 +65,7 @@ public class Select_the_foodsController implements Initializable {
        {
           String sql="";
              String nom_ali=nom_aliment.getText();
-           String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%')  "; 
+           String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
         String sqlcate="";
         String sqlmodec="";
         String sqlpays="";
@@ -114,7 +109,7 @@ public class Select_the_foodsController implements Initializable {
         event->{
           if(!code_aliment.getText().isEmpty()){
             String sql="";
-             String val=code_aliment.getText();
+          String val=code_aliment.getText();
            String sqlcode= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
         String sqlcate="";
         String sqlmodec="";
@@ -132,7 +127,7 @@ public class Select_the_foodsController implements Initializable {
                      if(!nom_aliment.getText().isEmpty())
                     {
                         String nom_ali=nom_aliment.getText();
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or nom_eng LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
@@ -219,20 +214,136 @@ public class Select_the_foodsController implements Initializable {
         Object obj=e.getSource();
         if(e.getSource().equals(categorie_Foods))
         {   
-        FmGroupeAliment groupe=model.avoirGroupeAliment(categorie_Foods.getValue().toString());
-            initialiserLeTableauAchoisir("FmAliments.findAllByGroupe","groupe",groupe);
+         // FmGroupeAliment groupe=model.avoirGroupeAliment(categorie_Foods.getValue().toString());
+           // initialiserLeTableauAchoisir("FmAliments.findAllByGroupe","groupe",groupe);
+            //pour la categorie
+             String groupe=categorie_Foods.getValue().toString();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
+             int idGrouep=grpe.getId();
+          String sqlcate="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.groupe="+idGrouep+" ";
+          String sql="";
+         // String val=code_aliment.getText();
+          String sqlcode= " ";     
+          String sqlmodec="";
+          String sqlpays="";
+          String sqlnomA="";
+          String sql1="";
+                    if(!code_aliment.getText().isEmpty())
+                    {
+                  String code=code_aliment.getText();
+         sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
+                    }
+                     if(!nom_aliment.getText().isEmpty())
+                    {
+                        String nom_ali=nom_aliment.getText();
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                    }
+                      if(pays_foods.getValue()!=null)
+                    {
+                   String pays=pays_foods.getValue().toString();
+                sqlpays="and f.pays LIKE "+"'%"+pays+"%' ";   
+                    }
+                       if(mode_cuisson.getValue()!=null)
+                    {
+                   String mode_cuiss=mode_cuisson.getValue().toString();
+                sqlmodec="and f.mode_cuisson="+"'"+mode_cuiss+"'";   
+                    }
+                   sql= sqlcate.concat(sqlcode).concat(sqlnomA).concat(sqlpays).concat(sqlmodec);
+                   System.out.println(sql1);
+             
+             if(!sql.isEmpty())
+             {
+               initialiserLeTableauAchoisir(sql,"");   
+             }
         }
         
          if(e.getSource().equals(mode_cuisson))
          {
-           
-             String val=mode_cuisson.getValue().toString();
-       String sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
-        initialiserLeTableauAchoisir(sql,"");
+//           
+//             String val=mode_cuisson.getValue().toString();
+//       String sql="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+val+"'";
+//        initialiserLeTableauAchoisir(sql,"");
+           String mode_cuiss=mode_cuisson.getValue().toString();
+          String   sqlmodec="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+mode_cuiss+"' ";   
+          String sqlcate="";
+          String sql="";
+         // String val=code_aliment.getText();
+          String sqlcode= "";     
+          String sqlpays="";
+          String sqlnomA="";
+          String sql1="";
+                    if(!code_aliment.getText().isEmpty())
+                    {
+                  String code=code_aliment.getText();
+         sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
+                    }
+                     if(!nom_aliment.getText().isEmpty())
+                    {
+                        String nom_ali=nom_aliment.getText();
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                    }
+                      if(pays_foods.getValue()!=null)
+                    {
+                   String pays=pays_foods.getValue().toString();
+                sqlpays="and f.pays LIKE "+"'%"+pays+"%' ";   
+                    }
+                       if(categorie_Foods.getValue()!=null)
+                    {
+                   String groupe=categorie_Foods.getValue().toString();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
+             int idGrouep=grpe.getId();
+          sqlcate="and f.groupe="+idGrouep+" "; 
+                    }
+                   sql=sqlmodec.concat(sqlcode).concat(sqlnomA).concat(sqlpays).concat(sqlcate);
+                 
+             
+             if(!sql.isEmpty())
+             {
+               initialiserLeTableauAchoisir(sql,"");   
+             }
          }
            if(e.getSource().equals(pays_foods))
          {
-             initialiserLeTableauAchoisir("FmAliments.findByPays","pays",pays_foods.getValue());
+           //  initialiserLeTableauAchoisir("FmAliments.findByPays","pays",pays_foods.getValue());
+           String pays=pays_foods.getValue().toString();
+           String sqlpays="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
+          String   sqlmodec="";   
+          String sqlcate="";
+          String sql="";
+         // String val=code_aliment.getText();
+          String sqlcode= "";     
+          String sqlnomA="";
+          String sql1="";
+                    if(!code_aliment.getText().isEmpty())
+                    {
+                  String code=code_aliment.getText();
+         sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
+                    }
+                     if(!nom_aliment.getText().isEmpty())
+                    {
+                        String nom_ali=nom_aliment.getText();
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                    }
+                      if(mode_cuisson.getValue()!=null)
+                    {
+                 String mode_cuiss=mode_cuisson.getValue().toString();
+              sqlmodec="and f.mode_cuisson="+"'"+mode_cuiss+"' ";  
+                    }
+                       if(categorie_Foods.getValue()!=null)
+                    {
+                   String groupe=categorie_Foods.getValue().toString();
+             FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
+             FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
+             int idGrouep=grpe.getId();
+          sqlcate="and f.groupe="+idGrouep+" "; 
+                    }
+                   sql=sqlpays.concat(sqlcode).concat(sqlnomA).concat(sqlmodec).concat(sqlcate);
+             if(!sql.isEmpty())
+             {
+               initialiserLeTableauAchoisir(sql,"");   
+             }
         }
     }
       public void initialiserLeTableauAchoisir(String NameQuery,String champ ,Object parametre)

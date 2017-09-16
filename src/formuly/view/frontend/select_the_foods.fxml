@@ -35,7 +35,7 @@
             </Label>
          </center>
          <bottom>
-            <AnchorPane prefHeight="21.0" prefWidth="790.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="16.0" prefWidth="790.0" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </top>
