@@ -61,7 +61,29 @@ public class mainModel {
  * @param vitb9
  * @param vita 
  */
-    public mainModel(int numero, String clumAliment,String qte, Double cloumPcGlucide, Double cloumTtPcGlucide, Double cloumPclipide, Double cloumTtPclipide, Double  cloumPcprotide, Double  cloumPcTtprotide, Double Energie, Double fer, Double mg, Double na, Double ka, Double vitc, Double vite, Double vitb9, Double vita) {
+    public mainModel(int numero, String clumAliment, Double cloumPcGlucide, Double cloumTtPcGlucide, Double cloumPclipide, Double cloumTtPclipide, Double  cloumPcprotide, Double  cloumPcTtprotide, Double Energie, Double fer, Double mg, Double na, Double ka, Double vitc, Double vite, Double vitb9, Double vita) {
+        this.numero = numero;
+        this.nom_aliment = clumAliment;
+        this.qte="0";
+        this.cloumPcGlucide = cloumPcGlucide;
+        this.cloumTtPcGlucide = cloumTtPcGlucide;
+        this.cloumPclipide = cloumPclipide;
+        this.cloumTtPclipide = cloumTtPclipide;
+        this.cloumPcprotide=cloumPcprotide;
+         this.cloumTtPcprotide=cloumPcTtprotide;
+        this.Energie = Energie;
+        this.fer = fer;
+        this.mg = mg;
+        this.na = na;
+        this.ka = ka;
+        this.vitc = vitc;
+        this.vite = vite;
+        this.vitb9 = vitb9;
+        this.vita = vita;
+       
+     //  retentionAliments=RetentionAlments.getAllAlimentRetention();
+    }
+ public mainModel(int numero, String clumAliment,String qte, Double cloumPcGlucide, Double cloumTtPcGlucide, Double cloumPclipide, Double cloumTtPclipide, Double  cloumPcprotide, Double  cloumPcTtprotide, Double Energie, Double fer, Double mg, Double na, Double ka, Double vitc, Double vite, Double vitb9, Double vita) {
         this.numero = numero;
         this.nom_aliment = clumAliment;
         this.qte=qte;
@@ -83,7 +105,6 @@ public class mainModel {
        
      //  retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
-
     public int getNumero() {
         return numero;
     }

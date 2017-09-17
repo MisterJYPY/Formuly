@@ -110,10 +110,10 @@
             </Label>
          </top>
          <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="table_aliment_deja_choisi" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="142.0" text="aliments" />
-                <TableColumn prefWidth="37.0" text="qte" />
+                <TableColumn fx:id="nomAlimentsChoisi" prefWidth="142.0" text="aliments" />
+                <TableColumn fx:id="quantiteChoisi" prefWidth="37.0" text="qte" />
               </columns>
             </TableView>
          </center>

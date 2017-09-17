@@ -19,13 +19,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -38,8 +43,11 @@ public class Select_the_foodsController implements Initializable {
      * Initializes the controller class.
      */
     @FXML private TableView<mainModel> table_aliment_a_choisir;
+     @FXML private TableView<mainModel> table_aliment_deja_choisi;
+     @FXML private TableColumn<mainModel,String> nomAlimentsChoisi;
     @FXML private TableColumn<mainModel,String> nomAliment;
     @FXML private TableColumn<mainModel,String> quantite;
+    @FXML private TableColumn<mainModel,String> quantiteChoisi;
     @FXML private TableColumn<mainModel,Integer> number;
     @FXML private ComboBox categorie_Foods;
     @FXML private ComboBox  pays_foods;
@@ -58,12 +66,13 @@ public class Select_the_foodsController implements Initializable {
       @Override
       public void initialize(URL url, ResourceBundle rb) {
         // TODO
+       table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        initialisationCombobox();
        initialiserLeTableauAchoisir();
        nom_aliment.setOnKeyReleased(
      event->{
-       if(!nom_aliment.getText().isEmpty())
-       {
+      // if(!nom_aliment.getText().isEmpty())
+      // {
           String sql="";
              String nom_ali=nom_aliment.getText();
            String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
@@ -103,12 +112,12 @@ public class Select_the_foodsController implements Initializable {
                  //System.out.println(sql);
                 initialiserLeTableauAchoisir(sql,"");   
              }
-       }
+     //  }
      } );
        
        code_aliment.setOnKeyReleased(
         event->{
-          if(!code_aliment.getText().isEmpty()){
+        //  if(!code_aliment.getText().isEmpty()){
             String sql="";
           String val=code_aliment.getText();
            String sqlcode= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
@@ -147,7 +156,7 @@ public class Select_the_foodsController implements Initializable {
              {
                initialiserLeTableauAchoisir(sql,"");   
              }
-          }
+         // }
         });
     }    
       public void initialisationCombobox()
@@ -195,14 +204,79 @@ public class Select_the_foodsController implements Initializable {
             new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
                 @Override
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    
+                    if(Double.parseDouble(t.getNewValue())>0.0)
+                 {
                     ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                             ).setQte(t.getNewValue());
+           // table_aliment_a_choisir.getSelectionModel().select( t.getTableView().getItems().get( t.getTablePosition().getRow()));         
+                }   
+                    else
+                    {
+                ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte("0");    
+                    }
+                    int i=0;
+                     for (mainModel run :  table_aliment_a_choisir.getItems()) {
+                         if(Double.parseDouble(run.getQte())>0.0)
+                         {                           
+                      table_aliment_a_choisir.getSelectionModel().select(i);  
+                         }
+                         i++;
                 }
+      }
             }
         );
+     
+        table_aliment_a_choisir.setOnMousePressed(new EventHandler<MouseEvent>() {
+    @Override 
+   public void handle(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            Node node = ((Node) event.getTarget()).getParent();
+            TableRow row;
+            if (node instanceof TableRow) {
+                row = (TableRow) node;
+            } else {
+                // clicking on text part
+                row = (TableRow) node.getParent();
+            }
+          if(row.getItem() instanceof mainModel)
+          {
+           int index=table_aliment_a_choisir.getSelectionModel().getSelectedIndex();  
+         
+            int i=0;
+                     for (mainModel run :  table_aliment_a_choisir.getItems()) {
+                         if(Double.parseDouble(run.getQte())>0.0)
+                         {                           
+                      table_aliment_a_choisir.getSelectionModel().select(i);  
+                         }
+                         i++;
+                         //  table_aliment_a_choisir.getSelectionModel().clearSelection(index);
+                         
+                }
+          }
+        }
+    }
+});
+         
+//        table_aliment_a_choisir.setRowFactory(new Callback<TableView<mainModel>, TableRow<mainModel>>() {
+//            @Override
+//            public TableRow<mainModel> call(TableView<mainModel> paramP) {
+//                return new TableRow<mainModel>() {
+//                    @Override
+//                    protected void updateItem(mainModel paramT, boolean paramBoolean) {
+//               String style = "-fx-background-color: linear-gradient(#007F0E 0%, #FFFFFF 90%, #eaeaea 90%);";
+//                        setStyle(style);
+//
+//                              super.updateItem(paramT, paramBoolean);
+//                    }
+//                };
+//            }
+//        });
        
-        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel());
+        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(1));
       }
       public void rechercher(ActionEvent e)
     {
@@ -350,7 +424,7 @@ public class Select_the_foodsController implements Initializable {
                 }
             }
         );
-        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery, champ, parametre));
+        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(formulyTools.getobservableListMainModel(NameQuery, champ, parametre),table_aliment_deja_choisi.getItems(),""));
       }
       public void initialiserLeTableauAchoisir(String NameQuery,String champ)
       {
@@ -368,20 +442,107 @@ public class Select_the_foodsController implements Initializable {
                     ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                             ).setQte(t.getNewValue());
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(t.getNewValue());
                 }
             }
         );
-        table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(NameQuery,model));
+        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(formulyTools.getobservableListMainModel(NameQuery,model,""),table_aliment_deja_choisi.getItems(),""));
       }
       public void envoi(ActionEvent event)
       {
+             ObservableList<mainModel> obsL=FXCollections.observableArrayList();
+            if(table_aliment_deja_choisi.getItems().size()==0)
+            {
+                     for (mainModel run :  table_aliment_a_choisir.getItems()) {
+                         if(Double.parseDouble(run.getQte())>0.0)
+                         {                           
+                       obsL.add(run);
+                         }
+                     }
+        nomAlimentsChoisi.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+        quantiteChoisi.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+        table_aliment_deja_choisi.setEditable(true);
+        nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+        quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+        table_aliment_a_choisir.setEditable(true);
           initialisationCombobox();
           initialiserJtextField();
+           table_aliment_deja_choisi.setItems(obsL);
+           table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
+        
+         }
+            else{
+         //  table_aliment_a_choisir 
+                obsL.clear();
+                 for (mainModel run :  table_aliment_a_choisir.getItems()) {
+                         if(Double.parseDouble(run.getQte())>0.0)
+                         {                           
+                       obsL.add(run);
+                         }
+                     }
+                 nomAlimentsChoisi.setCellValueFactory(
+            new PropertyValueFactory<mainModel,String>("nom_aliment")
+        );
+                 quantiteChoisi.setCellValueFactory(
+            new PropertyValueFactory<mainModel,String>("qte")
+        );
+            nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+        quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
+        table_aliment_a_choisir.setEditable(true);
+        table_aliment_deja_choisi.setEditable(true);
+        table_aliment_deja_choisi.getItems().addAll(retournerObservableListNonDoublon(obsL,table_aliment_deja_choisi.getItems(),""));    
+       table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
+            }
+      }
+      public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
+      {
+          if(ob2.size()>0)
+          {
+             ob1.removeAll(ob2);
+          }
+            return ob1;
+      }
+       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2,String s)
+      {
+         ObservableList<mainModel> md=FXCollections.observableArrayList();
+         
+          if(ob2.size()>0)
+          {
+              int i=0;
+               for(int k=0;k<ob1.size();k++)   
+           {      
+               mainModel md1=ob1.get(k);
+               for(int l=0;l<ob2.size();l++)
+           {
+               mainModel md2=ob2.get(l);
+               System.out.println("*******************");
+               System.out.println("nom 1: "+md1.getNom_aliment() + "mg1: "+md1.getMg()+ "fe1: "+md1.getFer()); 
+               System.out.println("nom 2: "+md2.getNom_aliment()+ "mg1: "+md2.getMg()+ "fe2: "+md2.getFer());
+                System.out.println("*******************");
+             if(md1.getNom_aliment().equals(md2.getNom_aliment()) && md1.getMg().equals(md2.getMg()) && md1.getFer().equals(md2.getFer()))
+             { 
+              ob1.remove(md1);
+             }
+           } 
+           }
+             md=null;
+          }
+            return ob1;
       }
       public void initialiserJtextField()
       {
+           int i=0;
+        for (mainModel run :  table_aliment_a_choisir.getSelectionModel().getSelectedItems()) {
+                     // System.out.println(run);
+                    
+                      table_aliment_a_choisir.getSelectionModel().select(run);
+                      i++;
+               }
           code_aliment.setText("");
           nom_aliment.setText("");
-          initialiserLeTableauAchoisir();
+          //initialiserLeTableauAchoisir();
+      
       }
 }
