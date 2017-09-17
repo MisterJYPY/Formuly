@@ -20,7 +20,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -66,6 +69,7 @@ public class Select_the_foodsController implements Initializable {
       @Override
       public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
        table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        initialisationCombobox();
        initialiserLeTableauAchoisir();
@@ -261,20 +265,7 @@ public class Select_the_foodsController implements Initializable {
     }
 });
          
-//        table_aliment_a_choisir.setRowFactory(new Callback<TableView<mainModel>, TableRow<mainModel>>() {
-//            @Override
-//            public TableRow<mainModel> call(TableView<mainModel> paramP) {
-//                return new TableRow<mainModel>() {
-//                    @Override
-//                    protected void updateItem(mainModel paramT, boolean paramBoolean) {
-//               String style = "-fx-background-color: linear-gradient(#007F0E 0%, #FFFFFF 90%, #eaeaea 90%);";
-//                        setStyle(style);
-//
-//                              super.updateItem(paramT, paramBoolean);
-//                    }
-//                };
-//            }
-//        });
+
        
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(1));
       }
@@ -450,6 +441,7 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(formulyTools.getobservableListMainModel(NameQuery,model,""),table_aliment_deja_choisi.getItems(),""));
       }
+
       public void envoi(ActionEvent event)
       {
              ObservableList<mainModel> obsL=FXCollections.observableArrayList();
@@ -463,15 +455,14 @@ public class Select_the_foodsController implements Initializable {
                      }
         nomAlimentsChoisi.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantiteChoisi.setCellValueFactory(new PropertyValueFactory<>("qte")); 
-        table_aliment_deja_choisi.setEditable(true);
         nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
-        table_aliment_a_choisir.setEditable(true);
+          rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
           initialisationCombobox();
           initialiserJtextField();
            table_aliment_deja_choisi.setItems(obsL);
            table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
-        
+            supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
          }
             else{
          //  table_aliment_a_choisir 
@@ -491,9 +482,10 @@ public class Select_the_foodsController implements Initializable {
             nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
         table_aliment_a_choisir.setEditable(true);
-        table_aliment_deja_choisi.setEditable(true);
+       rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
         table_aliment_deja_choisi.getItems().addAll(retournerObservableListNonDoublon(obsL,table_aliment_deja_choisi.getItems(),""));    
        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
+          supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
             }
       }
       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
@@ -517,10 +509,6 @@ public class Select_the_foodsController implements Initializable {
                for(int l=0;l<ob2.size();l++)
            {
                mainModel md2=ob2.get(l);
-               System.out.println("*******************");
-               System.out.println("nom 1: "+md1.getNom_aliment() + "mg1: "+md1.getMg()+ "fe1: "+md1.getFer()); 
-               System.out.println("nom 2: "+md2.getNom_aliment()+ "mg1: "+md2.getMg()+ "fe2: "+md2.getFer());
-                System.out.println("*******************");
              if(md1.getNom_aliment().equals(md2.getNom_aliment()) && md1.getMg().equals(md2.getMg()) && md1.getFer().equals(md2.getFer()))
              { 
               ob1.remove(md1);
@@ -531,6 +519,40 @@ public class Select_the_foodsController implements Initializable {
           }
             return ob1;
       }
+       public void supprimerElementDeLaListeen2click(TableView<mainModel> table_aliment_deja_choisi)
+       {
+            table_aliment_deja_choisi.setOnMousePressed(new EventHandler<MouseEvent>() {
+    @Override 
+   public void handle(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            Node node = ((Node) event.getTarget()).getParent();
+            TableRow row;
+            if (node instanceof TableRow) {
+                row = (TableRow) node;
+            } else {
+                // clicking on text part
+                row = (TableRow) node.getParent();
+            }
+          if(row.getItem() instanceof mainModel)
+          {
+           int index=table_aliment_deja_choisi.getSelectionModel().getSelectedIndex(); 
+           String selection = table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getNom_aliment();
+           String quantite= table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getQte();
+               Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Dialogue de confirmation");
+            alert.setHeaderText("Informations supplementaires relatif à la suppression");
+            alert.setContentText("Nom aliment: "+selection+" Quantite :"+quantite+"\n"
+                    + "VOULEZ VOUS VRAIMENT LE SUPPRIMER ?");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+         table_aliment_deja_choisi.getItems().remove(index);
+      }
+          }
+        }
+    }
+});
+       }
       public void initialiserJtextField()
       {
            int i=0;
@@ -544,5 +566,23 @@ public class Select_the_foodsController implements Initializable {
           nom_aliment.setText("");
           //initialiserLeTableauAchoisir();
       
+      }
+      public void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne )
+      {
+      table.setEditable(true);
+        colonne.setCellFactory(TextFieldTableCell.forTableColumn());
+             colonne.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(t.getNewValue());
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(t.getNewValue());
+                }
+            }
+        );
       }
 }

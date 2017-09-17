@@ -5,6 +5,7 @@
  */
 package formuly.classe;
 
+
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRetentionMineraux;
@@ -193,5 +194,5 @@ public class formulyTools {
       }
      return inf;
   }   
-     
+  
 }
