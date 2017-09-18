@@ -17,6 +17,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -218,4 +222,26 @@ public class formulyTools {
   } 
      return m;
   }
+   public static void mettreEffetButton(Button[] TabloButton)
+     {
+          DropShadow shadow = new DropShadow();
+//Adding the shadow when the mouse cursor is on
+          for(int i=0;i<TabloButton.length;i++)
+          {
+              Button bt=TabloButton[i];
+       bt.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+           bt.setEffect(shadow);
+        }
+});
+//Removing the shadow when the mouse cursor is off
+     bt.addEventHandler(MouseEvent.MOUSE_EXITED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            bt.setEffect(null);
+        }
+});
+          }
+     }
 }

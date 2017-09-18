@@ -2,11 +2,10 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
-  -fx-border-radius: 10px;
-   -fx-margin-bottom:-3px;  
-   
-}
-.panneauxtableAliments{
-    
-}
+
+#labelAliment
+ {
+     -fx-alignment: CENTER;
+     -fx-border-radius: 15px;
+     -fx-background-color: #B3B191;
+ }

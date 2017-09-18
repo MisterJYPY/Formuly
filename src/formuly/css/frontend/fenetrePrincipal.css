@@ -59,38 +59,62 @@ and open the template in the editor.
  }
  #tableBurkina
  {
-     -fx-background-color:#00561B;
+     -fx-background-color:linear-gradient(to top right,#7D0000,#F2E783,#6B854B);
  }
  #tableNigeria
  {
-      -fx-background-color:#C2F732;
+      -fx-background-color:linear-gradient(to top right,green,white,green);
  }
  #tableBenin
  {
-     -fx-background-color:#FF0921;  
+     -fx-background-color:linear-gradient(to top right,#095228,#FFD700,#A91101); 
+     -fx-margin:2px;
  }
   #tableGhana
  {
-     -fx-background-color:#463F32;  
+     -fx-background-color:linear-gradient(to top right,#850606,yellow,black,#18391E); 
     
  }
  #tableSenegal
  {
-     
+      -fx-background-color:linear-gradient(to top right,green,yellow,#22780F,red);
  }
   #tableMali
  {
-      -fx-background-color:#DFAF2C;
+      -fx-background-color:linear-gradient(to top right,green,yellow,red);
  }
   #tableNiger
  {
-     -fx-background-color:#708D23; 
+     -fx-background-color:linear-gradient(to top right,orange,white,orange,green);
  }
  #tableGambie
  {
-      -fx-background-color:#1E7FCB;
+      -fx-background-color:linear-gradient(to top right,red,blue,green);
  }
   #tableGuinee
  {
-      -fx-background-color:#DFF2FF;
+       -fx-background-color:linear-gradient(to top right,red,yellow);
+ }
+ #labelAliment
+ {
+     -fx-alignment: CENTER;
+     -fx-border-radius: 15px;
+     -fx-background-color: #B3B191;
+     
+ }
+ #validerMenu
+ {
+     -fx-background-color: #B7CA79;
+ }
+ #coteIvoire
+ {
+   -fx-background-color:linear-gradient(to top right,#F9A41E,white,green);
+ }
+ #tousRepas
+ {
+     -fx-background-color: #E9C9B1;
+ }
+ #paletteMenu
+ {
+     -fx-background-color:linear-gradient(to top right,darkkhaki,white,darkgrey,white);
  }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
@@ -34,11 +35,16 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                  <ToolBar id="paletteMenu" prefHeight="40.0" prefWidth="200.0">
                     <items>
-                      <Button fx:id="ok" mnemonicParsing="false" onAction="#stageencor" prefHeight="25.0" prefWidth="130.0" text="Button" />
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="Button" />
-                        <Button layoutX="66.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="42.0" text="Button" />
+                        <Button id="tousRepas" fx:id="TousLesRepas" layoutX="146.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="229.0" text="Voir vos Repas" />
+                      <Button id="validerMenu" fx:id="faireRepas" mnemonicParsing="false" prefHeight="29.0" prefWidth="209.0" text="Faire un Repas">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Button>
                     </items>
                   </ToolBar>
                </children>
@@ -310,11 +316,44 @@
                         </TableView>
                      </content>
                   </Tab>
+                  <Tab id="coteIvoire" fx:id="aliments1111111111" text="Cote d'Ivoire">
+                     <content>
+                        <TableView id="tableAliment" fx:id="aliment1111111111" editable="true" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn id="numeroAliment" fx:id="numero1111111111" prefWidth="30.0" resizable="false" text="N°" />
+                              <TableColumn id="clumAliment" fx:id="nom_aliment1111111111" prefWidth="209.0" text="Aliments" />
+                              <TableColumn id="qte" fx:id="qte1111111111" prefWidth="61.0" text="Quantité" />
+                              <TableColumn id="coloumPcGlucide" fx:id="cloumPcGlucide1111111111" editable="false" prefWidth="65.0" styleClass="columnGlucide" text="\%Glde" />
+                              <TableColumn id="coloumTtPcGlucide" fx:id="cloumTtPcGlucide1111111111" editable="false" prefWidth="66.0" text="Ttal Glucide" />
+                              <TableColumn id="coloumPclipide" fx:id="cloumPclipide1111111111" prefWidth="72.0" resizable="false" text="\%lipide" />
+                              <TableColumn id="coloumTtPclipide" fx:id="cloumTtPclipide1111111111" prefWidth="69.0" resizable="false" text="Ttal lipide" />
+                              <TableColumn id="coloumPcprotide" fx:id="Prprotide1111111111" minWidth="0.0" prefWidth="77.0" resizable="false" text="\%protide" />
+                              <TableColumn id="coloumTtPcprotide" fx:id="TtPrprotide1111111111" prefWidth="71.0" resizable="false" text="tt Protide" />
+                              <TableColumn id="Energie" fx:id="Energie1111111111" prefWidth="86.0" resizable="false" styleClass="Energie" text="Energie" />
+                              <TableColumn id="fer" fx:id="fer1111111111" prefWidth="87.0" resizable="false" text="Fer(mg)" />
+                              <TableColumn id="mg" fx:id="mg1111111111" prefWidth="78.0" resizable="false" text="Mg(mg)" />
+                              <TableColumn id="na" fx:id="na1111111111" prefWidth="74.0" resizable="false" text="Na" />
+                              <TableColumn id="ka" fx:id="ka1111111111" prefWidth="68.0" resizable="false" text="Ka" />
+                              <TableColumn id="vitc" fx:id="vitc1111111111" prefWidth="71.0" resizable="false" text="VitC" />
+                              <TableColumn id="vite" fx:id="vite1111111111" prefWidth="72.0" resizable="false" text="VitE" />
+                              <TableColumn id="vitB9" fx:id="vitb91111111111" prefWidth="49.0" resizable="false" text="VitB9" />
+                              <TableColumn id="vita" fx:id="vita1111111111" prefWidth="76.0" resizable="false" text="VitA" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </center>
          <top>
-            <AnchorPane prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="labelAliment" alignment="CENTER" contentDisplay="CENTER" layoutX="482.0" layoutY="-2.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="427.0" text="LISTE DES ALIMENTS PAR PAYS">
+                     <font>
+                        <Font name="Baskerville Old Face" size="26.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
          </top>
          <right>
             <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />

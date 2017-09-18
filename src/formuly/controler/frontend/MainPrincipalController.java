@@ -5,16 +5,21 @@
  */
 package formuly.controler.frontend;
 
+import com.sun.glass.ui.Cursor;
 import formuly.classe.formulyTools;
 import formuly.model.frontend.mainModel;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,6 +28,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -274,6 +280,8 @@ public class MainPrincipalController implements Initializable {
   private TableColumn<mainModel, Double>   vitb911111;
   @FXML
   private TableColumn<mainModel, Double>   vita11111;
+  @FXML private Button faireRepas;
+   @FXML private Button TousLesRepas;
     public MainPrincipalController() {
       
     }
@@ -284,6 +292,22 @@ public class MainPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     //initialisation des colonnes pour tous les aliments   
+        Button[] btn={faireRepas,TousLesRepas};
+        formulyTools.mettreEffetButton(btn);
+         faireRepas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            try {
+                // ImageCursor image = new ImageCursor(new javafx.scene.image.Image("/formuly/image/loading.gif"));  //pass in the image path
+             faireRepas.getScene().setCursor(javafx.scene.Cursor.WAIT);
+             Stage st=chargerPanelRepas();
+             st.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+             faireRepas.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+            } catch (IOException ex) {
+                Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+});
       numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
       nom_aliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       qte.setCellValueFactory(new PropertyValueFactory<>("qte")); 
@@ -523,17 +547,27 @@ public class MainPrincipalController implements Initializable {
           aliment11111.setItems(formulyTools.getobservableListMainModel("Mali"));
          
     }    
-    public void stageencor(ActionEvent evt) throws IOException
+  
+    public Stage chargerPanelRepas() throws IOException
     {
-        FXMLLoader loader = new FXMLLoader();
+        
+        
+         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/formuly/view/frontend/select_the_foods.fxml"));
          Parent root = loader.load();
          Stage st=new Stage();
          st.setScene(new Scene(root));
          st.setTitle("formuly Foods Selector");
           st.initModality(Modality.APPLICATION_MODAL);
-          st.initOwner(ok.getScene().getWindow());
+          st.initOwner(faireRepas.getScene().getWindow());
           st.showAndWait();
-    }
-   
+         return st;
+       
+      }
+   public Scene getThisScene() throws IOException
+   {
+   FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/main.fxml"));
+   Parent root = (Parent)loader.load();
+   return root.getScene();
+   }
 }

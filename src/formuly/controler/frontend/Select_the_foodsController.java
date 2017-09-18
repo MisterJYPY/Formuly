@@ -64,34 +64,14 @@ public class Select_the_foodsController implements Initializable {
     @FXML private Button reinitialiser;
     @FXML private Button validerMenu;
    
+   
     private final modelFoodSelect model;
 
     public Select_the_foodsController() {
         model=new modelFoodSelect();
     }
     
-     public void mettreEffetButton(Button[] TabloButton)
-     {
-          DropShadow shadow = new DropShadow();
-//Adding the shadow when the mouse cursor is on
-          for(int i=0;i<TabloButton.length;i++)
-          {
-              Button bt=TabloButton[i];
-       bt.addEventHandler(MouseEvent.MOUSE_ENTERED, 
-    new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent e) {
-           bt.setEffect(shadow);
-        }
-});
-//Removing the shadow when the mouse cursor is off
-     bt.addEventHandler(MouseEvent.MOUSE_EXITED, 
-    new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent e) {
-            bt.setEffect(null);
-        }
-});
-          }
-     }
+    
       @Override
       public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -104,7 +84,7 @@ public class Select_the_foodsController implements Initializable {
              }
          });
           Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};
-          mettreEffetButton(btn);
+          formulyTools.mettreEffetButton(btn);
         mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi);
        table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        initialisationCombobox();
