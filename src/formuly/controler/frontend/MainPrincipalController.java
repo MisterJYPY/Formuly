@@ -530,7 +530,7 @@ public class MainPrincipalController implements Initializable {
          Parent root = loader.load();
          Stage st=new Stage();
          st.setScene(new Scene(root));
-         st.setTitle("formuly ww");
+         st.setTitle("formuly Foods Selector");
           st.initModality(Modality.APPLICATION_MODAL);
           st.initOwner(ok.getScene().getWindow());
           st.showAndWait();

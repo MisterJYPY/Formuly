@@ -24,6 +24,7 @@ public class Fx_formuly extends Application {
   
 //         List<RetentionAlments> liste=RetentionAlments.getAllAlimentRetention();
 //             System.out.println("taille: "+liste.size());
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/formuly/view/frontend/main.fxml"));
          Parent root = loader.load();

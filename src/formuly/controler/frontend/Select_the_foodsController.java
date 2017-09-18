@@ -33,7 +33,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
+import formuly.classe.TooltipTableRow ;
+import javafx.scene.effect.DropShadow;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -46,8 +48,8 @@ public class Select_the_foodsController implements Initializable {
      * Initializes the controller class.
      */
     @FXML private TableView<mainModel> table_aliment_a_choisir;
-     @FXML private TableView<mainModel> table_aliment_deja_choisi;
-     @FXML private TableColumn<mainModel,String> nomAlimentsChoisi;
+    @FXML private TableView<mainModel> table_aliment_deja_choisi;
+    @FXML private TableColumn<mainModel,String> nomAlimentsChoisi;
     @FXML private TableColumn<mainModel,String> nomAliment;
     @FXML private TableColumn<mainModel,String> quantite;
     @FXML private TableColumn<mainModel,String> quantiteChoisi;
@@ -58,6 +60,9 @@ public class Select_the_foodsController implements Initializable {
     @FXML private TextField  nom_aliment;
     @FXML private TextField  code_aliment;
     @FXML private Button  envoi;
+    @FXML private Button  fermerFentre;
+    @FXML private Button reinitialiser;
+    @FXML private Button validerMenu;
    
     private final modelFoodSelect model;
 
@@ -65,18 +70,47 @@ public class Select_the_foodsController implements Initializable {
         model=new modelFoodSelect();
     }
     
-    
+     public void mettreEffetButton(Button[] TabloButton)
+     {
+          DropShadow shadow = new DropShadow();
+//Adding the shadow when the mouse cursor is on
+          for(int i=0;i<TabloButton.length;i++)
+          {
+              Button bt=TabloButton[i];
+       bt.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+           bt.setEffect(shadow);
+        }
+});
+//Removing the shadow when the mouse cursor is off
+     bt.addEventHandler(MouseEvent.MOUSE_EXITED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            bt.setEffect(null);
+        }
+});
+          }
+     }
       @Override
       public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
+         fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                Stage stage = (Stage) fermerFentre.getScene().getWindow();
+    // do what you have to do
+               stage.close();
+             }
+         });
+          Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};
+          mettreEffetButton(btn);
+        mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi);
        table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        initialisationCombobox();
        initialiserLeTableauAchoisir();
        nom_aliment.setOnKeyReleased(
      event->{
-      // if(!nom_aliment.getText().isEmpty())
-      // {
           String sql="";
              String nom_ali=nom_aliment.getText();
            String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
@@ -163,6 +197,19 @@ public class Select_the_foodsController implements Initializable {
          // }
         });
     }    
+      public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi)
+      {
+         table_aliment_a_choisir.setRowFactory((tableView) -> {
+      return new  TooltipTableRow<mainModel>((mainModel model) -> {
+        return model.getNom_aliment();
+      });
+});
+          table_aliment_deja_choisi.setRowFactory((tableView) -> {
+      return new  TooltipTableRow<mainModel>((mainModel model) -> {
+        return model.getNom_aliment();
+      });
+});
+      }
       public void initialisationCombobox()
     {
        //initialisation des pays
@@ -208,20 +255,24 @@ public class Select_the_foodsController implements Initializable {
             new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
                 @Override
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
-                    
-                    if(Double.parseDouble(t.getNewValue())>0.0)
+                        String qte=formulyTools.preformaterChaine(t.getNewValue());
+                    if(Double.parseDouble(qte)>0.0)
                  {
+                     
                     ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
-           // table_aliment_a_choisir.getSelectionModel().select( t.getTableView().getItems().get( t.getTablePosition().getRow()));         
+                            ).setQte(formulyTools.preformaterChaine(t.getNewValue()));
                 }   
                     else
                     {
+                 
                 ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                             ).setQte("0");    
                     }
+                int ligne= t.getTablePosition().getRow();
+               mainModel md= table_aliment_a_choisir.getItems().get(ligne);
+               table_aliment_a_choisir.getItems().set(ligne, md);
                     int i=0;
                      for (mainModel run :  table_aliment_a_choisir.getItems()) {
                          if(Double.parseDouble(run.getQte())>0.0)
@@ -233,7 +284,9 @@ public class Select_the_foodsController implements Initializable {
       }
             }
         );
-     
+       //mettre les toolTip
+       
+       //Fin
         table_aliment_a_choisir.setOnMousePressed(new EventHandler<MouseEvent>() {
     @Override 
    public void handle(MouseEvent event) {
@@ -411,7 +464,7 @@ public class Select_the_foodsController implements Initializable {
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
                     ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
+                            ).setQte(formulyTools.preformaterChaine(t.getNewValue()));
                 }
             }
         );
@@ -430,12 +483,9 @@ public class Select_the_foodsController implements Initializable {
             new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
                 @Override
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
-                    ((mainModel) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
                      ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
+                            ).setQte(formulyTools.preformaterChaine(t.getNewValue()));
                 }
             }
         );
@@ -486,6 +536,7 @@ public class Select_the_foodsController implements Initializable {
         table_aliment_deja_choisi.getItems().addAll(retournerObservableListNonDoublon(obsL,table_aliment_deja_choisi.getItems(),""));    
        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
           supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
+          
             }
       }
       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
@@ -498,7 +549,6 @@ public class Select_the_foodsController implements Initializable {
       }
        public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2,String s)
       {
-         ObservableList<mainModel> md=FXCollections.observableArrayList();
          
           if(ob2.size()>0)
           {
@@ -511,11 +561,11 @@ public class Select_the_foodsController implements Initializable {
                mainModel md2=ob2.get(l);
              if(md1.getNom_aliment().equals(md2.getNom_aliment()) && md1.getMg().equals(md2.getMg()) && md1.getFer().equals(md2.getFer()))
              { 
-              ob1.remove(md1);
+              ob1.remove(k);
              }
+            
            } 
            }
-             md=null;
           }
             return ob1;
       }
@@ -575,12 +625,15 @@ public class Select_the_foodsController implements Initializable {
             new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
                 @Override
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
-                    ((mainModel) t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
+                    String qte=formulyTools.preformaterChaine(t.getNewValue());
+                     int ligne= t.getTablePosition().getRow();
+               mainModel md= table.getItems().get(ligne);
+               table.getItems().set(ligne, md);
+                     t.getTableView().getItems().get(ligne).setQte(qte);
                      ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
-                            ).setQte(t.getNewValue());
+                            ).setQte(qte);
+                     
                 }
             }
         );

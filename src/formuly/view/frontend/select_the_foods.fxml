@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="fenetrePaletteFood" prefHeight="611.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+<BorderPane id="fenetrePaletteFood" prefHeight="611.0" prefWidth="790.0" stylesheets="@../../css/frontend/select_the_foods.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Select_the_foodsController">
    <top>
       <BorderPane prefHeight="60.0" prefWidth="636.0" BorderPane.alignment="CENTER">
          <right>
@@ -40,7 +41,7 @@
       </BorderPane>
    </top>
    <left>
-      <VBox prefHeight="370.0" prefWidth="165.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="393.0" prefWidth="165.0" BorderPane.alignment="CENTER">
          <children>
             <Separator prefHeight="0.0" prefWidth="165.0" visible="false" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="167.0" text="Categories" textAlignment="CENTER">
@@ -86,17 +87,21 @@
             </Label>
          </top>
          <bottom>
-            <Button fx:id="envoi" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#envoi" prefHeight="25.0" prefWidth="98.0" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER">
-               <textFill>
-                  <LinearGradient endX="1.0" endY="1.0" startX="0.3380952380952381">
-                     <stops>
-                        <Stop color="BLACK" />
-                        <Stop color="BLACK" offset="0.4879725085910653" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-            </Button>
+            <BorderPane prefHeight="48.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+               <center>
+                  <Button id="envoi" fx:id="envoi" mnemonicParsing="false" onAction="#envoi" prefHeight="30.0" prefWidth="101.0" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+               </center>
+               <left>
+                  <Button id="buttonReload" fx:id="reinitialiser" mnemonicParsing="false" opacity="0.59" prefHeight="34.0" prefWidth="35.0" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </left>
+            </BorderPane>
          </bottom>
       </BorderPane>
    </center>
@@ -124,7 +129,30 @@
             <Separator orientation="VERTICAL" prefHeight="357.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
          </left>
          <bottom>
-            <Button ellipsisString="" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Valider le repas" textOverrun="LEADING_ELLIPSIS" BorderPane.alignment="CENTER" />
+            <BorderPane prefHeight="51.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                  <Button id="buttonValider" fx:id="validerMenu" mnemonicParsing="false" prefHeight="30.0" prefWidth="119.0" text="Valider le Menu" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                     <effect>
+                        <Bloom threshold="0.8" />
+                     </effect></Button>
+               </center>
+               <right>
+                  <Button id="buttonCancel" fx:id="fermerFentre" mnemonicParsing="false" prefHeight="28.0" prefWidth="41.0" text="X" textFill="#791313" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="11.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </right>
+            </BorderPane>
          </bottom>
       </BorderPane>
    </right>

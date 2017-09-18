@@ -22,3 +22,28 @@ and open the template in the editor.
 {
     
 }
+#buttonReload
+{
+ -fx-background-image: url(/formuly/image/reload.jpg)   ;
+ -fx-border-color: white;
+ -fx-border-radius: 15px;
+    
+}
+#buttonCancel
+{
+ //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
+ -fx-border-radius: 5px;
+ -fx-background-color:#B82010;
+     
+}
+#envoi
+{
+ -fx-background-image: url(/formuly/image/poussez.png)   ;
+ -fx-border-color: white;   
+}
+#buttonValider
+{
+    -fx-background-color:#B3B191;
+    
+}

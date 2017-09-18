@@ -13,6 +13,8 @@ import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.modelFoodSelect;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.EntityManagerFactory;
@@ -194,5 +196,26 @@ public class formulyTools {
       }
      return inf;
   }   
-  
+  public static String preformaterChaine(String m)
+  {
+  String lesCaracteresNonVoulu = "[(,, ,=,/,),ฐ,+,*,',:, ,้,&,่,--,_,๙,$,^^,\\,\",?,!,็,ฒ,ฃ,จจ,%,ต,{,},#,ง,;,<,>,เ,[a-z,A-Z]]";   
+     //char a=evt.getKeyChar();
+     //notre classe paterne pour compiler la plage de caracterenon esires
+     boolean t=false;
+      m=m.replace(',','.');
+     while(!t){
+         if(!m.isEmpty()){
+    Pattern regPat = Pattern.compile(lesCaracteresNonVoulu );
+ //ici c'est pour voir si  notre pattern comiler peut contenir les caracteres non desires
+    Matcher matcher = regPat.matcher(m);
+    if (matcher.find()){
+       m="0"; 
+      }else{
+       t=true;
+    }
+    
+     }
+  } 
+     return m;
+  }
 }
