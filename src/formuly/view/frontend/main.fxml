@@ -37,7 +37,10 @@
                   </MenuBar>
                   <ToolBar id="paletteMenu" prefHeight="40.0" prefWidth="200.0">
                     <items>
-                        <Button id="tousRepas" fx:id="TousLesRepas" layoutX="146.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="229.0" text="Voir vos Repas" />
+                        <Button id="tousRepas" fx:id="TousLesRepas" layoutX="146.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="229.0" text="Voir vos Repas">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                       <Button id="validerMenu" fx:id="faireRepas" mnemonicParsing="false" prefHeight="29.0" prefWidth="209.0" text="Faire un Repas">
                            <cursor>
                               <Cursor fx:constant="HAND" />
