@@ -29,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +43,8 @@ import javafx.stage.Stage;
 public class MainPrincipalController implements Initializable {
  
     //Injection For All Foods
+    @FXML private BorderPane panelMilieu;
+    @FXML private BorderPane fenetrePrincipal;
     @FXML private Button ok;
     @FXML  
   private TableView<mainModel>  aliment;
@@ -282,6 +285,7 @@ public class MainPrincipalController implements Initializable {
   private TableColumn<mainModel, Double>   vita11111;
   @FXML private Button faireRepas;
    @FXML private Button TousLesRepas;
+   
     public MainPrincipalController() {
       
     }
@@ -291,6 +295,7 @@ public class MainPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+     System.out.println(fenetrePrincipal.getCenter());
     //initialisation des colonnes pour tous les aliments   
         Button[] btn={faireRepas,TousLesRepas};
         formulyTools.mettreEffetButton(btn);
@@ -545,7 +550,15 @@ public class MainPrincipalController implements Initializable {
         );
          //ddjjdjdj
           aliment11111.setItems(formulyTools.getobservableListMainModel("Mali"));
-         
+       try {
+                    
+           ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().clear();
+                    panelMilieu.getChildren().clear();
+                   ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().add(FXMLLoader.load(getClass().getResource("/formuly/view/frontend/bilan_repas.fxml")));
+                     System.out.println("bien cliquer");
+                 } catch (IOException ex) {
+                     Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
     }    
   
     public Stage chargerPanelRepas() throws IOException

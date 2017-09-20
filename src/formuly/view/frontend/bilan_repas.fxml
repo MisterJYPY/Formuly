@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,9 +9,72 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Bilan_repasController">
    <top>
-      <BorderPane prefHeight="82.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+      <BorderPane prefHeight="39.0" prefWidth="599.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="367.0" text="BILAN DES ELEMENTS" BorderPane.alignment="CENTER" />
+         </center></BorderPane>
    </top>
+   <center>
+      <BorderPane prefHeight="351.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <left>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="629.0" prefWidth="299.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="305.0" prefWidth="207.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="-3.0" prefHeight="36.0" prefWidth="300.0" text="Element constitutif" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="277.0">
+                     <children>
+                        <PieChart fx:id="pieCharts" layoutX="-2.0" layoutY="2.0" prefHeight="310.0" prefWidth="301.0" />
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </left>
+         <center>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab text="Les Aliments et leurs differentes valeurs en retention">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <top>
+                              <AnchorPane prefHeight="25.0" prefWidth="729.0" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn prefWidth="36.0" text="N°" />
+                                  <TableColumn prefWidth="232.0" text="Nom Aliment" />
+                                    <TableColumn minWidth="0.0" prefWidth="63.0" text="qte" />
+                                    <TableColumn minWidth="0.0" prefWidth="59.0" text="\%Protide" />
+                                    <TableColumn minWidth="0.0" prefWidth="101.0" text="\%Glucide" />
+                                    <TableColumn minWidth="0.0" prefWidth="118.0" text="\%Lipide" />
+                                    <TableColumn minWidth="0.0" prefWidth="105.0" text="Energie" />
+                                </columns>
+                              </TableView>
+                           </center>
+                           <right>
+                              <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+                           </right>
+                           <bottom>
+                              <ScrollBar BorderPane.alignment="CENTER" />
+                           </bottom>
+                        </BorderPane>
+                     </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+      </BorderPane>
+   </center>
+   <right>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <PieChart fx:id="pieChartss" prefHeight="635.0" prefWidth="247.0" startAngle="-7.1" />
+         </children>
+      </StackPane>
+   </right>
 </BorderPane>

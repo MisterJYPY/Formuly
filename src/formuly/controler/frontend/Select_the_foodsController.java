@@ -34,6 +34,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.effect.DropShadow;
 import javafx.stage.Stage;
 
@@ -81,6 +85,12 @@ public class Select_the_foodsController implements Initializable {
                 Stage stage = (Stage) fermerFentre.getScene().getWindow();
     // do what you have to do
                stage.close();
+             }
+         });
+          validerMenu.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                 
              }
          });
           Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};

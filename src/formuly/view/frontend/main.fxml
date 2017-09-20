@@ -56,7 +56,8 @@
       </BorderPane>
    </top>
    <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+     
+      <BorderPane id="panelMilieu" fx:id="panelMilieu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
             <TabPane prefHeight="314.0" prefWidth="423.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
@@ -362,6 +363,7 @@
             <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
+ 
    </center>
    <right>
       <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
