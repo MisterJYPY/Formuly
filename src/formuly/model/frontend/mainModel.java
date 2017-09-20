@@ -34,6 +34,7 @@ public class mainModel {
   private Double  vite;
   private Double  vitb9;
   private Double  vita;
+  private String  pays;
 
     private List<RetentionAlments> retentionAliments=null;
     
@@ -44,7 +45,6 @@ public class mainModel {
  * 
  * @param numero
  * @param clumAliment
- * @param qte
  * @param cloumPcGlucide
  * @param cloumTtPcGlucide
  * @param cloumPclipide
@@ -80,6 +80,7 @@ public class mainModel {
         this.vite = vite;
         this.vitb9 = vitb9;
         this.vita = vita;
+        this.pays="non defini";
        
      //  retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
@@ -102,7 +103,7 @@ public class mainModel {
         this.vite = vite;
         this.vitb9 = vitb9;
         this.vita = vita;
-       
+        this.pays="non defini";
      //  retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
     public int getNumero() {
@@ -255,6 +256,14 @@ public class mainModel {
 
     public void setRetentionAliments(List<RetentionAlments> retentionAliments) {
         this.retentionAliments = retentionAliments;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
     }
   
 }

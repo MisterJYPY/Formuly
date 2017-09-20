@@ -365,7 +365,4 @@
       </BorderPane>
  
    </center>
-   <right>
-      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

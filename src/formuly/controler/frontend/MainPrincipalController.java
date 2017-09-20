@@ -5,23 +5,24 @@
  */
 package formuly.controler.frontend;
 
-import com.sun.glass.ui.Cursor;
+import formuly.classe.bilanMacroNut;
 import formuly.classe.formulyTools;
 import formuly.model.frontend.mainModel;
-import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -287,32 +288,80 @@ public class MainPrincipalController implements Initializable {
    @FXML private Button TousLesRepas;
    
     public MainPrincipalController() {
-      
+     
     }
   
    
-  
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-     System.out.println(fenetrePrincipal.getCenter());
-    //initialisation des colonnes pour tous les aliments   
-        Button[] btn={faireRepas,TousLesRepas};
-        formulyTools.mettreEffetButton(btn);
-         faireRepas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+  public void actionFenetreSelectionFoods()
+  {
+   faireRepas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
     new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent e) {
             try {
-                // ImageCursor image = new ImageCursor(new javafx.scene.image.Image("/formuly/image/loading.gif"));  //pass in the image path
-             faireRepas.getScene().setCursor(javafx.scene.Cursor.WAIT);
-             Stage st=chargerPanelRepas();
-             st.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
-             faireRepas.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+                if(st==null)
+                {
+                    try {
+                        chargerPanelRepas();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                faireRepas.getScene().setCursor(javafx.scene.Cursor.WAIT);
+                st.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+                // (Stage)faireRepas.getScene().getWindow()).
+                //if(st.isShowing())
+                System.out.println(faireRepas.getScene().getWindow().isShowing());
+                st.initOwner(faireRepas.getScene().getWindow());
+                st.showAndWait();
+                faireRepas.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+                st=new Stage();
+                chargerPanelRepas();
+                mettreAction();
             } catch (IOException ex) {
                 Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+         public void mettreAction()
+         {
+          boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                 System.out.println("st: "+st);
+                 st.close();
+                 st.hide();
+                 st=new Stage();
+               placerBilanChoixFoods();
+             }
+         });
+         }
+        
 });
+         boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                 System.out.println("st: "+st);
+                 st.close();
+                 st.hide();
+                 st=new Stage();
+               placerBilanChoixFoods();
+             }
+         }); 
+  }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    // System.out.println(fenetrePrincipal.getCenter());
+        try {
+            st=new Stage();
+            chargerPanelRepas();
+        } catch (IOException ex) {
+            Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    //initialisation des colonnes pour tous les aliments   
+        Button[] btn={faireRepas,TousLesRepas};
+        formulyTools.mettreEffetButton(btn);
+        actionFenetreSelectionFoods();
+        
       numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
       nom_aliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       qte.setCellValueFactory(new PropertyValueFactory<>("qte")); 
@@ -550,37 +599,112 @@ public class MainPrincipalController implements Initializable {
         );
          //ddjjdjdj
           aliment11111.setItems(formulyTools.getobservableListMainModel("Mali"));
-       try {
-                    
-           ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().clear();
-                    panelMilieu.getChildren().clear();
-                   ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().add(FXMLLoader.load(getClass().getResource("/formuly/view/frontend/bilan_repas.fxml")));
-                     System.out.println("bien cliquer");
-                 } catch (IOException ex) {
-                     Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+
     }    
   
-    public Stage chargerPanelRepas() throws IOException
+    public void chargerPanelRepas() throws IOException
     {
-        
-        
+             
          FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/formuly/view/frontend/select_the_foods.fxml"));
+         loader.setLocation(getClass().getResource("/formuly/view/frontend/select_the_foods.fxml"));
          Parent root = loader.load();
-         Stage st=new Stage();
+         controllerSelectionFoods= loader.getController();
+         boutonValiderMenu=controllerSelectionFoods.getValiderMenu();
+         tableauResultat=controllerSelectionFoods.getTable_aliment_deja_choisi();
          st.setScene(new Scene(root));
          st.setTitle("formuly Foods Selector");
-          st.initModality(Modality.APPLICATION_MODAL);
-          st.initOwner(faireRepas.getScene().getWindow());
-          st.showAndWait();
-         return st;
+         st.initModality(Modality.APPLICATION_MODAL);
+         
+         // st.showAndWait();
+       //  return st;
        
       }
+  
    public Scene getThisScene() throws IOException
    {
    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/main.fxml"));
    Parent root = (Parent)loader.load();
    return root.getScene();
    }
+
+    public BorderPane getPanelMilieu() {
+        return panelMilieu;
+    }
+  
+   
+   public void placerBilanChoixFoods()
+   {
+          try {
+                    
+      ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().clear();
+                    panelMilieu.getChildren().clear();
+              FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(getClass().getResource("/formuly/view/frontend/bilan_repas.fxml"));
+        // Parent root = (Parent)loader.load(); 
+      ((BorderPane)(fenetrePrincipal.getCenter())).getChildren().add(loader.load());
+     controller = (Bilan_repasController)loader.getController(); 
+            controller.setLesElements(tableauResultat.getItems());
+            initialiserTableBilan();
+          } catch (IOException ex) {
+                     Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+   }
+   public void initialiserTableBilan()
+            {
+      controller.getAliment().setCellValueFactory(new PropertyValueFactory<>("aliment"));
+         controller.getQuantite().setCellValueFactory(new PropertyValueFactory<>("quantites")); 
+      controller.getLipide().setCellValueFactory(new PropertyValueFactory<>("valeurLipide")); 
+      controller.getProtide().setCellValueFactory(new PropertyValueFactory<>("valeurProtide"));
+      controller.getGlucide().setCellValueFactory(new PropertyValueFactory<>("valeurGlucide"));
+      controller.getEnergie().setCellValueFactory(new PropertyValueFactory<>("valeurEnergie"));
+      controller.getPays().setCellValueFactory(new PropertyValueFactory<>("pays"));
+          LoadObservableList();
+       controller.setBilanElements(bilanElements);
+       controller.getTableBilan().setItems(bilanElements);
+       bilanGeneral();
+          }
+   public void LoadObservableList()
+   {
+     int n=tableauResultat.getItems().size();
+     obListElmt=tableauResultat.getItems();
+        for(mainModel main: obListElmt)
+        {
+        bilanElements.add(new bilanMacroNut(main));
+         }
+   
+   }
+   public void bilanGeneral()
+   {
+       double sommeLipide=0;
+       double sommeGlucide=0;
+       double sommeProtide=0;
+       double sommeEnergie=0;
+      for(bilanMacroNut main: bilanElements)
+         {
+        sommeLipide=sommeLipide+main.getValeurLipide();
+        sommeGlucide=sommeGlucide+main.getValeurGlucide();
+        sommeProtide=sommeProtide+main.getValeurProtide();
+        sommeEnergie=sommeEnergie+main.getValeurEnergie();
+         }
+     PieChartData.addAll(new PieChart.Data("Glucide", sommeGlucide),
+            new PieChart.Data("Protide",sommeProtide),
+            new PieChart.Data("lipide",sommeLipide)
+           
+            );
+     controller.getPieCharts().setData(PieChartData);
+      controller.getPieCharts().setTitle("Composition en Macro Nutriment");
+   }
+    private    Bilan_repasController controller;
+  @FXML private Select_the_foodsController controllerSelectionFoods;
+   private Button boutonValiderMenu;
+   private Stage st;
+   private TableView<mainModel> tableauResultat ;
+    private TableColumn<mainModel, String>  aliment_nom;
+    private TableColumn<mainModel, Double>   quantite_hoisi;
+    private TableColumn<mainModel, Double>   Glucide;
+  private TableColumn<mainModel, Double>     protide;
+  ObservableList<bilanMacroNut> bilanElements=FXCollections.observableArrayList();
+  ObservableList<mainModel> obListElmt=FXCollections.observableArrayList();
+    ObservableList<PieChart.Data> PieChartData= FXCollections.observableArrayList();
+   
 }

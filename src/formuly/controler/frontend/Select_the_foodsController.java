@@ -34,11 +34,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.effect.DropShadow;
 import javafx.stage.Stage;
 
 /**
@@ -103,7 +98,7 @@ public class Select_the_foodsController implements Initializable {
      event->{
           String sql="";
              String nom_ali=nom_aliment.getText();
-           String sqlnomA= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
+           String sqlnomA= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
         String sqlcate="";
         String sqlmodec="";
         String sqlpays="";
@@ -148,7 +143,7 @@ public class Select_the_foodsController implements Initializable {
         //  if(!code_aliment.getText().isEmpty()){
             String sql="";
           String val=code_aliment.getText();
-           String sqlcode= "select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
+           String sqlcode= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
         String sqlcate="";
         String sqlmodec="";
         String sqlpays="";
@@ -321,7 +316,7 @@ public class Select_the_foodsController implements Initializable {
              FmGroupeAlimentJpaController gp=new FmGroupeAlimentJpaController(model.emf);
              FmGroupeAliment grpe=gp.findFmGroupeAlimentByName(groupe);
              int idGrouep=grpe.getId();
-          String sqlcate="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.groupe="+idGrouep+" ";
+          String sqlcate="select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.groupe="+idGrouep+" ";
           String sql="";
          // String val=code_aliment.getText();
           String sqlcode= " ";     
@@ -361,7 +356,7 @@ public class Select_the_foodsController implements Initializable {
          if(e.getSource().equals(mode_cuisson) && mode_cuisson.getValue()!=null)
          {
            String mode_cuiss=mode_cuisson.getValue().toString();
-          String   sqlmodec="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.mode_cuisson="+"'"+mode_cuiss+"' ";   
+          String   sqlmodec="select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.mode_cuisson="+"'"+mode_cuiss+"' ";   
           String sqlcate="";
           String sql="";
          // String val=code_aliment.getText();
@@ -403,7 +398,7 @@ public class Select_the_foodsController implements Initializable {
            if(e.getSource().equals(pays_foods) && pays_foods.getValue()!=null)
          {
           String pays=pays_foods.getValue().toString();
-          String sqlpays="select f.id,f.nom_fr ,f.code from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
+          String sqlpays="select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.pays LIKE "+"'%"+pays+"%' ";         
           String   sqlmodec="";   
           String sqlcate="";
           String sql="";
@@ -628,4 +623,14 @@ public class Select_the_foodsController implements Initializable {
             }
         );
       }
+
+    public Button getValiderMenu() {
+        return validerMenu;
+    }
+
+    public TableView<mainModel> getTable_aliment_deja_choisi() {
+        return table_aliment_deja_choisi;
+    }
+    
+      
 }
