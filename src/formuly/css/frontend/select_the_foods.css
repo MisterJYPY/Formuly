@@ -39,11 +39,23 @@ and open the template in the editor.
 }
 #envoi
 {
- -fx-background-image: url(/formuly/image/poussez.png)   ;
+// -fx-background-image: url(/formuly/image/poussez.png)   ;
  -fx-border-color: white;   
 }
 #buttonValider
 {
     -fx-background-color:#B3B191;
+    
+}
+#ValeurEnergie
+{
+    -fx-background-color:linear-gradient(to top right, #f7f3f2 ,white, #f7f3f2 );
+}
+#partieLibelleBilanEn
+{
+   -fx-background-color:linear-gradient(to top right, #c4c196 ,white, #f7f3f2 );    
+}
+#boutonEnregistrer
+{
     
 }

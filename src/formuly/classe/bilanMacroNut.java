@@ -22,9 +22,9 @@ public class bilanMacroNut {
     private double valeurGlucide;
     private double valeurProtide;
     private double valeurLipide;
-    private double pourcentEnLipide;
+    private double pourcentLipide;
     private double pourcentGlucide;
-    private double pourcenProtide;
+    private double pourcentProtide;
     private double EnergieTotale ;
     private double valeurProtideTotale ;
     private double valeurGlucideTotale ;
@@ -44,9 +44,12 @@ public class bilanMacroNut {
        valeurGlucide= (quantite*prGl)/100;
        valeurProtide= (quantite*prPrt)/100;
        valeurLipide= (quantite*prLip)/100;
-       valeurEnergie=(4*valeurGlucide) +(4*valeurProtide) +(4*valeurLipide) ;
+       valeurEnergie=(4*valeurGlucide) +(4*valeurProtide) +(9*valeurLipide) ;
        aliment=model.getNom_aliment();
         //calcul des prcentage
+       pourcentLipide=(valeurLipide/(valeurGlucide+valeurProtide+ valeurLipide))*100;
+       pourcentGlucide=(valeurGlucide/(valeurGlucide+valeurProtide+ valeurLipide))*100;
+       pourcentProtide=(valeurProtide/(valeurGlucide+valeurProtide+ valeurLipide))*100;
        
     }
 
@@ -58,12 +61,36 @@ public class bilanMacroNut {
         this.model = model;
     }
 
+    public String getAliment() {
+        return aliment;
+    }
+
+    public void setAliment(String aliment) {
+        this.aliment = aliment;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
     public double getValeurEnergie() {
         return valeurEnergie;
     }
 
     public void setValeurEnergie(double valeurEnergie) {
         this.valeurEnergie = valeurEnergie;
+    }
+
+    public String getQuantites() {
+        return quantites;
+    }
+
+    public void setQuantites(String quantites) {
+        this.quantites = quantites;
     }
 
     public double getValeurGlucide() {
@@ -90,12 +117,12 @@ public class bilanMacroNut {
         this.valeurLipide = valeurLipide;
     }
 
-    public double getPourcentEnLipide() {
-        return pourcentEnLipide;
+    public double getPourcentLipide() {
+        return pourcentLipide;
     }
 
-    public void setPourcentEnLipide(double pourcentEnLipide) {
-        this.pourcentEnLipide = pourcentEnLipide;
+    public void setPourcentLipide(double pourcentLipide) {
+        this.pourcentLipide = pourcentLipide;
     }
 
     public double getPourcentGlucide() {
@@ -106,28 +133,12 @@ public class bilanMacroNut {
         this.pourcentGlucide = pourcentGlucide;
     }
 
-    public double getPourcenProtide() {
-        return pourcenProtide;
+    public double getPourcentProtide() {
+        return pourcentProtide;
     }
 
-    public void setPourcenProtide(double pourcenProtide) {
-        this.pourcenProtide = pourcenProtide;
-    }
-
-    public String getAliment() {
-        return aliment;
-    }
-
-    public void setAliment(String aliment) {
-        this.aliment = aliment;
-    }
-
-    public String getQuantites() {
-        return quantites;
-    }
-
-    public void setQuantites(String quantites) {
-        this.quantites = quantites;
+    public void setPourcentProtide(double pourcentProtide) {
+        this.pourcentProtide = pourcentProtide;
     }
 
     public double getEnergieTotale() {
@@ -162,14 +173,7 @@ public class bilanMacroNut {
         this.valeurLipideTotale = valeurLipideTotale;
     }
 
-    public String getPays() {
-        return pays;
-    }
-
-    public void setPays(String pays) {
-        this.pays = pays;
-    }
-    
+ 
     
     
 }

@@ -45,6 +45,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FmAliments.findByCode", query = "SELECT f FROM FmAliments f WHERE f.code = :code"),
     @NamedQuery(name = "FmAliments.findByPays", query = "SELECT f FROM FmAliments f WHERE f.pays = :pays")})
 public class FmAliments implements Serializable {
+    @Lob
+    @Column(name = "mode_cuisson")
+    private String modeCuisson;
+    @OneToMany(mappedBy = "aliment")
+    private Collection<FmRepasAliments> fmRepasAlimentsCollection;
+    @OneToMany(mappedBy = "aliment")
+    private Collection<FmAlimentsPathologie> fmAlimentsPathologieCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,9 +64,6 @@ public class FmAliments implements Serializable {
     @Basic(optional = false)
     @Column(name = "nom_fr")
     private String nomFr;
-    @Lob
-    @Column(name = "mode_cuisson")
-    private String modeCuisson;
     @Column(name = "derniere_modif")
     @Temporal(TemporalType.TIMESTAMP)
     private Date derniereModif;
@@ -214,6 +218,24 @@ public class FmAliments implements Serializable {
     @Override
     public String toString() {
         return "formuly.entities.FmAliments[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<FmRepasAliments> getFmRepasAlimentsCollection() {
+        return fmRepasAlimentsCollection;
+    }
+
+    public void setFmRepasAlimentsCollection(Collection<FmRepasAliments> fmRepasAlimentsCollection) {
+        this.fmRepasAlimentsCollection = fmRepasAlimentsCollection;
+    }
+
+    @XmlTransient
+    public Collection<FmAlimentsPathologie> getFmAlimentsPathologieCollection() {
+        return fmAlimentsPathologieCollection;
+    }
+
+    public void setFmAlimentsPathologieCollection(Collection<FmAlimentsPathologie> fmAlimentsPathologieCollection) {
+        this.fmAlimentsPathologieCollection = fmAlimentsPathologieCollection;
     }
     
 }

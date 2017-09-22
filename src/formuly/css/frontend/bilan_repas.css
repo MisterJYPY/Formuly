@@ -5,3 +5,54 @@
 .mainFxmlClass {
 
 }
+#ener{
+    
+  -fx-pie-color: turquoise; 
+}
+/*#pieChatrsEnergie
+{
+.data0.chart-pie { -fx-pie-color: turquoise; }
+.data1.chart-pie { -fx-pie-color: aquamarine; }
+.data2.chart-pie { -fx-pie-color: cornflowerblue; }
+.data3.chart-pie { -fx-pie-color: blue; }
+.data4.chart-pie { -fx-pie-color: cadetblue; }
+.data5.chart-pie { -fx-pie-color: navy; }
+.data6.chart-pie { -fx-pie-color: deepskyblue; }
+.chart-legend { -fx-background-color: sienna; }
+}*/
+/*#pieChatrsEnergie { -fx-pie-color: turquoise; }
+#pieChatrsEnergie { -fx-pie-color: aquamarine; }
+#pieChatrsEnergie { -fx-pie-color: cornflowerblue; }
+#pieChatrsEnergie{ -fx-pie-color: blue; }
+.chart-legend { -fx-background-color: sienna; }*/
+#bilanG
+{    
+    -fx-background-color:linear-gradient(to top right,#FFFFF0,#FFFFF0,whitesmoke); 
+}
+#energie
+{
+     -fx-background-color:#F0E68C;
+     -fx-font-family: bold;
+     -fx-font-size:13;
+     -fx-text-alignment: center;
+}
+#constitutif
+{
+     -fx-background-color:linear-gradient(to top right,#FFFFF0,#FFFFF0,whitesmoke);
+}
+#quantite
+{
+    -fx-background-color:#FFF0BC;
+}
+#pays
+{
+   -fx-font-family: bold;
+     -fx-font-size:13;
+     -fx-text-alignment: center;  
+}
+#energietotale
+{
+      -fx-background-color:#E9967A;
+      -fx-border-radius:15px;
+       -fx-border: solid;
+}

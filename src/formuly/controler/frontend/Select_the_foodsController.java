@@ -34,6 +34,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
+import formuly.classe.bilanMacroNut;
+import java.text.NumberFormat;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -62,35 +68,28 @@ public class Select_the_foodsController implements Initializable {
     @FXML private Button  fermerFentre;
     @FXML private Button reinitialiser;
     @FXML private Button validerMenu;
-   
-   
+    @FXML private PieChart pieCharts;
+    ObservableList<Data> piecharList;
+    ObservableList<bilanMacroNut> bilanList;
     private final modelFoodSelect model;
 
     public Select_the_foodsController() {
         model=new modelFoodSelect();
+        piecharList=FXCollections.observableArrayList();
+        bilanList=FXCollections.observableArrayList();
+        data0=new Data("",0);
+        data1=new Data("",0);
+        data2=new Data("",0);
     }
     
     
       @Override
       public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-         fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent event) {
-                Stage stage = (Stage) fermerFentre.getScene().getWindow();
-    // do what you have to do
-               stage.close();
-             }
-         });
-          validerMenu.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent event) {
-                 
-             }
-         });
-          Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};
+   
+           Button[] btn={envoi,fermerFentre,validerMenu};
           formulyTools.mettreEffetButton(btn);
-        mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi);
+         mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi,tableBilan);
+         actionBoutonFermer();
        table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        initialisationCombobox();
        initialiserLeTableauAchoisir();
@@ -182,7 +181,7 @@ public class Select_the_foodsController implements Initializable {
          // }
         });
     }    
-      public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi)
+      public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi,TableView<bilanMacroNut>... table)
       {
          table_aliment_a_choisir.setRowFactory((tableView) -> {
       return new  TooltipTableRow<mainModel>((mainModel model) -> {
@@ -192,6 +191,11 @@ public class Select_the_foodsController implements Initializable {
           table_aliment_deja_choisi.setRowFactory((tableView) -> {
       return new  TooltipTableRow<mainModel>((mainModel model) -> {
         return model.getNom_aliment();
+      });
+});
+           table[0].setRowFactory((tableView) -> {
+      return new  TooltipTableRow<bilanMacroNut>((bilanMacroNut model) -> {
+        return ""+model.getAliment()+" ,Energie: "+model.getValeurEnergie();
       });
 });
       }
@@ -480,24 +484,29 @@ public class Select_the_foodsController implements Initializable {
       public void envoi(ActionEvent event)
       {
              ObservableList<mainModel> obsL=FXCollections.observableArrayList();
-            if(table_aliment_deja_choisi.getItems().size()==0)
-            {
-                     for (mainModel run :  table_aliment_a_choisir.getItems()) {
+              for (mainModel run :  table_aliment_a_choisir.getItems()){
                          if(Double.parseDouble(run.getQte())>0.0)
                          {                           
                        obsL.add(run);
                          }
                      }
+          if(obsL.size()>0)
+          {
+            if(table_aliment_deja_choisi.getItems().size()==0)
+            {
+                    
         nomAlimentsChoisi.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantiteChoisi.setCellValueFactory(new PropertyValueFactory<>("qte")); 
         nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
-          rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
+          rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi,"");
           initialisationCombobox();
           initialiserJtextField();
            table_aliment_deja_choisi.setItems(obsL);
            table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
-            supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
+           supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
+                LoadObservableList(obsL,bilanList,tableBilan);
+                bilanGeneral(bilanList, pieCharts,piecharList);
          }
             else{
          //  table_aliment_a_choisir 
@@ -521,8 +530,17 @@ public class Select_the_foodsController implements Initializable {
         table_aliment_deja_choisi.getItems().addAll(retournerObservableListNonDoublon(obsL,table_aliment_deja_choisi.getItems(),""));    
        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
           supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
+             LoadObservableList(obsL,bilanList,tableBilan);
+                bilanGeneral(bilanList, pieCharts,piecharList);
           
             }
+      }
+        else{
+          Alert alert = new Alert(AlertType.WARNING); 
+          alert.setHeaderText("Aucun Aliment selectionner");
+          alert.setContentText("\3s Veuillez selectionner des aliments avant");
+          alert.show();
+          }
       }
       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
       {
@@ -582,6 +600,9 @@ public class Select_the_foodsController implements Initializable {
             alert.showAndWait();
        if (alert.getResult() == ButtonType.YES) {
          table_aliment_deja_choisi.getItems().remove(index);
+              bilanList.clear();
+              LoadObservableList(table_aliment_deja_choisi.getItems(),bilanList,tableBilan);
+              bilanGeneral(bilanList, pieCharts,piecharList);
       }
           }
         }
@@ -623,6 +644,29 @@ public class Select_the_foodsController implements Initializable {
             }
         );
       }
+        public void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne ,String valeurFictive)
+      {
+      table.setEditable(true);
+        colonne.setCellFactory(TextFieldTableCell.forTableColumn());
+             colonne.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    String qte=formulyTools.preformaterChaine(t.getNewValue());
+                     int ligne= t.getTablePosition().getRow();
+               mainModel md= table.getItems().get(ligne);
+               table.getItems().set(ligne, md);
+                     t.getTableView().getItems().get(ligne).setQte(qte);
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(qte);
+              bilanList.clear();
+              LoadObservableList(table.getItems(),bilanList,tableBilan);
+              bilanGeneral(bilanList, pieCharts,piecharList);       
+                }
+            }
+        );
+      }
 
     public Button getValiderMenu() {
         return validerMenu;
@@ -632,5 +676,202 @@ public class Select_the_foodsController implements Initializable {
         return table_aliment_deja_choisi;
     }
     
+  public void initialisationPieChart()
+  {
+   piecharList.addAll(new PieChart.Data("qte Glucide (189)", 189),
+            new PieChart.Data("qte protide(890)",890),
+            new PieChart.Data("qte Lipide(400)",400)
+           
+            ); 
+          pieCharts.setTitle("Composition en Macro Nutriment(quantite)");
+          pieCharts.setLegendVisible(true);
+          pieCharts.setData(piecharList);
+          }
+  /**
+   * methode permettant de faire le Bilan des elements
+   * elle calcul les valeurs energetiques totales et affiche dans les labels voulu
+   * @param bilanElements la liste pleine du bilan deja Pre-enregistré
+   * @param pchart   le peChart qui acceuille le resulat
+   * @param PieChartData  la liste devant contenir les valeurs du Piechart
+   */
+   public void bilanGeneral(ObservableList<bilanMacroNut> bilanElements,PieChart pchart,ObservableList<Data> ... PieChartData)
+   {
       
+       double sommeLipide=0;
+       double sommeGlucide=0;
+       double sommeProtide=0;
+       double sommeEnergie=0;
+      for(bilanMacroNut main: bilanElements)
+         {
+        sommeLipide=sommeLipide+main.getValeurLipide();
+        sommeGlucide=sommeGlucide+main.getValeurGlucide();
+        sommeProtide=sommeProtide+main.getValeurProtide();
+        sommeEnergie=sommeEnergie+main.getValeurEnergie();
+         }
+       double EnergieTotaleLipide= (sommeLipide*9);
+       double EnergieTotalGlucide= (sommeGlucide*4);
+       double EnergieTotalProtide= (sommeProtide*4);
+       double EnergieTotale=((EnergieTotaleLipide)+(EnergieTotalGlucide)+(EnergieTotalProtide));
+       double aetLipide=(EnergieTotaleLipide/EnergieTotale)*100;
+       double aetProtide=(EnergieTotalProtide/EnergieTotale)*100;
+       double aetGlucide=(EnergieTotalGlucide/EnergieTotale)*100;
+         //transformer en caractere
+       NumberFormat format=NumberFormat.getInstance();
+            format.setMaximumFractionDigits(2); 
+        String energiteTot=(bilanElements.size()>0 && EnergieTotale>0)?format.format(EnergieTotale):"0";
+        String aetLip=(bilanElements.size()>0 && aetLipide>0)?format.format(aetLipide):"0";
+        String aetGl=(bilanElements.size()>0 && aetGlucide>0)?format.format(aetGlucide):"0";
+        String aetPr=(bilanElements.size()>0 && aetProtide>0)?format.format(aetProtide):"0";
+        double  prttGl=0;
+        double  prttLp=0;
+        double  prPrtd=0;
+       if(sommeProtide+sommeLipide+sommeGlucide!=0){
+          prttGl=(sommeGlucide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+        prttLp=(sommeLipide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+        prPrtd=(sommeProtide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+           System.out.println("lip:"+aetLipide+"prt: "+aetProtide+"Gl:"+aetGlucide+" enr: "+EnergieTotale);
+            System.out.println("---------------------------------------------");
+            System.out.println("lip:"+aetLip+"prt: "+aetPr+"Gl:"+aetGl+" enr: "+energiteTot);
+           data0.setName("Gl");
+           data0.setPieValue( prttGl);
+           data1.setName("Pr");
+           data1.setPieValue(prPrtd);
+           data2.setName("Lp");
+           data2.setPieValue(prttLp);
+           
+        if( PieChartData[0].size()==0)
+        {
+ PieChartData[0].addAll(data0,data1,data2);
+  pchart.setTitle("Composition en Macro Nutriment(%)");
+        }else{
+             ObservableList<PieChart.Data> date=FXCollections.observableArrayList();
+              date.addAll(new PieChart.Data("%Gl", prttGl),
+            new PieChart.Data("%Pr",prPrtd),
+            new PieChart.Data("%li",prttLp)
+           
+            );   
+       pchart.setTitle("Composition en Macro Nutriment(%)");
+       PieChartData[0].setAll(date);
+        }
+         
+          }
+          else{
+           System.out.println("entrer");
+         PieChartData[0].clear();
+           pchart.setTitle("");
+          }
+        pchart.setData(PieChartData[0]);
+      //mise des elements dans les Label
+        aetGlucides.setText(aetGl+" %");
+        aetLipides.setText(aetLip+" %");
+        aetProtides.setText(aetPr+" %");
+        energieTotale.setText(energiteTot+" Kcal");
+     // % des lipides ormatages des element
+        String prcenProtide=(bilanElements.size()>0)?format.format(prPrtd) :"0";
+        String prcenGlucide=(bilanElements.size()>0)?format.format(prttGl):"0";
+        String prcenLipide=(bilanElements.size()>0)?format.format(prttLp):"0";
+        prcentGlucide.setText( prcenGlucide+" %");
+        prcentProtide.setText(prcenProtide+" %");
+        prcentLipide.setText(prcenLipide+" %");
+        // % des valeurs Energetiques
+        String prcM=format.format((EnergieTotale/1000)*100);
+        String prcMC=format.format((EnergieTotale/1500)*100);
+        String prcDM=format.format((EnergieTotale/2000)*100);
+        String prcDMC=format.format((EnergieTotale/2500)*100);
+        String prcTM=format.format((EnergieTotale/3000)*100);
+        String prcTMC=format.format((EnergieTotale/3500)*100);
+        pcentMilCinq.setText(prcMC+" %");
+        pcentTroisMillCinq.setText(prcMC+" %");
+        pcentDeuxMill.setText(prcDM+" %");
+        pcentDeuxMillCinq.setText(prcDMC+" %");
+        pcentTroisMill.setText(prcTM+" %");
+        pcentTroisMillCinq.setText(prcTMC+" %");
+   }
+   public void actionBoutonFermer()
+   {
+              fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                Stage stage = (Stage) fermerFentre.getScene().getWindow();
+    // do what you have to do
+               stage.close();
+             }});
+               validerMenu.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+                 EnregistrerRepas();
+             }
+         });
+              
+   }
+   public void EnregistrerRepas()
+   {
+       System.out.println("ok");
+   }
+   /**
+    * methode permettant de remplir les resultatts des calculs dans le
+    * tableau des resultats par aliment.
+    * cette methode devra etre appeller avant la methode  bilanGeneral
+     * @param obListElmt la liste contenant les aliments selectionner
+    * @param bilanElements  la liste vide des elements du bilan (par nature vide )
+    *  @param resultatMacro le tableau des resultats pour le bilan
+    */
+    public void LoadObservableList(ObservableList<mainModel> obListElmt,ObservableList<bilanMacroNut> bilanElements,TableView<bilanMacroNut> resultatMacro)
+   {
+     
+        for(mainModel main: obListElmt)
+        {
+        bilanElements.add(new bilanMacroNut(main));
+         }
+      aliment.setCellValueFactory(new PropertyValueFactory<>("aliment"));
+      quantites.setCellValueFactory(new PropertyValueFactory<>("quantites")); 
+      lipide.setCellValueFactory(new PropertyValueFactory<>("valeurLipide")); 
+      protide.setCellValueFactory(new PropertyValueFactory<>("valeurProtide"));
+      glucide.setCellValueFactory(new PropertyValueFactory<>("valeurGlucide"));
+      energie.setCellValueFactory(new PropertyValueFactory<>("valeurEnergie"));
+      pays.setCellValueFactory(new PropertyValueFactory<>("pays"));
+        
+      resultatMacro.setItems(bilanElements);
+   }
+    @FXML private TableView<bilanMacroNut> tableBilan;
+    @FXML private TableColumn<bilanMacroNut, String>   aliment;
+    @FXML private TableColumn<bilanMacroNut, String>   quantites;
+    @FXML private TableColumn<bilanMacroNut, Double>   glucide;
+    @FXML private TableColumn<bilanMacroNut, Double>   protide;
+    @FXML private TableColumn<bilanMacroNut, Double>   lipide;
+    @FXML private TableColumn<bilanMacroNut, Double>  energie;
+      @FXML private TableColumn<bilanMacroNut, String>  pays;
+      @FXML private Label aetLipides;
+      @FXML private Label aetProtides;
+      @FXML private Label aetGlucides;
+      @FXML private Label energieTotale;
+      @FXML private Label prcentGlucide;
+      @FXML private Label prcentLipide;
+      @FXML private Label prcentProtide;
+      @FXML private Label pcentMilCinq;
+      @FXML private Label pcentDeuxMill;
+      @FXML private Label pcentDeuxMillCinq;
+      @FXML private Label pcentTroisMill;
+      @FXML private Label pcentTroisMillCinq;
+      PieChart.Data data0;
+      PieChart.Data data1;
+      PieChart.Data data2;
+     
+     //commentaire enlever
+          // TODO
+//         fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
+//             @Override
+//             public void handle(ActionEvent event) {
+//                Stage stage = (Stage) fermerFentre.getScene().getWindow();
+//    // do what you have to do
+//               stage.close();
+//             }
+//         });
+//          validerMenu.setOnAction(new EventHandler<ActionEvent>() {
+//             @Override
+//             public void handle(ActionEvent event) {
+//                 
+//             }
+//         });
+        //  Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};
 }

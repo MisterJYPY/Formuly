@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -31,6 +32,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -316,36 +318,36 @@ public class MainPrincipalController implements Initializable {
                 faireRepas.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
                 st=new Stage();
                 chargerPanelRepas();
-                mettreAction();
+               // mettreAction();
             } catch (IOException ex) {
                 Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-         public void mettreAction()
-         {
-          boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent event) {
-                 System.out.println("st: "+st);
-                 st.close();
-                 st.hide();
-                 st=new Stage();
-               placerBilanChoixFoods();
-             }
-         });
-         }
+//         public void mettreAction()
+//         {
+//          boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
+//             @Override
+//             public void handle(ActionEvent event) {
+//                 System.out.println("st: "+st);
+//                 st.close();
+//                 st.hide();
+//                 st=new Stage();
+//               placerBilanChoixFoods();
+//             }
+//         });
+//         }
         
 });
-         boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent event) {
-                 System.out.println("st: "+st);
-                 st.close();
-                 st.hide();
-                 st=new Stage();
-               placerBilanChoixFoods();
-             }
-         }); 
+//         boutonValiderMenu.setOnAction(new EventHandler<ActionEvent>() {
+//             @Override
+//             public void handle(ActionEvent event) {
+//                 System.out.println("st: "+st);
+//                 st.close();
+//                 st.hide();
+//                 st=new Stage();
+//               placerBilanChoixFoods();
+//             }
+//         }); 
   }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -606,7 +608,7 @@ public class MainPrincipalController implements Initializable {
     {
              
          FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(getClass().getResource("/formuly/view/frontend/select_the_foods.fxml"));
+         loader.setLocation(getClass().getResource("/formuly/view/frontend/make_foods.fxml"));
          Parent root = loader.load();
          controllerSelectionFoods= loader.getController();
          boutonValiderMenu=controllerSelectionFoods.getValiderMenu();
@@ -652,7 +654,7 @@ public class MainPrincipalController implements Initializable {
    public void initialiserTableBilan()
             {
       controller.getAliment().setCellValueFactory(new PropertyValueFactory<>("aliment"));
-         controller.getQuantite().setCellValueFactory(new PropertyValueFactory<>("quantites")); 
+      controller.getQuantite().setCellValueFactory(new PropertyValueFactory<>("quantites")); 
       controller.getLipide().setCellValueFactory(new PropertyValueFactory<>("valeurLipide")); 
       controller.getProtide().setCellValueFactory(new PropertyValueFactory<>("valeurProtide"));
       controller.getGlucide().setCellValueFactory(new PropertyValueFactory<>("valeurGlucide"));
@@ -673,6 +675,10 @@ public class MainPrincipalController implements Initializable {
          }
    
    }
+   public void LoadObservableListDataPiListEnergie()
+   {
+   
+   }
    public void bilanGeneral()
    {
        double sommeLipide=0;
@@ -686,25 +692,85 @@ public class MainPrincipalController implements Initializable {
         sommeProtide=sommeProtide+main.getValeurProtide();
         sommeEnergie=sommeEnergie+main.getValeurEnergie();
          }
-     PieChartData.addAll(new PieChart.Data("Glucide", sommeGlucide),
-            new PieChart.Data("Protide",sommeProtide),
-            new PieChart.Data("lipide",sommeLipide)
+       double EnergieTotaleLipide= (sommeLipide*9);
+       double EnergieTotalGlucide= (sommeGlucide*4);
+       double EnergieTotalProtide= (sommeProtide*4);
+       double EnergieTotale=((EnergieTotaleLipide)+(EnergieTotalGlucide)+(EnergieTotalProtide));
+       double aetLipide=(EnergieTotaleLipide/EnergieTotale)*100;
+       double aetProtide=(EnergieTotalProtide/EnergieTotale)*100;
+       double aetGlucide=(EnergieTotalGlucide/EnergieTotale)*100;
+       if(sommeProtide+sommeLipide+sommeGlucide!=0){
+       double  prttGl=(sommeGlucide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+       double  prttLp=(sommeLipide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+       double  prPrtd=(sommeProtide/(sommeProtide+sommeLipide+sommeGlucide))*100;
+     PieChartData.addAll(new PieChart.Data("%Glucide("+prttGl+")", prttGl),
+            new PieChart.Data("%Protide("+prPrtd+")",prPrtd),
+            new PieChart.Data("%lipide ("+prttLp+")",prttLp)
            
             );
-     controller.getPieCharts().setData(PieChartData);
-      controller.getPieCharts().setTitle("Composition en Macro Nutriment");
+           controller.getPieCharts().setTitle("Composition en Macro Nutriment(%)");
+          }
+          else{
+         PieChartData.addAll(new PieChart.Data("qte Glucide", sommeGlucide),
+            new PieChart.Data("qte protide",sommeProtide),
+            new PieChart.Data("qte Lipide",sommeLipide)
+           
+            ); 
+           controller.getPieCharts().setTitle("Composition en Macro Nutriment(quantite)");
+          }
+       controller.getPieCharts().setData(PieChartData);
+       
+       //pour Energie
+      PieChart.Data pd2=new PieChart.Data("Energie Protide("+sommeProtide*4+")",sommeProtide*4);
+        PieChartDataEnergieList.addAll(new PieChart.Data("Energie Glucide("+sommeGlucide*4+")",sommeGlucide*4),
+            pd2,
+            new PieChart.Data("Energie Lipide ("+sommeLipide*9+")",sommeLipide*9)          
+            );
+           controller.getPieChatrsEnergie().setTitle("Valeur en Macro Nutriment(Kcal)");
+//           controller.getPieChatrsEnergie().setLabelsVisible(false);
+//           controller.getPieChatrsEnergie().setLegendVisible(true);
+           controller.getPieChatrsEnergie().setData(PieChartDataEnergieList);
+         // PieChartDataEnergieList.get(1).getNode().setId("ener");
+//            controller. applyCustomColorSequence(
+//      PieChartDataEnergieList, 
+//      "aqua", 
+//      "bisque", 
+//      "chocolate"
+//);
+           
+          
+           final Label caption = new Label("");
+        caption.setTextFill(Color.DARKORANGE);
+        caption.setStyle("-fx-font: 24 arial;");
+
+        for ( PieChart.Data data : PieChartDataEnergieList) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_DRAGGED,
+                    new EventHandler<MouseEvent>() {
+                        @Override public void handle(MouseEvent e) {
+                            caption.setTranslateX(e.getSceneX());
+                            caption.setTranslateY(e.getSceneY());
+                            caption.setText(String.valueOf(data.getPieValue()) 
+                                + "%");
+                        }
+                    });
+        }
+      //mise des elements dans le Label
+        controller.getAetGlucide().setText(aetGlucide+" Kcal");
+         controller.getAetLipide().setText(aetLipide+" Kcal");
+        controller.getAetProtide().setText(aetProtide+" Kcal");
+        controller.getEnergie("").setText(EnergieTotale+" Kacal");
    }
-    private    Bilan_repasController controller;
-  @FXML private Select_the_foodsController controllerSelectionFoods;
+   private    Bilan_repasController controller;
+   @FXML private Select_the_foodsController controllerSelectionFoods;
    private Button boutonValiderMenu;
    private Stage st;
    private TableView<mainModel> tableauResultat ;
-    private TableColumn<mainModel, String>  aliment_nom;
-    private TableColumn<mainModel, Double>   quantite_hoisi;
-    private TableColumn<mainModel, Double>   Glucide;
-  private TableColumn<mainModel, Double>     protide;
-  ObservableList<bilanMacroNut> bilanElements=FXCollections.observableArrayList();
-  ObservableList<mainModel> obListElmt=FXCollections.observableArrayList();
-    ObservableList<PieChart.Data> PieChartData= FXCollections.observableArrayList();
-   
+   private TableColumn<mainModel, String>  aliment_nom;
+   private TableColumn<mainModel, Double>   quantite_hoisi;
+   private TableColumn<mainModel, Double>   Glucide;
+   private TableColumn<mainModel, Double>     protide;
+   ObservableList<bilanMacroNut> bilanElements=FXCollections.observableArrayList();
+   ObservableList<mainModel> obListElmt=FXCollections.observableArrayList();
+   ObservableList<PieChart.Data> PieChartData= FXCollections.observableArrayList();
+   ObservableList<PieChart.Data> PieChartDataEnergieList= FXCollections.observableArrayList();
 }

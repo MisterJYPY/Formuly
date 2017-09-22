@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane id="fenetrePaletteFood" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1096.0" stylesheets="@../../css/frontend/select_the_foods.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Select_the_foodsController">
+   <top>
+      <BorderPane prefHeight="64.0" prefWidth="1096.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" prefHeight="57.0" prefWidth="639.0" text="CONFECTION DE MENU DIETHETIQUE" textFill="#6b1b1b" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Arial Black" size="24.0" />
+               </font></Label>
+         </center>
+         <left>
+            <ImageView fitHeight="84.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../image/certified-organic-produce.jpg" />
+               </image>
+            </ImageView>
+         </left>
+         <right>
+            <ImageView fitHeight="85.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../image/placali.jpg" />
+               </image>
+            </ImageView>
+         </right>
+      </BorderPane>
+   </top>
+   <left>
+      <BorderPane prefHeight="594.0" prefWidth="790.0" BorderPane.alignment="CENTER">
+         <top>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="254.0" text="Selection des Aliments" BorderPane.alignment="CENTER" />
+         </top>
+         <left>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="6.0" prefWidth="200.0" text="categorie" />
+                        <ComboBox fx:id="categorie_Foods" onAction="#rechercher" prefHeight="25.0" prefWidth="204.0" promptText="-----------aucun Choix -----" />
+                        <Separator prefHeight="21.0" prefWidth="200.0" visible="false" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="223.0" text="pays" />
+                        <ComboBox fx:id="pays_foods" onAction="#rechercher" prefHeight="25.0" prefWidth="207.0" promptText="-----------aucun Choix -----" />
+                        <Separator prefHeight="23.0" prefWidth="200.0" visible="false" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="Mode cuisson" />
+                        <ComboBox fx:id="mode_cuisson" onAction="#rechercher" prefHeight="25.0" prefWidth="202.0" promptText="-----------aucun Choix -----" />
+                        <Separator prefHeight="26.0" prefWidth="200.0" visible="false" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="218.0" text="Nom Aliment" />
+                        <TextField fx:id="nom_aliment" alignment="CENTER" promptText="Nom de l'aliment" />
+                        <Separator prefHeight="24.0" prefWidth="200.0" visible="false" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="199.0" text="Code Aliment" />
+                        <TextField fx:id="code_aliment" alignment="CENTER" promptText="code Aliment" />
+                        <Separator prefWidth="200.0" />
+                        <Label prefHeight="26.0" prefWidth="200.0" text="Label" />
+                     </children></VBox>
+               </center>
+            </BorderPane>
+         </left>
+         <center>
+            <BorderPane prefHeight="473.0" prefWidth="187.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="table_aliment_a_choisir" prefHeight="532.0" prefWidth="287.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="number" prefWidth="31.0" text="N°" />
+                      <TableColumn fx:id="nomAliment" prefWidth="242.0" text="Aliment" />
+                        <TableColumn fx:id="quantite" prefWidth="67.0" text="Quantite" />
+                    </columns>
+                  </TableView>
+               </center>
+               <right>
+                  <Button fx:id="envoi" mnemonicParsing="false" onAction="#envoi" text="&gt;&gt;&gt;&gt;" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor></Button>
+               </right>
+            </BorderPane>
+         </center>
+         <right>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="table_aliment_deja_choisi" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="nomAlimentsChoisi" prefWidth="154.0" text="Aliment" />
+                      <TableColumn fx:id="quantiteChoisi" prefWidth="44.0" text="Qte" />
+                    </columns>
+                  </TableView>
+               </center>
+            </BorderPane>
+         </right>
+      </BorderPane>
+   </left>
+   <center>
+      <BorderPane prefHeight="372.0" prefWidth="84.0" BorderPane.alignment="CENTER">
+         <center>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <VBox id="partieLibelleBilanEn" prefHeight="181.0" prefWidth="115.0">
+                           <children>
+                              <Label alignment="BOTTOM_CENTER" prefHeight="17.0" prefWidth="110.0" text="ENERGIE TOTALE :" textFill="#5b0808">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Separator prefHeight="20.0" prefWidth="115.0" />
+                              <Label prefHeight="25.0" prefWidth="115.0" text="\% AET LIPIDE :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Separator prefHeight="28.0" prefWidth="115.0" />
+                              <Label layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="123.0" text="\% AET PROTIDE :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Separator prefHeight="25.0" prefWidth="115.0" />
+                              <Label layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="123.0" text="\% AET  GLUCIDE :">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                           </children>
+                        </VBox>
+                        <VBox id="ValeurEnergie" layoutX="118.0" prefHeight="181.0" prefWidth="175.0">
+                           <children>
+                              <Label fx:id="energieTotale" alignment="TOP_LEFT" prefHeight="23.0" prefWidth="162.0" text="0.0 Kcal" textFill="#5b0d0d">
+                                 <font>
+                                    <Font name="Bodoni MT Black" size="16.0" />
+                                 </font></Label>
+                              <Separator prefHeight="8.0" prefWidth="175.0" />
+                              <Label fx:id="aetLipides" alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="31.0" prefWidth="162.0" text="0.0 %" textFill="#100632">
+                                 <font>
+                                    <Font name="Bodoni MT Black" size="14.0" />
+                                 </font></Label>
+                              <Separator prefHeight="28.0" prefWidth="175.0" />
+                              <Label fx:id="aetProtides" alignment="TOP_LEFT" layoutX="10.0" layoutY="35.0" prefHeight="27.0" prefWidth="162.0" text="0.0 %" textFill="#425414">
+                                 <font>
+                                    <Font name="Bodoni MT Black" size="14.0" />
+                                 </font></Label>
+                              <Separator prefHeight="5.0" prefWidth="175.0" />
+                              <Label fx:id="aetGlucides" layoutX="10.0" layoutY="60.0" prefHeight="39.0" prefWidth="162.0" text="0.0 %">
+                                 <font>
+                                    <Font name="Bodoni MT Black" size="14.0" />
+                                 </font></Label>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <PieChart fx:id="pieCharts" layoutX="-2.0" prefHeight="180.0" prefWidth="297.0" />
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+         <top>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="209.0" text="Resultat Analytique" BorderPane.alignment="CENTER" />
+         </top>
+         <left>
+            <Separator orientation="VERTICAL" prefHeight="405.0" prefWidth="12.0" BorderPane.alignment="CENTER" />
+         </left>
+      </BorderPane>
+   </center>
+   <bottom>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="tableBilan" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="aliment" prefWidth="118.0" text="Nom aliment" />
+                      <TableColumn fx:id="quantites" minWidth="0.0" prefWidth="87.0" text="quantite" />
+                        <TableColumn fx:id="protide" minWidth="0.0" prefWidth="84.0" text="Protide" />
+                        <TableColumn fx:id="glucide" minWidth="0.0" prefWidth="77.0" text="Glucide" />
+                        <TableColumn fx:id="lipide" minWidth="0.0" prefWidth="84.0" text="Lipide" />
+                        <TableColumn fx:id="energie" minWidth="0.0" prefWidth="109.0" text="Energie" />
+                        <TableColumn fx:id="pays" minWidth="0.0" prefWidth="136.0" text="Pays" />
+                    </columns>
+                  </TableView>
+               </center>
+               <top>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="312.0" text="Resultat Bilan General" BorderPane.alignment="CENTER" />
+               </top>
+               <left>
+                  <Pane prefHeight="193.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" layoutY="29.0" prefHeight="23.0" prefWidth="89.0" text="1500 Kcal:">
+                           <font>
+                              <Font name="HP Simplified Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="23.0" prefWidth="201.0" text="\%Regime de L'Energie" textFill="#a8960e">
+                           <font>
+                              <Font name="Book Antiqua Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pcentMilCinq" layoutX="89.0" layoutY="29.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutY="60.0" prefHeight="23.0" prefWidth="89.0" text="2000 Kcal:">
+                           <font>
+                              <Font name="HP Simplified Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pcentDeuxMill" layoutX="89.0" layoutY="60.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutY="92.0" prefHeight="23.0" prefWidth="89.0" text="2500 Kcal:">
+                           <font>
+                              <Font name="HP Simplified Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pcentDeuxMillCinq" layoutX="89.0" layoutY="92.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutY="124.0" prefHeight="23.0" prefWidth="89.0" text="3000 Kcla:">
+                           <font>
+                              <Font name="HP Simplified Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pcentTroisMill" layoutX="89.0" layoutY="124.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutY="158.0" prefHeight="23.0" prefWidth="89.0" text="3500 Kcal:">
+                           <font>
+                              <Font name="HP Simplified Light" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pcentTroisMillCinq" layoutX="89.0" layoutY="158.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                        </Label>
+                        <Separator id="separator" layoutY="51.0" prefHeight="0.0" prefWidth="197.0" />
+                        <Separator id="separator" layoutX="-1.0" layoutY="82.0" prefWidth="200.0" />
+                        <Separator layoutX="3.0" layoutY="114.0" prefHeight="3.0" prefWidth="194.0" />
+                        <Separator layoutX="3.0" layoutY="146.0" prefWidth="200.0" />
+                     </children></Pane>
+               </left>
+            </BorderPane>
+         </center>
+         <right>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutY="14.0" prefHeight="23.0" prefWidth="201.0" text="\% en Macro Nutiment" textFill="#270b42">
+                     <font>
+                        <Font name="Book Antiqua Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutY="49.0" prefHeight="23.0" prefWidth="89.0" text="Glucide  :">
+                     <font>
+                        <Font name="HP Simplified Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prcentGlucide" layoutX="89.0" layoutY="49.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                     <font>
+                        <Font name="Century" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutY="89.0" prefHeight="23.0" prefWidth="89.0" text="Protide  :">
+                     <font>
+                        <Font name="HP Simplified Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutY="132.0" prefHeight="23.0" prefWidth="89.0" text="Lipide  :">
+                     <font>
+                        <Font name="HP Simplified Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prcentProtide" layoutX="89.0" layoutY="89.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                     <font>
+                        <Font name="Century" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prcentLipide" layoutX="89.0" layoutY="132.0" prefHeight="23.0" prefWidth="105.0" text="0 %">
+                     <font>
+                        <Font name="Century" size="18.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutY="80.0" prefHeight="2.0" prefWidth="202.0" />
+                  <Separator layoutX="2.0" layoutY="122.0" prefWidth="200.0" />
+                  <Separator layoutX="22.0" layoutY="164.0" prefHeight="3.0" prefWidth="154.0" />
+                  <Button id="buttonValider" fx:id="validerMenu" alignment="CENTER" layoutX="19.0" layoutY="169.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="112.0" text="valider Menu">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button id="buttonCancel" fx:id="fermerFentre" alignment="CENTER" layoutX="148.0" layoutY="168.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="38.0" text="X">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children></Pane>
+         </right>
+      </BorderPane>
+   </bottom>
+</BorderPane>

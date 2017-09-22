@@ -15,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -30,6 +32,7 @@ public class Bilan_repasController implements Initializable {
      * Initializes the controller class.
      */
     @FXML private PieChart pieCharts;
+     @FXML private PieChart pieChatrsEnergie;
     @FXML private TableView<bilanMacroNut> tableBilan;
     @FXML private TableColumn<bilanMacroNut, String>   aliment;
     @FXML private TableColumn<bilanMacroNut, String>   quantite;
@@ -37,10 +40,15 @@ public class Bilan_repasController implements Initializable {
     @FXML private TableColumn<bilanMacroNut, Double>   protide;
     @FXML private TableColumn<bilanMacroNut, Double>   lipide;
     @FXML private TableColumn<bilanMacroNut, Double>  Energie;
-      @FXML private TableColumn<bilanMacroNut, String>  pays;
-      ObservableList<Data> piecharList;
-   private ObservableList<mainModel> lesElements;
-    private ObservableList<bilanMacroNut> bilanElements;
+    @FXML private TableColumn<bilanMacroNut, String>  pays;
+    @FXML private Label aetLipide;
+    @FXML private Label aetProtide;
+    @FXML private Label aetGlucide;
+    @FXML private Label energieTotale;
+       ObservableList<Data> piecharList;
+       ObservableList<Data> pieChatrsEnergieList;
+       private ObservableList<mainModel> lesElements;
+       private ObservableList<bilanMacroNut> bilanElements;
  
    public Bilan_repasController() {
       //lesElements=FXCollections.observableArrayList(); 
@@ -171,6 +179,61 @@ public class Bilan_repasController implements Initializable {
     public void setPiecharList(ObservableList<Data> piecharList) {
         this.piecharList = piecharList;
     }
-    
+
+    public PieChart getPieChatrsEnergie() {
+        return pieChatrsEnergie;
+    }
+
+    public void setPieChatrsEnergie(PieChart pieChatrsEnergie) {
+        this.pieChatrsEnergie = pieChatrsEnergie;
+    }
+
+    public ObservableList<Data> getPieChatrsEnergieList() {
+        return pieChatrsEnergieList;
+    }
+
+    public void setPieChatrsEnergieList(ObservableList<Data> pieChatrsEnergieList) {
+        this.pieChatrsEnergieList = pieChatrsEnergieList;
+    }
+   public void applyCustomColorSequence(ObservableList<PieChart.Data> pieChartData, String... pieColors) {
+    int i = 0;
+    for (PieChart.Data data : pieChartData) {
+      data.getNode().setStyle("-fx-pie-color: " + pieColors[i % pieColors.length] + ";");
+      i++;
+    }
+}  
+
+    public Label getAetLipide() {
+        return aetLipide;
+    }
+
+    public void setAetLipide(Label aetLipide) {
+        this.aetLipide = aetLipide;
+    }
+
+    public Label getAetProtide() {
+        return aetProtide;
+    }
+
+    public void setAetProtide(Label aetProtide) {
+        this.aetProtide = aetProtide;
+    }
+
+    public Label getAetGlucide() {
+        return aetGlucide;
+    }
+
+    public void setAetGlucide(Label aetGlucide) {
+        this.aetGlucide = aetGlucide;
+    }
+
+   public Label getEnergie(String label)
+   {
+    return this.energieTotale;
+   }
+
+    public void setEnergie(Label energie) {
+        this.energieTotale = energie;
+    }
   
 }
