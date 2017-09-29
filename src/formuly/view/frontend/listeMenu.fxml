@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="812.0" stylesheets="@../../css/frontend/listemenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ListeMenuController">
+   <top>
+      <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" prefHeight="47.0" prefWidth="644.0" text="Veuillez Choisi un Menu dans la liste des Menu" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </center>
+      </BorderPane>
+   </top>
+   <left>
+      <BorderPane prefHeight="208.0" prefWidth="57.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <BorderPane prefHeight="269.0" prefWidth="566.0" BorderPane.alignment="CENTER">
+         <center>
+            <TableView fx:id="tableRepas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="numero" prefWidth="25.0" text="N°" />
+                <TableColumn fx:id="nom_repas" minWidth="8.0" prefWidth="165.0" styleClass="colonne_nom_repas" text="Nom Menu" />
+                  <TableColumn fx:id="glucideTotale" minWidth="8.0" prefWidth="66.0" text="\%Glucide" />
+                  <TableColumn fx:id="protideTotale" minWidth="8.0" prefWidth="78.0" text="\%Protide" />
+                  <TableColumn fx:id="lipideTotale" minWidth="8.0" prefWidth="76.0" text="\%Lipide" />
+                  <TableColumn fx:id="energieTotale" minWidth="8.0" prefWidth="99.0" styleClass="energieColonne" text="Energie  (Kcal)" />
+                  <TableColumn fx:id="date" minWidth="8.0" prefWidth="111.0" text="Date" />
+                  <TableColumn fx:id="prendre" minWidth="8.0" prefWidth="88.0" styleClass="extract" text="Extraction" />
+              </columns>
+            </TableView>
+         </center>
+         <top>
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="337.0" text="Tous les Repas" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <Separator prefHeight="11.0" prefWidth="566.0" BorderPane.alignment="CENTER" />
+         </bottom></BorderPane>
+   </center>
+   <right>
+      <BorderPane prefHeight="208.0" prefWidth="45.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <BorderPane prefHeight="194.0" prefWidth="795.0" BorderPane.alignment="CENTER">
+         <center>
+            <BorderPane prefHeight="197.0" prefWidth="692.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TableView fx:id="tableAliment" prefHeight="178.0" prefWidth="584.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="numeroLocale" prefWidth="25.0" text="N°" />
+                      <TableColumn fx:id="nom_aliment" prefWidth="170.0" text="Nom Aliment" />
+                        <TableColumn fx:id="quantite" prefWidth="61.0" text="Qte" />
+                        <TableColumn fx:id="glucideLocale" prefWidth="74.0" text="Glucide" />
+                        <TableColumn fx:id="protideLocale" minWidth="0.0" prefWidth="90.0" text="Protide" />
+                        <TableColumn fx:id="lipideLocale" minWidth="0.0" prefWidth="85.0" text="Lipide" />
+                        <TableColumn fx:id="energieLocale" prefWidth="84.0" text="Energie(Kcal)" />
+                    </columns>
+                  </TableView>
+               </center>
+               <left>
+                  <ImageView fitHeight="150.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+               </left>
+               <top>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="412.0" text="Les Ingredients et leurs apports" BorderPane.alignment="CENTER" />
+               </top>
+               <bottom>
+                  <Label prefHeight="17.0" prefWidth="391.0" BorderPane.alignment="CENTER" />
+               </bottom>
+            </BorderPane>
+         </center>
+         <right>
+            <ImageView fitHeight="172.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </right></BorderPane>
+   </bottom>
+</BorderPane>

@@ -15,7 +15,8 @@ import java.util.List;
  
 
 public class mainModel {
-       
+   
+  private int idAliment;  
   private int numero ;
   private String nom_aliment;
   private String qte;
@@ -264,6 +265,14 @@ public class mainModel {
 
     public void setPays(String pays) {
         this.pays = pays;
+    }
+
+    public int getIdAliment() {
+        return idAliment;
+    }
+
+    public void setIdAliment(int idAliment) {
+        this.idAliment = idAliment;
     }
   
 }

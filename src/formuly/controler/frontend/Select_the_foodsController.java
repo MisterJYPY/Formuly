@@ -5,6 +5,7 @@
  */
 package formuly.controler.frontend;
 
+import formuly.classe.Fx_formuly;
 import formuly.classe.formulyTools;
 import formuly.entities.FmGroupeAliment;
 import formuly.model.frontend.mainModel;
@@ -35,11 +36,26 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
 import formuly.classe.bilanMacroNut;
+import formuly.entities.FmAliments;
+import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmRepas;
+import formuly.entities.FmRepasAliments;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -68,35 +84,103 @@ public class Select_the_foodsController implements Initializable {
     @FXML private Button  fermerFentre;
     @FXML private Button reinitialiser;
     @FXML private Button validerMenu;
+    @FXML private Button buttonExpert;
     @FXML private PieChart pieCharts;
+    @FXML private Label labelAttention;
+    @FXML private Tooltip toolTipAttention;
     ObservableList<Data> piecharList;
     ObservableList<bilanMacroNut> bilanList;
+      Thread VerificationPathologie;
+      private boolean travailEnregistre;
     private final modelFoodSelect model;
 
     public Select_the_foodsController() {
+        travailEnregistre=false;
         model=new modelFoodSelect();
         piecharList=FXCollections.observableArrayList();
         bilanList=FXCollections.observableArrayList();
         data0=new Data("",0);
         data1=new Data("",0);
         data2=new Data("",0);
+    Double[] val={EnergieTotalePrEnregister,retentionGlucide,retentionLipide,retentionProtide};
+        initialisationValeurs(val);
+        idRepasAliment=formulyTools.TrouverDernierIdentifiant_Repas_aliment()+1;
+        idRepas=formulyTools.TrouverDernierIdentifiant_Repas()+1;
+        libelle="";
+        repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
+        repasCont=new FmRepasJpaController(formulyTools.getEm());
+        alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
     }
-    
-    
+    public void visibiliteBoutonAnalyse()
+    {
+        if(table_aliment_deja_choisi.getItems().size()>0)
+        {
+        buttonExpert.setVisible(true);
+        }
+        else
+        {
+        buttonExpert.setVisible(false);
+        }
+    }
+      public String formatageInterdi(ObservableList<FmAlimentsPathologie> list)
+      {
+        String content="";
+        if(list.size()>0)
+        {
+       content=content.concat(" aliments Interdits: \n");
+          for(FmAlimentsPathologie liste :list)
+          {
+           String nom=(!"aucun".equals(liste.getAliment().getSurnom()))?liste.getAliment().getSurnom():liste.getAliment().getNomFr();
+           String pathologie=liste.getPathologie().getLibelle();
+           String ligne=nom.concat(" :pat: "+pathologie);
+          content=content.concat(ligne+"\n");
+          }
+        }
+        return content;
+      }
+         public void TraiterInterdi()
+         {
+   ObservableList<FmAlimentsPathologie>  list=verificationPathologie(table_aliment_deja_choisi.getItems());
+             System.out.println("taille: "+list.size());
+             String info="";
+        info = formatageInterdi(list);
+    String lesElement="";
+        if(list.size()>0)
+         {      
+             System.out.println("on est la");
+              Image image = new Image(
+    getClass().getResourceAsStream("/formuly/image/war.jpg")
+     );
+         labelAttention.setText("Attention");
+         labelAttention.setGraphic(new ImageView(image));
+         labelAttention.setStyle(" -fx-background-color:linear-gradient(to top right,white,red,red,white);");
+         toolTipAttention.setText(info );
+         toolTipAttention.setGraphic(new ImageView(image));  
+          labelAttention.setVisible(true);
+         }
+       else
+              {
+         labelAttention.setText("");
+         labelAttention.setStyle(" -fx-background-color:white");
+         labelAttention.setVisible(false);
+              }
+         }
+              
       @Override
       public void initialize(URL url, ResourceBundle rb) {
    
-           Button[] btn={envoi,fermerFentre,validerMenu};
+          Button[] btn={envoi,fermerFentre,validerMenu,buttonExpert};
+        visibiliteBoutonAnalyse();
           formulyTools.mettreEffetButton(btn);
-         mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi,tableBilan);
-         actionBoutonFermer();
-       table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-       initialisationCombobox();
-       initialiserLeTableauAchoisir();
+          mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi,tableBilan);
+          actionBoutonFermer();
+          table_aliment_a_choisir.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+          initialisationCombobox();
+         initialiserLeTableauAchoisir();
        nom_aliment.setOnKeyReleased(
      event->{
           String sql="";
-             String nom_ali=nom_aliment.getText();
+             String nom_ali=nom_aliment.getText().replaceAll("'", "_");
            String sqlnomA= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
         String sqlcate="";
         String sqlmodec="";
@@ -113,7 +197,7 @@ public class Select_the_foodsController implements Initializable {
                     }
                      if(!code_aliment.getText().isEmpty())
                     {      
-                          String val=code_aliment.getText(); 
+                          String val=code_aliment.getText().replaceAll("'", "_"); 
                 sqlcode= "and f.code LIKE "+"'%"+val+"%' ";
                     }
                       if(pays_foods.getValue()!=null)
@@ -141,8 +225,9 @@ public class Select_the_foodsController implements Initializable {
         event->{
         //  if(!code_aliment.getText().isEmpty()){
             String sql="";
-          String val=code_aliment.getText();
-           String sqlcode= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' "; 
+          String val=code_aliment.getText().replaceAll("'", "_");
+           String sqlcode= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE f.code LIKE "+"'%"+val+"%' ";
+        
         String sqlcate="";
         String sqlmodec="";
         String sqlpays="";
@@ -158,7 +243,7 @@ public class Select_the_foodsController implements Initializable {
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                        String nom_ali=nom_aliment.getText();
+                        String nom_ali=nom_aliment.getText().replaceAll("'", "_");
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
@@ -204,7 +289,7 @@ public class Select_the_foodsController implements Initializable {
        //initialisation des pays
        
      List<String> list = new ArrayList<String>();
-         list.add("nd");
+         list.add("General");
         list.add("Cote Ivoire");
         list.add("Mali");
         list.add("Nigeria");
@@ -330,12 +415,12 @@ public class Select_the_foodsController implements Initializable {
           String sql1="";
                     if(!code_aliment.getText().isEmpty())
                     {
-                  String code=code_aliment.getText();
+                  String code=code_aliment.getText().replaceAll("'", "_");
          sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                        String nom_ali=nom_aliment.getText();
+                        String nom_ali=nom_aliment.getText().replaceAll("'", "_");
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
@@ -370,12 +455,12 @@ public class Select_the_foodsController implements Initializable {
           String sql1="";
                     if(!code_aliment.getText().isEmpty())
                     {
-          String code=code_aliment.getText();
+          String code=code_aliment.getText().replaceAll("'", "_");
          sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-          String nom_ali=nom_aliment.getText();
+          String nom_ali=nom_aliment.getText().replaceAll("'", "_");
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
@@ -411,12 +496,12 @@ public class Select_the_foodsController implements Initializable {
           String sql1="";
                     if(!code_aliment.getText().isEmpty())
                     {
-                  String code=code_aliment.getText();
+                  String code=code_aliment.getText().replaceAll("'", "_");
          sqlcode= "and f.code LIKE "+"'%"+code+"%' "; 
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                 String nom_ali=nom_aliment.getText();
+                 String nom_ali=nom_aliment.getText().replaceAll("'", "_");
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(mode_cuisson.getValue()!=null)
@@ -507,6 +592,8 @@ public class Select_the_foodsController implements Initializable {
            supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
                 LoadObservableList(obsL,bilanList,tableBilan);
                 bilanGeneral(bilanList, pieCharts,piecharList);
+                 TraiterInterdi();
+                visibiliteBoutonAnalyse();
          }
             else{
          //  table_aliment_a_choisir 
@@ -532,6 +619,8 @@ public class Select_the_foodsController implements Initializable {
           supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
              LoadObservableList(obsL,bilanList,tableBilan);
                 bilanGeneral(bilanList, pieCharts,piecharList);
+                  TraiterInterdi();
+             visibiliteBoutonAnalyse();
           
             }
       }
@@ -540,6 +629,8 @@ public class Select_the_foodsController implements Initializable {
           alert.setHeaderText("Aucun Aliment selectionner");
           alert.setContentText("\3s Veuillez selectionner des aliments avant");
           alert.show();
+//          VerificationPathologie.start();
+          
           }
       }
       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
@@ -562,7 +653,7 @@ public class Select_the_foodsController implements Initializable {
                for(int l=0;l<ob2.size();l++)
            {
                mainModel md2=ob2.get(l);
-             if(md1.getNom_aliment().equals(md2.getNom_aliment()) && md1.getMg().equals(md2.getMg()) && md1.getFer().equals(md2.getFer()))
+             if(md1.getIdAliment()==md2.getIdAliment())
              { 
               ob1.remove(k);
              }
@@ -599,10 +690,15 @@ public class Select_the_foodsController implements Initializable {
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             alert.showAndWait();
        if (alert.getResult() == ButtonType.YES) {
-         table_aliment_deja_choisi.getItems().remove(index);
+          mainModel md=table_aliment_deja_choisi.getItems().get(index);
+           table_aliment_deja_choisi.getItems().remove(index);
+                md.setQte("0");
+           table_aliment_a_choisir.getItems().add(md);
               bilanList.clear();
               LoadObservableList(table_aliment_deja_choisi.getItems(),bilanList,tableBilan);
               bilanGeneral(bilanList, pieCharts,piecharList);
+              TraiterInterdi();
+              visibiliteBoutonAnalyse();
       }
           }
         }
@@ -654,15 +750,43 @@ public class Select_the_foodsController implements Initializable {
                 public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
                     String qte=formulyTools.preformaterChaine(t.getNewValue());
                      int ligne= t.getTablePosition().getRow();
-               mainModel md= table.getItems().get(ligne);
+                     double qt=Double.valueOf(qte);
+                            mainModel md= table.getItems().get(ligne);
+               if(qt>0){
+        
                table.getItems().set(ligne, md);
-                     t.getTableView().getItems().get(ligne).setQte(qte);
+                   //  t.getTableView().getItems().get(ligne).setQte(qte);
                      ((mainModel) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
                             ).setQte(qte);
-              bilanList.clear();
+                }
+              else{
+       //alert pour dire la valeur est nulle nous allons la supprimer ?  
+                   Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Suppression Aliment Choisi");
+            alert.setHeaderText("la suppression d'un aliment pour valeur Quantite Interdite: "+t.getNewValue()+" \n");
+            alert.setContentText("Nom aliment: "+md.getNom_aliment()+" Quantite :"+qte+"\n"
+                    + "OK Supprimera la ligne ,decliner pour conserver l'encienne valeur");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+         table_aliment_deja_choisi.getItems().remove(ligne);
+         table_aliment_a_choisir.getItems().add(md);
+        }
+       else{
+         table.getItems().set(ligne, md);
+                    // t.getTableView().getItems().get(ligne).setQte(qte);
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setQte(md.getQte());
+       }
+               }
+               bilanList.clear();
               LoadObservableList(table.getItems(),bilanList,tableBilan);
-              bilanGeneral(bilanList, pieCharts,piecharList);       
+              bilanGeneral(bilanList, pieCharts,piecharList);
+               TraiterInterdi();
+               visibiliteBoutonAnalyse();
+                
                 }
             }
         );
@@ -761,6 +885,11 @@ public class Select_the_foodsController implements Initializable {
            pchart.setTitle("");
           }
         pchart.setData(PieChartData[0]);
+        //assignation des valeurs pour les enregistrement
+      EnergieTotalePrEnregister=EnergieTotale;
+      retentionGlucide=prttGl;
+      retentionLipide=prttLp;
+      retentionProtide=prPrtd;
       //mise des elements dans les Label
         aetGlucides.setText(aetGl+" %");
         aetLipides.setText(aetLip+" %");
@@ -792,17 +921,200 @@ public class Select_the_foodsController implements Initializable {
               fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-                Stage stage = (Stage) fermerFentre.getScene().getWindow();
+              if(table_aliment_deja_choisi.getItems().size()>0)
+              {
+               if(travailEnregistre)
+               {
+         Stage stage = (Stage) fermerFentre.getScene().getWindow();
     // do what you have to do
                stage.close();
+               }
+               else{
+         Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Travail non enregistrer");
+            alert.setHeaderText("Repas Non enregistrer \n");
+            alert.setContentText("Le Travail n'as pas ete Enregistrer \n"
+                    + "VOULEZ-VOUS VRAIMENT QUITTEZ ?");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+           Stage stage = (Stage) fermerFentre.getScene().getWindow();
+    // do what you have to do
+               stage.close();
+        }                
+               }
+              }
+              
+              else
+              {
+             Stage stage = (Stage) fermerFentre.getScene().getWindow();
+    // do what you have to do
+               stage.close();      
+              }
              }});
+              
                validerMenu.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
                  EnregistrerRepas();
+                 travailEnregistre=true;
+                 TextInputDialog dialog = new TextInputDialog("");
+    dialog.setTitle("Insertion de Nom de MENU");
+    dialog.setHeaderText("Veuillez renseigner ce champ");
+    dialog.setContentText("Donner le nom de ce Menu :");
+
+// Traditional way to get the response value.
+    Optional<String> result = dialog.showAndWait();
+     if (result.isPresent()){
+      libelle=result.get();
+ 
+               Alert alert = new Alert(AlertType.NONE);
+               alert.setTitle("Enregistrement des repas");
+               ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+               alert.setGraphic( progressBar);
+               alert.show();
+               Task copyWorker = createWorker();
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              System.out.println("new value: "+newValue);
+           if("terminer".equals(newValue))
+           {
+              Label[] label={aetGlucides,aetLipides,aetProtides,prcentGlucide,prcentLipide,prcentProtide,pcentDeuxMill,pcentDeuxMillCinq,pcentMilCinq,pcentTroisMill,pcentTroisMillCinq};
+               intialiserLesLabelsEnPourcentage(label);
+               bilanList.clear();
+               table_aliment_deja_choisi.getItems().clear();
+               table_aliment_a_choisir.getItems().clear();
+               tableBilan.getItems().clear();
+               initialisationCombobox();
+               initialiserJtextField();
+               initialiserLeTableauAchoisir();
+                labelAttention.setVisible(false);
+                buttonExpert.setVisible(false);
+                travailEnregistre=false;
+                piecharList.clear();
+                pieCharts.getData().clear();
+                idRepas++;
+                idRepasAliment++;
+               alert.setTitle("Menu enregisterer");
+              alert.setContentText("Votre Menu a ete Enregistré :");
+              alert.setAlertType(AlertType.INFORMATION);
+            alert.close();
+            alert.getButtonTypes().setAll(ButtonType.FINISH);  
+                        alert.showAndWait();
+//   alert.close();
+            
+           }
+                    }
+        });
+        new Thread(copyWorker).start();
+             
+               
+             }
+else{
+    System.out.println("yessssssssssssss");
+   }     
              }
          });
+               
               
+   }
+     public Task createWorker() {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+           java.util.Date date= new java.util.Date();
+      //  System.out.println());
+           FmRepas repas=new FmRepas(idRepas);
+           repas.setEnergie(Float.parseFloat(EnergieTotalePrEnregister.toString()));
+           repas.setLipide(Float.parseFloat(retentionLipide.toString()));
+           repas.setProtide(Float.parseFloat(retentionProtide.toString()));
+           repas.setGlucide(Float.parseFloat(retentionGlucide.toString()));
+           repas.setLibelle(libelle);
+           repas.setDate(new Timestamp(date.getTime()));
+           formulyTools.getEm().createEntityManager().getTransaction().begin();
+           repasCont.create(repas);
+           //appel du controller de Jpa 
+          List<mainModel> liste=table_aliment_deja_choisi.getItems();
+          int tailleDonnee=liste.size();
+          System.out.println("id :");
+          int  j=4;
+        for (int i = 0; i <tailleDonnee; i++) {
+          Thread.sleep(200);
+          //nous allonslancer le Proccess
+            System.out.println("id repas aliment: "+idRepasAliment);
+          mainModel ls=liste.get(i);
+          FmAliments al=alimenCtr.findFmAliments(ls.getIdAliment());
+          FmRepasAliments repaAlmt=new FmRepasAliments(idRepasAliment);
+          repaAlmt.setAliment(al);
+          repaAlmt.setQuantite(Float.valueOf(ls.getQte()));
+          repaAlmt.setRepas(repas);
+          repaAlmt.setDate(new Timestamp(date.getTime()));
+          repasAlCtr.create(repaAlmt);
+          idRepasAliment++;
+          updateProgress(j + 1, 10);
+          j=(100/tailleDonnee);
+          if(i!=tailleDonnee-1)
+          {
+          updateMessage(""+i+1);
+          }
+          else{
+         updateMessage("terminer");
+          }
+         
+        }
+         formulyTools.getEm().createEntityManager().getTransaction().commit();
+        return true;
+      }
+    };
+  }
+     public void intialiserLesLabelsEnPourcentage(Label [] labels)
+     {
+         for(int i=0;i<labels.length;i++)
+           {
+      labels[i].setText("O %");
+           }
+     }
+   public static void lancerExecution()
+   {
+     
+    
+   }
+   public List<FmAlimentsPathologie>  ListePathologie()
+   {
+       // EntityManager entityM=formulyTools.getEm("fx_formulyPU" ).createEntityManager(); 
+ FmAlimentsPathologieJpaController es=new FmAlimentsPathologieJpaController(formulyTools.getEm("fx_formulyPU" ));
+        List<FmAlimentsPathologie> list = null;
+ try {
+           list=es.findFmAlimentsPathologieEntities();
+//             es.getEntityManager().getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getLogger(Fx_formuly.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+   }
+   public   ObservableList<FmAlimentsPathologie>   verificationPathologie(ObservableList<mainModel> main)
+   {
+       ObservableList<FmAlimentsPathologie> listInterdit=FXCollections.observableArrayList();
+       List<FmAlimentsPathologie> listeAlPa=ListePathologie();
+       for(FmAlimentsPathologie listP:listeAlPa)
+       {
+       int idA1=listP.getAliment().getId();
+             for(int i=0;i<main.size();i++)
+             {
+           int idA2=main.get(i).getIdAliment();
+                 System.out.println("idA1: "+idA1+" idA2: "+idA2);
+            if(idA2==idA1)
+            {
+             listInterdit.add(listP);
+            }
+             }
+       }
+       return listInterdit;
    }
    public void EnregistrerRepas()
    {
@@ -856,22 +1168,28 @@ public class Select_the_foodsController implements Initializable {
       PieChart.Data data0;
       PieChart.Data data1;
       PieChart.Data data2;
+      
+     private Double EnergieTotalePrEnregister;
+     private Double retentionLipide;
+     private Double retentionProtide;
+     private Double retentionGlucide;
+     private String libelle;
+    private int idRepas;
+    private  int idRepasAliment;
+     private FmRepasJpaController repasCont;
+     private FmRepasAlimentsJpaController repasAlCtr;
+     private FmAlimentsJpaController alimenCtr;
      
-     //commentaire enlever
-          // TODO
-//         fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
-//             @Override
-//             public void handle(ActionEvent event) {
-//                Stage stage = (Stage) fermerFentre.getScene().getWindow();
-//    // do what you have to do
-//               stage.close();
-//             }
-//         });
-//          validerMenu.setOnAction(new EventHandler<ActionEvent>() {
-//             @Override
-//             public void handle(ActionEvent event) {
-//                 
-//             }
-//         });
+ public void initialisationValeurs(Double [] valeurs)
+ {
+   for(int i=0;i<valeurs.length;i++)
+   {
+   valeurs[i]=0.0;
+   }
+ }
+
+      // definition de la tache de Fond
+        
+  
         //  Button[] btn={fermerFentre,envoi,reinitialiser,validerMenu};
 }

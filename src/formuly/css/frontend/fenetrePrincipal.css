@@ -11,7 +11,7 @@ and open the template in the editor.
 #fenetrePrincipal
 {
     
-    -fx-background-color:#F4FEFE;
+  //  -fx-background-color:#F4FEFE;
     -fx-background-size: 100%;
 }
 .columnGlucide

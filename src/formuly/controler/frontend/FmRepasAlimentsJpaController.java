@@ -186,6 +186,18 @@ public class FmRepasAlimentsJpaController implements Serializable {
             em.close();
         }
     }
+    public List<FmRepasAliments> findFmRepasAlimentsByRepas(int idRepas) {
+        EntityManager em = getEntityManager();
+        List<FmRepasAliments>  list=null;
+        try {
+            String sql="SELECT f.id,f.aliment,f.quantite,f.date,f.repas FROM fm_repas_aliments f WHERE f.repas="+idRepas;
+            Query qr=em.createNativeQuery(sql,FmRepasAliments.class);
+            list=(  List<FmRepasAliments>) qr.getResultList();
+        } finally {
+            em.close();
+        }
+        return list;
+    }
 
     public int getFmRepasAlimentsCount() {
         EntityManager em = getEntityManager();

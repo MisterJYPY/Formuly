@@ -332,5 +332,8 @@ public class FmAlimentsJpaController implements Serializable {
        
       return listeObject;
     }
-     
+     public void traiterAlimentNonConseille()
+     {
+      
+     }
 }

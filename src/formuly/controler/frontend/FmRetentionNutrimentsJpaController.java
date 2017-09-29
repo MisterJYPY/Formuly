@@ -151,6 +151,20 @@ public class FmRetentionNutrimentsJpaController implements Serializable {
             em.close();
         }
     }
+    public List<FmRetentionNutriments> findFmRetentionNutrimentsByAliment(FmAliments aliments) {
+        EntityManager em = getEntityManager();
+        FmRetentionNutriments rt=null;
+        List<FmRetentionNutriments> ret;
+        try {
+        Query qry=em.createNamedQuery("FmRetentionNutriments.findByAliment");
+        qry.setParameter("aliment",aliments);
+         
+           ret=qry.getResultList();
+        } finally {
+            em.close();
+        }
+        return ret;
+    }
 
     public int getFmRetentionNutrimentsCount() {
         EntityManager em = getEntityManager();

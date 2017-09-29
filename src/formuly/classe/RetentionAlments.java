@@ -88,6 +88,7 @@ public class RetentionAlments {
            entityM.getTransaction().begin();
           Query reqAliment =entityM.createNamedQuery("FmAliments.findAll");//FmAliments.findByPays
           List<FmAliments> Aliments= reqAliment.getResultList();
+          // List<FmAliments> Aliments=formulyTools.ListeAlimentUtilisable();
             int cpt=0;
             retentionAl=new LinkedList();
           for(FmAliments aliments: Aliments)

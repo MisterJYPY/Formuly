@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="817.0" stylesheets="@../../css/frontend/contenuacceuille.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ContenuAcceuilleController">
+   <top>
+      <Label alignment="CENTER" prefHeight="29.0" prefWidth="501.0" text="Resume des Operations" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <SplitPane dividerPositions="0.5006134969325153" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" layoutY="-2.0" prefHeight="37.0" prefWidth="226.0" styleClass="labelResume" text="aliment enregistrés :">
+                           <font>
+                              <Font name="Franklin Gothic Demi Cond" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nbreAlmtEnregistrer" alignment="CENTER" layoutX="232.0" prefHeight="37.0" prefWidth="174.0" text="label" />
+                        <Label alignment="CENTER_RIGHT" layoutY="37.0" prefHeight="40.0" prefWidth="227.0" styleClass="labelResume" text="aliment en attente d'insertion:" />
+                        <Label fx:id="nbreAlmtNonEntierementEnregistrer" alignment="CENTER" layoutX="236.0" layoutY="36.0" prefHeight="43.0" prefWidth="169.0" text="Label" />
+                        <Label alignment="CENTER_RIGHT" layoutY="79.0" prefHeight="39.0" prefWidth="224.0" styleClass="labelResume" text="                   Menu effectuer :" />
+                        <Label fx:id="nbreMenu" alignment="CENTER" layoutX="236.0" layoutY="77.0" prefHeight="35.0" prefWidth="170.0" text="Label" />
+                        <Separator layoutX="-1.0" layoutY="33.0" prefHeight="9.0" prefWidth="817.0" />
+                        <Separator layoutX="8.0" layoutY="75.0" prefHeight="9.0" prefWidth="406.0" />
+                     </children></AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" layoutX="-3.0" layoutY="-2.0" prefHeight="39.0" prefWidth="238.0" styleClass="labelResume" text="Pathologies Enregistrées :" />
+                        <Label fx:id="nbrePathologieEnregistrer" alignment="CENTER" layoutX="238.0" prefHeight="36.0" prefWidth="166.0" text="Label" />
+                        <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="41.0" prefHeight="38.0" prefWidth="232.0" styleClass="labelResume" text="Aliments Interdits :" />
+                        <Separator layoutX="-99.0" layoutY="31.0" prefHeight="12.0" prefWidth="502.0" />
+                        <Separator layoutY="74.0" prefHeight="9.0" prefWidth="404.0" />
+                        <Label fx:id="nbreAlmtInterdit" alignment="CENTER" layoutX="238.0" layoutY="38.0" prefHeight="39.0" prefWidth="166.0" text="Label" />
+                        <Label fx:id="nbreMenuAlmtInterdit" alignment="CENTER_RIGHT" layoutY="76.0" prefHeight="38.0" prefWidth="240.0" styleClass="labelResume" text="Menu avec aliment Interdit :" />
+                        <Label fx:id="nbreMenuAvecAlimentInterdit" alignment="CENTER" layoutX="240.0" layoutY="79.0" prefHeight="36.0" prefWidth="165.0" text="Label" />
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+         </top>
+         <center>
+            <SplitPane dividerPositions="0.5006134969325153" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <BorderPane prefHeight="315.0" prefWidth="405.0">
+                           <center>
+                              <LineChart fx:id="stick" title="Nombre de menus en fonction du regime" BorderPane.alignment="CENTER">
+                                <xAxis>
+                                  <NumberAxis label="Regime (Kcal)" side="BOTTOM" tickLabelFill="#040b28" fx:id="x" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="y" label="Nombre de Repas" side="LEFT" tickLabelFill="#ab4a4a" />
+                                </yAxis>
+                              </LineChart>
+                           </center>
+                        </BorderPane>
+                     </children></AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <BorderPane prefHeight="317.0" prefWidth="403.0">
+                           <center>
+                              <BarChart fx:id="bc" barGap="2.0" categoryGap="5.0" title="Nombre Aliment Enregistrés fonction des Pays" BorderPane.alignment="CENTER">
+                                <xAxis>
+                                  <CategoryAxis fx:id="YRegime" label="Pays " side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="YqteMenu" label="Nbre d'aliment" side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,28 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+  //-fx-background-image: url(/formuly/image/acceuille1.jpg)  ;
+/*  -fx-background-color:red;*/
+}
+#bt
+{
+    -fx-background-image: url(/formuly/image/backMilieu.jpg)  ; 
+   // -fx-background-color:red;
+}
+#bti
+{
+    -fx-background-image: url(/formuly/image/imageFao1.jpg)  ; 
+   // -fx-background-color:red;
+}
+#fancytext {
+    -fx-font: 23px Tahoma;
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);
+    -fx-stroke: black;
+    -fx-stroke-width: 2;
+}
+.header
+{
+    -fx-background-color:linear-gradient(to top right,orange,white,white,green);
+}

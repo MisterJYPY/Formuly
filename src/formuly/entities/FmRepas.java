@@ -36,6 +36,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FmRepas.findByAgeSujet", query = "SELECT f FROM FmRepas f WHERE f.ageSujet = :ageSujet"),
     @NamedQuery(name = "FmRepas.findByDate", query = "SELECT f FROM FmRepas f WHERE f.date = :date")})
 public class FmRepas implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "energie")
+    private Float energie;
+    @Column(name = "lipide")
+    private Float lipide;
+    @Column(name = "glucide")
+    private Float glucide;
+    @Column(name = "protide")
+    private Float protide;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -132,6 +141,38 @@ public class FmRepas implements Serializable {
     @Override
     public String toString() {
         return "formuly.entities.FmRepas[ id=" + id + " ]";
+    }
+
+    public Float getEnergie() {
+        return energie;
+    }
+
+    public void setEnergie(Float energie) {
+        this.energie = energie;
+    }
+
+    public Float getLipide() {
+        return lipide;
+    }
+
+    public void setLipide(Float lipide) {
+        this.lipide = lipide;
+    }
+
+    public Float getGlucide() {
+        return glucide;
+    }
+
+    public void setGlucide(Float glucide) {
+        this.glucide = glucide;
+    }
+
+    public Float getProtide() {
+        return protide;
+    }
+
+    public void setProtide(Float protide) {
+        this.protide = protide;
     }
     
 }

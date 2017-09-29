@@ -12,9 +12,9 @@
 <BorderPane id="fenetrePrincipal" fx:id="fenetrePrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="1393.0" stylesheets="@../../css/frontend/fenetrePrincipal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.MainPrincipalController">
      
     <top>
-      <BorderPane prefHeight="47.0" prefWidth="600.0">
+      <BorderPane prefHeight="28.0" prefWidth="1393.0">
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="28.0" prefWidth="1387.0" BorderPane.alignment="CENTER">
                <children>
                   <MenuBar>
                      <menus>
@@ -35,21 +35,6 @@
                       </Menu>
                     </menus>
                   </MenuBar>
-                  <ToolBar id="paletteMenu" prefHeight="40.0" prefWidth="200.0">
-                    <items>
-                        <Button id="tousRepas" fx:id="TousLesRepas" layoutX="146.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="229.0" text="Voir vos Repas">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                      <Button id="validerMenu" fx:id="faireRepas" mnemonicParsing="false" prefHeight="29.0" prefWidth="209.0" text="Faire un Repas">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font></Button>
-                    </items>
-                  </ToolBar>
                </children>
             </VBox>
          </center>
@@ -63,7 +48,7 @@
               <tabs>
                 <Tab id="tableIngredient" fx:id="aliments" text="All Foods">
                      <content>
-                        <TableView id="tableAliment" fx:id="aliment" editable="true" prefHeight="200.0" prefWidth="200.0">
+                        <TableView id="tableAliment" fx:id="aliment" editable="true" prefHeight="505.0" prefWidth="1379.0">
                           <columns>
                             <TableColumn id="numeroAliment" fx:id="numero" prefWidth="30.0" resizable="false" text="N°" />
                             <TableColumn id="clumAliment" fx:id="nom_aliment" prefWidth="209.0" text="Aliments" />
@@ -365,4 +350,7 @@
       </BorderPane>
  
    </center>
+   <bottom>
+      <AnchorPane prefHeight="17.0" prefWidth="1393.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
