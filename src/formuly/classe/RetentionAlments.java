@@ -5,6 +5,8 @@
  */
 package formuly.classe;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import com.sun.javafx.scene.control.skin.VirtualFlow.ArrayLinkedList;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
@@ -13,6 +15,7 @@ import formuly.model.frontend.modelFoodSelect;
 import java.util.AbstractList;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -108,6 +111,29 @@ public class RetentionAlments {
           //   System.out.println("nbre element: "+retentionAl.size());
           entityM.close();
            Aliments=null;
+         return retentionAl;
+   }
+      public static List<RetentionAlments> getAlimentRetentionForAliment(int idAliment)     
+   {
+          instance=null;
+          List<RetentionAlments> retentionAl =null;
+           retentionAl=new LinkedList();
+          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+          EntityManager entityM=emf.createEntityManager(); 
+          
+           entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNamedQuery("FmAliments.findById");//FmAliments.findByPays
+          reqAliment.setParameter("id",idAliment);
+           FmAliments  aliments= (FmAliments) reqAliment.getSingleResult();
+          // List<FmAliments> Aliments=formulyTools.ListeAlimentUtilisable();
+             // System.out.println("aliments: "+aliments.getNomFr());
+             RetentionAlments retention=null;
+              retention= getRetentionAliment(aliments);
+              System.out.println("aliment NOm "+aliments.getNomFr());
+              retentionAl.add(retention);
+             entityM.getTransaction().commit();
+          //   System.out.println("nbre element: "+retentionAl.size());
+          entityM.close();
          return retentionAl;
    }
    /**

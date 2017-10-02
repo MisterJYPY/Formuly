@@ -181,7 +181,7 @@ public class Select_the_foodsController implements Initializable {
      event->{
           String sql="";
              String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-           String sqlnomA= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
+           String sqlnomA= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%')  "; 
         String sqlcate="";
         String sqlmodec="";
         String sqlpays="";
@@ -244,7 +244,7 @@ public class Select_the_foodsController implements Initializable {
                      if(!nom_aliment.getText().isEmpty())
                     {
                         String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
@@ -265,6 +265,7 @@ public class Select_the_foodsController implements Initializable {
              }
          // }
         });
+       // rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
     }    
       public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi,TableView<bilanMacroNut>... table)
       {
@@ -421,7 +422,7 @@ public class Select_the_foodsController implements Initializable {
                      if(!nom_aliment.getText().isEmpty())
                     {
                         String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
@@ -461,7 +462,7 @@ public class Select_the_foodsController implements Initializable {
                      if(!nom_aliment.getText().isEmpty())
                     {
           String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
@@ -502,7 +503,7 @@ public class Select_the_foodsController implements Initializable {
                      if(!nom_aliment.getText().isEmpty())
                     {
                  String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%') ";   
                     }
                       if(mode_cuisson.getValue()!=null)
                     {
@@ -613,7 +614,7 @@ public class Select_the_foodsController implements Initializable {
             nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
         quantite.setCellValueFactory(new PropertyValueFactory<>("qte")); 
         table_aliment_a_choisir.setEditable(true);
-       rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
+       rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi,"");
         table_aliment_deja_choisi.getItems().addAll(retournerObservableListNonDoublon(obsL,table_aliment_deja_choisi.getItems(),""));    
        table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(table_aliment_a_choisir.getItems(),table_aliment_deja_choisi.getItems()));
           supprimerElementDeLaListeen2click(table_aliment_deja_choisi);
@@ -1001,10 +1002,10 @@ public class Select_the_foodsController implements Initializable {
                 idRepas++;
                 idRepasAliment++;
                alert.setTitle("Menu enregisterer");
-              alert.setContentText("Votre Menu a ete Enregistré :");
+               alert.setContentText("Votre Menu a ete Enregistré :");
               alert.setAlertType(AlertType.INFORMATION);
-            alert.close();
-            alert.getButtonTypes().setAll(ButtonType.FINISH);  
+               alert.close();
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
                         alert.showAndWait();
 //   alert.close();
             

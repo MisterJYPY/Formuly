@@ -48,6 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class FmAliments implements Serializable {
     @Lob
     @Column(name = "mode_cuisson")
+  //  @Enumerated(EnumType.STRING)
     private String modeCuisson;
     @OneToMany(mappedBy = "aliment")
     private Collection<FmRepasAliments> fmRepasAlimentsCollection;
@@ -55,7 +56,6 @@ public class FmAliments implements Serializable {
     private Collection<FmAlimentsPathologie> fmAlimentsPathologieCollection;
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -121,7 +121,7 @@ public class FmAliments implements Serializable {
         this.nomFr = nomFr;
     }
 
-    public Object getModeCuisson() {
+    public String getModeCuisson() {
         return modeCuisson;
     }
 

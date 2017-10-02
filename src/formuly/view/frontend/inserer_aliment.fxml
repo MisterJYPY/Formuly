@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="653.0" prefWidth="1072.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/inserer_aliment.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label alignment="CENTER" prefHeight="33.0" prefWidth="506.0" text="Insertion d'aliments" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <BorderPane prefHeight="272.0" prefWidth="1079.0" BorderPane.alignment="CENTER">
+         <center>
+            <TableView fx:id="aliment" prefHeight="231.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="numero" prefWidth="33.0" text="N°" />
+                <TableColumn fx:id="nom_aliment" prefWidth="203.0" text="Nom de L'aliment" />
+                  <TableColumn fx:id="cloumPcGlucide" prefWidth="67.0" text="Glucide" />
+                  <TableColumn fx:id="cloumPclipide" minWidth="0.0" prefWidth="70.0" text="Lipide" />
+                  <TableColumn fx:id="Prprotide" prefWidth="69.0" text="protide" />
+                  <TableColumn fx:id="Energie" prefWidth="68.0" text="Energie" />
+                  <TableColumn fx:id="fer" prefWidth="71.0" text="Fer(mg)" />
+                  <TableColumn fx:id="mg" prefWidth="71.0" text="Mg(mg)" />
+                  <TableColumn fx:id="na" prefWidth="64.0" text="Na" />
+                  <TableColumn fx:id="ka" prefWidth="66.0" text="Ka" />
+                  <TableColumn fx:id="vitc" prefWidth="52.0" text="vitC" />
+                  <TableColumn fx:id="vite" prefWidth="59.0" text="vitE" />
+                  <TableColumn fx:id="vitb9" prefWidth="49.0" text="vitB9" />
+                  <TableColumn fx:id="vita" prefWidth="50.0" text="vitA" />
+                  <TableColumn fx:id="pays" prefWidth="79.0" text="Pays" />
+              </columns>
+            </TableView>
+         </center>
+         <top>
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="352.0" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <BorderPane prefHeight="24.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
+               <right>
+                  <Button id="buttonCancel" fx:id="btncancel" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="X" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+               </right>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
+   </bottom>
+   <center>
+      <BorderPane prefHeight="339.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
+         <center>
+            <Pane prefHeight="348.0" prefWidth="1054.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Separator layoutX="310.0" layoutY="3.0" orientation="VERTICAL" prefHeight="285.0" prefWidth="7.0" />
+                  <Separator layoutX="533.0" layoutY="-3.0" orientation="VERTICAL" prefHeight="290.0" prefWidth="6.0" />
+                  <Label alignment="CENTER" layoutX="75.0" prefHeight="20.0" prefWidth="164.0" styleClass="labelshaut" text="Informations  sur L'aliment" />
+                  <Label alignment="CENTER" layoutX="354.0" layoutY="-1.0" prefHeight="23.0" prefWidth="158.0" styleClass="labelshaut" text="composition en Nutriment" />
+                  <Label alignment="CENTER" layoutX="575.0" layoutY="-1.0" prefHeight="21.0" prefWidth="203.0" styleClass="labelshaut" text="composition vitamines" />
+                  <Separator layoutX="819.0" layoutY="3.0" orientation="VERTICAL" prefHeight="285.0" prefWidth="6.0" />
+                  <Label alignment="CENTER" layoutX="853.0" prefHeight="20.0" prefWidth="171.0" styleClass="labelshaut" text="composition en sel mineraux" />
+                  <VBox layoutX="1.0" layoutY="23.0" prefHeight="245.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="88.0" text="Nom Fr :">
+                           <tooltip>
+                              <Tooltip text="Nom Francais de l'aliment" />
+                           </tooltip>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Separator prefHeight="14.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="88.0" text="Nom EnG :" />
+                        <Separator prefHeight="19.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="88.0" text="Surnom :" />
+                        <Separator prefHeight="17.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="Pays :" />
+                        <Separator prefHeight="27.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="Categorie :" />
+                        <Separator prefHeight="32.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="Mode cuisson :" />
+                        <Separator prefHeight="13.0" prefWidth="87.0" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="117.0" layoutY="22.0" prefHeight="246.0" prefWidth="186.0">
+                     <children>
+                        <TextField fx:id="info_nomFr" promptText="Le Nom en Francais ***">
+                           <tooltip>
+                              <Tooltip text="Inserer le nom" />
+                           </tooltip></TextField>
+                        <Separator prefHeight="5.0" prefWidth="186.0" />
+                        <TextField fx:id="info_nomEng" promptText="le Nom en Anglais *">
+                           <tooltip>
+                              <Tooltip text="Saisir le Nom en Francais" />
+                           </tooltip></TextField>
+                        <Separator prefHeight="7.0" prefWidth="186.0" />
+                        <TextField fx:id="info_surnom" promptText="Un surnom (optionnel)">
+                           <tooltip>
+                              <Tooltip text="Unsurnom Optionel" />
+                           </tooltip></TextField>
+                        <Separator prefHeight="9.0" prefWidth="186.0" />
+                        <ComboBox fx:id="info_pays" prefHeight="26.0" prefWidth="186.0" promptText="aucun choix">
+                           <tooltip>
+                              <Tooltip text="Choisir le Pays D'origine" />
+                           </tooltip>
+                        </ComboBox>
+                        <Separator prefHeight="21.0" prefWidth="186.0" />
+                        <ComboBox fx:id="info_categorie" prefHeight="25.0" prefWidth="186.0" promptText="aucun choix">
+                           <tooltip>
+                              <Tooltip text="Choisir La categorie de l'aliment" />
+                           </tooltip>
+                        </ComboBox>
+                        <Separator prefHeight="23.0" prefWidth="186.0" />
+                        <ComboBox fx:id="info_modeCuisson" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
+                           <tooltip>
+                              <Tooltip text="Choisissez un mode de cuisson" />
+                           </tooltip>
+                        </ComboBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="322.0" layoutY="34.0" prefHeight="236.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="101.0" text="Val Glucide :" />
+                        <Separator prefHeight="10.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="88.0" text="Val Protide :" />
+                        <Separator prefHeight="14.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="88.0" text="Val Lipide :" />
+                        <Separator prefHeight="16.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="Val Fibre :" />
+                        <Separator prefHeight="9.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="Val Ash :" />
+                        <Separator prefHeight="17.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="Val eau :" />
+                        <Separator prefHeight="13.0" prefWidth="87.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="17.0" prefWidth="88.0" text="Energie :" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="433.0" layoutY="33.0" prefHeight="235.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="nutr_glucide" prefHeight="21.0" prefWidth="100.0" promptText=" Glucide  ***">
+                           <tooltip>
+                              <Tooltip text="Inserer Valeur en Glucide (***Obligatoire)" textAlignment="JUSTIFY" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="5.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_protide" promptText="Protide ***">
+                           <tooltip>
+                              <Tooltip text="Valeur en Protide (***Obligatoire)" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="8.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_lipide" promptText="Lipide ***">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Lipide (****Obligatoire)" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="5.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_fibre" promptText="Val en Fibre">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Fibre " />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="3.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_ash" promptText="Valeur en Ash">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Ash" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="10.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_eau" promptText="Val en Eau">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Eau" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="6.0" prefWidth="100.0" />
+                        <TextField fx:id="nutr_energie" promptText="Val en Energie">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Energie(Kcal)" />
+                           </tooltip>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="539.0" layoutY="20.0" prefHeight="282.0" prefWidth="88.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="88.0" text="vitA :" />
+                        <Separator prefHeight="14.0" prefWidth="94.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="88.0" text="vitB1 :" />
+                        <Separator prefHeight="19.0" prefWidth="92.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="88.0" text="vitB2 :" />
+                        <Separator prefHeight="11.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="vitB6 :" />
+                        <Separator prefHeight="14.0" prefWidth="89.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="vitB12 :" />
+                        <Separator prefHeight="17.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="vitE :" />
+                        <Separator prefHeight="13.0" prefWidth="87.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="17.0" prefWidth="88.0" text="Folates :" />
+                        <Separator prefWidth="200.0" />
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="200.0" prefHeight="17.0" prefWidth="88.0" text="Thiamin :" />
+                        <Separator prefWidth="200.0" />
+                        <Separator prefHeight="0.0" prefWidth="88.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="217.0" prefHeight="29.0" prefWidth="88.0" text="riboflavin :" />
+                        <Separator prefHeight="7.0" prefWidth="88.0" />
+                        <Label fx:id="Niacines" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="252.0" prefHeight="23.0" prefWidth="88.0" text="Niacines" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="633.0" layoutY="21.0" prefHeight="281.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="vit_a" prefHeight="21.0" prefWidth="100.0" promptText="Val en Vit A">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Vitamines A" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="2.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_b1" promptText="Val en V B1">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Vitamines B1" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="8.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_b2" promptText="Val en V B2">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Vitamines B2" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="5.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_b6" promptText="Val en V B6">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Vitamines B6" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="3.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_b12" promptText="Val en V  B12">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Vitamines B12" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="10.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_e" promptText="Val en Niacines">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Niacines" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="6.0" prefWidth="100.0" />
+                        <TextField fx:id="vit_folates" promptText="Val en Folate">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Folates" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefWidth="200.0" />
+                        <TextField fx:id="vit_thiamin" layoutX="10.0" layoutY="195.0" promptText="Val en Thiamin">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Thiamin" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefWidth="200.0" />
+                        <TextField fx:id="vit_riboflavin" layoutX="10.0" layoutY="220.0" promptText="val en ribo">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Riboflavin" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefWidth="200.0" />
+                        <TextField fx:id="vit_niacines" layoutX="10.0" layoutY="247.0" promptText="val en ribo">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Riboflavin" />
+                           </tooltip>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="822.0" layoutY="21.0" prefHeight="243.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="88.0" text="Ca :" />
+                        <Separator prefHeight="14.0" prefWidth="94.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="88.0" text="Fer :" />
+                        <Separator prefHeight="19.0" prefWidth="92.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="88.0" text="Mg :" />
+                        <Separator prefHeight="11.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="Phosphore :" />
+                        <Separator prefHeight="14.0" prefWidth="89.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="Ka :" />
+                        <Separator prefHeight="17.0" prefWidth="103.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="Na :" />
+                        <Separator prefHeight="13.0" prefWidth="87.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="17.0" prefWidth="88.0" text="Zn :" />
+                        <Separator prefWidth="200.0" />
+                        <Separator prefWidth="200.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="200.0" prefHeight="22.0" prefWidth="88.0" text="Cu :" />
+                        <Separator prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="938.0" layoutY="20.0" prefHeight="262.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="min_ca" prefHeight="21.0" prefWidth="100.0" promptText="Val en Ca">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Calcium" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="2.0" prefWidth="100.0" />
+                        <TextField fx:id="min_fer" promptText="Val en Fer">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Fer" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="8.0" prefWidth="100.0" />
+                        <TextField fx:id="min_mg" promptText="Val en Mg">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Magnesium" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="5.0" prefWidth="100.0" />
+                        <TextField fx:id="min_phos" promptText="Val en Phos">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Phosphore" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="3.0" prefWidth="100.0" />
+                        <TextField fx:id="min_ka" promptText="Val en Ka">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Potassium" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="10.0" prefWidth="100.0" />
+                        <TextField fx:id="min_na" promptText="Val en Na">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Sodium" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefHeight="6.0" prefWidth="100.0" />
+                        <TextField fx:id="min_zn" promptText="Val en Zn">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Zinc" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefWidth="200.0" />
+                        <TextField fx:id="min_cu" layoutX="10.0" layoutY="195.0" promptText="Val en Cu">
+                           <tooltip>
+                              <Tooltip text="Inserer La valeur en Cuivre" />
+                           </tooltip>
+                        </TextField>
+                        <Separator prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="enreistrer" alignment="CENTER" contentDisplay="CENTER" layoutX="475.0" layoutY="311.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="123.0" styleClass="enregistrer" text="Enregistrer">
+                     <tooltip>
+                        <Tooltip text="Cliquez Pour Enregistrer" />
+                     </tooltip>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="746.0" layoutY="21.0" prefHeight="25.0" prefWidth="67.0" text="vitD :" />
+                  <TextField fx:id="vit_d" layoutX="742.0" layoutY="47.0" prefHeight="28.0" prefWidth="72.0" promptText="val en ribo">
+                     <tooltip>
+                        <Tooltip text="Inserer La valeur en Riboflavin" />
+                     </tooltip>
+                  </TextField>
+                  <Label fx:id="codes" alignment="CENTER" layoutX="46.0" layoutY="261.0" prefHeight="30.0" prefWidth="222.0" />
+                  <TextField fx:id="vit_c" layoutX="744.0" layoutY="107.0" prefHeight="28.0" prefWidth="72.0" promptText="val en ribo">
+                     <tooltip>
+                        <Tooltip text="Inserer La valeur en Riboflavin" />
+                     </tooltip>
+                  </TextField>
+                  <Label alignment="CENTER" layoutX="746.0" layoutY="79.0" prefHeight="21.0" prefWidth="67.0" text="vitC :" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

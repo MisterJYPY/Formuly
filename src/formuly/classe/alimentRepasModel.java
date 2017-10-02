@@ -18,7 +18,15 @@ public class alimentRepasModel {
     private Float energie;
     private String libelle;
     private Float quantite;
+    private int id_aliment;
 
+    public int getId_aliment() {
+        return id_aliment;
+    }
+
+    public void setId_aliment(int id_aliment) {
+        this.id_aliment = id_aliment;
+    }
     public String getLibelle() {
         return libelle;
     }

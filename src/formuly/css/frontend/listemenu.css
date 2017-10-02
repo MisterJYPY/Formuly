@@ -2,10 +2,21 @@
  * Empty Stylesheet file.
  */
 
-
+.fenetrePrincipal
+{
+   -fx-background-color:linear-gradient(to top right,#90EE90,white 30%,aqua,white,white,#90EE90);
+//-fx-background-color:red;
+}
 .energieColonne
 {
     
+       -fx-font: bold 9pt "Arial";
+       -fx-alignment: center;
+}
+
+.coloneCentre
+{
+    -fx-alignment: center;  
 }
 /*
  * Empty Stylesheet file.
@@ -84,20 +95,29 @@
     -fx-font-size: 14px;
     -fx-padding: 10 20 10 20;
 }
-#dark-blue {
+.dark-blue {
+     -fx-background-color: 
+        #3c7fb1,
+        linear-gradient(#fafdfe, #e8f5fc),
+        linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    
+}
+.dark-blue:hover
+{
     -fx-background-color: 
-        #090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
-    -fx-background-radius: 5,4,3,5;
-    -fx-background-insets: 0,1,2,0;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-family: "Arial";
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
-    -fx-padding: 10 20 10 20;
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.dark-blue:pressed
+{
+    -fx-padding: 5;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
 #dark-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );

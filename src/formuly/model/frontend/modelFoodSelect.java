@@ -14,6 +14,7 @@ import formuly.entities.FmGroupeAliment;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
+import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,6 +50,26 @@ public class modelFoodSelect {
           entityM.close();
           return grpe;
     }
+    public static List<FmGroupeAliment> listeCategories()
+    {
+        List<FmGroupeAliment> categorie = new LinkedList<>();
+         List<FmGroupeAliment> categorie1 = new LinkedList<>();
+        FmGroupeAliment groupe1=new FmGroupeAliment(0);
+               groupe1.setNomFr("aucun choix");
+               categorie1.add(groupe1);
+          EntityManager entityM=formulyTools.getEm().createEntityManager(); 
+          entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNamedQuery("FmGroupeAliment.findAll");//FmAliments.findByPays
+          categorie= reqAliment.getResultList(); 
+           for(FmGroupeAliment ls:categorie)
+           {
+              categorie1.add(ls);
+           }
+          entityM.close();
+          categorie.clear();
+          categorie=null;
+          return categorie1;
+    }
     //
      /**
       * methode qui retiurne la liste des modes de cuisson
@@ -69,6 +90,32 @@ public class modelFoodSelect {
           {
               System.out.println("elemnt:"+element);
           if(element!="nd")
+               {
+              grpe.add(element);
+              }
+          }
+          grpe.removeAll("nd");
+          return grpe;
+    }
+             /**
+              * methode static qui donne la liste des mode de cuisson
+              * des aliments
+              * @return 
+              */
+                  public static ObservableList<String> listeDesMode_cuissons()
+    {
+          ObservableList<String> grpe = FXCollections.observableArrayList();
+          
+          List<FmGroupeAliment> retentionAl = null;
+          EntityManager entityM=formulyTools.getEm().createEntityManager(); 
+           entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNativeQuery("SELECT unnest(enum_range(NULL::fm_md_cuisson))::text as mode_cuisson");
+          List<String> modesc= reqAliment.getResultList();
+          grpe.add("aucun choix");
+          for(String element :modesc)
+          {
+            //  System.out.println("elemnt:"+element);
+          if( !"nd".equals(element))
                {
               grpe.add(element);
               }

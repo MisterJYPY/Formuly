@@ -69,7 +69,7 @@ public class ContenuAcceuilleController implements Initializable {
     List<FmAliments> list=null;
       XYChart.Series seriesBarChat ;
       XYChart.Series seriesLineChat ;
-       formulyTools   formul;
+   private  formulyTools   formul;
    // String [] pays=new String["General","Cote Ivoire","Ghana","Benin","Mali","Burkina Faso","Nigeria","Niger","Senegal","Gambie"];
     public ContenuAcceuilleController() {
       seriesBarChat = new XYChart.Series();
@@ -77,7 +77,7 @@ public class ContenuAcceuilleController implements Initializable {
         pays=FXCollections.observableArrayList();
           LineChartList=FXCollections.observableArrayList();
             seriesLineChat = new XYChart.Series();
-          formul= new formulyTools();
+           formul= new formulyTools();
          //chargerDonner();
     }
     public void IntialiserLabel()
@@ -123,7 +123,9 @@ public class ContenuAcceuilleController implements Initializable {
              LineChartList.add(new XYChart.Data(2000,formul.NbrerepasFonctionRegime(2500.)));
              LineChartList.add(new XYChart.Data(2500,formul.NbrerepasFonctionRegime(3000.)));
              LineChartList.add(new XYChart.Data(3000,formul.NbrerepasFonctionRegime(3500.)));
-              LineChartList.add(new XYChart.Data(3500,formul.NbrerepasFonctionRegime(3500.)));
+             LineChartList.add(new XYChart.Data(3500,formul.NbrerepasFonctionRegime(3500.)));
+            LineChartList.add(new XYChart.Data(5000,formul.NbrerepasFonctionRegime(5000.)));
+               LineChartList.add(new XYChart.Data(10000,formul.NbrerepasFonctionRegime(10000.)));
                 //seriesLineChat.getNode().getStyleClass().add("series-line");
              seriesLineChat.getData().addAll(LineChartList);
                 stick.getData().addAll(seriesLineChat);

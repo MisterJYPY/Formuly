@@ -12,25 +12,33 @@ import formuly.entities.FmAliments;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
 import formuly.entities.FmRetentionNutriments;
+import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -93,10 +101,9 @@ EntityManagerFactory     entityManagerFactory;
     @FXML
     private TableColumn<FmRepas, String> nom_repas;
     ObservableList<repasModel> bilanList;
-     ObservableList<alimentRepasModel> detailAliment;
+    ObservableList<alimentRepasModel> detailAliment;
 
     public ListeMenuController() {
-         entityManagerFactory = formulyTools.getEm();
           bilanList=FXCollections.observableArrayList();
           detailAliment=FXCollections.observableArrayList();
     }
@@ -123,10 +130,18 @@ EntityManagerFactory     entityManagerFactory;
                             setGraphic(null);
                             setText(null);
                         } else {
+                            btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
-                   repasModel person = getTableView().getItems().get(getIndex());
-                              
+                                try {
+                                    repasModel person = getTableView().getItems().get(getIndex());
+                                     chargerPanelRepas(btn,person) ;
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ListeMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             });
+//                            btn.setOnMouseDragOver(event->{
+//                             btn.getStyleClass().add("dark-blue-hover"); 
+//                            });
                             setGraphic(btn);
                             
                             setText(null);
@@ -147,15 +162,14 @@ EntityManagerFactory     entityManagerFactory;
             format.setMaximumFractionDigits(2); 
       ObservableList<repasModel> model=FXCollections.observableArrayList();
          List<FmRepas> lisRepas=null;
-        FmRepasJpaController repaC=new FmRepasJpaController(entityManagerFactory );
+        FmRepasJpaController repaC=new FmRepasJpaController(formulyTools.getEm());
         lisRepas=repaC.findFmRepasEntities();
         System.out.println("nbrrrr :"+lisRepas.size());
-          repasModel rpM=null;
-           FmRepas repas=null;
-        for(int i=0;i<lisRepas.size();i++)
+          System.out.println("nbrrrr :"+lisRepas.get(lisRepas.size()-1).getLibelle());
+           int i=0;
+        for(FmRepas repas :lisRepas)
         {
-              repas=lisRepas.get(i);
-              rpM=new repasModel();
+            repasModel rpM=new repasModel();
               rpM.setNumero(i+1);
            //   Double db=Double.valueOf(format.format(Double.valueOf(repas.getGlucide().toString())));
            rpM.setEnergie(repas.getEnergie());
@@ -167,6 +181,7 @@ EntityManagerFactory     entityManagerFactory;
            rpM.setDate(repas.getDate());
           
              model.add(rpM);
+             i++;
         }
        return model;
     }
@@ -202,8 +217,7 @@ EntityManagerFactory     entityManagerFactory;
     {
     ObservableList<alimentRepasModel>  list=FXCollections.observableArrayList();
     List<FmRepasAliments> listeRepasAl=null;
-    FmRepasAlimentsJpaController repasAl=new FmRepasAlimentsJpaController(entityManagerFactory);
-        System.out.println("repas: "+rpm.getId_repas());
+    FmRepasAlimentsJpaController repasAl=new FmRepasAlimentsJpaController(formulyTools.getEm());
      listeRepasAl=(  List<FmRepasAliments> ) repasAl.findFmRepasAlimentsByRepas(rpm.getId_repas());
     FmRepasAliments Alrepas=null;
     alimentRepasModel alrpm=null;
@@ -218,20 +232,21 @@ EntityManagerFactory     entityManagerFactory;
       
        FmAliments aliment=Alrepas.getAliment();
        Float quantite=Alrepas.getQuantite();
-       FmRetentionNutrimentsJpaController  ctr=new FmRetentionNutrimentsJpaController(entityManagerFactory);
+       FmRetentionNutrimentsJpaController  ctr=new FmRetentionNutrimentsJpaController(formulyTools.getEm());
        List<FmRetentionNutriments> retF=ctr.findFmRetentionNutrimentsByAliment(aliment);     
                 retentionAuCasOuNul.setLipide(0);
                 retentionAuCasOuNul.setGlucide(0);
                 retentionAuCasOuNul.setProtein(0);
        retentionAliments=(retF.size()>0)?retF.get(0):retentionAuCasOuNul;
-            
+        
+       Float Lipide=retentionAliments.getLipide();
        Float glucide=retentionAliments.getGlucide();
        Float protide=retentionAliments.getProtein();
-       Float Lipide=retentionAliments.getLipide();
-       
-      Float qtGl=(quantite*glucide)/100;
-      Float qtPr=(quantite*protide)/100;
-      Float qtLp=(quantite*Lipide)/100;
+      
+    // System.out.println("Glucide: "+retentionAliments.getGlucide());
+       Float qtGl=(quantite*glucide)/100;
+       Float qtPr=(quantite*protide)/100;
+       Float qtLp=(quantite*Lipide)/100;
       
       Float energie=(qtGl*4)+(qtPr*4)+(qtLp*9);
        //initialisation
@@ -240,8 +255,9 @@ EntityManagerFactory     entityManagerFactory;
        alrpm.setGlucide(qtGl);
        alrpm.setLipide(qtLp);
        alrpm.setProtide(qtPr);
-       alrpm.setLibelle((!"aucun".equals(aliment.getSurnom()))?aliment.getSurnom():aliment.getNomFr());
+       alrpm.setLibelle(aliment.getNomFr());
        alrpm.setQuantite(quantite);
+       alrpm.setId_aliment(aliment.getId());
        
        list.add(alrpm);
        
@@ -252,13 +268,14 @@ EntityManagerFactory     entityManagerFactory;
     public void RemplirTableBas(repasModel repas)
     {
         System.out.println("repas: "+repas.getLibelle());
-       numeroLocale.setCellValueFactory(new PropertyValueFactory<>("numero")); 
+      numeroLocale.setCellValueFactory(new PropertyValueFactory<>("numero")); 
       nom_aliment.setCellValueFactory(new PropertyValueFactory<>("libelle")); 
       glucideLocale.setCellValueFactory(new PropertyValueFactory<>("glucide")); 
       protideLocale.setCellValueFactory(new PropertyValueFactory<>("protide"));
       lipideLocale.setCellValueFactory(new PropertyValueFactory<>("lipide")); 
       energieLocale.setCellValueFactory(new PropertyValueFactory<>("energie"));
       quantite.setCellValueFactory(new PropertyValueFactory<>("quantite"));
+      
        if(detailAliment.size()>0)
        {
              detailAliment.clear();
@@ -268,4 +285,25 @@ EntityManagerFactory     entityManagerFactory;
         detailAliment=listDesAliment(repas);
         tableAliment.setItems(detailAliment);
     }
+     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas) throws IOException
+    {
+              detailAliment.clear();
+            detailAliment=listDesAliment(modelRepas);
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/make_foods_forMenu.fxml"));
+        // loader.setLocation();
+         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment);
+         loader.setController(ctrMakeFoods);
+          Parent root = loader.load();
+         st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("formuly Foods Selector");
+         st.initOwner(faireRepas.getScene().getWindow());
+         st.initModality(Modality.APPLICATION_MODAL);
+         
+         st.showAndWait();
+       //  return st;
+       
+      }
+   private Make_foods_forMenuController ctrMakeFoods;
+   private Stage st;
 }

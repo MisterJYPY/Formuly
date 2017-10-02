@@ -9,7 +9,8 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1359.0" styleClass="mainFxmlClass" stylesheets="@../../css/frontend/acceuille.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.AcceuilleController">
+
+<BorderPane fx:id="principal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1359.0" styleClass="mainFxmlClass" stylesheets="@../../css/frontend/acceuille.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.AcceuilleController">
    <top>
       <BorderPane prefHeight="144.0" prefWidth="1339.0" BorderPane.alignment="CENTER">
          <left>
@@ -38,9 +39,9 @@
             </BorderPane>
          </center>
          <top>
-            <VBox prefHeight="25.0" prefWidth="1359.0" BorderPane.alignment="CENTER">
+            <VBox id="menu" prefHeight="25.0" prefWidth="1359.0" BorderPane.alignment="CENTER">
                <children>
-                  <MenuBar prefHeight="18.0" prefWidth="1359.0">
+                  <MenuBar prefHeight="18.0" prefWidth="1359.0" styleClass="menu">
                     <menus>
                       <Menu mnemonicParsing="false" text="File">
                         <items>
@@ -66,9 +67,20 @@
       </BorderPane>
    </top>
    <center>
-      <BorderPane id="panelMilieu" fx:id="panelMilieu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="953.0" BorderPane.alignment="CENTER">
+      <BorderPane id="panelMilieu" fx:id="panelMilieu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="949.0" BorderPane.alignment="CENTER">
          <center>
-      <fx:include source="/formuly/view/frontend/contenuAcceuille.fxml"/>
+      <!-- <fx:include source="/formuly/view/frontend/contenuAcceuille.fxml"/> -->
+         </center>
+         <center>
+            <BorderPane fx:id="center" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                  <BorderPane fx:id="element" prefHeight="497.0" prefWidth="949.0" BorderPane.alignment="CENTER">
+                     <center>
+                        <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </center>
+            </BorderPane>
          </center>
       </BorderPane>
    </center>
@@ -77,31 +89,38 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="200.0">
                <children>
-                  <BorderPane prefHeight="197.0" prefWidth="202.0">
+                  <BorderPane prefHeight="220.0" prefWidth="202.0">
                      <center>
                         <VBox prefHeight="178.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
                               <Separator prefHeight="25.0" prefWidth="202.0" />
-                              <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" text="Voir vos Menu" />
+                              <Button fx:id="listMenu" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" styleClass="nav" text="Voir vos Menu">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <Separator prefHeight="12.0" prefWidth="200.0" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="200.0" text="Modifier un Menu" />
+                              <Button fx:id="modifierMenu" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="200.0" styleClass="nav" text="Modifier un Menu">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <Separator prefHeight="16.0" prefWidth="200.0" />
-                              <Accordion>
+                              <Accordion id="GlisseFaireMenu" fx:id="accordGauche" prefHeight="104.0" prefWidth="202.0">
                                 <panes>
-                                  <TitledPane animated="false" text="Faire un Menu">
+                                  <TitledPane id="GlisseFaireMenu" fx:id="paneGauche" animated="false" text="Faire un Menu">
                                     <content>
-                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="67.0" prefWidth="200.0">
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="67.0" prefWidth="200.0" styleClass="affichageSlide">
                                              <children>
                                                 <VBox layoutX="-3.0" layoutY="-2.0" prefHeight="66.0" prefWidth="203.0">
                                                    <children>
                                                       <Separator prefHeight="11.0" prefWidth="203.0" />
-                                                      <Button fx:id="faireRepas" alignment="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="202.0" text="Nouveau Menu">
+                                                      <Separator prefWidth="200.0" />
+                                                      <Button fx:id="faireRepas" alignment="CENTER" mnemonicParsing="false" prefHeight="17.0" prefWidth="201.0" styleClass="nav" text="Nouveau Menu">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
                                                       </Button>
                                                       <Separator prefWidth="200.0" />
-                                                      <Button fx:id="MenuAvecMenuExistant" alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="202.0" text="Depuis Un menu existant">
+                                                      <Button fx:id="MenuAvecMenuExistant" alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="201.0" styleClass="nav" text="Depuis Un menu existant">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor>
@@ -118,11 +137,11 @@
                         </VBox>
                      </center>
                   </BorderPane>
-                  <BorderPane layoutY="195.0" prefHeight="260.0" prefWidth="203.0">
+                  <BorderPane layoutY="224.0" prefHeight="316.0" prefWidth="203.0">
                      <center>
-                        <SplitPane dividerPositions="0.1391304347826087" orientation="VERTICAL" prefHeight="242.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.09329446064139942" orientation="VERTICAL" prefHeight="242.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="37.0" prefWidth="201.0">
                                  <children>
                                     <Label alignment="CENTER" layoutX="-1.0" layoutY="-1.0" prefHeight="30.0" prefWidth="199.0" text="Autres Operations" />
                                  </children>
@@ -138,44 +157,69 @@
       </SplitPane>
    </left>
    <right>
-      <SplitPane orientation="VERTICAL" prefHeight="419.0" prefWidth="197.0" BorderPane.alignment="CENTER">
+      <SplitPane orientation="VERTICAL" prefHeight="454.0" prefWidth="203.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="424.0" prefWidth="195.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="202.0">
                <children>
-                  <BorderPane layoutX="-1.0" prefHeight="138.0" prefWidth="199.0">
+                  <BorderPane layoutX="-1.0" prefHeight="106.0" prefWidth="199.0">
                      <center>
                         <VBox prefHeight="67.0" prefWidth="199.0" BorderPane.alignment="CENTER">
                            <children>
                               <Separator prefHeight="24.0" prefWidth="199.0" />
-                              <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" text="Liste des Aliments" />
-                              <Separator prefHeight="17.0" prefWidth="199.0" />
-                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="198.0" text="modifier un aliment" />
-                              <Separator prefHeight="16.0" prefWidth="199.0" />
-                              <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" text="Enregistrer Un aliment" />
+                              <Button fx:id="listAliment" mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" styleClass="nav" text="Liste des Aliments">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Separator prefHeight="10.0" prefWidth="199.0" />
+                              <Button fx:id="modifierAliment" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="198.0" styleClass="nav" text="modifier un aliment">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Separator prefHeight="9.0" prefWidth="199.0" />
                            </children>
                         </VBox>
                      </center>
                   </BorderPane>
-                  <BorderPane layoutX="-1.0" layoutY="137.0" prefHeight="316.0" prefWidth="199.0">
+                  <BorderPane layoutX="-4.0" layoutY="219.0" prefHeight="322.0" prefWidth="210.0">
                      <center>
-                        <SplitPane dividerPositions="0.10869565217391304" orientation="VERTICAL" prefHeight="336.0" prefWidth="196.0" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.10158730158730159" orientation="VERTICAL" prefHeight="317.0" prefWidth="202.0" BorderPane.alignment="CENTER">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="30.0" prefWidth="208.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="-1.0" layoutY="-2.0" prefHeight="32.0" prefWidth="195.0" text="Autres Operations" />
+                                    <Label alignment="CENTER" layoutX="-1.0" layoutY="-2.0" prefHeight="32.0" prefWidth="207.0" text="Autres Operations" />
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="285.0" prefWidth="197.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="217.0" prefWidth="208.0" />
                           </items>
                         </SplitPane>
                      </center>
                   </BorderPane>
+                  <Accordion fx:id="accordDroite" layoutX="-4.0" layoutY="97.0" prefHeight="122.0" prefWidth="807.0">
+                    <panes>
+                      <TitledPane fx:id="paneDroite" animated="false" prefHeight="115.0" prefWidth="1053.0" text="Enregistrer nouveau aliment">
+                           <content>
+                              <VBox layoutX="3.0" layoutY="119.0" prefHeight="82.0" prefWidth="807.0">
+                                 <children>
+                                    <Button id="enregistrerAliment" fx:id="enregistrer_aliment" mnemonicParsing="false" prefHeight="35.0" prefWidth="193.0" styleClass="nav" text="Enregistrer Un aliment">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Separator prefHeight="9.0" prefWidth="202.0" />
+                                    <Button id="enregistrerAliment" fx:id="enregistrer_aliment1" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="191.0" styleClass="nav" text="Depuis Un Fichier ">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </TitledPane>
+                    </panes>
+                  </Accordion>
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
    </right>
-   <bottom>
-      <AnchorPane prefHeight="21.0" prefWidth="1351.0" BorderPane.alignment="CENTER" />
-   </bottom>
 </BorderPane>

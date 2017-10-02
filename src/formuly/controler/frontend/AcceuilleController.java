@@ -18,14 +18,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,18 +40,31 @@ public class AcceuilleController implements Initializable {
      */
     @FXML private AnchorPane cat;
     @FXML private Button faireRepas;
+    @FXML private Button enregistrer_aliment;
     @FXML private Button MenuAvecMenuExistant;
     @FXML private BorderPane panelMilieu;
+    @FXML private BorderPane center;
+    @FXML private BorderPane principal;
+    @FXML private Button modifierMenu;
+    @FXML private Button listMenu;
+    @FXML private Button listAliment;
+     @FXML private Button modifierAliment;
+    @FXML private TitledPane paneGauche;
+   @FXML private TitledPane paneDroite;
+    @FXML private Accordion accordGauche;
+    @FXML private Accordion accordDroite;
     private Stage st;
    
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    actionFenetreSelectionFoods();
-        Button[] btn={faireRepas};
-        formulyTools.mettreEffetButton(btn);
-      
+         placerContenuAcceuille();
+       actionFenetreSelectionFoods();
+        Button[] btn={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
+        formulyTools.mettreEffetButton(btn,Color.ROYALBLUE);
+        accordGauche.setExpandedPane(paneGauche);
+        accordDroite.setExpandedPane(paneDroite);
    
        // cat.setClip(lb);
     }    
@@ -98,8 +110,13 @@ public class AcceuilleController implements Initializable {
         MenuAvecMenuExistant.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-                 System.out.println("bile");
                 placerBilanChoixFoods();
+             }
+         }); 
+       enregistrer_aliment.setOnAction(new EventHandler<ActionEvent>() {
+             @Override
+             public void handle(ActionEvent event) {
+             InsertionAliment();
              }
          }); 
   }
@@ -107,18 +124,49 @@ public class AcceuilleController implements Initializable {
    {
           try {
                     
-      ((BorderPane)(panelMilieu.getCenter())).getChildren().clear();
-                   // Panelmilieu.getChildren().clear();
+      ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
               FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(getClass().getResource("/formuly/view/frontend/listeMenu.fxml"));
         // Parent root = (Parent)loader.load(); 
-      ((BorderPane)(panelMilieu.getCenter())).getChildren().add(loader.load());
+      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load(getClass().getResource("/formuly/view/frontend/listeMenu.fxml")));
      controllerListeMenu= (ListeMenuController)loader.getController(); 
             //initialiserTableBilan();
           } catch (IOException ex) {
                      Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
+         public void InsertionAliment()
+   {
+          try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_aliment.fxml"));
+               ctr_inserAliment=new Inserer_alimentController();
+               loader.setController(ctr_inserAliment);
+           Parent root = (Parent)loader.load(); 
+                 st=null;
+               st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("Insertion Aliment");
+         st.initOwner(enregistrer_aliment.getScene().getWindow());
+         st.initModality(Modality.APPLICATION_MODAL);
+         st.showAndWait();
+          } catch (IOException ex) {
+                     Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+   }
+       public void placerContenuAcceuille()
+   {
+          try {
+                    
+        ((BorderPane)(principal.getCenter())).getChildren().clear();
+            center.getChildren().clear();
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/contenuAcceuille.fxml"));
+                  loader.setController(new ContenuAcceuilleController());
+      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load());
+          } catch (IOException ex) {
+                     Logger.getLogger(ContenuAcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+   }
     private ListeMenuController controllerListeMenu;
     private Select_the_foodsController controllerSelectionFoods;
+    private Inserer_alimentController ctr_inserAliment;
 }

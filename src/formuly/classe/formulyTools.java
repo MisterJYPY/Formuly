@@ -26,6 +26,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -227,6 +228,12 @@ public class formulyTools {
            if(regime<=3500 && regime>2500){
        sql="SELECT f.id FROM fm_repas f WHERE f.energie<="+regime+" and f.energie>2500";     
             }
+            if(regime>3500 && regime<=5000){
+       sql="SELECT f.id FROM fm_repas f WHERE f.energie<="+regime+" and f.energie>3500";     
+            }
+            if(regime>5000 && regime<=10000){
+       sql="SELECT f.id FROM fm_repas f WHERE f.energie<="+regime+" and f.energie>5000";     
+            }
           
       Query eqr=entityManger.createNativeQuery(sql,FmRepas.class);
       ls=eqr.getResultList();
@@ -279,6 +286,49 @@ public class formulyTools {
        
        return id;
     }
+      public static int TrouverDernierIdentifiant_RetentionNutriment() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_retention_nutriments f WHERE f.id=(SELECT MAX(s.id) FROM fm_retention_nutriments s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRetentionNutriments.class);
+     FmRetentionNutriments aliment=(eqr.getResultList().size()>0)?(FmRetentionNutriments) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+       
+       return id;
+    }
+         public static int TrouverDernierIdentifiant_RetentionVitamines() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_retention_vitamines f WHERE f.id=(SELECT MAX(s.id) FROM fm_retention_vitamines s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRetentionVitamines.class);
+     FmRetentionVitamines aliment=(eqr.getResultList().size()>0)?(FmRetentionVitamines) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+       
+       return id;
+    }
+           public static int TrouverDernierIdentifiant_RetentionMineraux() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_retention_mineraux f WHERE f.id=(SELECT MAX(s.id) FROM fm_retention_mineraux s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRetentionMineraux.class);
+     FmRetentionMineraux aliment=(eqr.getResultList().size()>0)?(FmRetentionMineraux) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+       
+       return id;
+    }
+     
      public static int TrouverDernierIdentifiant_Aliment() 
     {
       int id=0;
@@ -489,6 +539,7 @@ public class formulyTools {
    public static void mettreEffetButton(Button[] TabloButton)
      {
           DropShadow shadow = new DropShadow();
+          shadow.setColor(Color.MAROON);
 //Adding the shadow when the mouse cursor is on
           for(int i=0;i<TabloButton.length;i++)
           {
@@ -499,6 +550,31 @@ public class formulyTools {
            bt.setEffect(shadow);
         }
 });
+      
+//Removing the shadow when the mouse cursor is off
+     bt.addEventHandler(MouseEvent.MOUSE_EXITED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            bt.setEffect(null);
+        }
+});
+          }
+     }
+    public static void mettreEffetButton(Button[] TabloButton,Color color)
+     {
+          DropShadow shadow = new DropShadow();
+          shadow.setColor(color);
+//Adding the shadow when the mouse cursor is on
+          for(int i=0;i<TabloButton.length;i++)
+          {
+              Button bt=TabloButton[i];
+       bt.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+    new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+           bt.setEffect(shadow);
+        }
+});
+      
 //Removing the shadow when the mouse cursor is off
      bt.addEventHandler(MouseEvent.MOUSE_EXITED, 
     new EventHandler<MouseEvent>() {
