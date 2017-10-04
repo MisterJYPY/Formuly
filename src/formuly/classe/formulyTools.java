@@ -6,6 +6,7 @@
 package formuly.classe;
 
 
+import com.sun.deploy.util.StringUtils;
 import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;
@@ -42,6 +43,8 @@ public class formulyTools {
       static EntityManagerFactory   entityManagerFactory=null ;
         static EntityManagerFactory   entityManagerFactoryss =null;
       static   EntityManager entityManger;
+
+  
 
     public formulyTools() {     
         entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
@@ -345,6 +348,37 @@ public class formulyTools {
          
        return id;
     }
+      public static int TrouverDernierIdentifiant_Aliment_Pathologie() 
+    {
+      int id=0;
+      EntityManagerFactory emf=getEm(persistenceUnit);
+        EntityManager em=emf.createEntityManager();
+     List<FmAliments> listR=FXCollections.observableArrayList();
+      String sql="SELECT f.id,f.aliment FROM fm_aliments_pathologie f WHERE f.id=(SELECT MAX(s.id) FROM fm_aliments_pathologie s)";
+      Query eqr=em.createNativeQuery(sql,FmAlimentsPathologie.class);
+      FmAlimentsPathologie aliment=(eqr.getResultList().size()>0)?(FmAlimentsPathologie) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+         
+       return id;
+    }
+        public static int TrouverDernierIdentifiant_Pathologie() {
+       int id=0;
+        EntityManagerFactory emf=getEm(persistenceUnit);
+        EntityManager em=emf.createEntityManager();
+     List<FmPathologie> listR=FXCollections.observableArrayList();
+      String sql="SELECT f.id FROM fm_pathologie f WHERE f.id=(SELECT MAX(s.id) FROM fm_pathologie s)";
+      Query eqr=em.createNativeQuery(sql,FmAlimentsPathologie.class);
+      FmPathologie aliment=(eqr.getResultList().size()>0)?(FmPathologie) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+         
+       return id;
+    }
   public static ObservableList<mainModel> getobservableListMainModel()
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -513,24 +547,91 @@ public class formulyTools {
         }
       }
      return inf;
-  }   
+  }
+  /**
+   * methode qui donne le nombre d'occurence
+   * @param chaine
+   * @param caractere
+   * @return 
+   */
+  public static  int donnerNombreOccurence(String chaine,char caractere)
+  {
+      
+    int n=0;
+    String m=chaine.replace('.','_');
+    System.out.println(chaine);
+     for(int i=0;i<chaine.length();i++)
+     {
+     if(chaine.charAt(i)=='_')
+     {
+     n++;
+     }
+         
+     }
+    return n;
+  }
+  
   public static String preformaterChaine(String m)
   {
   String lesCaracteresNonVoulu = "[(,, ,=,/,),ฐ,+,*,',:, ,้,&,่,--,_,๙,$,^^,\\,\",?,!,็,ฒ,ฃ,จจ,%,ต,{,},#,ง,;,<,>,เ,[a-z,A-Z],à,^,$,é,¨,°,&,ç,è,ù,*,-, ,%,§,<,>,+,?,/,(,),=,²,_,€,|,`,^,},{,[,¤,$,]]";   
      //char a=evt.getKeyChar();
      //notre classe paterne pour compiler la plage de caracterenon esires
+  donnerNombreOccurence(m,'.');
      boolean t=false;
+      String pal=m;
+      pal=pal.replace(',','.');
+      pal=pal.replace('.','_');
+      System.out.println(pal);
       m=m.replace(',','.');
+      String mi=m;
      while(!t){
          if(!m.isEmpty()){
     Pattern regPat = Pattern.compile(lesCaracteresNonVoulu );
  //ici c'est pour voir si  notre pattern comiler peut contenir les caracteres non desires
     Matcher matcher = regPat.matcher(m);
     if (matcher.find()){
-       m="0"; 
+       m="0.0"; 
       }else{
+       if(pal.split("_").length>2) 
+       {
+       m="0.0";
+       }
        t=true;
     }
+    
+    
+     }
+  } 
+     return m;
+  }
+   public static String preformaterChaineAvecEspace(String m)
+  {
+  String lesCaracteresNonVoulu = "[(,=,/,),ฐ,+,*,',:,้,&,่,--,_,๙,$,^^,\\,\",?,!,็,ฒ,ฃ,จจ,%,ต,{,},#,ง,;,<,>,เ,[a-z,A-Z],à,^,$,é,¨,°,&,ç,è,ù,*,-,%,§,<,>,+,?,/,(,),=,²,_,€,|,`,^,},{,[,¤,$,]]";   
+     //char a=evt.getKeyChar();
+     //notre classe paterne pour compiler la plage de caracterenon esires
+  donnerNombreOccurence(m,'.');
+     boolean t=false;
+      String pal=m;
+      pal=pal.replace(',','.');
+      pal=pal.replace('.','_');
+      System.out.println(pal);
+      m=m.replace(',','.');
+      String mi=m;
+     while(!t){
+         if(!m.isEmpty()){
+    Pattern regPat = Pattern.compile(lesCaracteresNonVoulu );
+ //ici c'est pour voir si  notre pattern comiler peut contenir les caracteres non desires
+    Matcher matcher = regPat.matcher(m);
+    if (matcher.find()){
+       m="0.0"; 
+      }else{
+       if(pal.split("_").length>2) 
+       {
+       m="0.0";
+       }
+       t=true;
+    }
+    
     
      }
   } 
