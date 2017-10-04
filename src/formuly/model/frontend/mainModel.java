@@ -36,6 +36,29 @@ public class mainModel {
   private Double  vitb9;
   private Double  vita;
   private String  pays;
+  /********** ajout des element **/
+  private String mode_cuisson;
+  private String Surnom;
+  private String nomEng;
+  private String Categorie;
+  /************* element a entre ******/
+  private Double ca;
+  private Double phos;
+  private Double pota;
+  private Double zn;
+  private Double cu;
+  private Double eau;
+  private Double fibre;
+  private Double ash;
+  private Double vitd;
+  private Double vitb1;
+  private Double vitb2;
+  private Double vitb6;
+  private Double vitb12;
+  private Double thiamin;
+  private Double riboflavin;
+  private String pathologie;
+  
 
     private List<RetentionAlments> retentionAliments=null;
     
@@ -273,6 +296,166 @@ public class mainModel {
 
     public void setIdAliment(int idAliment) {
         this.idAliment = idAliment;
+    }
+
+    public String getMode_cuisson() {
+        return mode_cuisson;
+    }
+
+    public void setMode_cuisson(String mode_cuisson) {
+        this.mode_cuisson = mode_cuisson;
+    }
+
+    public String getSurnom() {
+        return Surnom;
+    }
+
+    public void setSurnom(String Surnom) {
+        this.Surnom = Surnom;
+    }
+
+    public String getNomEng() {
+        return nomEng;
+    }
+
+    public void setNomEng(String nomEng) {
+        this.nomEng = nomEng;
+    }
+
+    public String getCategorie() {
+        return Categorie;
+    }
+
+    public void setCategorie(String Categorie) {
+        this.Categorie = Categorie;
+    }
+
+    public Double getCa() {
+        return ca;
+    }
+
+    public void setCa(Double ca) {
+        this.ca = ca;
+    }
+
+    public Double getPhos() {
+        return phos;
+    }
+
+    public void setPhos(Double phos) {
+        this.phos = phos;
+    }
+
+    public Double getPota() {
+        return pota;
+    }
+
+    public void setPota(Double pota) {
+        this.pota = pota;
+    }
+
+    public Double getZn() {
+        return zn;
+    }
+
+    public void setZn(Double zn) {
+        this.zn = zn;
+    }
+
+    public Double getCu() {
+        return cu;
+    }
+
+    public void setCu(Double cu) {
+        this.cu = cu;
+    }
+
+    public Double getEau() {
+        return eau;
+    }
+
+    public void setEau(Double eau) {
+        this.eau = eau;
+    }
+
+    public Double getFibre() {
+        return fibre;
+    }
+
+    public void setFibre(Double fibre) {
+        this.fibre = fibre;
+    }
+
+    public Double getAsh() {
+        return ash;
+    }
+
+    public void setAsh(Double ash) {
+        this.ash = ash;
+    }
+
+    public Double getVitd() {
+        return vitd;
+    }
+
+    public void setVitd(Double vitd) {
+        this.vitd = vitd;
+    }
+
+    public Double getVitb1() {
+        return vitb1;
+    }
+
+    public void setVitb1(Double vitb1) {
+        this.vitb1 = vitb1;
+    }
+
+    public Double getVitb2() {
+        return vitb2;
+    }
+
+    public void setVitb2(Double vitb2) {
+        this.vitb2 = vitb2;
+    }
+
+    public Double getVitb6() {
+        return vitb6;
+    }
+
+    public void setVitb6(Double vitb6) {
+        this.vitb6 = vitb6;
+    }
+
+    public Double getVitb12() {
+        return vitb12;
+    }
+
+    public void setVitb12(Double vitb12) {
+        this.vitb12 = vitb12;
+    }
+
+    public Double getThiamin() {
+        return thiamin;
+    }
+
+    public void setThiamin(Double thiamin) {
+        this.thiamin = thiamin;
+    }
+
+    public Double getRiboflavin() {
+        return riboflavin;
+    }
+
+    public void setRiboflavin(Double riboflavin) {
+        this.riboflavin = riboflavin;
+    }
+
+    public String getPathologie() {
+        return pathologie;
+    }
+
+    public void setPathologie(String pathologie) {
+        this.pathologie = pathologie;
     }
   
 }

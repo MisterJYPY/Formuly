@@ -7,7 +7,9 @@ package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
+import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmGroupeAliment;
+import formuly.entities.FmPathologie;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
@@ -25,10 +27,7 @@ import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -50,7 +49,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * FXML Controller class
@@ -199,6 +197,7 @@ public class Inserer_alimentController implements Initializable {
     @FXML
     private TableView<mainModel> aliment;
     
+    @FXML private ComboBox<FmPathologie> info_path;
 
     @FXML
     private TextField vit_b12;
@@ -208,10 +207,11 @@ public class Inserer_alimentController implements Initializable {
     @FXML TextField vit_b6;
     @FXML private Button btncancel; 
     List<FmGroupeAliment> listeCategorie;
+    List<FmPathologie> listePathologie;
    
     public Inserer_alimentController() {
         listeCategorie=modelFoodSelect.listeCategories(); 
-       
+        listePathologie=modelFoodSelect.listePathologie();
     }
     
     
@@ -220,6 +220,7 @@ public class Inserer_alimentController implements Initializable {
         // TODO
         initialiserableauAliment();
        ActionSurLeBoutonCategorie();
+       ActionSurPathologie();
        initialiserPays();
        intialiserModeCuisson();
        textConverter(nutr_ash,nutr_eau,nutr_energie,nutr_fibre,nutr_glucide,nutr_lipide,nutr_protide,vit_a,vit_b1,vit_b12,vit_b2,vit_folates,vit_niacines,vit_riboflavin,vit_thiamin,min_ca,min_cu,min_fer,min_ka,min_mg,min_na,min_phos,min_zn,vit_b6,vit_e,vit_d,vit_c);
@@ -392,6 +393,11 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         info_categorie.getItems().clear();
          info_categorie.setItems(FXCollections.observableList(listeCategorie));
     }
+     public void initialiserPathologie()
+    {
+        info_path.getItems().clear();
+         info_path.setItems(FXCollections.observableList(listePathologie));
+    }
     public void ActionSurLeBoutonCategorie()
     {
       info_categorie.setItems(FXCollections.observableList(listeCategorie));
@@ -424,6 +430,43 @@ StringConverter<Double> converter = new StringConverter<Double>() {
 
             @Override
             public FmGroupeAliment fromString(String userId) {
+                return null;
+            }
+        });
+        
+    }
+     public void ActionSurPathologie()
+    {
+      info_path.setItems(FXCollections.observableList(listePathologie));
+           info_path.getSelectionModel().selectFirst();
+          info_path.setCellFactory(new Callback<ListView<FmPathologie>,ListCell<FmPathologie>>(){
+            @Override
+            public ListCell<FmPathologie> call(ListView<FmPathologie> l){
+                return new ListCell<FmPathologie>(){
+                    @Override
+                    protected void updateItem(FmPathologie item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                         setText(item.getLibelle());
+                        }
+                    }
+                } ;
+            }
+        });
+           info_path.setConverter(new StringConverter<FmPathologie>() {
+              @Override
+              public String toString(FmPathologie user) {
+                if (user == null){
+                  return null;
+                } else {
+                  return user.getLibelle();
+                }
+              }
+
+            @Override
+            public FmPathologie fromString(String userId) {
                 return null;
             }
         });
@@ -709,6 +752,7 @@ else{
    FmGroupeAliment categorie=info_categorie.getValue();
    String pays =info_pays.getValue();
    int idAl=formulyTools.TrouverDernierIdentifiant_Aliment()+1;
+    int idAlPath=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
    String code=(categorie.getId()>9)?String.valueOf(categorie.getId())+"_"+idAl:"0"+categorie.getId()+"_"+idAl;
       //creation de l'aliment
    FmAliments aliments=new FmAliments(idAl);
@@ -722,6 +766,14 @@ else{
    aliments.setGroupe(categorie);
    aliments.setCode(code);
         //  System.out.println("code: "+code);
+     FmPathologie path=info_path.getValue();
+     FmAlimentsPathologie fmp=(path!=null || !path.getLibelle().equals("aucun choix"))?new FmAlimentsPathologie(idAlPath):null;
+       if(fmp != null)
+       {
+         fmp.setAliment(aliments);
+         fmp.setPathologie(path);
+         fmp.setDate(new Timestamp(new Date().getTime()));
+       }
    //   codes.setText(code);
        //info sur nutriment
    double glucide=Double.parseDouble(nutr_glucide.getText());
@@ -806,6 +858,7 @@ else{
            updateProgress(25, 10);
             updateMessage("aliment");
            Thread.sleep(100);
+            Thread.sleep(100);
            em.persist(retNu);
            updateProgress(50, 10);
             updateMessage("nutriments");
@@ -814,6 +867,12 @@ else{
            updateProgress(75, 10);
           updateMessage("mineraux");
              Thread.sleep(100);
+             if(fmp!=null)
+         {
+           em.persist(fmp);
+           updateProgress(80, 10);
+            Thread.sleep(90);
+         }
            em.persist(retVit);    
            updateProgress(100, 10);
            updateMessage("terminer");
@@ -862,7 +921,7 @@ else{
             initialiserPays();
             intialiserModeCuisson();
             initialiserCategorie();
-        
+          initialiserPathologie();
               }
               else{
                

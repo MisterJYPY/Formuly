@@ -11,9 +11,11 @@ import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.controler.frontend.FmGroupeAlimentJpaController;
 import formuly.entities.FmAliments;
 import formuly.entities.FmGroupeAliment;
+import formuly.entities.FmPathologie;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -70,6 +72,24 @@ public class modelFoodSelect {
           categorie=null;
           return categorie1;
     }
+      public static List<FmPathologie> listePathologie()
+    {
+        List<FmPathologie> categorie = new ArrayList<>();
+          List<FmPathologie> categorie1 = new ArrayList<>();
+       FmPathologie groupe1=new FmPathologie(0);
+               groupe1.setLibelle("aucun choix");
+               categorie1.add(groupe1);
+          EntityManager entityM=formulyTools.getEm().createEntityManager(); 
+          entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNamedQuery("FmPathologie.findAll");//FmAliments.findByPays
+          categorie= reqAliment.getResultList(); 
+          for(FmPathologie fm :categorie)
+          {
+            categorie1.add(fm);
+          }
+          categorie.clear();
+          return categorie1;
+    }
     //
      /**
       * methode qui retiurne la liste des modes de cuisson
@@ -97,12 +117,32 @@ public class modelFoodSelect {
           grpe.removeAll("nd");
           return grpe;
     }
+                public static ObservableList<String> listeDesMode_cuissons()
+    {
+          ObservableList<String> grpe = FXCollections.observableArrayList();
+          
+          List<FmGroupeAliment> retentionAl = null;
+          EntityManager entityM=formulyTools.getEm("fx_formulyPU" ).createEntityManager(); 
+           entityM.getTransaction().begin();
+          Query reqAliment =entityM.createNativeQuery("SELECT unnest(enum_range(NULL::fm_md_cuisson))::text as mode_cuisson");
+          List<String> modesc= reqAliment.getResultList();
+          for(String element :modesc)
+          {
+              System.out.println("elemnt:"+element);
+          if(element!="nd")
+               {
+              grpe.add(element);
+              }
+          }
+          grpe.removeAll("nd");
+          return grpe;
+    }
              /**
               * methode static qui donne la liste des mode de cuisson
               * des aliments
               * @return 
               */
-                  public static ObservableList<String> listeDesMode_cuissons()
+                  public static ObservableList<String> listeDesMode_cuissonss()
     {
           ObservableList<String> grpe = FXCollections.observableArrayList();
           

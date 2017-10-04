@@ -206,7 +206,7 @@
                                        </cursor>
                                     </Button>
                                     <Separator prefHeight="9.0" prefWidth="202.0" />
-                                    <Button id="enregistrerAliment" fx:id="enregistrer_aliment1" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="191.0" styleClass="nav" text="Depuis Un Fichier ">
+                                    <Button id="enregistrerAliment" fx:id="enregistrer_aliment_fichier" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="191.0" styleClass="nav" text="Depuis Un Fichier ">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>

@@ -53,6 +53,7 @@ public class AcceuilleController implements Initializable {
    @FXML private TitledPane paneDroite;
     @FXML private Accordion accordGauche;
     @FXML private Accordion accordDroite;
+    @FXML private Button enregistrer_aliment_fichier;
     private Stage st;
    
      
@@ -60,7 +61,7 @@ public class AcceuilleController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
          placerContenuAcceuille();
-       actionFenetreSelectionFoods();
+        actionFenetreSelectionFoods();
         Button[] btn={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
         formulyTools.mettreEffetButton(btn,Color.ROYALBLUE);
         accordGauche.setExpandedPane(paneGauche);
@@ -119,6 +120,9 @@ public class AcceuilleController implements Initializable {
              InsertionAliment();
              }
          }); 
+      enregistrer_aliment_fichier.setOnAction(event->{
+        InsertionAliment_Fichier();
+      });
   }
       public void placerBilanChoixFoods()
    {
@@ -153,6 +157,24 @@ public class AcceuilleController implements Initializable {
                      Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
+              public void InsertionAliment_Fichier()
+   {
+          try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_aliment_fichier.fxml"));
+               ctr_inserAlimentFichier=new Inserer_aliment_fichierController();
+               loader.setController(ctr_inserAlimentFichier);
+           Parent root = (Parent)loader.load(); 
+                 st=null;
+               st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("Insertion Aliment");
+         st.initOwner(enregistrer_aliment_fichier.getScene().getWindow());
+         st.initModality(Modality.APPLICATION_MODAL);
+         st.showAndWait();
+          } catch (IOException ex) {
+                     Logger.getLogger(Inserer_aliment_fichierController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+   }
        public void placerContenuAcceuille()
    {
           try {
@@ -169,4 +191,5 @@ public class AcceuilleController implements Initializable {
     private ListeMenuController controllerListeMenu;
     private Select_the_foodsController controllerSelectionFoods;
     private Inserer_alimentController ctr_inserAliment;
+    private Inserer_aliment_fichierController ctr_inserAlimentFichier;
 }

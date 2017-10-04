@@ -83,9 +83,10 @@
                         <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="Pays :" />
                         <Separator prefHeight="27.0" prefWidth="100.0" />
                         <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="Categorie :" />
-                        <Separator prefHeight="32.0" prefWidth="100.0" />
+                        <Separator prefHeight="23.0" prefWidth="100.0" />
                         <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="Mode cuisson :" />
                         <Separator prefHeight="13.0" prefWidth="87.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="204.0" prefHeight="23.0" prefWidth="88.0" text="Path. Interdit :" />
                      </children>
                   </VBox>
                   <VBox layoutX="117.0" layoutY="22.0" prefHeight="246.0" prefWidth="186.0">
@@ -116,8 +117,14 @@
                               <Tooltip text="Choisir La categorie de l'aliment" />
                            </tooltip>
                         </ComboBox>
-                        <Separator prefHeight="23.0" prefWidth="186.0" />
+                        <Separator prefHeight="15.0" prefWidth="186.0" />
                         <ComboBox fx:id="info_modeCuisson" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
+                           <tooltip>
+                              <Tooltip text="Choisissez un mode de cuisson" />
+                           </tooltip>
+                        </ComboBox>
+                        <Separator prefHeight="7.0" prefWidth="186.0" />
+                        <ComboBox fx:id="info_path" layoutX="10.0" layoutY="201.0" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
                            <tooltip>
                               <Tooltip text="Choisissez un mode de cuisson" />
                            </tooltip>
