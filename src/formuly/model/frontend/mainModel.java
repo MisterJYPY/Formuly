@@ -6,6 +6,12 @@
 package formuly.model.frontend;
 
 import formuly.classe.RetentionAlments;
+import formuly.entities.FmAliments;
+import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmPathologie;
+import formuly.entities.FmRetentionMineraux;
+import formuly.entities.FmRetentionNutriments;
+import formuly.entities.FmRetentionVitamines;
 import java.util.List;
 
 /**
@@ -58,6 +64,13 @@ public class mainModel {
   private Double thiamin;
   private Double riboflavin;
   private String pathologie;
+  private FmAliments aliment;
+  private FmPathologie Fmpathologie;
+  private FmAlimentsPathologie alimentPathologie;
+  private FmRetentionMineraux retMin;
+  private FmRetentionVitamines retVit;
+  private FmRetentionNutriments retNu;
+  
   
 
     private List<RetentionAlments> retentionAliments=null;
@@ -108,6 +121,7 @@ public class mainModel {
        
      //  retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
+    
  public mainModel(int numero, String clumAliment,String qte, Double cloumPcGlucide, Double cloumTtPcGlucide, Double cloumPclipide, Double cloumTtPclipide, Double  cloumPcprotide, Double  cloumPcTtprotide, Double Energie, Double fer, Double mg, Double na, Double ka, Double vitc, Double vite, Double vitb9, Double vita) {
         this.numero = numero;
         this.nom_aliment = clumAliment;
@@ -130,6 +144,55 @@ public class mainModel {
         this.pays="non defini";
      //  retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
+
+    public FmAliments getAliment() {
+        return aliment;
+    }
+
+    public void setAliment(FmAliments aliment) {
+        this.aliment = aliment;
+    }
+
+    public FmPathologie getFmpathologie() {
+        return Fmpathologie;
+    }
+
+    public void setFmpathologie(FmPathologie Fmpathologie) {
+        this.Fmpathologie = Fmpathologie;
+    }
+
+    public FmAlimentsPathologie getAlimentPathologie() {
+        return alimentPathologie;
+    }
+
+    public void setAlimentPathologie(FmAlimentsPathologie alimentPathologie) {
+        this.alimentPathologie = alimentPathologie;
+    }
+
+    public FmRetentionMineraux getRetMin() {
+        return retMin;
+    }
+
+    public void setRetMin(FmRetentionMineraux retMin) {
+        this.retMin = retMin;
+    }
+
+    public FmRetentionVitamines getRetVit() {
+        return retVit;
+    }
+
+    public void setRetVit(FmRetentionVitamines retVit) {
+        this.retVit = retVit;
+    }
+
+    public FmRetentionNutriments getRetNu() {
+        return retNu;
+    }
+
+    public void setRetNu(FmRetentionNutriments retNu) {
+        this.retNu = retNu;
+    }
+ 
     public int getNumero() {
         return numero;
     }

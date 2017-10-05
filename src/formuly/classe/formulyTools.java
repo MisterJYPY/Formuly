@@ -92,7 +92,7 @@ public class formulyTools {
       
     EntityManagerFactory emf=getEm(persistenceUnit);
       EntityManager em=emf.createEntityManager();
-      String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
+      String sql="SELECT f.id,f.libelle,f.energie,f.lipide,f.glucide,f.protide FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
       Query eqr=em.createNativeQuery(sql,FmRepas.class);
         System.out.println("eqr: "+eqr);
       FmRepas repas=(eqr.getResultList().size()>0)?(FmRepas) eqr.getSingleResult():null;
@@ -101,6 +101,16 @@ public class formulyTools {
         id=repas.getId();
          }
         return id;
+    }
+    public static List<FmRepas> Liste_Repas() 
+    {
+      List<FmRepas> repas;
+      EntityManager em=getEm().createEntityManager();
+   //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
+      Query eqr=em.createNamedQuery("FmRepas.findAll");
+         repas=eqr.getResultList();
+         
+        return repas;
     }
       public static List<FmAliments> listePays()
     {

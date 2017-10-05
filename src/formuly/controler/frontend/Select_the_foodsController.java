@@ -931,7 +931,7 @@ public class Select_the_foodsController implements Initializable {
                stage.close();
                }
                else{
-         Alert alert = new Alert(AlertType.CONFIRMATION);
+           Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Travail non enregistrer");
             alert.setHeaderText("Repas Non enregistrer \n");
             alert.setContentText("Le Travail n'as pas ete Enregistrer \n"
@@ -1044,6 +1044,10 @@ else{
           int tailleDonnee=liste.size();
           System.out.println("id :");
           int  j=4;
+          if(tailleDonnee==1)
+          {
+          j=99;
+          }
         for (int i = 0; i <tailleDonnee; i++) {
           Thread.sleep(200);
           //nous allonslancer le Proccess

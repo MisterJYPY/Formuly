@@ -890,7 +890,7 @@ else{
   }
          public void enregistrerAliment()
          {
-            ProgressBar  progressBar =new ProgressBar(0);
+              ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
                  Alert alert = new Alert(Alert.AlertType.NONE);
                alert.setGraphic( progressBar);

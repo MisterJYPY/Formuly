@@ -15,6 +15,7 @@ import formuly.entities.FmRetentionNutriments;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -161,15 +162,17 @@ EntityManagerFactory     entityManagerFactory;
        NumberFormat format=NumberFormat.getInstance();
             format.setMaximumFractionDigits(2); 
       ObservableList<repasModel> model=FXCollections.observableArrayList();
-         List<FmRepas> lisRepas=null;
-        FmRepasJpaController repaC=new FmRepasJpaController(formulyTools.getEm());
-        lisRepas=repaC.findFmRepasEntities();
-        System.out.println("nbrrrr :"+lisRepas.size());
+         List<FmRepas> lisRepas;
+       // FmRepasJpaController repaC=new FmRepasJpaController(formulyTools.getEm());
+        lisRepas=formulyTools.Liste_Repas();
+          System.out.println("*******dernier repas*******");
           System.out.println("nbrrrr :"+lisRepas.get(lisRepas.size()-1).getLibelle());
-           int i=0;
+            int i=0;
+            repasModel rpM;
         for(FmRepas repas :lisRepas)
         {
-            repasModel rpM=new repasModel();
+           if(repas==null) continue;
+             rpM=new repasModel();
               rpM.setNumero(i+1);
            //   Double db=Double.valueOf(format.format(Double.valueOf(repas.getGlucide().toString())));
            rpM.setEnergie(repas.getEnergie());
@@ -178,8 +181,7 @@ EntityManagerFactory     entityManagerFactory;
            rpM.setLipide(repas.getLipide());
            rpM.setLibelle(repas.getLibelle());
            rpM.setId_repas(repas.getId());
-           rpM.setDate(repas.getDate());
-          
+           rpM.setDate(repas.getDate());  
              model.add(rpM);
              i++;
         }

@@ -48,12 +48,13 @@ public class AcceuilleController implements Initializable {
     @FXML private Button modifierMenu;
     @FXML private Button listMenu;
     @FXML private Button listAliment;
-     @FXML private Button modifierAliment;
+    @FXML private Button modifierAliment;
     @FXML private TitledPane paneGauche;
-   @FXML private TitledPane paneDroite;
+    @FXML private TitledPane paneDroite;
     @FXML private Accordion accordGauche;
     @FXML private Accordion accordDroite;
     @FXML private Button enregistrer_aliment_fichier;
+    @FXML private Button moteurCalcul;
     private Stage st;
    
      
@@ -123,6 +124,9 @@ public class AcceuilleController implements Initializable {
       enregistrer_aliment_fichier.setOnAction(event->{
         InsertionAliment_Fichier();
       });
+    moteurCalcul.setOnAction(event->{
+        LancerMoteur();
+      });
   }
       public void placerBilanChoixFoods()
    {
@@ -155,6 +159,24 @@ public class AcceuilleController implements Initializable {
          st.showAndWait();
           } catch (IOException ex) {
                      Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+   }
+                public void LancerMoteur()
+   {
+          try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/moteur_calcul.fxml"));
+               ctr_moteur=new Moteur_calculController();
+               loader.setController(ctr_moteur);
+           Parent root = (Parent)loader.load(); 
+                 st=null;
+               st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("Insertion Aliment");
+         st.initOwner(moteurCalcul.getScene().getWindow());
+         st.initModality(Modality.APPLICATION_MODAL);
+         st.showAndWait();
+          } catch (IOException ex) {
+                     Logger.getLogger(Moteur_calculController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
               public void InsertionAliment_Fichier()
@@ -192,4 +214,5 @@ public class AcceuilleController implements Initializable {
     private Select_the_foodsController controllerSelectionFoods;
     private Inserer_alimentController ctr_inserAliment;
     private Inserer_aliment_fichierController ctr_inserAlimentFichier;
+    private Moteur_calculController ctr_moteur;
 }

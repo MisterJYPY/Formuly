@@ -35,19 +35,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -172,6 +181,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
 
     @FXML
     private TableColumn<mainModel, Double> table2_mg;
+    @FXML private Button quitter;
     ObservableList<mainModel> listeSaisie;
 
      private static Desktop desktop ;
@@ -232,7 +242,9 @@ public final class Inserer_aliment_fichierController implements Initializable {
                         } else {
                           //  btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
-                                System.out.println("nanou");
+                       mainModel model= getTableView().getItems().get(getIndex());
+                       int id=getIndex();
+                        retirerAliment(model,id);
                             });
                             setGraphic(btn);
                             
@@ -254,8 +266,26 @@ public final class Inserer_aliment_fichierController implements Initializable {
             takeFile(boutonSelection);
         });
         mettreLesToolTip(table1,table2);
+        
+        quitter.setOnAction(event->{
+          fermerFenetre();
+        });
     }    
     
+    
+     public void retirerAliment(mainModel model,int id) {
+               table1.getItems().remove(model);
+//               int i=id;
+//               int cpt=0;
+//               for(mainModel md:table1.getItems())
+//               {
+//              if(i>0) 
+//              {
+//                md.setNumero(md.getNumero()-1);
+//              }
+//               }
+     }
+     
     public ArrayList<String> RecupererElementFichier(File files)
     {
     ArrayList<String> list=new ArrayList();
@@ -278,6 +308,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
    
      return list;
     }
+    /**
+     * methode permettant d'extraire les informations recuperer du fichier
+     * en fonction du caractere # de fin
+     * @param list la liste des info du fichier
+     * @return une Liste de chaine de caractere 
+     */
     public ArrayList<String> extraireInformationDsLeLot(ArrayList<String> list)
     {
           ArrayList<String> listExtr=new ArrayList<>();
@@ -503,6 +539,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                      FmAliments aliments=null;
                      FmGroupeAliment grpe=null;
                      FmPathologie pat=null;
+                     FmAlimentsPathologie fmp=null;
                       if((nomFr.isEmpty() || categorie.isEmpty()) || (nomFr.isEmpty() && categorie.isEmpty()))continue;
                      if(!nomFr.isEmpty() && !categorie.isEmpty())
                      {
@@ -525,13 +562,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                        aliments.setModeCuisson(modeCuissons);
                        aliments.setDerniereModif(new Timestamp(new Date().getTime()));
                         pat=recupererPathologieParNomFichier(listePathologie,pathologie);
-                      FmAlimentsPathologie fmp;
                       //verifiaction si la pathologie existe ou pas nous traitons le cas ou elle nexiste pas
                       if(pat==null)
                       {
                      //creation de la pathologie
-                    int idPa=formulyTools.TrouverDernierIdentifiant_Pathologie();
-                      pat=new FmPathologie(idAliment);
+                    int idPa=formulyTools.TrouverDernierIdentifiant_Pathologie()+1;
+                      pat=new FmPathologie(idPa);
                       pat.setLibelle(pathologie);
                       pat.setDate(new Timestamp(new Date().getTime()));
                        fmp=new FmAlimentsPathologie(formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1);
@@ -544,6 +580,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                       fmp=new FmAlimentsPathologie(formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1);
                       fmp.setPathologie(pat);
                       fmp.setAliment(aliments);
+                      fmp.setDate(new Timestamp(new Date().getTime()));
                       }
                       }
                    if(aliments!=null)
@@ -682,6 +719,14 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
               FmRs.setZn((float)znn);
               
                 mainModels=new mainModel();
+                //enregistrement des objets
+                mainModels.setAliment(aliments);
+                mainModels.setFmpathologie(pat);
+                mainModels.setAlimentPathologie(fmp);
+                mainModels.setRetMin(FmRs);
+                mainModels.setRetNu(FmRn);
+                mainModels.setRetVit(FmRv);
+                //fin enregistrement des objets
                 mainModels.setNumero(numero);
                 mainModels.setNa(naa);
                 mainModels.setNom_aliment(aliments.getNomFr());
@@ -739,6 +784,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 new FileChooser.ExtensionFilter("TXT", "*.txt")
             );
     }
+           
   private void takeFile(Button btn)
   {
          Stage stage=(Stage) btn.getScene().getWindow();
@@ -746,16 +792,128 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                     File file = fileChooser.showOpenDialog(stage);
                     ArrayList<String> info;
                      ArrayList<String> infoTrie;
+                     
                     if (file != null) {
                        // openFile(file);
-                     initialiserInfoFichier(file,nomFichier,derniereModif,tailleFichier);
-                     info=RecupererElementFichier(file);
-                     infoTrie=extraireInformationDsLeLot(info);
-                     listeSaisie= remetreLalistesousFormeDecouper(infoTrie);
-                        initialiserTab1(listeSaisie);
-                
+                        enregistrerAliment(file);
                     }
                    
+  }
+    public void enregistrerAliment(File file)
+         {
+              ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Traitement du fichier");
+                alert.show();
+               Task copyWorker = createWorker(file);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              System.out.println("new value: "+newValue);
+              if("terminer".equals(newValue))
+              { 
+                // registerThread.
+               initialiserInfoFichier(file,nomFichier,derniereModif,tailleFichier);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+               alert.setGraphic(null);
+               alert.setTitle("Traitement termine");
+               alert.setContentText("Votre Fichier a ete  avec succes :\n"
+                       + " vous Trouverez dans le tableau les aliments");
+               alert.getButtonTypes().setAll(ButtonType.FINISH);  
+               alert.showAndWait();
+               
+              }
+               if("terminer rien".equals(newValue))
+              { 
+                // registerThread.
+                initialiserInfoFichier(file,nomFichier,derniereModif,tailleFichier);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+               alert.setGraphic(null);
+               alert.setTitle("Traitement termine");
+               alert.setContentText("Votre Fichier a ete traité et aucune Entree :\n"
+                       + " Valide pouvant etre Inserée n'as ete enregistré \n"
+                       + " Veuillez revoir vos  Entrees SVP ");
+               alert.getButtonTypes().setAll(ButtonType.FINISH);  
+               alert.showAndWait();
+               
+              }
+               if("lecture".equals(newValue))
+              { 
+                // registerThread.
+               alert.setContentText("lecture du fichier ");    
+              }
+               if("fin lecture".equals(newValue))
+              { 
+                // registerThread.
+               alert.setContentText("traitement et recuperation des entrees valides ");    
+              }
+               if("trie".equals(newValue))
+              { 
+                // registerThread.
+               alert.setContentText("regroupement des Informations");    
+              }
+                if("affichage".equals(newValue))
+              { 
+                // registerThread.
+               alert.setContentText("Preparation pour l'affichage.....");    
+              }
+             
+         }
+                });
+        
+        new Thread(copyWorker).start();
+         }
+     public Task createWorker(File file) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+                     ArrayList<String> info;
+                     ArrayList<String> infoTrie;
+   
+          try {
+                     updateProgress(5, 10);
+                     updateMessage("lecture");
+                     Thread.sleep(90);
+                     info=RecupererElementFichier(file);
+                     updateProgress(30, 10);
+                     updateMessage("fin lecture");
+                     Thread.sleep(1000);
+                     infoTrie=extraireInformationDsLeLot(info);
+                      updateProgress(55, 10);
+                     updateMessage("trie");
+                     Thread.sleep(400);
+                     listeSaisie= remetreLalistesousFormeDecouper(infoTrie);
+                      updateProgress(70, 10);  
+                      if(listeSaisie.size()>0)
+                      {
+                    
+                          updateProgress(80, 10); 
+                          updateMessage("affichage");
+                          Thread.sleep(200);
+                        initialiserTab1(listeSaisie);
+                          updateProgress(100, 10);
+                          updateMessage("terminer");
+                      }
+                      else{
+                      updateProgress(100, 10);
+                      updateMessage("terminer rien");
+                      }
+          } catch (Exception e) {
+          }
+         
+         
+          
+      
+        return true;
+      }
+    };
   }
     private  static void openFile(File file) {
         try {
@@ -765,5 +923,32 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 Level.SEVERE, null, ex
             );
         }
+    }
+
+    private void fermerFenetre() {
+       int nbre=table1.getItems().size();
+            if(nbre==0)
+            {
+                Stage stage = (Stage) quitter.getScene().getWindow();
+               stage.close();
+            }
+            else
+            {
+              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Travail non enregistrer");
+            alert.setHeaderText("Aliments Non enregistrés \n");
+            alert.setContentText("Le Travail n'as pas ete Enregistrer \n"
+                    + "VOULEZ-VOUS VRAIMENT QUITTEZ ?");
+               Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg")
+      );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+           Stage stage = (Stage) quitter.getScene().getWindow();
+               stage.close();
+        }                
+            }
     }
 }
