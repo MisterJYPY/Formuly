@@ -6,9 +6,7 @@
 package formuly.controler.frontend;
 
 import formuly.classe.TooltipTableRow;
-import formuly.classe.bilanMacroNut;
 import formuly.classe.formulyTools;
-import formuly.classe.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmGroupeAliment;
@@ -78,13 +76,13 @@ public final class Inserer_aliment_fichierController implements Initializable {
     private TableColumn<mainModel, Double> table2_na;
 
     @FXML
-    private TableColumn<mainModel, Double> table1_categorie;
+    private TableColumn<mainModel, String> table1_categorie;
 
     @FXML
     private TableColumn<mainModel, Double> table1_vite;
 
     @FXML
-    private TableColumn<mainModel, Double> table2_nomFr;
+    private TableColumn<mainModel, String> table2_nomFr;
 
     @FXML
     private TableView<mainModel> table2;
@@ -111,7 +109,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
     private TableColumn<mainModel, Double> table1_ka;
 
     @FXML
-    private TableColumn<mainModel, Double> table2_categorie;
+    private TableColumn<mainModel, String> table2_categorie;
 
     @FXML
     private Label nomFichier;
@@ -147,7 +145,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
     private TableColumn<mainModel, Double> table2_glucide;
 
     @FXML
-    private TableColumn<mainModel, Double> table2_modeCuisson;
+    private TableColumn<mainModel, String> table2_modeCuisson;
 
     @FXML
     private TableColumn<mainModel, Double> table1_glucide;
@@ -177,12 +175,19 @@ public final class Inserer_aliment_fichierController implements Initializable {
     private TableColumn<mainModel, Double> table2_ka;
 
     @FXML
-    private TableColumn<mainModel, Double> table2_pays;
-
+    private TableColumn<mainModel, String> table2_pays;
+  
     @FXML
     private TableColumn<mainModel, Double> table2_mg;
-    @FXML private Button quitter;
+   
+    @FXML 
+    private Button lancer;
+    
+    @FXML 
+    private Button quitter;
+    
     ObservableList<mainModel> listeSaisie;
+    ObservableList<mainModel> listeEnregistrer;
 
      private static Desktop desktop ;
       final FileChooser fileChooser ;
@@ -200,6 +205,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
         listePathologie=modelFoodSelect.listePathologie();
         ListmodeCuisson=modelFoodSelect.listeDesMode_cuissonss();
         listPays=initialiserPays();
+        listeEnregistrer=formulyTools.TouteLaListeDesAliments();
       //  System.out.println("groupe: "+recupererGroupeParNomFichier(listeCategorie,"céréale"));
     }
     public void initialiserTab1(ObservableList<mainModel> model)
@@ -265,11 +271,42 @@ public final class Inserer_aliment_fichierController implements Initializable {
         boutonSelection.setOnAction(event->{
             takeFile(boutonSelection);
         });
+  
         mettreLesToolTip(table1,table2);
         
         quitter.setOnAction(event->{
           fermerFenetre();
         });
+        lancer.setOnAction(event->{
+              Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+              alert.setTitle("alert confirmation");
+              alert.setContentText("Confirmer l'enregistrement SVP ");
+            if(table1.getItems().size()>0)
+            {
+               Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png")
+      );
+           alert.setGraphic(new ImageView(image));
+              alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+              alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+       enregistrerAliment();
+        }
+            }
+          else{
+        alert.setTitle("avertissement");
+        alert.setAlertType(Alert.AlertType.INFORMATION);
+        Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg")
+      );
+        alert.setGraphic(new ImageView(image));
+   alert.setContentText("Vous N'avez aucun aliment valide \n"
+           + "Succeptible d'etre enregistrer \n"
+           + " Veuiller choisir un fichier valide SVP");     
+              alert.show();
+            }
+        });
+        chargerDonne(listeEnregistrer,"");
     }    
     
     
@@ -509,6 +546,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
            String[] tabInfo={"",""};
           mainModel mainModels = null;
           int numero=1;
+          int derNierIdAliment=formulyTools.TrouverDernierIdentifiant_Aliment()+1;
+         int derNierIdentifiantNut=formulyTools.TrouverDernierIdentifiant_RetentionNutriment()+1; 
+         int dernierIdentifiantVit=formulyTools.TrouverDernierIdentifiant_RetentionVitamines()+1; 
+         int dernierIdentifianMin=formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1; 
+        int dernierIdentifiantPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1; 
+        int dernierIdentifiantAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
                for(String ligne :donneeExtraiteTable)
                {
                 tabInfo=ligne.split("/");
@@ -540,6 +583,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                      FmGroupeAliment grpe=null;
                      FmPathologie pat=null;
                      FmAlimentsPathologie fmp=null;
+                     boolean pathAinserer=false;
                       if((nomFr.isEmpty() || categorie.isEmpty()) || (nomFr.isEmpty() && categorie.isEmpty()))continue;
                      if(!nomFr.isEmpty() && !categorie.isEmpty())
                      {
@@ -547,10 +591,9 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                   grpe= recupererGroupeParNomFichier(listeCategorie,categorie);
                       if(grpe!=null)
                       {
-                     int idAliment=formulyTools.TrouverDernierIdentifiant_Aliment()+1;
-                       aliments=new FmAliments(idAliment);
+                       aliments=new FmAliments(derNierIdAliment);
                        aliments.setGroupe(grpe);
-                       String code=grpe.getCode()+idAliment;
+                       String code=grpe.getCode()+derNierIdAliment;
                        aliments.setCode(code);
                        aliments.setNomEng(nomEng);
                        aliments.setSurnom(surnom);
@@ -566,18 +609,20 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                       if(pat==null)
                       {
                      //creation de la pathologie
-                    int idPa=formulyTools.TrouverDernierIdentifiant_Pathologie()+1;
-                      pat=new FmPathologie(idPa);
+                      
+                      pat=new FmPathologie(dernierIdentifiantPathologie);
                       pat.setLibelle(pathologie);
                       pat.setDate(new Timestamp(new Date().getTime()));
-                       fmp=new FmAlimentsPathologie(formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1);
+                       fmp=new FmAlimentsPathologie(dernierIdentifiantAlimentPathologie);
                        fmp.setAliment(aliments);
                        fmp.setPathologie(pat);
                        fmp.setDate(new Timestamp(new Date().getTime()));
+                       pathAinserer=true;
+                       
                       }
                       //on insere slmt laliment pour la pathologie
                       else{
-                      fmp=new FmAlimentsPathologie(formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1);
+                      fmp=new FmAlimentsPathologie(dernierIdentifiantAlimentPathologie);
                       fmp.setPathologie(pat);
                       fmp.setAliment(aliments);
                       fmp.setDate(new Timestamp(new Date().getTime()));
@@ -616,7 +661,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
          if(lipides>0.0 || glucides>0.0 || protides>0.0)
                 {
              //a quel moment on cree l'entree de l'aliment  
-                    FmRn=new FmRetentionNutriments(formulyTools.TrouverDernierIdentifiant_RetentionNutriment()+1);
+                    FmRn=new FmRetentionNutriments(derNierIdentifiantNut);
                     FmRn.setAliment(aliments);
                     FmRn.setAsh((float)ashs);
                     FmRn.setEau((float)eaus);
@@ -627,6 +672,8 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                     FmRn.setGlucide((float)glucides);
                 }
                     //recuperation des info relatif a aux nutriments
+           if(FmRn!=null)
+           {
           String infoVit=(tabInfo.length>=3)?tabInfo[2]:"";
           String[] donneVit=infoVit.split("!");
                 String vita;
@@ -669,7 +716,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                double riboflavinn=Double.valueOf(riboflavin);
                //creation de vitamines
                FmRetentionVitamines FmRv=null;
-               FmRv=new FmRetentionVitamines(formulyTools.TrouverDernierIdentifiant_RetentionVitamines()+1);
+               FmRv=new FmRetentionVitamines(dernierIdentifiantVit);
                FmRv.setAliment(aliments);
                FmRv.setFolates((float)folatess);
                FmRv.setNiacine((float)niacinee);
@@ -707,7 +754,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
               double znn=Double.valueOf(zn);
               double cuu=Double.valueOf(cu);
               
-       FmRetentionMineraux FmRs=new FmRetentionMineraux(formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1);
+       FmRetentionMineraux FmRs=new FmRetentionMineraux(dernierIdentifianMin);
               FmRs.setAliment(aliments);
               FmRs.setCa((float)caa);
               FmRs.setCu((float)cuu);
@@ -727,6 +774,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 mainModels.setRetNu(FmRn);
                 mainModels.setRetVit(FmRv);
                 //fin enregistrement des objets
+                mainModels.setPathologieAinsere(pathAinserer);
                 mainModels.setNumero(numero);
                 mainModels.setNa(naa);
                 mainModels.setNom_aliment(aliments.getNomFr());
@@ -764,16 +812,28 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 mainModels.setVitd(vitdd);
                 mainModels.setVite(vitee);
                 list.add(mainModels);
+                derNierIdAliment++;
+                derNierIdentifiantNut++;
+                dernierIdentifiantVit++;
+                dernierIdentifianMin++;
+                 if(fmp!=null)
+                 {
+                 dernierIdentifiantAlimentPathologie++;
+                 }
+                 if(pathAinserer)
+                 {
+                 dernierIdentifiantPathologie++;
+                 }
                 numero++;
                      }
                      }
                      //recuperation des valeurs pour nutriment 
-               
+                     }
              }
                
            return list;
     }
-   
+  
             private static void configureFileChooser(
         final FileChooser fileChooser) {      
              fileChooser.setTitle("Select de Fichier Aliment");
@@ -870,7 +930,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         
         new Thread(copyWorker).start();
          }
-     public Task createWorker(File file) {
+    public Task createWorker(File file) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
@@ -884,28 +944,175 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                      info=RecupererElementFichier(file);
                      updateProgress(30, 10);
                      updateMessage("fin lecture");
-                     Thread.sleep(1000);
+                     Thread.sleep(50);
                      infoTrie=extraireInformationDsLeLot(info);
-                      updateProgress(55, 10);
+                      updateProgress(40, 10);
                      updateMessage("trie");
-                     Thread.sleep(400);
+                     Thread.sleep(50);
                      listeSaisie= remetreLalistesousFormeDecouper(infoTrie);
                       updateProgress(70, 10);  
                       if(listeSaisie.size()>0)
                       {
-                    
+                         listeEnregistrer=listeSaisie;
                           updateProgress(80, 10); 
                           updateMessage("affichage");
-                          Thread.sleep(200);
+                          Thread.sleep(30);
                         initialiserTab1(listeSaisie);
                           updateProgress(100, 10);
                           updateMessage("terminer");
                       }
                       else{
-                      updateProgress(100, 10);
+                      updateProgress(30, 10);
                       updateMessage("terminer rien");
                       }
           } catch (Exception e) {
+          }
+         
+         
+          
+      
+        return true;
+      }
+    };
+  }
+    /**
+     * methode permettant de rendre dans la base de donnée les aliments 
+     * valides selectionner dans le fichier
+     */
+    public void enregistrerAliment()
+         {
+              ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Enregistrement d'aliment");
+               alert.show();
+               Task copyWorker = createWorker(table1.getItems());
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+               alert.setContentText("preparation pour l'afficahe...");
+                  System.out.println("taille liste enregister: "+listeEnregistrer.size());
+                 
+                    chargerDonne(listeSaisie,"aj");
+                     System.out.println("taille liste enregister second : "+listeEnregistrer.size());
+              formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Fin insertion");
+               alert.setContentText("Aliment(s) enregistré(s) avec succes:");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+            
+              }
+              else{
+             alert.setContentText(newValue);   
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+         }
+    public void viderTableau(TableView<mainModel> model)
+    {
+     model.getItems().clear();
+    }
+    public void chargerDonne(ObservableList<mainModel> list,String ...actu)
+    {
+       table2_numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
+       table2_nomFr.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+       table2_glucide.setCellValueFactory(new PropertyValueFactory<>("cloumPcGlucide"));
+       table2_lipide.setCellValueFactory(new PropertyValueFactory<>("cloumPclipide"));
+       table2_protide.setCellValueFactory(new PropertyValueFactory<>("cloumPcprotide"));
+       table2_energie.setCellValueFactory(new PropertyValueFactory<>("Energie"));
+       table2_fer.setCellValueFactory(new PropertyValueFactory<>("fer"));
+       table2_mg.setCellValueFactory(new PropertyValueFactory<>("mg"));
+       table2_na.setCellValueFactory(new PropertyValueFactory<>("na"));
+       table2_ka.setCellValueFactory(new PropertyValueFactory<>("ka"));
+       table2_vitc.setCellValueFactory(new PropertyValueFactory<>("vitc"));
+       table2_vita.setCellValueFactory(new PropertyValueFactory<>("vita"));
+       table2_vite.setCellValueFactory(new PropertyValueFactory<>("vite"));
+       table2_categorie.setCellValueFactory(new PropertyValueFactory<>("Categorie"));
+       table2_modeCuisson.setCellValueFactory(new PropertyValueFactory<>("mode_cuisson"));
+       table2_pays.setCellValueFactory(new PropertyValueFactory<>("pays"));
+        if(actu[0].equals("aj"))
+        {
+           table2.getItems().addAll(list);
+        }
+      else{
+         table2.getItems().setAll(list);
+        }
+      
+    }
+      public Task createWorker(ObservableList<mainModel> Listmodel) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+             EntityManager em=formulyTools.getEm().createEntityManager();
+             int tailleDonnee=Listmodel.size();
+             int i=1,j=4;
+             if(tailleDonnee==1)
+             {
+             j=99;
+             }
+          try {
+               for(mainModel model:Listmodel)    
+               {
+         em.getTransaction().begin(); 
+               FmAliments aliments=model.getAliment();
+               FmPathologie pat=model.getFmpathologie();
+               FmAlimentsPathologie alPath=model.getAlimentPathologie();
+               FmRetentionMineraux retMin=  model.getRetMin();
+               FmRetentionNutriments retNu=model.getRetNu();
+               FmRetentionVitamines retVit=model.getRetVit();
+               updateMessage("Insertion de :"+aliments.getNomFr());
+               Thread.sleep(30);
+               em.persist(aliments); 
+               Thread.sleep(30);
+               em.persist(retNu);
+               Thread.sleep(30);
+               em.persist(retMin);
+               Thread.sleep(30);
+               em.persist(retVit);  
+            
+              if(model.isPathologieAinsere())
+          {
+         updateMessage("Finalisation de :"+aliments.getNomFr());
+               Thread.sleep(200);
+               em.persist(pat);
+               Thread.sleep(30);
+               em.persist(alPath);
+          }
+         else{
+         updateMessage("Finalisation de :"+aliments.getNomFr());
+              Thread.sleep(200);
+              em.persist(alPath);
+             }
+          updateProgress(j + 1, 10);
+          j=(100/tailleDonnee);
+          if(i!=tailleDonnee)
+          {
+          updateMessage("fin de : "+aliments.getNomFr());
+          }
+          else{
+         updateMessage("terminer");
+          }
+         i++;
+          em.getTransaction().commit();
+              
+               }
+           } catch (Exception e) {
           }
          
          
@@ -934,7 +1141,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             }
             else
             {
-              Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Travail non enregistrer");
             alert.setHeaderText("Aliments Non enregistrés \n");
             alert.setContentText("Le Travail n'as pas ete Enregistrer \n"
@@ -951,4 +1158,5 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         }                
             }
     }
+    
 }

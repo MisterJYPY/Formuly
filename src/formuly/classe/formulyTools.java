@@ -25,6 +25,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -380,13 +382,14 @@ public class formulyTools {
         EntityManager em=emf.createEntityManager();
      List<FmPathologie> listR=FXCollections.observableArrayList();
       String sql="SELECT f.id FROM fm_pathologie f WHERE f.id=(SELECT MAX(s.id) FROM fm_pathologie s)";
-      Query eqr=em.createNativeQuery(sql,FmAlimentsPathologie.class);
+      Query eqr=em.createNativeQuery(sql,FmPathologie.class);
       FmPathologie aliment=(eqr.getResultList().size()>0)?(FmPathologie) eqr.getSingleResult():null;
       if(aliment!=null)
       {
+        
         id=aliment.getId();
       }
-         
+        System.out.println("id pathologie: "+id);   
        return id;
     }
   public static ObservableList<mainModel> getobservableListMainModel()
@@ -416,6 +419,49 @@ public class formulyTools {
       }
      return inf;
   }  
+   public static ObservableList<mainModel> TouteLaListeDesAliments()
+  {
+      ObservableList<mainModel> inf = FXCollections.observableArrayList();
+      mainModel mainM=null;
+     List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention();
+      if(retentionAliment!=null)
+      {
+           int cpt=1;
+        for(RetentionAlments ret: retentionAliment)
+        {
+            FmAliments aliment=ret.getAliments();
+            FmRetentionMineraux mine=ret.getRm();
+            FmRetentionNutriments nutr=ret.getRn();
+            FmRetentionVitamines vit=ret.getRvtm();
+//             mainM=new mainModel(cpt,aliment.getNomFr(),null,(double)nutr.getGlucide(),null,(double)nutr.getLipide(),null, (double)nutr.getProtein(),null,(double)nutr.getEnergieKcal(),(double)mine.getFe(),(double)mine.getMg(),(double)mine.getNa(),(double)mine.getPota(), (double)vit.getVitc(),(double)vit.getVite(),null,(double)vit.getVita());
+           // System.out.println(aliment.getSurnom());
+            mainM=new mainModel(cpt,("aucun".equals(aliment.getSurnom()))?aliment.getNomFr():aliment.getSurnom(),String.valueOf(100.0),(nutr==null)?0.0:nutr.getGlucide(),0.0,(nutr==null)?0.0:nutr.getLipide(),0.0,(nutr==null)?0.0:nutr.getProtein(),0.0,(nutr==null)?0.0:nutr.getEnergieKcal(),(mine==null)?0.0:mine.getFe(),(mine==null)?0.0:mine.getMg(),(mine==null)?0.0:mine.getNa(),(mine==null)?0.0:mine.getPota(),(vit==null)?0.0:vit.getVitc(),(vit==null)?0.0:vit.getVite(),(vit==null)?0.0:vit.getFolates(),(vit==null)?0.0:vit.getVita());
+            mainM.setNumero(cpt);
+            mainM.setIdAliment(aliment.getId());
+            mainM.setNom_aliment(aliment.getNomFr());
+            mainM.setPays(aliment.getPays());
+            mainM.setMode_cuisson(aliment.getModeCuisson());
+            mainM.setCategorie(aliment.getGroupe().getNomFr());
+            mainM.setNomEng(aliment.getNomEng());
+            mainM.setPathologie(searchAlimentPathologie(aliment));
+            inf.add(mainM);
+            cpt++;
+        }
+      }
+     return inf;
+  }  
+   public static String searchAlimentPathologie(FmAliments aliment)
+   {
+     String pat="";
+      Query qer=getEm().createEntityManager().createNamedQuery("FmAlimentsPathologie.findByAliment");
+        qer.setParameter("aliment",aliment);
+       List<FmAlimentsPathologie> list=qer.getResultList();
+          for(FmAlimentsPathologie alp:list)
+          {
+          pat=pat.concat(alp.getPathologie().getLibelle()+" ,\n");
+          }
+     return pat;
+   }
     public static ObservableList<mainModel> getobservableListMainModel(int parametreFictif)
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -699,4 +745,25 @@ public class formulyTools {
    {
      entityManagerFactory.close();
    }
+     public static void initialiserLesTextFieldValeur(TextField...texfield)
+      {
+        for(TextField txf:texfield)
+        {
+         txf.setText("0.0");
+        }
+      }
+       public static void initialiserLesTextFieldInfoAliment(TextField...texfield)
+      {
+        for(TextField txf:texfield)
+        {
+         txf.setText("");
+        }
+      }
+         public static void initialiserLabelInfoAliment(Label...label)
+      {
+        for(Label lbl:label)
+        {
+         lbl.setText("");
+        }
+      }
 }

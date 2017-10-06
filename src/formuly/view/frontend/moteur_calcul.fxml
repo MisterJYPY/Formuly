@@ -9,10 +9,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane id="fenetrePrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="771.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/moteur_calcul.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <BorderPane prefHeight="75.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="53.0" prefWidth="771.0" BorderPane.alignment="CENTER">
          <center>
             <Label alignment="CENTER" prefHeight="46.0" prefWidth="318.0" text="BASE DE CALCUL" BorderPane.alignment="CENTER">
                <font>
@@ -47,33 +46,103 @@
                         <Label alignment="CENTER" layoutX="14.0" layoutY="4.0" prefHeight="27.0" prefWidth="44.0" text="X1" />
                         <Label alignment="CENTER" layoutX="104.0" layoutY="4.0" prefHeight="27.0" prefWidth="44.0" text="X2" />
                         <Label alignment="CENTER" layoutX="179.0" layoutY="4.0" prefHeight="27.0" prefWidth="44.0" text="X3" />
-                        <TextField id="q1" fx:id="q11" layoutX="5.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField id="q11" fx:id="q12" layoutX="92.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q13" layoutX="179.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q21" layoutX="5.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q31" layoutX="5.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q22" layoutX="92.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q23" layoutX="179.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q32" layoutX="92.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0" />
-                        <TextField fx:id="q33" layoutX="179.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0" />
+                        <TextField id="q1" fx:id="q11" layoutX="5.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X1 1rere Ligne" />
+                           </tooltip></TextField>
+                        <TextField id="q11" fx:id="q12" layoutX="92.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X2 1ere Ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q13" layoutX="179.0" layoutY="31.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X3 1ere Ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q21" layoutX="5.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X1 seconde ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q31" layoutX="5.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X1 3eme ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q22" layoutX="92.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X2 seconde ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q23" layoutX="179.0" layoutY="83.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X3 Troisieme Ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q32" layoutX="92.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X2 3eme Ligne" />
+                           </tooltip></TextField>
+                        <TextField fx:id="q33" layoutX="179.0" layoutY="133.0" prefHeight="35.0" prefWidth="69.0">
+                           <tooltip>
+                              <Tooltip text="Coefficient de X3 ,3eme Ligne" />
+                           </tooltip></TextField>
                      </children>
                   </AnchorPane>
-                  <VBox layoutX="14.0" layoutY="28.0" prefHeight="200.0" prefWidth="70.0" />
+                  <VBox layoutX="14.0" layoutY="28.0" prefHeight="200.0" prefWidth="62.0" />
                   <Separator layoutX="345.0" layoutY="57.0" orientation="VERTICAL" prefHeight="139.0" prefWidth="1.0" />
-                  <TextField fx:id="b1" layoutX="358.0" layoutY="57.0" prefHeight="35.0" prefWidth="69.0" />
-                  <TextField fx:id="b2" layoutX="358.0" layoutY="109.0" prefHeight="35.0" prefWidth="69.0" />
-                  <TextField fx:id="b3" layoutX="357.0" layoutY="161.0" prefHeight="35.0" prefWidth="69.0" />
+                  <TextField fx:id="b1" layoutX="358.0" layoutY="57.0" prefHeight="35.0" prefWidth="69.0">
+                     <tooltip>
+                        <Tooltip text="1er membre de droite" />
+                     </tooltip></TextField>
+                  <TextField fx:id="b2" layoutX="358.0" layoutY="109.0" prefHeight="35.0" prefWidth="69.0">
+                     <tooltip>
+                        <Tooltip text="2eme membre de droite" />
+                     </tooltip></TextField>
+                  <TextField fx:id="b3" layoutX="357.0" layoutY="161.0" prefHeight="35.0" prefWidth="69.0">
+                     <tooltip>
+                        <Tooltip text="3eme membre de droite" />
+                     </tooltip></TextField>
                   <Label alignment="CENTER" layoutX="361.0" layoutY="28.0" prefHeight="26.0" prefWidth="60.0" text="B" />
                </children>
             </Pane>
          </center>
          <bottom>
-            <Button fx:id="lancer" mnemonicParsing="false" prefHeight="34.0" prefWidth="98.0" text="Lancez le calcul" BorderPane.alignment="CENTER" />
+            <Button fx:id="lancer" mnemonicParsing="false" prefHeight="35.0" prefWidth="141.0" styleClass="enregistrer" text="Lancez le calcul" BorderPane.alignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <tooltip>
+                  <Tooltip text="Lancer le Calcul" />
+               </tooltip></Button>
          </bottom>
       </BorderPane>
    </center>
    <right>
-      <BorderPane prefHeight="246.0" prefWidth="223.0" BorderPane.alignment="CENTER" />
+      <BorderPane prefHeight="246.0" prefWidth="223.0" BorderPane.alignment="CENTER">
+         <center>
+            <TitledPane animated="false" prefHeight="307.0" prefWidth="223.0" styleClass="titreRapide" text="Outisl rapide" BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="calculRapidePane">
+                     <children>
+                        <AnchorPane layoutY="-5.0" prefHeight="156.0" prefWidth="226.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="1.0" layoutY="34.0" prefHeight="22.0" prefWidth="111.0" text="Energie :" />
+                              <Separator layoutX="110.0" layoutY="34.0" orientation="VERTICAL" prefHeight="123.0" prefWidth="6.0" />
+                              <Label alignment="CENTER" layoutX="2.0" layoutY="62.0" prefHeight="22.0" prefWidth="110.0" text="Lipide" />
+                              <Label alignment="CENTER" layoutX="19.0" layoutY="6.0" prefHeight="23.0" prefWidth="192.0" text="Fixer des valeurs" />
+                              <Label alignment="CENTER" layoutY="90.0" prefHeight="22.0" prefWidth="113.0" text="Glucide" />
+                              <Label alignment="CENTER" layoutY="123.0" prefHeight="22.0" prefWidth="113.0" text="Protide" />
+                              <TextField fx:id="valeurFixerEnergie" layoutX="115.0" layoutY="33.0" prefHeight="25.0" prefWidth="105.0">
+                                 <tooltip>
+                                    <Tooltip text="Energie en Kcal" />
+                                 </tooltip></TextField>
+                              <TextField fx:id="valeurFixerLipide" layoutX="115.0" layoutY="61.0" prefHeight="25.0" prefWidth="105.0" />
+                              <TextField fx:id="valeurFixerGlucide" layoutX="115.0" layoutY="89.0" prefHeight="25.0" prefWidth="105.0" />
+                              <TextField fx:id="valeurFixerProtide" layoutX="115.0" layoutY="122.0" prefHeight="25.0" prefWidth="105.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutY="169.0" prefHeight="110.0" prefWidth="222.0" />
+                        <Separator layoutX="4.0" layoutY="168.0" prefHeight="0.0" prefWidth="216.0" />
+                     </children></AnchorPane>
+              </content>
+            </TitledPane>
+         </center></BorderPane>
    </right>
    <bottom>
       <BorderPane prefHeight="238.0" prefWidth="771.0" BorderPane.alignment="CENTER">
@@ -97,16 +166,28 @@
                         <Label alignment="CENTER" layoutX="13.0" layoutY="7.0" prefHeight="34.0" prefWidth="70.0" text="Lipide : " />
                         <Label alignment="CENTER" layoutX="13.0" layoutY="53.0" prefHeight="34.0" prefWidth="70.0" text="Glucide : " />
                         <Label alignment="CENTER" layoutX="13.0" layoutY="97.0" prefHeight="34.0" prefWidth="71.0" text="Protide :" />
-                        <Label fx:id="resLipide" alignment="CENTER" layoutX="86.0" layoutY="6.0" prefHeight="37.0" prefWidth="127.0" text="Label" />
-                        <Label fx:id="resGlucide" alignment="CENTER" layoutX="92.0" layoutY="46.0" prefHeight="38.0" prefWidth="121.0" text="Label" />
-                        <Label fx:id="resProtide" alignment="CENTER" layoutX="93.0" layoutY="89.0" prefHeight="35.0" prefWidth="122.0" text="Label" />
+                        <Label fx:id="resLipide" alignment="CENTER" layoutX="86.0" layoutY="6.0" prefHeight="37.0" prefWidth="136.0" text="Label" />
+                        <Label fx:id="resGlucide" alignment="CENTER" layoutX="92.0" layoutY="46.0" prefHeight="38.0" prefWidth="131.0" text="Label" />
+                        <Label fx:id="resProtide" alignment="CENTER" layoutX="93.0" layoutY="89.0" prefHeight="40.0" prefWidth="129.0" text="Label" />
                      </children>
                   </AnchorPane>
-                  <ImageView fitHeight="31.0" fitWidth="44.0" layoutX="639.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="29.0" fitWidth="44.0" layoutX="648.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="29.0" fitWidth="44.0" layoutX="648.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label alignment="CENTER" layoutX="222.0" layoutY="187.0" prefHeight="36.0" prefWidth="126.0" text="Résidu :" />
-                  <Label fx:id="residu" alignment="CENTER" layoutX="364.0" layoutY="187.0" prefHeight="36.0" prefWidth="220.0" text="Résidu :" />
+                  <ImageView fx:id="logoLipide" fitHeight="31.0" fitWidth="44.0" layoutX="639.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="logoGlucide" fitHeight="29.0" fitWidth="44.0" layoutX="639.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="logoProtide" fitHeight="29.0" fitWidth="44.0" layoutX="639.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="labelInfoResidu" alignment="CENTER" layoutX="485.0" layoutY="-1.0" prefHeight="36.0" prefWidth="108.0" />
+                  <Label fx:id="residu" alignment="CENTER" layoutX="583.0" layoutY="-1.0" prefHeight="36.0" prefWidth="185.0" />
+                  <Label fx:id="infoResult" alignment="CENTER" layoutX="206.0" layoutY="189.0" prefHeight="27.0" prefWidth="404.0">
+                     <tooltip>
+                        <Tooltip />
+                     </tooltip></Label>
+                  <Button fx:id="reload" alignment="CENTER" layoutX="676.0" layoutY="182.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="36.0" styleClass="btnreload">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <tooltip>
+                        <Tooltip styleClass="btnreload" text="Tout Actualiser" />
+                     </tooltip>
+                  </Button>
                </children>
             </Pane>
          </center>

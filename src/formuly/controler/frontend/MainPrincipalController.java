@@ -47,12 +47,12 @@ public class MainPrincipalController implements Initializable {
     @FXML private BorderPane fenetrePrincipal;
     @FXML private Button ok;
     @FXML  
-  private TableView<mainModel>  aliment;
-   @FXML 
-  private TableColumn<mainModel, Integer> numero ;
-     @FXML 
-   private TableColumn<mainModel, String> qte ;
-   @FXML
+    private TableView<mainModel>  aliment;
+    @FXML 
+    private TableColumn<mainModel, Integer> numero ;
+    @FXML 
+    private TableColumn<mainModel, String> qte ;
+    @FXML
   private TableColumn<mainModel, String>  nom_aliment;
    @FXML
   private TableColumn<mainModel, Double>   cloumPcGlucide;

@@ -56,8 +56,14 @@ public class AcceuilleController implements Initializable {
     @FXML private Button enregistrer_aliment_fichier;
     @FXML private Button moteurCalcul;
     private Stage st;
+
+    public AcceuilleController() {
+        windowMteurCacul=null;
+    }
    
      
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -163,21 +169,27 @@ public class AcceuilleController implements Initializable {
    }
                 public void LancerMoteur()
    {
+       if(windowMteurCacul==null)
+           {
           try {
+           
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/moteur_calcul.fxml"));
                ctr_moteur=new Moteur_calculController();
                loader.setController(ctr_moteur);
            Parent root = (Parent)loader.load(); 
-                 st=null;
-               st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("Insertion Aliment");
-         st.initOwner(moteurCalcul.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         st.showAndWait();
+        windowMteurCacul=new Stage();
+        windowMteurCacul.setScene(new Scene(root));
+        windowMteurCacul.setTitle("Insertion Aliment");
+        windowMteurCacul.initOwner(moteurCalcul.getScene().getWindow());
+        windowMteurCacul.initModality(Modality.APPLICATION_MODAL);
+        windowMteurCacul.showAndWait();
           } catch (IOException ex) {
                      Logger.getLogger(Moteur_calculController.class.getName()).log(Level.SEVERE, null, ex);
                  }
+   }
+     else{
+       windowMteurCacul.showAndWait();
+       }
    }
               public void InsertionAliment_Fichier()
    {
@@ -215,4 +227,5 @@ public class AcceuilleController implements Initializable {
     private Inserer_alimentController ctr_inserAliment;
     private Inserer_aliment_fichierController ctr_inserAlimentFichier;
     private Moteur_calculController ctr_moteur;
+    private Stage windowMteurCacul;
 }

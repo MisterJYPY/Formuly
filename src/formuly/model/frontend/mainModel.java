@@ -70,14 +70,25 @@ public class mainModel {
   private FmRetentionMineraux retMin;
   private FmRetentionVitamines retVit;
   private FmRetentionNutriments retNu;
-  
+  private boolean PathologieAinsere;
+
   
 
     private List<RetentionAlments> retentionAliments=null;
     
     public mainModel() {
+         PathologieAinsere=false;
         retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
+      public boolean isPathologieAinsere() {
+        return PathologieAinsere;
+    }
+
+    public void setPathologieAinsere(boolean PathologieAinsere) {
+        this.PathologieAinsere = PathologieAinsere;
+    }
+  
+  
 /**
  * 
  * @param numero

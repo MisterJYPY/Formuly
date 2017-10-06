@@ -74,7 +74,7 @@
          <center>
             <BorderPane fx:id="center" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <center>
-                  <BorderPane fx:id="element" prefHeight="497.0" prefWidth="949.0" BorderPane.alignment="CENTER">
+                  <BorderPane fx:id="element" prefHeight="494.0" prefWidth="949.0" BorderPane.alignment="CENTER">
                      <center>
                         <Button mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
                      </center>
@@ -148,7 +148,10 @@
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="212.0" prefWidth="198.0">
                                  <children>
-                                    <Button fx:id="moteurCalcul" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" text="Base de calcul" />
+                                    <Button fx:id="moteurCalcul" alignment="CENTER" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" styleClass="sous-nav" text="Base de calcul">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
