@@ -1,0 +1,17 @@
+JvmtiExport can_access_local_variables 0
+JvmtiExport can_hotswap_or_post_breakpoint 0
+JvmtiExport can_post_on_exceptions 0
+# 375 ciObject found
+ciMethod java/lang/Object <init> ()V 4097 1 968541 0 -1
+ciMethod java/lang/String substring (II)Ljava/lang/String; 3129 1 5763 0 -1
+ciMethod java/lang/Number <init> ()V 3393 1 36035 0 -1
+ciMethod java/lang/Double valueOf (D)Ljava/lang/Double; 761 1 22803 0 -1
+ciMethod java/lang/Double <init> (D)V 1665 1 23310 0 -1
+ciMethod java/lang/Double doubleValue ()D 3081 1 5960 0 -1
+ciMethod java/lang/Math ceil (D)D 4097 1 33244 0 -1
+ciMethod java/lang/Math round (D)J 3153 1 5230 0 -1
+ciMethod java/lang/Math max (DD)D 4097 1 12423 0 -1
+ciMethod java/lang/Math min (DD)D 2049 1 4001 0 -1
+ciMethodData java/lang/Object <init> ()V 2 968563 orig 264 136 112 217 109 0 0 0 0 136 4 206 21 0 0 0 0 32 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 153 43 118 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 1 0 0 0 0 0 0 0 255 255 255 255 0 0 0 0 0 0 0 0 data 0 oops 0
+ciMethodData java/lang/Number <init> ()V 2 36035 orig 264 136 112 217 109 0 0 0 0 240 197 215 21 0 0 0 0 48 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 167 1 0 0 217 88 4 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 2 0 0 0 16 0 0 0 255 255 255 255 2 0 1 0 0 0 0 0 data 2 0x10002 0x8b1b oops 0
+ciMethodData java/lang/String substring (II)Ljava/lang/String; 2 5763 orig 264 136 112 217 109 0 0 0 0 56 92 206 21 0 0 0 0 40 2 0 0 208 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 135 1 0 0 225 167 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 15 0 2 0 0 0 248 0 0 0 255 255 255 255 7 0 1 0 0 0 0 0 data 31 0x10007 0x14fc 0x30 0x0 0x90002 0x0 0x130007 0x14fc 0x30 0x0 0x1b0002 0x0 0x240007 0x14fc 0x30 0x0 0x2c0002 0x0 0x310007 0x2da 0x58 0x1222 0x3a0007 0x1004 0x38 0x21e 0x3e0003 0x21e 0x28 0x4b0002 0x12de

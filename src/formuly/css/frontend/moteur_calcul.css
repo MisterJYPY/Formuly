@@ -28,7 +28,6 @@
 .calculRapidePane
 {
        -fx-background-color:linear-gradient(to top right,white 30%,#90EE90,white 50%,#90EE90,white,white,#90EE90);
-       -fx-background-image: url(../../formuly/image/athematique.jpg)  ; 
 }
 .info
 {

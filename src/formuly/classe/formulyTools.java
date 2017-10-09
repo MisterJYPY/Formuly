@@ -99,10 +99,13 @@ public class formulyTools {
         System.out.println("eqr: "+eqr);
       FmRepas repas=(eqr.getResultList().size()>0)?(FmRepas) eqr.getSingleResult():null;
       if(repas!=null)
-        {
+         {
         id=repas.getId();
          }
+        em.clear();
+        emf.close();
         return id;
+        
     }
     public static List<FmRepas> Liste_Repas() 
     {
