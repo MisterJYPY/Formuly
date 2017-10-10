@@ -8,8 +8,11 @@ package formuly.classe;
 import formuly.model.frontend.mainModel;
 
 /**
- *
- * @author Mr_JYPY
+ *classe permettant de servir de model de TableView 
+ * elle est principalement utilisée dans la confection d'un menu .
+ * le tableau de bilan par aliment l'utilise pour initialiser ces champs
+ * elle doit absolument respecter la structure d'un bean java
+ * @author Mr_JYPY (NANOU KAKOU JEAN-paul)
  */
 public class bilanMacroNut {
     

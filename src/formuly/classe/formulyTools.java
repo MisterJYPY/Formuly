@@ -6,7 +6,6 @@
 package formuly.classe;
 
 
-import com.sun.deploy.util.StringUtils;
 import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;
@@ -36,24 +35,35 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
- *
+ *cette classe instanciable regorge plusieurs methodes statiques
+ * utilisable depuis n'importe package.elle est aussi le gestionnaire de connection (le factory)
+ * Toutes les connections au serveur postgresql devrait passer par elle pour eviter des bugs au niveau du systeme
+ * de fermerture du manager de connection
  * @author Mr_JYPY
  */
 public class formulyTools {
-    
+    /**
+     * cette variable static contient le nom de la persistence present dans le fichier xml persistence unit
+     */
     public static String persistenceUnit="fx_formulyPU";
       static EntityManagerFactory   entityManagerFactory=null ;
         static EntityManagerFactory   entityManagerFactoryss =null;
       static   EntityManager entityManger;
 
   
-
+/**
+ * constructeur non parametrer qui cree automtiquement une instance du manager factory au demarage
+ */
     public formulyTools() {     
         entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
         entityManger=entityManagerFactory.createEntityManager();
     }
      
-    
+    /**
+     * methode static qui retourne le manager de connection au serveur de donnee
+     * @param persistenceName le nom de la persistence unit contenu dans le fichier xml et pouvant etre appelé de depuis la variable static pesisence unit de cette classe
+     * @return un obdjet factory de connection
+     */
     public static EntityManagerFactory getEm(String persistenceName)
     {
          EntityManagerFactory   entityManagerFactoys ;
@@ -71,6 +81,10 @@ public class formulyTools {
         return  entityManagerFactory ;
        
     }
+    /**
+     * methode renvoyant un obdet factory qui a la particuliarite de ne qu'etre utilisé pour notre base de données
+     * @return un EntityManagerFactory
+     */
      public static EntityManagerFactory getEm()
     {
            
@@ -87,7 +101,10 @@ public class formulyTools {
         return entityManagerFactory ;
        
     }
-            
+            /**
+             * methode qui retourne la derniere entree d'un repas
+             * @return un entier qui est en fait l'id du dernier enregistrement
+             */
     public static int TrouverDernierIdentifiant_Repas() 
     {
       int id=0;
@@ -107,6 +124,10 @@ public class formulyTools {
         return id;
         
     }
+    /**
+     * methode static qui retourne la liste de tous les repas etabli 
+     * @return une List d'obdjet FmRepas
+     */
     public static List<FmRepas> Liste_Repas() 
     {
       List<FmRepas> repas;
@@ -117,6 +138,11 @@ public class formulyTools {
          
         return repas;
     }
+    /**
+     * methode static qui retourne la liste de tous les pays enregistré
+     * @deprecated à limiter l'utilisation
+     * @return une List d'obdjet FmAliments qui sont concerné par ces pays
+     */
       public static List<FmAliments> listePays()
     {
      List<FmAliments> ls=null;
@@ -130,6 +156,10 @@ public class formulyTools {
        emf.close();
     return ls;
     }
+    /**
+     * methode qui permet d'avoir le nombre d'aliment enregistrer dans la base de donnée
+     * @return un entier qui est le nombre d'aliment enregistré
+     */
        public int NbreAlimentEnregistrer()
     {
         int nbre=0;
@@ -140,6 +170,10 @@ public class formulyTools {
       ls=eqr.getResultList();
     return nbre=ls.size();
     }
+       /**
+        * methode qui retourne le nombre de repas effectuer 
+        * @return un entier
+        */
          public int NbreRepasEffectuer()
     {
         int nbre=0;
@@ -150,6 +184,10 @@ public class formulyTools {
      
     return nbre=ls.size();
     }
+    /**
+     * methode qui retourne le nombre d'aliment Interdits
+     * @return un entier
+     */   
          public  int NbreAlimentInterdit()
     {
         int nbre=0;
@@ -161,7 +199,10 @@ public class formulyTools {
         
     return nbre=ls.size();
     }
-         
+       /**
+        * methode qui retourne le nombre de pathologie enregistrée
+        * @return un entier
+        */  
          public  int NbrePathologie()
     {
         int nbre=0;
@@ -173,6 +214,10 @@ public class formulyTools {
        
     return nbre=ls.size();
     }
+         /**
+          * methode qui retourne le nombre de menu avec aliment Interdit
+          * @return 
+          */
          public int NbremenuAvecAlimentInterdit()
     {
         int nbre=0;
@@ -182,6 +227,10 @@ public class formulyTools {
       ls=eqr.getResultList();
     return nbre=ls.size();
     }
+         /**
+          * methode qui return le nombre d'aliment ou les valeurs en glucides ,lipide,protide sont toutes nulles ou non enregistré
+          * @return un entier
+          */
      public int nbreAlimentNonUtilisable()
     {
         int nbre=0;
@@ -207,6 +256,10 @@ public class formulyTools {
       
     return nbre=ls.size();
     }
+      /**
+       * methode qui retourne la liste de tous les aliments
+       * @return une liste d'instance FmAliments
+       */
       public  List<FmAliments> ListeAlimentUtilisable()
     {
         int nbre=0;
@@ -217,6 +270,10 @@ public class formulyTools {
       
     return ls;
     }
+      /**
+       * methode qui retourne la liste de tous les menu effectuer jusqu'a ce jour
+       * @return un entier
+       */
         public  int listeMenuEffecter()
     {
         int nbre=0;
@@ -228,6 +285,15 @@ public class formulyTools {
      
     return nbre=ls.size();
     }
+        /**
+         * methode qui retourne le nombre de menu en fonction d'une plage de regime
+         * ex: 1500 signifie entre 1000 et 15000 
+         *  1000 signifie tous les menus inferieur ou egale à ce regime
+         * 2500 signifie entre 1500 et 2500 inclu
+         * 3500 signifie entre 2500 et 3500 inclu ...
+         * @param regime
+         * @return 
+         */
     public int NbrerepasFonctionRegime(Double regime)
         {
        int nbre=0;
@@ -259,6 +325,11 @@ public class formulyTools {
         
        return nbre;
        }
+    /**
+     * methode qui returne la liste des pays
+     * @deprecated methode a eviter d'utiliser .une methode encore plus robuste devrait etre utilisé
+     * @return un entier
+     */
        public static int listePayss()
     {
      List<FmAliments> ls=null;
@@ -271,6 +342,10 @@ public class formulyTools {
       em.close();
     return nbre;
     }
+       /**
+        * methode static qui retourne la liste des FmAliments
+        * @return ue liste d'obdjet FmAliments
+        */
     public static List<FmAliments> listeAliment()
     {
     List<FmAliments> ls=null;
@@ -278,6 +353,11 @@ public class formulyTools {
     ls=fmc.findFmAlimentsEntities();
     return ls;
     }
+    /**
+     * methode qui retourne le nombre d'aliment enregistré pour unpays donné
+     * @param pays le pays conerné
+     * @return 
+     */
     public  int AvoirNbreAlimentPays(String pays)
     {
        int nbre=0;
@@ -289,7 +369,11 @@ public class formulyTools {
        
          return nbre;
     }
-    
+    /**
+     * methode qui retourne le dernier identifiant des aliments repas (tous)
+     * utilile pour l'insertion et pour la generaration de code aliment
+     * @return 
+     */
      public static int TrouverDernierIdentifiant_Repas_aliment() 
     {
       int id=0;
@@ -304,6 +388,10 @@ public class formulyTools {
        
        return id;
     }
+     /**
+      * methode qui retourne le dernier identiant des entree des retention en nutriment
+      * @return un entier 
+      */
       public static int TrouverDernierIdentifiant_RetentionNutriment() 
     {
       int id=0;
@@ -318,6 +406,10 @@ public class formulyTools {
        
        return id;
     }
+       /**
+      * methode qui retourne le dernier identiant des entree des retention en vitamines
+      * @return un entier 
+      */
          public static int TrouverDernierIdentifiant_RetentionVitamines() 
     {
       int id=0;
@@ -332,6 +424,10 @@ public class formulyTools {
        
        return id;
     }
+     /**
+      * methode qui retourne le dernier identiant des entree des retention en mineraux
+      * @return un entier 
+      */
            public static int TrouverDernierIdentifiant_RetentionMineraux() 
     {
       int id=0;
@@ -346,7 +442,10 @@ public class formulyTools {
        
        return id;
     }
-     
+    /**
+     * methode qui retourne l'id du derbnier enregistrement de la table fm_aliments
+     * @return un identifiant
+     */ 
      public static int TrouverDernierIdentifiant_Aliment() 
     {
       int id=0;
@@ -363,6 +462,10 @@ public class formulyTools {
          
        return id;
     }
+     /**
+     * methode qui retourne l'id du derbnier enregistrement de la table fm_aliments_pathologie
+     * @return un entier
+     */ 
       public static int TrouverDernierIdentifiant_Aliment_Pathologie() 
     {
       int id=0;
@@ -379,6 +482,10 @@ public class formulyTools {
          
        return id;
     }
+      /**
+       * methode qui retourne le dernier identifaint des pathologies enregistrées
+       * @return un entier
+       */
         public static int TrouverDernierIdentifiant_Pathologie() {
        int id=0;
         EntityManagerFactory emf=getEm(persistenceUnit);
@@ -395,6 +502,11 @@ public class formulyTools {
         System.out.println("id pathologie: "+id);   
        return id;
     }
+        /**
+         * methode qui retourne une liste observable de mainModel qui est une classe qui a servit pour 
+         * stocker des données dans les TableView
+         * @return une liste observable
+         */
   public static ObservableList<mainModel> getobservableListMainModel()
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -422,6 +534,12 @@ public class formulyTools {
       }
      return inf;
   }  
+   /**
+         * methode qui retourne une liste observable de mainModel qui est une classe qui a servit pour 
+         * stocker des données dans les TableView.cette methode a la particuliarité de donner la liste de tous les 
+         * aliments avec leurs differentes retentions 
+         * @return une liste observable de mainModel
+         */
    public static ObservableList<mainModel> TouteLaListeDesAliments()
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -453,6 +571,12 @@ public class formulyTools {
       }
      return inf;
   }  
+   /**
+    * donne sous forme de chaine de caractere (avec des concatenations) la liste de toutes les 
+    * pathologies concernée par ce aliment (interdit alimentaire)
+    * @param aliment un obdet FmAliment
+    * @return  une chaine de caractere
+    */
    public static String searchAlimentPathologie(FmAliments aliment)
    {
      String pat="";
@@ -465,6 +589,12 @@ public class formulyTools {
           }
      return pat;
    }
+   /**
+    * cette methode est en fait une surchage mqui prends un parametre qui en realité n'est pas 
+    * utilisé dans le deroulement de l'algorithme utilisé par cette methode
+    * @param parametreFictif prennt nimporte quelle valeur
+    * @return une liste Observable
+    */
     public static ObservableList<mainModel> getobservableListMainModel(int parametreFictif)
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -492,6 +622,14 @@ public class formulyTools {
       }
      return inf;
   }  
+    /**
+     * methode permetant de donner liste d'instance mainModel particuliere
+     * @param NomNameQuery le nom de la requete contenu de preference dans sa classe d'origine
+     * @param champ le champ de la liste de resulat voulu
+     * @param parametre l'obdjet qui servira de parametre pour la requete
+     * @deprecated a eviter mais preferé plus la methode getobservableListMainModel non surchargé 
+     * @return 
+     */
    public static ObservableList<mainModel> getobservableListMainModel(String NomNameQuery,String champ,Object parametre)
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -519,7 +657,12 @@ public class formulyTools {
       }
      return inf;
   }  
-   
+   /**
+    * methode donnant une liste de mainModel permettant de donner sa propre requete sql 
+    * @param requeteNative la requete native
+    * @param model l'objet qui manipule les aiments(model)
+    * @return  une liste Observable
+    */
    public static ObservableList<mainModel> getobservableListMainModel(String requeteNative,modelFoodSelect model)
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -579,6 +722,11 @@ public class formulyTools {
       }
      return inf;
   }  
+    /**
+     * donne la liste des aliments sous forme d'obdjet (mainModel)
+     * @param Pays le pays concerné
+     * @return une liste de mainModel
+     */
   public static ObservableList<mainModel> getobservableListMainModel(String Pays)
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
@@ -663,6 +811,12 @@ public class formulyTools {
   } 
      return m;
   }
+  /**
+   * fdait le traitrement d'une chaine de caractere passé en parametre
+   * verifie si des caracteres indesirés sont presents dans la chaine
+   * @param m
+   * @return 
+   */
    public static String preformaterChaineAvecEspace(String m)
   {
   String lesCaracteresNonVoulu = "[(,=,/,),ฐ,+,*,',:,้,&,่,--,_,๙,$,^^,\\,\",?,!,็,ฒ,ฃ,จจ,%,ต,{,},#,ง,;,<,>,เ,[a-z,A-Z],à,^,$,é,¨,°,&,ç,è,ù,*,-,%,§,<,>,+,?,/,(,),=,²,_,€,|,`,^,},{,[,¤,$,]]";   
@@ -696,6 +850,11 @@ public class formulyTools {
   } 
      return m;
   }
+   /**
+    * methode qui permet de mettre les effets sur un tableau de bouton mis en parametre
+    * l'effet qu'il met c'est le box shadow
+    * @param TabloButton 
+    */
    public static void mettreEffetButton(Button[] TabloButton)
      {
           DropShadow shadow = new DropShadow();
@@ -720,6 +879,11 @@ public class formulyTools {
 });
           }
      }
+   /**
+    * surchage de la methode mettreEffetButton mais cette fois avec precision de la couleurs d'effet
+    * @param TabloButton le tableau de bouton
+    * @param color la couleur de type Color
+    */
     public static void mettreEffetButton(Button[] TabloButton,Color color)
      {
           DropShadow shadow = new DropShadow();
@@ -744,10 +908,17 @@ public class formulyTools {
 });
           }
      }
+    /**
+     * methode servant a ferme la connection au serveur de base de donnee ici postgresql 9.0
+     */
    public void fermerConnection()
    {
      entityManagerFactory.close();
    }
+   /**
+    * methode permettant d'initialialiser les champ de texte à 0.0
+    * @param texfield un tableau de TextFiels
+    */
      public static void initialiserLesTextFieldValeur(TextField...texfield)
       {
         for(TextField txf:texfield)
@@ -755,6 +926,10 @@ public class formulyTools {
          txf.setText("0.0");
         }
       }
+     /**
+    * methode permettant d'initialialiser les champ de texte à vide ("")
+    * @param texfield un tableau de TextFiels
+    */
        public static void initialiserLesTextFieldInfoAliment(TextField...texfield)
       {
         for(TextField txf:texfield)
@@ -762,6 +937,10 @@ public class formulyTools {
          txf.setText("");
         }
       }
+       /**
+        * methode permettant d'initialiser les labels a vide
+        * @param label un tableau de taille variable de label
+        */
          public static void initialiserLabelInfoAliment(Label...label)
       {
         for(Label lbl:label)

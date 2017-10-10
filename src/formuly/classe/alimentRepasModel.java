@@ -6,7 +6,10 @@
 package formuly.classe;
 
 /**
- *
+ *classe permettant de servir de model de TableView 
+ * elle est principalement utilisée dans la confection d'un menu avec menu existant
+ * le tableau affichant la liste des menu l'utilise
+ * elle doit absolument respecter la structure d'un bean java
  * @author Mr_JYPY
  */
 public class alimentRepasModel {
