@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="823.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/formuly/css/frontend/inserer_pathologie.css" />
+    </stylesheets>
+   <children>
+      <SplitPane dividerPositions="0.42436974789915966" layoutX="-1.0" layoutY="-1.0" prefHeight="585.0" prefWidth="823.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="28.0" layoutY="14.0" prefHeight="24.0" prefWidth="232.0" text="Informations pathologies" />
+                  <Label alignment="CENTER" layoutX="75.0" layoutY="59.0" prefHeight="17.0" prefWidth="210.0" text="nouvelle pathologie" />
+                  <Label layoutX="12.0" layoutY="104.0" prefHeight="24.0" prefWidth="73.0" text="Nom :" />
+                  <Label layoutX="3.0" layoutY="160.0" prefHeight="17.0" prefWidth="105.0" text="Description :" />
+                  <TextArea fx:id="descriptionPathologie" layoutX="85.0" layoutY="134.0" prefHeight="97.0" prefWidth="225.0" promptText="description de la pathologie" />
+                  <TextField fx:id="nomPathologie" layoutX="85.0" layoutY="104.0" prefHeight="25.0" prefWidth="225.0" promptText="nom de la pathologie">
+                     <tooltip>
+                        <Tooltip text="nom Aliment" />
+                     </tooltip></TextField>
+                  <Label alignment="CENTER" layoutX="69.0" layoutY="257.0" prefHeight="17.0" prefWidth="225.0" text="pathologie deja existante" />
+                  <Label layoutY="318.0" prefHeight="25.0" prefWidth="66.0" text="choix :" />
+                  <ComboBox fx:id="listePathologie" layoutX="69.0" layoutY="318.0" prefHeight="25.0" prefWidth="241.0" promptText="choisissez une pathologie" />
+                  <Button fx:id="valider" layoutX="79.0" layoutY="435.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Valider" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="548.0" prefWidth="435.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="69.0" layoutY="6.0" prefHeight="35.0" prefWidth="250.0" text="Operation de liaison" />
+                  <Label alignment="CENTER" layoutX="38.0" layoutY="48.0" prefHeight="17.0" prefWidth="300.0" text="Lier des aliments a cette pathologie" />
+                  <Label layoutX="126.0" layoutY="95.0" prefHeight="25.0" prefWidth="99.0" text="Recherche :" />
+                  <TextField fx:id="recherche" layoutX="236.0" layoutY="95.0" prefHeight="25.0" prefWidth="167.0">
+                     <tooltip>
+                        <Tooltip fx:id="ToolTipRecherche" text="recherche Instantanée" />
+                     </tooltip></TextField>
+                  <TableView fx:id="tableListe" layoutX="-1.0" layoutY="131.0" prefHeight="228.0" prefWidth="470.0">
+                    <columns>
+                      <TableColumn fx:id="table1_numero" prefWidth="27.0" text="N°" />
+                      <TableColumn fx:id="table1_nomAliment" prefWidth="218.0" text="Nom Aliment" />
+                        <TableColumn fx:id="table1_modeCuisson" prefWidth="86.0" text="cuisson" />
+                        <TableColumn fx:id="table1_pays" prefWidth="87.0" text="pays" />
+                        <TableColumn fx:id="table1_action" prefWidth="51.0" text="put" />
+                    </columns>
+                  </TableView>
+                  <Separator layoutX="-7.0" layoutY="358.0" prefHeight="8.0" prefWidth="450.0" />
+                  <TableView fx:id="tableSelection" layoutX="1.0" layoutY="380.0" prefHeight="200.0" prefWidth="470.0">
+                    <columns>
+                        <TableColumn fx:id="table2_numero" minWidth="0.0" prefWidth="34.0" text="N°" />
+                      <TableColumn fx:id="table2_nomAliment" prefWidth="186.0" text="Nom Aliment" />
+                        <TableColumn fx:id="table2_modeCuisson" prefWidth="100.0" text="cuisson" />
+                        <TableColumn fx:id="table2_pays" prefWidth="102.0" text="pays" />
+                        <TableColumn fx:id="table2_action" minWidth="0.0" prefWidth="47.0" text="Del" />
+                    </columns>
+                  </TableView>
+                  <Label alignment="CENTER" layoutX="123.0" layoutY="362.0" prefHeight="17.0" prefWidth="250.0" text="Aliment Choisi" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

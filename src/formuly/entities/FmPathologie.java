@@ -41,6 +41,8 @@ public class FmPathologie implements Serializable {
     private Integer id;
     @Column(name = "libelle")
     private String libelle;
+    @Column(name = "description")
+    private String description;
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -76,6 +78,14 @@ public class FmPathologie implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @XmlTransient

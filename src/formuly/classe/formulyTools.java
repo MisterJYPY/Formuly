@@ -616,6 +616,11 @@ public class formulyTools {
             mainM.setNumero(cpt);
             mainM.setNom_aliment(aliment.getNomFr());
             mainM.setPays(aliment.getPays());
+            mainM.setRetMin(mine);
+            mainM.setRetNu(nutr);
+            mainM.setRetVit(vit);
+            mainM.setMode_cuisson(aliment.getModeCuisson());
+            mainM.setPays(aliment.getPays());
             inf.add(mainM);
             cpt++;
         }

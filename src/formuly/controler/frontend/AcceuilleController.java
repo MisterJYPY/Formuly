@@ -55,6 +55,7 @@ public class AcceuilleController implements Initializable {
     @FXML private Accordion accordDroite;
     @FXML private Button enregistrer_aliment_fichier;
     @FXML private Button moteurCalcul;
+    @FXML private Button interditAlimentaire;
     private Stage st;
 
     public AcceuilleController() {
@@ -133,6 +134,9 @@ public class AcceuilleController implements Initializable {
     moteurCalcul.setOnAction(event->{
         LancerMoteur();
       });
+    interditAlimentaire.setOnAction(event->{
+      lancerGestionInterditAlimentaire();
+    });
   }
       public void placerBilanChoixFoods()
    {
@@ -209,6 +213,23 @@ public class AcceuilleController implements Initializable {
                      Logger.getLogger(Inserer_aliment_fichierController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
+    private void lancerGestionInterditAlimentaire() {
+      try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_pathologieAliments.fxml"));
+               ctr_patAliment=new Inserer_pathologieAlimentsController();
+               loader.setController( ctr_patAliment);
+           Parent root = (Parent)loader.load(); 
+                 st=null;
+               st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("Insertion Aliment");
+         st.initOwner(interditAlimentaire.getScene().getWindow());
+         st.initModality(Modality.APPLICATION_MODAL);
+         st.showAndWait();
+          } catch (IOException ex) {
+                     Logger.getLogger(Inserer_pathologieAlimentsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
        public void placerContenuAcceuille()
    {
           try {
@@ -227,5 +248,8 @@ public class AcceuilleController implements Initializable {
     private Inserer_alimentController ctr_inserAliment;
     private Inserer_aliment_fichierController ctr_inserAlimentFichier;
     private Moteur_calculController ctr_moteur;
+    private Inserer_pathologieAlimentsController ctr_patAliment;
     private Stage windowMteurCacul;
+
+    
 }

@@ -60,7 +60,7 @@ import javafx.stage.Stage;
 
 /**
  * FXML Controller class
- *
+ *cette classe est le controller qui gere la vue de nouveau menu diethetique
  * @author Mr_JYPY
  */
 public class Select_the_foodsController implements Initializable {
@@ -93,7 +93,11 @@ public class Select_the_foodsController implements Initializable {
       Thread VerificationPathologie;
       private boolean travailEnregistre;
     private final modelFoodSelect model;
-
+/**
+ * constructeur non parametré qui intialement intialise les variables 
+ * repasAlCtr,repasCont, alimenCtr pour la persistence
+ * elle initiliatlise toutes les variables succeptibles d'etre utilisée
+ */
     public Select_the_foodsController() {
         travailEnregistre=false;
         model=new modelFoodSelect();
@@ -111,6 +115,10 @@ public class Select_the_foodsController implements Initializable {
         repasCont=new FmRepasJpaController(formulyTools.getEm());
         alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
     }
+    /**
+     * permet de rendre le bouton qui sert a lancer l'analyse expert 
+     * de s'afficher ou non. elle controle si table_aliment_deja_choisi contient des valeurs 
+     */
     public void visibiliteBoutonAnalyse()
     {
         if(table_aliment_deja_choisi.getItems().size()>0)
@@ -122,6 +130,12 @@ public class Select_the_foodsController implements Initializable {
         buttonExpert.setVisible(false);
         }
     }
+    /**
+     * methode permettant de retourner une chaine de caractere (concatenée ) des aliments concernée par 
+     * un interdit alimentaire de la liste des FmAlimentsPathologie
+     * @param list la liste de FmAlimentsPathologie generée lors de lexecution de lalgorithme pour les calculs
+     * @return une concatenantion 
+     */
       public String formatageInterdi(ObservableList<FmAlimentsPathologie> list)
       {
         String content="";
@@ -138,6 +152,10 @@ public class Select_the_foodsController implements Initializable {
         }
         return content;
       }
+      /**
+       * methode qui sert de verifier d'abord si il y a des aliments interdit dans notre liste d'aliment present dans notre
+       * menu ,ensuite d'initialiser les données pour l'afficher sous forme d'alerte rouge
+       */
          public void TraiterInterdi()
          {
    ObservableList<FmAlimentsPathologie>  list=verificationPathologie(table_aliment_deja_choisi.getItems());
@@ -147,7 +165,6 @@ public class Select_the_foodsController implements Initializable {
     String lesElement="";
         if(list.size()>0)
          {      
-             System.out.println("on est la");
               Image image = new Image(
     getClass().getResourceAsStream("/formuly/image/war.jpg")
      );
@@ -165,7 +182,7 @@ public class Select_the_foodsController implements Initializable {
          labelAttention.setVisible(false);
               }
          }
-              
+            
       @Override
       public void initialize(URL url, ResourceBundle rb) {
    
@@ -267,7 +284,13 @@ public class Select_the_foodsController implements Initializable {
         });
        // rendreCelluleEditable(table_aliment_deja_choisi,quantiteChoisi);
     }    
-      public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi,TableView<bilanMacroNut>... table)
+    /**
+     * methode permettant de mettre les ToolsTip
+     * @param table_aliment_a_choisir la table des aliments
+     * @param table_aliment_deja_choisi la table des aliments du menu
+     * @param table un tableau de bilanMacroNut non obligatoire mais conseillée 
+     */
+ public void mettreLesToolTip(TableView<mainModel> table_aliment_a_choisir,TableView<mainModel> table_aliment_deja_choisi,TableView<bilanMacroNut>... table)
       {
          table_aliment_a_choisir.setRowFactory((tableView) -> {
       return new  TooltipTableRow<mainModel>((mainModel model) -> {
@@ -285,6 +308,9 @@ public class Select_the_foodsController implements Initializable {
       });
 });
       }
+      /**
+       * methode servant d'initialiser les comboBox
+       */
       public void initialisationCombobox()
     {
        //initialisation des pays
@@ -316,6 +342,9 @@ public class Select_the_foodsController implements Initializable {
         mode_cuisson.setItems(ModeCuisson);
          
     }
+      /**
+       * methode permettant d'initialiser le tableaua choisir
+       */
       public void initialiserLeTableauAchoisir()
       {
           
@@ -397,6 +426,10 @@ public class Select_the_foodsController implements Initializable {
        
         table_aliment_a_choisir.setItems(formulyTools.getobservableListMainModel(1));
       }
+      /**
+       * methode qui fait l'action de la recherche pendant qu'on clique
+       * @param e 
+       */
       public void rechercher(ActionEvent e)
     {
         Object obj=e.getSource();
@@ -525,6 +558,12 @@ public class Select_the_foodsController implements Initializable {
              }
         }
     }
+      /**
+       * methode permettant d'initialiser le Tableau a choisir prenant une requete nommé en parametre
+       * @param NameQuery le nom de la requette
+       * @param champ le champ de la table voulu
+       * @param parametre le parametre pour la requetre
+       */
       public void initialiserLeTableauAchoisir(String NameQuery,String champ ,Object parametre)
       {
           
@@ -545,6 +584,11 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(formulyTools.getobservableListMainModel(NameQuery, champ, parametre),table_aliment_deja_choisi.getItems(),""));
       }
+      /**
+       * methode surchagée de la methode permettant d'initiliser le tableau a choisir les aliments
+       * @param NameQuery la requete nommée
+       * @param champ le parametre lié à la requete
+       */
       public void initialiserLeTableauAchoisir(String NameQuery,String champ)
       {
           
@@ -566,7 +610,10 @@ public class Select_the_foodsController implements Initializable {
         );
         table_aliment_a_choisir.setItems(retournerObservableListNonDoublon(formulyTools.getobservableListMainModel(NameQuery,model,""),table_aliment_deja_choisi.getItems(),""));
       }
-
+/**
+ * methode permettant de copier les elements du tableau a choisir dans la marmite a menu 
+ * @param event action ecouté
+ */
       public void envoi(ActionEvent event)
       {
              ObservableList<mainModel> obsL=FXCollections.observableArrayList();
@@ -634,6 +681,13 @@ public class Select_the_foodsController implements Initializable {
           
           }
       }
+      /**
+       * retoure une liste sans doublons prenant en parametre les deux liste
+       * @deprecated a eviter et utiliser  retournerObservableListNonDoublon(ObservableList mainModel ob1,ObservableList mainModel ob2,String s)
+       * @param ob1 la premiere liste
+       * @param ob2 la seconde liste 
+       * @return une liste
+       */
       public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2)
       {
           if(ob2.size()>0)
@@ -642,6 +696,13 @@ public class Select_the_foodsController implements Initializable {
           }
             return ob1;
       }
+      /**
+       * methode approprié pour retourner une liste de mainModel sans doublons
+       * @param ob1 la liste N°1
+       * @param ob2 la liste N°2
+       * @param s le parametre s fictif pour la surcharge
+       * @return une liste
+       */
        public ObservableList<mainModel>  retournerObservableListNonDoublon(ObservableList<mainModel> ob1,ObservableList<mainModel> ob2,String s)
       {
          
@@ -664,6 +725,11 @@ public class Select_the_foodsController implements Initializable {
           }
             return ob1;
       }
+       /**
+        * comme son nom l'indique cette methode est utilisée pour supprimer un element de la liste des 
+        * aliments choisi present dans la 'marmite' en double click
+        * @param table_aliment_deja_choisi le tableau contenant les aliments deja choisi
+        */
        public void supprimerElementDeLaListeen2click(TableView<mainModel> table_aliment_deja_choisi)
        {
             table_aliment_deja_choisi.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -706,6 +772,9 @@ public class Select_the_foodsController implements Initializable {
     }
 });
        }
+       /**
+        * methode permettant d'initialiser les JTestFields
+        */
       public void initialiserJtextField()
       {
            int i=0;
@@ -720,6 +789,12 @@ public class Select_the_foodsController implements Initializable {
           //initialiserLeTableauAchoisir();
       
       }
+      /**
+       * methode permettant de rendre les cellules d'une table editable editables 
+       * cette methode utilise des elements de la classe formulyTools preformaté
+       * @param table le tableau recevant la modification
+       * @param colonne la colonne du tableau concerné
+       */
       public void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne )
       {
       table.setEditable(true);
@@ -741,6 +816,13 @@ public class Select_the_foodsController implements Initializable {
             }
         );
       }
+      /**
+       * metjode permettant surchagé pour rendre la colonne d'une table editable aec un parametre fictif
+       * cette methode est principalement utilisé pour supprimer des aliments lors de la modification des quantites avec des aliments interdits
+       * @param table la table concernée
+       * @param colonne la colonne de la table concerné
+       * @param valeurFictive  la variable fictive
+       */
         public void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne ,String valeurFictive)
       {
       table.setEditable(true);
@@ -800,7 +882,9 @@ public class Select_the_foodsController implements Initializable {
     public TableView<mainModel> getTable_aliment_deja_choisi() {
         return table_aliment_deja_choisi;
     }
-    
+    /**
+     * methode permettant d'initialiser lespieChart 
+     */
   public void initialisationPieChart()
   {
    piecharList.addAll(new PieChart.Data("qte Glucide (189)", 189),
@@ -917,6 +1001,10 @@ public class Select_the_foodsController implements Initializable {
         pcentTroisMill.setText(prcTM+" %");
         pcentTroisMillCinq.setText(prcTMC+" %");
    }
+   /**
+    * l'ecouteur d'action utilisateur sur le bouton fermer
+    * il lance d'abord un algoirithme de verification avant toute insertion
+    */
    public void actionBoutonFermer()
    {
               fermerFentre.setOnAction(new EventHandler<ActionEvent>() {
@@ -957,7 +1045,6 @@ public class Select_the_foodsController implements Initializable {
                validerMenu.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-                 EnregistrerRepas();
                  travailEnregistre=true;
                  TextInputDialog dialog = new TextInputDialog("");
     dialog.setTitle("Insertion de Nom de MENU");
@@ -1024,6 +1111,12 @@ else{
                
               
    }
+   /**
+    * methode asynchrone non bloquante permettant de creer une tache de fond
+    * elle est utiliser pour enregistrer un menu confectionner et pour dialoguer 
+    * avec notre obdjet progessBar au fil de l'execution
+    * @return un traitement ou tache
+    */
      public Task createWorker() {
     return new Task() {
       @Override
@@ -1077,6 +1170,10 @@ else{
       }
     };
   }
+     /**
+      * methode permettant d'initialiser des Labels
+      * @param labels un tableau de labels aubligatoires
+      */
      public void intialiserLesLabelsEnPourcentage(Label [] labels)
      {
          for(int i=0;i<labels.length;i++)
@@ -1084,11 +1181,10 @@ else{
       labels[i].setText("O %");
            }
      }
-   public static void lancerExecution()
-   {
-     
-    
-   }
+ /**
+  * methode qui retourne la liste des pathologie presents dans la base de données
+  * @return une List FmAlimentsPathologie
+  */
    public List<FmAlimentsPathologie>  ListePathologie()
    {
        // EntityManager entityM=formulyTools.getEm("fx_formulyPU" ).createEntityManager(); 
@@ -1102,6 +1198,12 @@ else{
         }
         return list;
    }
+   /**
+    * methode permettant de verifier si une ou plusieurs aliments interdits sont presents dans un tableau 
+    * et de le retourner sous forme de liste d'instances de FmAlimentsPathologie
+    * @param main la liste  a verifié
+    * @return une liste d'aliment pathologies
+    */
    public   ObservableList<FmAlimentsPathologie>   verificationPathologie(ObservableList<mainModel> main)
    {
        ObservableList<FmAlimentsPathologie> listInterdit=FXCollections.observableArrayList();
@@ -1121,10 +1223,7 @@ else{
        }
        return listInterdit;
    }
-   public void EnregistrerRepas()
-   {
-       System.out.println("ok");
-   }
+  
    /**
     * methode permettant de remplir les resultatts des calculs dans le
     * tableau des resultats par aliment.
@@ -1150,6 +1249,17 @@ else{
         
       resultatMacro.setItems(bilanElements);
    }
+        /**
+      * mettre a zer(0.0) un tableau de valeurs
+      * @param valeurs 
+      */
+ public void initialisationValeurs(Double [] valeurs)
+ {
+   for(int i=0;i<valeurs.length;i++)
+   {
+   valeurs[i]=0.0;
+   }
+ }
     @FXML private TableView<bilanMacroNut> tableBilan;
     @FXML private TableColumn<bilanMacroNut, String>   aliment;
     @FXML private TableColumn<bilanMacroNut, String>   quantites;
@@ -1184,14 +1294,7 @@ else{
      private FmRepasJpaController repasCont;
      private FmRepasAlimentsJpaController repasAlCtr;
      private FmAlimentsJpaController alimenCtr;
-     
- public void initialisationValeurs(Double [] valeurs)
- {
-   for(int i=0;i<valeurs.length;i++)
-   {
-   valeurs[i]=0.0;
-   }
- }
+   
 
       // definition de la tache de Fond
         

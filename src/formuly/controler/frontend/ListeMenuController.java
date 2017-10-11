@@ -165,8 +165,6 @@ EntityManagerFactory     entityManagerFactory;
          List<FmRepas> lisRepas;
        // FmRepasJpaController repaC=new FmRepasJpaController(formulyTools.getEm());
         lisRepas=formulyTools.Liste_Repas();
-          System.out.println("*******dernier repas*******");
-          System.out.println("nbrrrr :"+lisRepas.get(lisRepas.size()-1).getLibelle());
             int i=0;
             repasModel rpM;
         for(FmRepas repas :lisRepas)

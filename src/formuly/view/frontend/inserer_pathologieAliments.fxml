@@ -7,8 +7,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Inserer_pathologieAlimentsController">
-    <stylesheets>
-        <URL value="@/formuly/css/frontend/inserer_pathologiealiments.css"/>
-    </stylesheets>
-</AnchorPane>
+
+<BorderPane fx:id="principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="662.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <BorderPane fx:id="center" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <BorderPane prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="675.0" text="GESTION DES INTERDITS ALIMENTAIRES" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </top>
+   <left>
+      <BorderPane prefHeight="622.0" prefWidth="162.0" BorderPane.alignment="CENTER">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="196.0" text="Enregistrement pathologie" />
+                  <Separator prefHeight="33.0" prefWidth="186.0" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" text="suppression pathologie" />
+                  <Separator prefHeight="32.0" prefWidth="186.0" />
+                  <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" text="creer un interdit alimentaire" />
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </left>
+   <right>
+      <VBox prefHeight="622.0" prefWidth="88.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
