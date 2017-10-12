@@ -7,12 +7,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="823.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="823.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/inserer_pathologie.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/formuly/css/frontend/inserer_pathologie.css" />
     </stylesheets>
    <children>
-      <SplitPane dividerPositions="0.42436974789915966" layoutX="-1.0" layoutY="-1.0" prefHeight="585.0" prefWidth="823.0">
+      <SplitPane dividerPositions="0.42436974789915966" layoutX="-1.0" layoutY="-1.0" prefHeight="585.0" prefWidth="823.0" styleClass="fenetrePrincipal">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>

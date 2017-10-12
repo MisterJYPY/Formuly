@@ -7,7 +7,6 @@ package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
 import formuly.classe.pathologieModel;
-import formuly.classe.repasModel;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmPathologie;
 import formuly.model.frontend.mainModel;
@@ -181,7 +180,7 @@ public final class Suppression_pathologieController implements Initializable {
          List<FmAlimentsPathologie> liste=patmodel.getAlimentsPathologie();
                     listAl.clear();
               int i=1;
-               //  System.out.println("apt :"+pat.getLibelle());
+               //  System.out.println("apt :"+alPat.getLibelle());
        
                mainModel model=null;
                    for(FmAlimentsPathologie element:liste)
@@ -209,7 +208,7 @@ public final class Suppression_pathologieController implements Initializable {
          //List<FmAlimentsPathologie> liste=patmodel.getAlimentsPathologie();
                 //    listAl.clear();
               int i=1;
-               //  System.out.println("apt :"+pat.getLibelle());
+               //  System.out.println("apt :"+alPat.getLibelle());
        
                    mainModel model ;
          
@@ -242,7 +241,7 @@ public final class Suppression_pathologieController implements Initializable {
                 //    listAl.clear();
           patCourant=models;
               int i=1;
-               //  System.out.println("apt :"+pat.getLibelle());
+               //  System.out.println("apt :"+alPat.getLibelle());
               updateMessage("chargement des Info ..........");
          ObservableList<mainModel> listAlimentEnCour =listePathologie.getItems().get(index).getListeAliments();        
          if(listAlimentEnCour.size()<=0)
@@ -264,6 +263,7 @@ public final class Suppression_pathologieController implements Initializable {
                   model.setNumero(i);
                   model.setMode_cuisson(element.getAliment().getModeCuisson());
                   model.setAlimentPathologie(element);
+                  model.setPathologieModel(models);
                   listBas.add(model);
                   listAl.add(model);
                   model=null;
@@ -621,8 +621,8 @@ public final class Suppression_pathologieController implements Initializable {
                         } else {
                             btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
-                    mainModel aliment= getTableView().getItems().get(getIndex());      
-                              //  deplacerAliment(modelPath);
+                    mainModel model= getTableView().getItems().get(getIndex());      
+                             supprimerAlimentPathologie(model);
                             });
                         
 //                            btn.setOnMouseDragOver(event->{
@@ -644,9 +644,129 @@ public final class Suppression_pathologieController implements Initializable {
         };
          supAliment.setCellFactory(cellFactory);
       }
-      public void supprimerAlimentPahologie(pathologieModel pathologie)
-      {
+         public Task ProccessusSupressionAlimentPathologie(mainModel models) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+              EntityManager em=formulyTools.getEm().createEntityManager();
+              updateMessage("debut de la suppression de l'aliment......");
+              updateProgress(15,100);
+          try {
+            em.getTransaction().begin(); 
+           FmAlimentsPathologie alPat=models.getAlimentPathologie();
+           // pathologieModel pa=models.
+            updateMessage("suppression de la pathologie......");
+            updateProgress(50,100);
+          FmAlimentsPathologie current=alPat;
+             if (!em.contains(alPat)) {
+             current = em.merge(alPat);
+             }
+             em.remove(current);
+           updateMessage("suppression des interdits lié.....");
+            updateProgress(69,100);
+            //suppression de l'element dans les liste
+             listeAliment.getItems().remove(models);
+            models.getPathologieModel().getListeAliments().remove(models);
+            updateMessage("preparation pour affichage.....");
+            updateProgress(89,100);
+       
+            em.getTransaction().commit();
+            updateMessage("terminer");
+            updateProgress(100,100);
+            patCourant=null;
+          }catch (Exception e) {
+              System.out.println(""+e.getLocalizedMessage());
+              System.out.println(""+e.getMessage());
+              System.out.println(""+e.getCause().toString());
+               Logger.getLogger(Suppression_pathologieController.class.getName()).log(Level.SEVERE, null, e);
+               updateMessage("erreur");
+          }
       
+         
+          
+      
+        return true;
+      }
+    };
+  }
+      public void supprimerAlimentPathologie(mainModel models)
+      {
+       Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+          String message="NOM DE LA PATHOLOGIE : "+models.getPathologieModel().getLibelle()+"\n"
+                        + "NOMs ALIMENTS INTERDITS : "+models.getNom_aliment()+"\n"
+                     + " Vous avez choisi de supprimer cet aliment : \n"
+                     + "Proccessus non bloquant ,Veuillez confirmer SVP \n ";
+          alert.setTitle("Confirmer suppression");
+             Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png"));
+             alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                     alert.setContentText(message);
+                     alert.showAndWait();
+                 
+                if(alert.getResult()==ButtonType.YES)
+                {
+                 supprimerAlpa(models);
+                }
+      } 
+      public void supprimerAlpa(mainModel model)
+      {
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Supression "+model.getNom_aliment()+" ....");
+               alert.show();
+               Task copyWorker =ProccessusSupressionAlimentPathologie(model);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+             
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+               alert.setContentText("Aliment Supprimer avec succes ...");
+              //  initialisation();
+              // initialiserTableauListeAliment(listBas);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Fin Suppression");
+               alert.setContentText("Aliment supprimer avec succes");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+            
+              }
+              else{
+                 if(!newValue.equals("erreur"))
+                 {
+                 alert.setContentText(newValue);   
+                 }
+                 else{
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Erreur");
+               alert.setContentText("Une erreur est Survenue lors de l'operation causant un arret du processus \n"
+                       + " Veuillez reessayer SVP !!!!!!");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+                 }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
       }
         private ObservableList<mainModel> listBas=FXCollections.observableArrayList();
         private pathologieModel patCourant=null;

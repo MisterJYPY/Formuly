@@ -6,6 +6,7 @@
 package formuly.model.frontend;
 
 import formuly.classe.RetentionAlments;
+import formuly.classe.pathologieModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmPathologie;
@@ -71,6 +72,7 @@ public class mainModel {
   private FmRetentionVitamines retVit;
   private FmRetentionNutriments retNu;
   private boolean PathologieAinsere;
+  private pathologieModel pathologieModel;
 
   
 
@@ -80,6 +82,15 @@ public class mainModel {
          PathologieAinsere=false;
         retentionAliments=RetentionAlments.getAllAlimentRetention();
     }
+
+    public pathologieModel getPathologieModel() {
+        return pathologieModel;
+    }
+
+    public void setPathologieModel(pathologieModel pathologieModel) {
+        this.pathologieModel = pathologieModel;
+    }
+    
       public boolean isPathologieAinsere() {
         return PathologieAinsere;
     }
