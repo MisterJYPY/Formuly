@@ -1188,7 +1188,7 @@ else{
    public List<FmAlimentsPathologie>  ListePathologie()
    {
        // EntityManager entityM=formulyTools.getEm("fx_formulyPU" ).createEntityManager(); 
- FmAlimentsPathologieJpaController es=new FmAlimentsPathologieJpaController(formulyTools.getEm("fx_formulyPU" ));
+ FmAlimentsPathologieJpaController es=new FmAlimentsPathologieJpaController(formulyTools.getEm());
         List<FmAlimentsPathologie> list = null;
  try {
            list=es.findFmAlimentsPathologieEntities();

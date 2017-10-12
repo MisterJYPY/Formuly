@@ -482,6 +482,45 @@ public class formulyTools {
          
        return id;
     }
+      public static String formatageInterdi(ObservableList<FmAlimentsPathologie> list)
+      {
+        String content="";
+        if(list.size()>0)
+        {
+       content=content.concat(" aliments Interdits: \n");
+          for(FmAlimentsPathologie liste :list)
+          {
+           String nom=(!"aucun".equals(liste.getAliment().getSurnom()))?liste.getAliment().getSurnom():liste.getAliment().getNomFr();
+           String pathologie=liste.getPathologie().getLibelle();
+           String ligne=nom.concat(" :pat: "+pathologie);
+          content=content.concat(ligne+"\n");
+          }
+        }
+        return content;
+      }
+      public static List<FmPathologie> touteListePathologie()
+      {
+         List<FmPathologie> list=null;
+        EntityManager em=getEm().createEntityManager();
+        Query req=em.createNamedQuery("FmPathologie.findAll");
+        list=req.getResultList();
+        em.clear();
+        em.close();
+        return list;
+      }
+      public static List<FmAlimentsPathologie> listeAlimentPathologie(FmPathologie pathologie)
+      {
+        //FmAlimentsPathologie.findByPathologie
+          List<FmAlimentsPathologie> list=null;
+        EntityManager em=getEm().createEntityManager();
+        Query req=em.createNamedQuery("FmAlimentsPathologie.findByPathologie");
+        req.setParameter("pathologie", pathologie);
+        list=req.getResultList();
+        em.clear();
+        em.close();
+        return list;
+        
+      }
       /**
        * methode qui retourne le dernier identifaint des pathologies enregistrées
        * @return un entier

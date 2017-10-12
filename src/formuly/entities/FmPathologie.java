@@ -46,6 +46,7 @@ public class FmPathologie implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+   //@OneToMany(orphanRemoval=true)
     @OneToMany(mappedBy = "pathologie")
     private Collection<FmAlimentsPathologie> fmAlimentsPathologieCollection;
 

@@ -13,6 +13,7 @@ import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.modelFoodSelect;
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -84,16 +85,16 @@ public class RetentionAlments {
    public static List<RetentionAlments> getAllAlimentRetention()
            
    {
-          instance=null;
+         // instance=null;
           List<RetentionAlments> retentionAl = null;
-          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+          EntityManagerFactory emf=formulyTools.getEm();
           EntityManager entityM=emf.createEntityManager(); 
            entityM.getTransaction().begin();
           Query reqAliment =entityM.createNamedQuery("FmAliments.findAll");//FmAliments.findByPays
           List<FmAliments> Aliments= reqAliment.getResultList();
           // List<FmAliments> Aliments=formulyTools.ListeAlimentUtilisable();
             int cpt=0;
-            retentionAl=new LinkedList();
+            retentionAl=new ArrayList<>();
           for(FmAliments aliments: Aliments)
           {
              // System.out.println("aliments: "+aliments.getNomFr());
@@ -109,7 +110,8 @@ public class RetentionAlments {
           }      
              entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());
-          entityM.close();
+           entityM.clear();
+           entityM.close();
            Aliments=null;
          return retentionAl;
    }
@@ -147,9 +149,8 @@ public class RetentionAlments {
      public static List<RetentionAlments> getAllAlimentRetention(String NameQuery,String champ,Object parametre)
            
    {
-          instance=null;
           List<RetentionAlments> retentionAl = null;
-          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+          EntityManagerFactory emf=formulyTools.getEm();
           EntityManager entityM=emf.createEntityManager(); 
            entityM.getTransaction().begin();
           Query reqAliment =entityM.createNamedQuery(NameQuery);//FmAliments.findByPays
@@ -172,7 +173,8 @@ public class RetentionAlments {
           }      
              entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());
-          entityM.close();
+              entityM.clear();
+              entityM.close();
            Aliments=null;
          return retentionAl;
    }

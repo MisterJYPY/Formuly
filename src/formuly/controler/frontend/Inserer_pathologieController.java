@@ -7,27 +7,40 @@ package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
 import formuly.classe.repasModel;
+import formuly.entities.FmAliments;
+import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmPathologie;
+import formuly.entities.FmRetentionMineraux;
+import formuly.entities.FmRetentionNutriments;
+import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +52,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -50,7 +64,7 @@ public class Inserer_pathologieController implements Initializable {
     /**
      * Initializes the controller class.
      */
-       @FXML
+    @FXML
     private Button valider;
 
     @FXML
@@ -79,7 +93,13 @@ public class Inserer_pathologieController implements Initializable {
 
     @FXML
     private TableColumn<mainModel,String> table2_nomAliment;
-
+    
+    @FXML 
+       private TableColumn <mainModel,String> table3_nomAliment;
+    @FXML 
+     private TableColumn <mainModel,String> table3_cuisson;
+    @FXML 
+     private TableColumn <mainModel,String> table3_pays;
     @FXML
     private TableColumn<mainModel, String> table1_pays;
 
@@ -88,6 +108,8 @@ public class Inserer_pathologieController implements Initializable {
 
     @FXML
     private TableView<mainModel> tableListe;
+    @FXML 
+    private TableView<mainModel> tableAlimentNonEnregistre;
 
     @FXML
     private TableView<mainModel> tableSelection;
@@ -103,20 +125,33 @@ public class Inserer_pathologieController implements Initializable {
     
     @FXML
     private TableColumn<mainModel, String> table1_nomAliment;
+    @FXML private Label labelAttention;
+    @FXML private Tooltip infoLabelHalt;
     private ObservableList<mainModel> obsListTable1 ;
     private ObservableList<mainModel> listRecherche;
     private List<FmPathologie> listPathologie;
-
+    private List<FmAlimentsPathologie> listeAlimentPathologieNvo;
+       private List<FmAlimentsPathologie> listeAlimentPathologieEncien;
+       private FmPathologie nouvellePathologie;
+       private FmPathologie enciennePathologie;
+    private static int dernierIdAlimentPathologie;
     public Inserer_pathologieController() {
     obsListTable1=formulyTools.getobservableListMainModel(1);
     listRecherche=obsListTable1;
     listPathologie=modelFoodSelect.listePathologie();
+    listeAlimentPathologieEncien=new ArrayList<>();
+    listeAlimentPathologieNvo=new ArrayList<>();
+    nouvellePathologie=null;
+    enciennePathologie=null;
+    dernierIdAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
     }
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        labelAttention.setVisible(false);
+        tableAlimentNonEnregistre.setVisible(false);
         initialiserTableauListeAliment(obsListTable1);
         recherche.setOnKeyReleased(event->{
           String contenu=recherche.getText();
@@ -128,6 +163,9 @@ public class Inserer_pathologieController implements Initializable {
         ActionSurPathologie(listePathologie,listPathologie);
         valider.setOnAction(event->{
         traiterEnregistrement();
+        });
+        listePathologie.setOnAction(event->{
+          traitementCasDejaPresent();
         });
         
     }   
@@ -174,9 +212,32 @@ public class Inserer_pathologieController implements Initializable {
       table1_numero.setCellValueFactory(new PropertyValueFactory<>("numero")); 
       table1_pays.setCellValueFactory(new PropertyValueFactory<>("pays")); 
       table1_modeCuisson.setCellValueFactory(new PropertyValueFactory<>("mode_cuisson")); 
+       tableListe.getItems().clear();
       placerBouton(table1_action,1);
-      tableListe.setItems(liste);
+      tableListe.getItems().addAll(liste);
      }
+      public void initialiserTableauAlimentNonEnregistre(ObservableList<mainModel> list)
+      {
+      
+        infoLabelHalt.setText("Aliment(s) Non Pris en compte pour la pathologie \n"
+                + " "+listePathologie.getValue().getLibelle()+" Lors de l'enregistrement \n");
+          Image image = new Image(
+    getClass().getResourceAsStream("/formuly/image/war.jpg")
+     );
+         infoLabelHalt.setGraphic(new ImageView(image));  
+         labelAttention.setText("Attention aliment(s) deja Interdit pour "+listePathologie.getValue().getLibelle());
+         labelAttention.setGraphic(new ImageView(image));
+         labelAttention.setStyle(" -fx-background-color:linear-gradient(to top right,white,red,red,white);");
+    
+       table3_nomAliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
+       table3_pays.setCellValueFactory(new PropertyValueFactory<>("pays")); 
+       table3_cuisson.setCellValueFactory(new PropertyValueFactory<>("mode_cuisson")); 
+      
+       tableAlimentNonEnregistre.setItems(list);
+          labelAttention.setVisible(true);
+       tableAlimentNonEnregistre.setVisible(true);
+        
+      }
     /**
      * methode permettant de positionner des boutons sur
      * des tableView pour des actions particulieres
@@ -255,7 +316,7 @@ public class Inserer_pathologieController implements Initializable {
 //                            });
                             //btn.setGraphic(valider);
                              Image image= new Image(
-     getClass().getResourceAsStream("/formuly/image/corbeille.jpg"));
+     getClass().getResourceAsStream("/formuly/image/del.png"));
                              btn.setGraphic(new ImageView(image));
                             setGraphic(btn);
                             
@@ -296,13 +357,59 @@ public class Inserer_pathologieController implements Initializable {
       table2_modeCuisson.setCellValueFactory(new PropertyValueFactory<>("mode_cuisson")); 
       tableSelection.getItems().add(model);
       placerBouton(table2_action,2);
-       tableListe.getItems().remove(model);
-      
+        obsListTable1.remove(model);
+      tableListe.getItems().remove(model);
+       if( tableListe.getItems().size()==0)
+       {
+          recherche.setText("");
+         tableListe.setItems(obsListTable1);
+       }
+       traitementCasDejaPresent();
+       
+     }
+     public void traitementCasDejaPresent()
+     {
+     if(listePathologie.getValue()!=null && !listePathologie.getValue().getLibelle().equals("aucun choix"))
+       {
+          if(tableSelection.getItems().size()>0)
+          {
+      ObservableList<mainModel> listInterdi=verificationPathologie(tableSelection.getItems(),listePathologie.getValue(),"");
+      if(listInterdi.size()>0)
+             {
+         initialiserTableauAlimentNonEnregistre(listInterdi);     
+             }
+        else{
+          tableAlimentNonEnregistre.getItems().clear();
+         labelAttention.setText("");
+         labelAttention.setStyle(" -fx-background-color:white");
+         labelAttention.setVisible(false);
+         tableAlimentNonEnregistre.setVisible(false);
+             }
+         
+          }
+           else{
+          tableAlimentNonEnregistre.getItems().clear();
+         labelAttention.setText("");
+         labelAttention.setStyle(" -fx-background-color:white");
+         labelAttention.setVisible(false);
+         tableAlimentNonEnregistre.setVisible(false);
+             }
+          
+       }
+          else{
+          tableAlimentNonEnregistre.getItems().clear();
+         labelAttention.setText("");
+         labelAttention.setStyle(" -fx-background-color:white");
+         labelAttention.setVisible(false);
+         tableAlimentNonEnregistre.setVisible(false);
+             }
      }
        public void supprimerAliment(mainModel aliment)
                    {
-            tableSelection.getItems().remove(aliment);     
-            tableListe.getItems().add(aliment);
+            tableSelection.getItems().remove(aliment); 
+            obsListTable1.add(aliment);
+             traitementCasDejaPresent();
+           // tableListe.getItems().add(aliment);
                     }
        public void traiterEnregistrement()
               {
@@ -330,7 +437,16 @@ public class Inserer_pathologieController implements Initializable {
                    
                 if(alert.getResult()==ButtonType.YES)
                 {
-                  System.out.println(" insertion");
+                   //recuperation de la pathologie
+                    enciennePathologie=pat;
+              ObservableList<mainModel> listEncien=ListDesAlimentsPourPathologieExistante(tableAlimentNonEnregistre.getItems(),tableSelection.getItems());
+              listeAlimentPathologieEncien=listAlimentPathologie(listEncien,enciennePathologie);
+              
+                   //recuperation des info pour nouveau
+               nouvellePathologie=getNewInstancePathologie(nomPathologi, descriptio);
+               listeAlimentPathologieNvo=listAlimentPathologie(list, nouvellePathologie);
+               
+               enregistrerAlimentDeuxPathologie();
                 }
                 //nous affichons que seul une patholie peut etre enregistré a la fois
                     }
@@ -350,12 +466,17 @@ public class Inserer_pathologieController implements Initializable {
               
                 if(alert.getResult()==ButtonType.YES)
                 {
-                  System.out.println(" insertion");
+                     //recuperation des info pour nouveau
+               nouvellePathologie=getNewInstancePathologie(nomPathologi, descriptio);
+               listeAlimentPathologieNvo=listAlimentPathologie(list,  nouvellePathologie);
+               enregistrerAlimentDeuxPathologie();
                 }
                 }
                else{
           if(pat!=null && !pat.getLibelle().equals("aucun choix"))
                      {
+                 FmPathologie  pathologi= listePathologie.getValue();
+                 nomPathologi =pathologi.getLibelle();
              String completion=(list.size()>0)?"NOM DE LA PATHOLOGIE : "+nomPathologi+" \n"
                         + "NOMBRE ALIMENTS INTERDITS DETECTES : "+list.size()+" \n"
                      + " Pathologie existante nous allons mettre a jour ses donees":"NOM DE LA PATHOLOGIE : "+nomPathologi+" \n"
@@ -368,11 +489,15 @@ public class Inserer_pathologieController implements Initializable {
             if(list.size()>0)
                  {
                      alert.setContentText(message);
-                    alert.showAndWait();
+                     alert.showAndWait();
                  
                 if(alert.getResult()==ButtonType.YES)
                 {
-                  System.out.println(" insertion");
+                //recuperation de la pathologie
+               enciennePathologie=pat;
+              ObservableList<mainModel> listEncien=ListDesAlimentsPourPathologieExistante(tableAlimentNonEnregistre.getItems(),tableSelection.getItems());
+              listeAlimentPathologieEncien=listAlimentPathologie(listEncien,enciennePathologie);
+               enregistrerAlimentDeuxPathologie();
                 }
                    
                  }
@@ -397,5 +522,276 @@ public class Inserer_pathologieController implements Initializable {
                    }
             }
               }
-       
+      public   ObservableList<FmAlimentsPathologie>   verificationPathologie(ObservableList<mainModel> main,FmPathologie pathologie)
+   {
+       ObservableList<FmAlimentsPathologie> listInterdit=FXCollections.observableArrayList();
+       List<FmAlimentsPathologie> listeAlPa=formulyTools.listeAlimentPathologie(pathologie);
+       for(FmAlimentsPathologie listP:listeAlPa)
+       {
+       int idA1=listP.getAliment().getId();
+             for(int i=0;i<main.size();i++)
+             {
+           int idA2=main.get(i).getIdAliment();
+            if(idA2==idA1)
+            {
+             listInterdit.add(listP);
+            }
+             }
+       }
+       return listInterdit;
+   }
+        public   ObservableList<mainModel>   verificationPathologie(ObservableList<mainModel> main,FmPathologie pathologie,String ...listeFictif)
+   {
+       ObservableList<mainModel> listInterdit=FXCollections.observableArrayList();
+       List<FmAlimentsPathologie> listeAlPa=formulyTools.listeAlimentPathologie(pathologie);
+           System.out.println("taille de la liste aliment pathologie : "+listeAlPa.size());
+       for(FmAlimentsPathologie listP:listeAlPa)
+       {
+       int idA1=listP.getAliment().getId();
+             for(int i=0;i<main.size();i++)
+             {
+           int idA2=main.get(i).getIdAliment();
+            if(idA2==idA1)
+            {
+                if( !listInterdit.contains(main.get(i)))
+                {
+             listInterdit.add(main.get(i));
+                }
+            }
+             }
+       }
+       return listInterdit;
+   }
+         public void TraiterInterdi(FmPathologie pathologie)
+         {
+   ObservableList<FmAlimentsPathologie>  list=verificationPathologie(tableSelection.getItems(),pathologie);
+             System.out.println("taille: "+list.size());
+             String info="";
+        info = formulyTools.formatageInterdi(list);
+    String lesElement="";
+        if(list.size()>0)
+         {      
+              Image image = new Image(
+    getClass().getResourceAsStream("/formuly/image/war.jpg")
+     );
+         labelAttention.setText("Attention aliment(s) deja Interdit "+pathologie.getLibelle());
+         labelAttention.setGraphic(new ImageView(image));
+         labelAttention.setStyle(" -fx-background-color:linear-gradient(to top right,white,red,red,white);");
+         infoLabelHalt.setText(info );
+         infoLabelHalt.setGraphic(new ImageView(image));  
+        labelAttention.setVisible(true);
+         }
+       else
+              {
+         labelAttention.setText("");
+         labelAttention.setStyle(" -fx-background-color:white");
+         labelAttention.setVisible(false);
+              }
+         }
+         public ObservableList<mainModel> ListDesAlimentsPourPathologieExistante(ObservableList<mainModel> listRepete,ObservableList<mainModel> listGlobale)
+         {
+          ObservableList<mainModel>  list=FXCollections.observableArrayList();
+            if(listRepete.size()>0)
+            {
+             for(int i=0;i<listGlobale.size();i++)
+             {
+                for(int j=0;j<listRepete.size();j++)
+                {
+                if(listGlobale.get(i).getIdAliment()!=listRepete.get(j).getIdAliment())
+                {
+                   if(!list.contains(listGlobale.get(i)))
+                   {
+                   list.add(listGlobale.get(i));
+                   }
+                }
+                }
+             }
+            }
+            else{
+            list=listGlobale;
+            }
+          return list;
+         }
+         /**
+          * methode qui permet de caster les mainModel en objets FmAlimentsPathologie
+          * @param liste la liste de mainModel
+          * @param pato  la pathologie concernée
+          * @return une liste d'instances de FmAlumentsPathologie
+          */
+         public List<FmAlimentsPathologie> listAlimentPathologie(ObservableList<mainModel> liste,FmPathologie pato)
+         {
+         List<FmAlimentsPathologie> list=new ArrayList<>();
+         FmAlimentsPathologie alpa=null;
+         FmAliments aliments=null;
+           for(mainModel model:liste)
+           {
+            aliments =new FmAliments(model.getIdAliment());
+            aliments.setNomFr(model.getNom_aliment());
+            alpa =new FmAlimentsPathologie( dernierIdAlimentPathologie);
+            alpa.setAliment(aliments);
+            alpa.setPathologie(pato);
+            alpa.setDate(new Timestamp(new Date().getTime()));
+            list.add(alpa);
+             dernierIdAlimentPathologie++;
+           }
+         return list;
+         }
+         public FmPathologie getNewInstancePathologie(String libelle ,String Description)
+         {
+           int idPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1;
+           FmPathologie patho=new FmPathologie(idPathologie);
+           patho.setLibelle(libelle);
+           patho.setDescription(Description);
+           patho.setDate(new Timestamp(new Date().getTime()));
+           return patho;
+         }
+         public Task traitementTacheAvecDeuxPathologies(List<FmAlimentsPathologie> listNvo,List<FmAlimentsPathologie> listEncien) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+             EntityManager em=formulyTools.getEm().createEntityManager();
+          try {
+              
+         em.getTransaction().begin(); 
+         double debut=0;
+         if(nouvellePathologie!=null)
+         {
+             updateMessage("traitement de la Pathologie :"+nouvellePathologie.getLibelle());
+             Thread.sleep(50);
+             em.persist(nouvellePathologie);
+              updateProgress(10, 100);
+              double partie=(listNvo.size()/50);
+               debut=partie+10;
+              if(listNvo.size()>0)
+              {
+             for(FmAlimentsPathologie alpa:listNvo)
+             {
+                 updateMessage("Insertion de :"+alpa.getAliment().getNomFr());
+                 Thread.sleep(30);
+                 em.persist(alpa);
+                 updateProgress(debut, 100);
+                 debut=debut+partie;
+             }
+              }
+         }
+              else{
+               updateProgress(60, 100);
+               debut=60;
+              }
+             if(listEncien.size()>0)
+             {
+              updateMessage("mise à jour des Info de :"+enciennePathologie.getLibelle());
+                Thread.sleep(40);
+               double  partie2=(listEncien.size()/35);
+               double  debut2=partie2+10+debut;
+            for(FmAlimentsPathologie alpaEncien:listEncien)
+             {
+               updateMessage("mise a jour de :"+alpaEncien.getAliment().getNomFr());
+               Thread.sleep(30);
+               em.persist(alpaEncien);
+               updateProgress(debut2,100);
+               debut2=partie2+debut2;
+             }
+             }
+             else{
+             updateProgress(95, 100);
+             }
+            em.getTransaction().commit();
+              updateMessage("terminer");
+               updateProgress(100, 100);
+           } catch (Exception e) {
+               updateMessage("erreur");
+          }
+         
+         
+          
+      
+        return true;
+      }
+    };
+  }
+          public void enregistrerAlimentDeuxPathologie()
+         {
+              ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Enregistrement et mise a jour de pathologie");
+               alert.show();
+               Task copyWorker = traitementTacheAvecDeuxPathologies(listeAlimentPathologieNvo,listeAlimentPathologieEncien);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("erreur".equals(newValue))
+              {
+               
+                 //   chargerDonne(listeSaisie,"aj");
+                  //   System.out.println("taille liste enregister second : "+listeEnregistrer.size());
+            //  formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Erreur");
+               alert.setContentText("Une erreur est Survenue lors de l'operation causant un arret du processus \n"
+                       + " Veuillez reessayer SVP !!!!!!");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+               alert.setContentText("terminer mise a jour de votre espace...");
+                initialisation();
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Fin insertion");
+               alert.setContentText("Pathologies Mis a jour avec succes :");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+            
+              }
+              else{
+             alert.setContentText(newValue);   
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+         }
+          public void initialisation()
+          {
+         
+           obsListTable1.clear();
+           listRecherche.clear();
+           listeAlimentPathologieEncien.clear();
+           listeAlimentPathologieNvo.clear();
+           tableSelection.getItems().clear();
+           tableListe.getItems().clear();
+           nouvellePathologie=null;
+          enciennePathologie=null;
+           obsListTable1=formulyTools.getobservableListMainModel(1);
+          listRecherche=obsListTable1;
+          initialiserTableauListeAliment(obsListTable1);
+         
+          listPathologie=modelFoodSelect.listePathologie();
+           recherche.setText("");
+          descriptionPathologie.setText("");
+          listePathologie.getItems().clear();
+          listePathologie.setItems(FXCollections.observableArrayList(listPathologie));
+          
+          labelAttention.setVisible(false);
+          tableAlimentNonEnregistre.getItems().clear();
+          tableAlimentNonEnregistre.setVisible(false);
+          }
 }

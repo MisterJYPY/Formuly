@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -27,12 +28,33 @@ public class Inserer_pathologieAlimentsController implements Initializable {
      */
     @FXML private BorderPane principal;
     @FXML private BorderPane center;
+    @FXML private Button enregistrerPathologie;
+    @FXML private Button supprimerPathologie;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         placerContenuAcceuille();
+        enregistrerPathologie.setOnAction(event->{
+         placerContenuAcceuille();
+        });
+        supprimerPathologie.setOnAction(event->{
+         placerSuppprimerPathologie();
+        });
     }    
+     public void placerSuppprimerPathologie()
+     {
+      try {
+                    
+        ((BorderPane)(principal.getCenter())).getChildren().clear();
+            center.getChildren().clear();
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/suppression_pathologie.fxml"));
+                  loader.setController(new Suppression_pathologieController());
+      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load());
+          } catch (IOException ex) {
+                     Logger.getLogger(Suppression_pathologieController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+     }
         public void placerContenuAcceuille()
    {
           try {

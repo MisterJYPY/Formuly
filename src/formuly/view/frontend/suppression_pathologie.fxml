@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="585.0" prefWidth="823.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/formuly/css/frontend/inserer_pathologie.css" />
+    </stylesheets>
+   <children>
+      <SplitPane layoutX="-1.0" layoutY="-1.0" prefHeight="585.0" prefWidth="823.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="182.0" layoutY="3.0" prefHeight="28.0" prefWidth="413.0" text="Supprimer une Pathologie" />
+                  <TitledPane animated="false" layoutX="84.0" layoutY="82.0" prefHeight="223.0" prefWidth="691.0" text="untitled">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="listePathologie" layoutX="-4.0" layoutY="-1.0" prefHeight="200.0" prefWidth="691.0">
+                                <columns>
+                                  <TableColumn fx:id="Path_numero" prefWidth="35.0" text="N°" />
+                                  <TableColumn fx:id="nomPathologie" prefWidth="255.0" text="Nom pathologie" />
+                                    <TableColumn fx:id="description" prefWidth="187.0" text="Description" />
+                                    <TableColumn fx:id="nbreAliments" prefWidth="101.0" text="nbre Aliments " />
+                                    <TableColumn fx:id="supPathologie" prefWidth="59.0" text="Del" />
+                                    <TableColumn fx:id="modifPathologie" prefWidth="53.0" text="Modif" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TextField fx:id="recherche" layoutX="542.0" layoutY="35.0" prefHeight="34.0" prefWidth="180.0" promptText="saisissez le nom d'un interdit" />
+                  <Label alignment="CENTER" layoutX="389.0" layoutY="38.0" prefHeight="28.0" prefWidth="142.0" text="Recherche :" />
+                  <TitledPane animated="false" layoutX="114.0" layoutY="321.0" prefHeight="223.0" prefWidth="631.0" text="untitled">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="listeAliment" layoutX="-4.0" layoutY="-1.0" prefHeight="200.0" prefWidth="637.0">
+                                 <columns>
+                                    <TableColumn fx:id="aliment_numero" prefWidth="35.0" text="N°" />
+                                    <TableColumn fx:id="nom_aliment" prefWidth="280.0" text="Nom aliment" />
+                                    <TableColumn fx:id="cuisson" prefWidth="136.0" text="cuisson" />
+                                    <TableColumn fx:id="pays" minWidth="0.0" prefWidth="127.0" text="pays" />
+                                    <TableColumn fx:id="supAliment" prefWidth="56.0" text="Del" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <Button layoutX="713.0" layoutY="550.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Button" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
