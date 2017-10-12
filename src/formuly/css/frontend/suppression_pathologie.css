@@ -13,7 +13,6 @@
  
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
-     
 }
 .titreRapide
 {
@@ -23,16 +22,15 @@
  //-fx-background-image: url(/formuly/image/cansel.png)   ;
 
  -fx-border-radius: 5px;
- -fx-background-color:#B82010;
-     
+ -fx-background-color:#B82010;  
 }
 .calculRapidePane
 {
-       -fx-background-color:linear-gradient(to top right,white 30%,#90EE90,white 50%,#90EE90,white,white,#90EE90);
+ -fx-background-color:linear-gradient(to top right,white 30%,#90EE90,white 50%,#90EE90,white,white,#90EE90);
 }
 .info
 {
-    -fx-font-size:17px; 
+    -fx-font-size:17px;
 }
 .coloneCentre
 {
