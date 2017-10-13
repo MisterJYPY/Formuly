@@ -7,6 +7,7 @@ package formuly.controler.frontend;
 
 import formuly.classe.alimentRepasModel;
 import formuly.classe.formulyTools;
+import formuly.classe.pathologieModel;
 import formuly.classe.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRepas;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -33,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -101,19 +105,45 @@ EntityManagerFactory     entityManagerFactory;
 
     @FXML
     private TableColumn<FmRepas, String> nom_repas;
+    @FXML private TextField recherche;
     ObservableList<repasModel> bilanList;
+    ObservableList<repasModel> bilanRecherche;
     ObservableList<alimentRepasModel> detailAliment;
 
     public ListeMenuController() {
           bilanList=FXCollections.observableArrayList();
           detailAliment=FXCollections.observableArrayList();
+          bilanRecherche=FXCollections.observableArrayList();
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initialiserTableauRepas();
-    }    
+        recherche.setOnKeyReleased(event->{
+         bilanRecherche=listElementsTrie(recherche.getText(),bilanList);
+         if(bilanRecherche.size()>0)
+         {
+         tableRepas.setItems(bilanRecherche);
+         }
+        });
+    }  
+    public ObservableList<repasModel> listElementsTrie(String chaineRechercher, ObservableList<repasModel> liste)
+    {
+        ObservableList<repasModel> listTri=FXCollections.observableArrayList();
+       
+        for(repasModel ligne:liste)
+      {
+         Pattern p = Pattern.compile(chaineRechercher, Pattern.CASE_INSENSITIVE);
+          Matcher m = p.matcher(ligne.getLibelle());
+          
+        if(m.find())
+        {
+            listTri.add(ligne);
+        }
+    }
+        return listTri;
+    }
     public void placerBouton()
     {
      prendre.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));

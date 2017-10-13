@@ -173,6 +173,22 @@ public final class Suppression_pathologieController implements Initializable {
        }
       return listPat;
     }
+    public int retournerRangElementTableau(pathologieModel patmodel)
+    {
+        int id=-1;
+        int cpt=0;
+      for(pathologieModel ligne:listePathologie.getItems())
+      {
+       if(ligne.equals(patmodel))
+       {
+         return cpt;
+       }
+       else{
+        cpt++;
+       }
+      }
+      return id=cpt;
+    }
      public  ObservableList<mainModel> ListeAliments(pathologieModel patmodel)
      {
       
@@ -181,7 +197,7 @@ public final class Suppression_pathologieController implements Initializable {
                     listAl.clear();
               int i=1;
                //  System.out.println("apt :"+alPat.getLibelle());
-       
+             
                mainModel model=null;
                    for(FmAlimentsPathologie element:liste)
                    {
@@ -193,6 +209,7 @@ public final class Suppression_pathologieController implements Initializable {
                   model.setNumero(i);
                   model.setMode_cuisson(element.getAliment().getModeCuisson());
                   model.setAlimentPathologie(element);
+                  model.setRangPathologieModelDansLaTable(i-1);
                   listAl.add(model);
                   model=null;
                   i++;
@@ -222,6 +239,7 @@ public final class Suppression_pathologieController implements Initializable {
                   model.setNumero(i);
                   model.setMode_cuisson(element.getAliment().getModeCuisson());
                   model.setAlimentPathologie(element);
+                  model.setRangPathologieModelDansLaTable(i-1);
                   listAl.add(model);
                   model=null;
                   i++;
@@ -622,7 +640,7 @@ public final class Suppression_pathologieController implements Initializable {
                             btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
                     mainModel model= getTableView().getItems().get(getIndex());      
-                             supprimerAlimentPathologie(model);
+                             supprimerAlimentPathologie(model,getIndex());
                             });
                         
 //                            btn.setOnMouseDragOver(event->{
@@ -644,13 +662,15 @@ public final class Suppression_pathologieController implements Initializable {
         };
          supAliment.setCellFactory(cellFactory);
       }
-         public Task ProccessusSupressionAlimentPathologie(mainModel models) {
+         public Task ProccessusSupressionAlimentPathologie(mainModel models,int nbre) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
               EntityManager em=formulyTools.getEm().createEntityManager();
               updateMessage("debut de la suppression de l'aliment......");
               updateProgress(15,100);
+              int index=retournerRangElementTableau(models.getPathologieModel());
+              System.out.println("numero :"+nbre);
           try {
             em.getTransaction().begin(); 
            FmAlimentsPathologie alPat=models.getAlimentPathologie();
@@ -667,7 +687,14 @@ public final class Suppression_pathologieController implements Initializable {
             //suppression de l'element dans les liste
              listeAliment.getItems().remove(models);
             models.getPathologieModel().getListeAliments().remove(models);
+            models.getPathologieModel().setNbreAliment(listeAliment.getItems().size());
+            listePathologie.getItems().get(index).setNbreAliment(listeAliment.getItems().size());
+            listePathologie.getItems().set(index, listePathologie.getItems().get(index));
+                       //actualisation des index du bas
+               actualisserNumeroTable(listeAliment,nbre);
+               updateProgress(80,100);
             updateMessage("preparation pour affichage.....");
+           
             updateProgress(89,100);
        
             em.getTransaction().commit();
@@ -689,7 +716,22 @@ public final class Suppression_pathologieController implements Initializable {
       }
     };
   }
-      public void supprimerAlimentPathologie(mainModel models)
+         /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+          * @param table la tableView concerné de type mainModel
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+          */
+         public void actualisserNumeroTable(TableView<mainModel> table,int nbre)
+         {
+           for(int i=nbre;i<table.getItems().size();i++)
+              { 
+             table.getItems().get(i).setNumero(table.getItems().get(i).getNumero()-1);
+             table.getItems().set(i, table.getItems().get(i));
+              }
+         }
+      public void supprimerAlimentPathologie(mainModel models,int nbre)
       {
        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
           String message="NOM DE LA PATHOLOGIE : "+models.getPathologieModel().getLibelle()+"\n"
@@ -706,10 +748,10 @@ public final class Suppression_pathologieController implements Initializable {
                  
                 if(alert.getResult()==ButtonType.YES)
                 {
-                 supprimerAlpa(models);
+                 supprimerAlpa(models,nbre);
                 }
       } 
-      public void supprimerAlpa(mainModel model)
+      public void supprimerAlpa(mainModel model,int nbre)
       {
        ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
@@ -717,7 +759,7 @@ public final class Suppression_pathologieController implements Initializable {
                alert.setGraphic( progressBar);
                 alert.setTitle("Supression "+model.getNom_aliment()+" ....");
                alert.show();
-               Task copyWorker =ProccessusSupressionAlimentPathologie(model);
+               Task copyWorker =ProccessusSupressionAlimentPathologie(model,nbre);
           progressBar.progressProperty().unbind();
           progressBar.progressProperty().bind(copyWorker.progressProperty());
         

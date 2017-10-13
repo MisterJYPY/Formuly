@@ -127,6 +127,7 @@ public class Inserer_pathologieController implements Initializable {
     private TableColumn<mainModel, String> table1_nomAliment;
     @FXML private Label labelAttention;
     @FXML private Tooltip infoLabelHalt;
+    @FXML private Tooltip TtypeNomPathologie;
     private ObservableList<mainModel> obsListTable1 ;
     private ObservableList<mainModel> listRecherche;
     private List<FmPathologie> listPathologie;
@@ -155,9 +156,11 @@ public class Inserer_pathologieController implements Initializable {
         initialiserTableauListeAliment(obsListTable1);
         recherche.setOnKeyReleased(event->{
           String contenu=recherche.getText();
+             // TtypeNomPathologie.set
              if(!contenu.isEmpty())
              {
              initialiserTableauListeAliment(retourneListParCritere(contenu,listRecherche));
+            
              }
         });
         ActionSurPathologie(listePathologie,listPathologie);
@@ -590,26 +593,38 @@ public class Inserer_pathologieController implements Initializable {
          }
          public ObservableList<mainModel> ListDesAlimentsPourPathologieExistante(ObservableList<mainModel> listRepete,ObservableList<mainModel> listGlobale)
          {
+             System.out.println("list reparete size : "+listRepete.size());
+             System.out.println("listGlobale: "+listGlobale.size());
           ObservableList<mainModel>  list=FXCollections.observableArrayList();
+          ArrayList<Integer> listI=new ArrayList<>();
             if(listRepete.size()>0)
             {
+             if(listRepete.size()!=listGlobale.size())
+          {
              for(int i=0;i<listGlobale.size();i++)
              {
+                 System.out.println("id 1: "+listGlobale.get(i).getIdAliment());
+                 boolean estInterdit=false;
                 for(int j=0;j<listRepete.size();j++)
-                {
-                if(listGlobale.get(i).getIdAliment()!=listRepete.get(j).getIdAliment())
-                {
-                   if(!list.contains(listGlobale.get(i)))
-                   {
-                   list.add(listGlobale.get(i));
-                   }
+                { 
+                if(listGlobale.get(i).getIdAliment()==listRepete.get(j).getIdAliment())
+                 {   
+                 estInterdit=true;
+                 }
                 }
+                if(!estInterdit)
+                {
+                list.add(listGlobale.get(i));
                 }
              }
+          }
+               System.out.println("list tri: "+list.size());
+
             }
             else{
             list=listGlobale;
             }
+     
           return list;
          }
          /**
@@ -787,6 +802,7 @@ public class Inserer_pathologieController implements Initializable {
           listPathologie=modelFoodSelect.listePathologie();
            recherche.setText("");
           descriptionPathologie.setText("");
+          nomPathologie.setText("");
           listePathologie.getItems().clear();
           listePathologie.setItems(FXCollections.observableArrayList(listPathologie));
           

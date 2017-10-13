@@ -5,6 +5,7 @@
  */
 package formuly.controler.frontend;
 
+import formuly.classe.formulyTools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,8 +14,11 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -30,6 +34,7 @@ public class Inserer_pathologieAlimentsController implements Initializable {
     @FXML private BorderPane center;
     @FXML private Button enregistrerPathologie;
     @FXML private Button supprimerPathologie;
+    @FXML private Button quitter;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,7 +46,27 @@ public class Inserer_pathologieAlimentsController implements Initializable {
         supprimerPathologie.setOnAction(event->{
          placerSuppprimerPathologie();
         });
-    }    
+        quitter.setOnAction(event->{
+        quitterFenetre(quitter);
+        });
+        Button [] btn={quitter};
+        formulyTools.mettreEffetButton(btn);
+    }  
+     public static void quitterFenetre(Button quitte)
+     {
+       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("fermer fenetre alerte");
+            alert.setHeaderText("Confirmer la fermerture \n");
+            alert.setContentText(""
+                    + "VOULEZ-VOUS VRAIMENT QUITTEZ ?");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+           Stage stage = (Stage) quitte.getScene().getWindow();
+    // do what you have to do
+               stage.close();
+        }                
+     }
      public void placerSuppprimerPathologie()
      {
       try {

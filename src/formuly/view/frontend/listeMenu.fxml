@@ -13,12 +13,20 @@
    <top>
       <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" prefHeight="47.0" prefWidth="644.0" text="Veuillez Choisi un Menu dans la liste des Menu" textFill="#801b1b" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" prefHeight="55.0" prefWidth="644.0" text="Veuillez Choisi un Menu dans la liste des Menu" textFill="#801b1b" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Book Antiqua Bold" size="24.0" />
                </font>
             </Label>
          </center>
+         <bottom>
+            <AnchorPane prefHeight="39.0" prefWidth="891.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" layoutX="475.0" layoutY="8.0" prefHeight="24.0" prefWidth="153.0" text="Recherche :" />
+                  <TextField fx:id="recherche" layoutX="659.0" layoutY="5.0" prefHeight="29.0" prefWidth="185.0" promptText="saisissez ici" />
+               </children>
+            </AnchorPane>
+         </bottom>
       </BorderPane>
    </top>
    <left>

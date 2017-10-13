@@ -14,7 +14,7 @@
    <top>
       <BorderPane prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" prefHeight="46.0" prefWidth="675.0" text="GESTION DES INTERDITS ALIMENTAIRES" BorderPane.alignment="CENTER" />
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="675.0" styleClass="labelshaut" text="GESTION DES INTERDITS ALIMENTAIRES" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </top>
@@ -23,11 +23,11 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="enregistrerPathologie" mnemonicParsing="false" prefHeight="25.0" prefWidth="196.0" text="Enregistrement pathologie" />
+                  <Button fx:id="enregistrerPathologie" mnemonicParsing="false" prefHeight="25.0" prefWidth="196.0" styleClass="nav" text="Enregistrer pathologie" />
                   <Separator prefHeight="33.0" prefWidth="186.0" />
-                  <Button fx:id="supprimerPathologie" mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" text="suppression pathologie" />
+                  <Button fx:id="supprimerPathologie" mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" styleClass="nav" text="detruire pathologie" />
                   <Separator prefHeight="32.0" prefWidth="186.0" />
-                  <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" text="creer un interdit alimentaire" />
+                  <Button layoutX="10.0" layoutY="68.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="189.0" styleClass="nav" text="creer une pathologie" />
                </children>
             </VBox>
          </center>
@@ -36,7 +36,10 @@
    <right>
       <VBox prefHeight="622.0" prefWidth="88.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
+            <Button fx:id="quitter" mnemonicParsing="false" prefHeight="30.0" prefWidth="39.0" styleClass="buttonCancel" text="X">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </VBox>
    </right>

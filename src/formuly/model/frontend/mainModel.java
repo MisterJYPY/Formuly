@@ -73,6 +73,7 @@ public class mainModel {
   private FmRetentionNutriments retNu;
   private boolean PathologieAinsere;
   private pathologieModel pathologieModel;
+  private int rangPathologieModelDansLaTable;
 
   
 
@@ -81,6 +82,14 @@ public class mainModel {
     public mainModel() {
          PathologieAinsere=false;
         retentionAliments=RetentionAlments.getAllAlimentRetention();
+    }
+
+    public int getRangPathologieModelDansLaTable() {
+        return rangPathologieModelDansLaTable;
+    }
+
+    public void setRangPathologieModelDansLaTable(int rangPathologieModelDansLaTable) {
+        this.rangPathologieModelDansLaTable = rangPathologieModelDansLaTable;
     }
 
     public pathologieModel getPathologieModel() {

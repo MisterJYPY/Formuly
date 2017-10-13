@@ -20,10 +20,10 @@
                            <children>
                               <TableView fx:id="listePathologie" layoutX="-4.0" layoutY="-1.0" prefHeight="200.0" prefWidth="691.0">
                                 <columns>
-                                  <TableColumn fx:id="Path_numero" prefWidth="35.0" text="N°" />
-                                  <TableColumn fx:id="nomPathologie" prefWidth="255.0" text="Nom pathologie" />
-                                    <TableColumn fx:id="description" prefWidth="187.0" text="Description" />
-                                    <TableColumn fx:id="nbreAliments" prefWidth="101.0" text="nbre Aliments " />
+                                  <TableColumn fx:id="Path_numero" prefWidth="35.0" styleClass="coloneCentre" text="N°" />
+                                  <TableColumn id="nom_pathologie" fx:id="nomPathologie" prefWidth="255.0" styleClass="coloneCentre" text="Nom pathologie" />
+                                    <TableColumn fx:id="description" prefWidth="187.0" styleClass="coloneCentre" text="Description" />
+                                    <TableColumn fx:id="nbreAliments" prefWidth="101.0" styleClass="coloneCentre" text="nbre Aliments " />
                                     <TableColumn fx:id="supPathologie" prefWidth="59.0" text="Del" />
                                     <TableColumn fx:id="modifPathologie" prefWidth="53.0" text="Modif" />
                                 </columns>
@@ -40,10 +40,10 @@
                            <children>
                               <TableView fx:id="listeAliment" layoutX="-4.0" layoutY="-1.0" prefHeight="200.0" prefWidth="637.0">
                                  <columns>
-                                    <TableColumn fx:id="aliment_numero" prefWidth="35.0" text="N°" />
-                                    <TableColumn fx:id="nom_aliment" prefWidth="280.0" text="Nom aliment" />
-                                    <TableColumn fx:id="cuisson" prefWidth="136.0" text="cuisson" />
-                                    <TableColumn fx:id="pays" minWidth="0.0" prefWidth="127.0" text="pays" />
+                                    <TableColumn fx:id="aliment_numero" prefWidth="35.0" styleClass="coloneCentre" text="N°" />
+                                    <TableColumn id="nom_aliment" fx:id="nom_aliment" prefWidth="280.0" styleClass="coloneCentre" text="Nom aliment" />
+                                    <TableColumn fx:id="cuisson" prefWidth="136.0" styleClass="coloneCentre" text="cuisson" />
+                                    <TableColumn fx:id="pays" minWidth="0.0" prefWidth="127.0" styleClass="coloneCentre" text="pays" />
                                     <TableColumn fx:id="supAliment" prefWidth="56.0" text="Del" />
                                  </columns>
                               </TableView>
@@ -51,7 +51,6 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <Button layoutX="713.0" layoutY="550.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Button" />
                </children>
             </AnchorPane>
         </items>

@@ -23,12 +23,16 @@ import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -992,4 +996,34 @@ public class formulyTools {
          lbl.setText("");
         }
       }
+           public static void quitterFenetre(Button quitte)
+     {
+       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("fermer fenetre alerte");
+            alert.setHeaderText("Confirmer la fermerture \n");
+            alert.setContentText(""
+                    + "VOULEZ-VOUS VRAIMENT QUITTEZ ?");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+           Stage stage = (Stage) quitte.getScene().getWindow();
+    // do what you have to do
+               stage.close();
+        }                
+     }
+         /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+          * @param table la tableView concerné de type mainModel
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+          */
+         public static void actualisserNumeroTable(TableView<mainModel> table,int nbre)
+         {
+           for(int i=nbre;i<table.getItems().size();i++)
+              { 
+             table.getItems().get(i).setNumero(table.getItems().get(i).getNumero()-1);
+             table.getItems().set(i, table.getItems().get(i));
+              }
+         }
 }
