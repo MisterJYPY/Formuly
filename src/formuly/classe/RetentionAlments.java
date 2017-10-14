@@ -120,7 +120,7 @@ public class RetentionAlments {
           instance=null;
           List<RetentionAlments> retentionAl =null;
            retentionAl=new LinkedList();
-          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+          EntityManagerFactory emf=formulyTools.getEm();
           EntityManager entityM=emf.createEntityManager(); 
           
            entityM.getTransaction().begin();
@@ -131,7 +131,6 @@ public class RetentionAlments {
              // System.out.println("aliments: "+aliments.getNomFr());
              RetentionAlments retention=null;
               retention= getRetentionAliment(aliments);
-              System.out.println("aliment NOm "+aliments.getNomFr());
               retentionAl.add(retention);
              entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());

@@ -154,6 +154,8 @@ public class Inserer_pathologieController implements Initializable {
         labelAttention.setVisible(false);
         tableAlimentNonEnregistre.setVisible(false);
         initialiserTableauListeAliment(obsListTable1);
+        Button[] lisbtn={valider};
+        formulyTools.mettreEffetButton(lisbtn);
         recherche.setOnKeyReleased(event->{
           String contenu=recherche.getText();
              // TtypeNomPathologie.set

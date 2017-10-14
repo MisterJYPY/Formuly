@@ -74,9 +74,27 @@ public class AcceuilleController implements Initializable {
         formulyTools.mettreEffetButton(btn,Color.ROYALBLUE);
         accordGauche.setExpandedPane(paneGauche);
         accordDroite.setExpandedPane(paneDroite);
+        listAliment.setOnAction(event->{
+           placerListAliment();
+        });
    
        // cat.setClip(lb);
     }    
+    public void placerListAliment()
+    {
+     try {
+                    
+      ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
+              FXMLLoader loader = new FXMLLoader();
+        // Parent root = (Parent)loader.load(); 
+      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load(getClass().getResource("/formuly/view/frontend/liste_aliments.fxml")));
+      // loader.setController(new Liste_AlimentsControllers());
+            //initialiserTableBilan();
+          } catch (IOException ex) {
+                     Logger.getLogger(Liste_alimentsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
     public void chargerPanelRepas() throws IOException
     {
              

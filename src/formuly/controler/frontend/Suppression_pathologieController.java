@@ -95,11 +95,13 @@ public final class Suppression_pathologieController implements Initializable {
     
     private List<FmPathologie> TouteLalistePathologie;
     private ObservableList<pathologieModel> listeModelPathologie;
+     private ObservableList<pathologieModel> listeModelRecherche;
     
     public Suppression_pathologieController() 
        {
      TouteLalistePathologie=formulyTools.touteListePathologie();
      listeModelPathologie=retournerListeModelPathologie();
+     //  listeModelRecherche=listeModelRecherche;
        }
 
     @Override
@@ -110,13 +112,11 @@ public final class Suppression_pathologieController implements Initializable {
         recherche.setOnKeyReleased(event->{
             String recherch=recherche.getText();
       ObservableList<pathologieModel> ResultRecherche=retourneListParCritere(recherch,listePathologie.getItems());
-          if(ResultRecherche.size()>0)
-          {
-      initiliserTablePathologie(ResultRecherche); 
-          }
-        else{
-          
-          }
+//          if(recherch.isEmpty())
+//          {
+//           ResultRecherche=listeModelRecherche;
+//          }
+    initiliserTablePathologie(ResultRecherche); 
         });
         
     }    
@@ -127,7 +127,7 @@ public final class Suppression_pathologieController implements Initializable {
         for(pathologieModel ligne:liste)
       {
          Pattern p = Pattern.compile(chaineArechercher, Pattern.CASE_INSENSITIVE);
-          Matcher m = p.matcher(ligne.getLibelle());
+          Matcher m = p.matcher(ligne.getLibelle().concat(" "+ligne.getDescription()));
           
         if(m.find())
         {
@@ -144,7 +144,7 @@ public final class Suppression_pathologieController implements Initializable {
        nbreAliments.setCellValueFactory(new PropertyValueFactory<>("nbreAliment"));
         placerBouton(modifPathologie,1);
         placerBouton(supPathologie,2);
-       listePathologie.getItems().setAll(liste);
+       listePathologie.setItems(liste);
       
     }
     public ObservableList<pathologieModel> retournerListeModelPathologie()
@@ -339,7 +339,7 @@ public final class Suppression_pathologieController implements Initializable {
            }
             updateMessage("preparation pour affichage.....");
             updateProgress(89,100);
-       
+            formulyTools.actualisserNumeroListe(listeModelPathologie,models.getNumero()-1,1);
             em.getTransaction().commit();
             updateMessage("terminer");
             updateProgress(100,100);

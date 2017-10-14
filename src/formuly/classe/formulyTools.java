@@ -571,6 +571,12 @@ public class formulyTools {
             mainM.setIdAliment(aliment.getId());
             mainM.setNom_aliment(aliment.getNomFr());
             mainM.setPays(aliment.getPays());
+            mainM.setCategorie(aliment.getGroupe().getNomFr());
+            mainM.setMode_cuisson(aliment.getModeCuisson());
+            mainM.setAliment(aliment);
+            mainM.setRetMin(mine);
+            mainM.setRetNu(nutr);
+            mainM.setRetVit(vit);
             inf.add(mainM);
             cpt++;
         }
@@ -1024,6 +1030,35 @@ public class formulyTools {
               { 
              table.getItems().get(i).setNumero(table.getItems().get(i).getNumero()-1);
              table.getItems().set(i, table.getItems().get(i));
+              }
+         }
+           /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+           * @param liste la liste des elements 
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+          */
+         public static void actualisserNumeroListe(ObservableList<mainModel> liste,int nbre)
+         {
+           for(int i=nbre;i<liste.size();i++)
+              { 
+             liste.get(i).setNumero(liste.get(i).getNumero()-1);
+              }
+         }
+           /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+           * @param liste la liste des elements 
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+     * @param parametreFictif
+          */
+         public static void actualisserNumeroListe(ObservableList<pathologieModel> liste,int nbre,int ... parametreFictif)
+         {
+           for(int i=nbre;i<liste.size();i++)
+              { 
+             liste.get(i).setNumero(liste.get(i).getNumero()-1);
               }
          }
 }
