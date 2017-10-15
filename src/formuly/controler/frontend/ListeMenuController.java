@@ -210,6 +210,7 @@ EntityManagerFactory     entityManagerFactory;
            rpM.setLibelle(repas.getLibelle());
            rpM.setId_repas(repas.getId());
            rpM.setDate(repas.getDate());  
+           rpM.setRepas(repas);
              model.add(rpM);
              i++;
         }
@@ -321,7 +322,8 @@ EntityManagerFactory     entityManagerFactory;
             detailAliment=listDesAliment(modelRepas);
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/make_foods_forMenu.fxml"));
         // loader.setLocation();
-         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment);
+          int taille=bilanList.size();
+         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille);
          loader.setController(ctrMakeFoods);
           Parent root = loader.load();
          st=new Stage();

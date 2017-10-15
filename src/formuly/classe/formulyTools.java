@@ -1046,6 +1046,34 @@ public class formulyTools {
              liste.get(i).setNumero(liste.get(i).getNumero()-1);
               }
          }
+          /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+           * @param liste la liste des elements 
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+          */
+         public static void actualiserNumeroListe(ObservableList<repasModel> liste,int nbre)
+         {
+           for(int i=nbre;i<liste.size();i++)
+              { 
+             liste.get(i).setNumero(liste.get(i).getNumero()-1);
+              }
+         }
+         /**
+          * methode permettant d'actualiser les numero d'un table view 
+          * en reorganisant les numero les identifainats dans la table
+           * @param liste la liste des elements 
+          * @param nbre  l'indice de l'element qui ete supprimer
+          * Cette methode est appelé uniquement apres une suppression d'une ligne dans un tableau de mainModels
+          */
+         public static void actualiserNumeroListes(ObservableList<alimentRepasModel> liste,int nbre)
+         {
+           for(int i=nbre;i<liste.size();i++)
+              { 
+             liste.get(i).setNumero(liste.get(i).getNumero()-1);
+              }
+         }
            /**
           * methode permettant d'actualiser les numero d'un table view 
           * en reorganisant les numero les identifainats dans la table

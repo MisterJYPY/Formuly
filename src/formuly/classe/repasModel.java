@@ -5,6 +5,7 @@
  */
 package formuly.classe;
 
+import formuly.entities.FmRepas;
 import java.util.Date;
 
 /**
@@ -22,12 +23,30 @@ public class repasModel{
    private Float protide;
    private Float Energie;
    private Date date;
+   private int nbreAliment;
+   private FmRepas repas;
     public int getNumero() {
         return numero;
     }
 
     public int getId_repas() {
         return id_repas;
+    }
+
+    public FmRepas getRepas() {
+        return repas;
+    }
+
+    public void setRepas(FmRepas repas) {
+        this.repas = repas;
+    }
+
+    public int getNbreAliment() {
+        return nbreAliment;
+    }
+
+    public void setNbreAliment(int nbreAliment) {
+        this.nbreAliment = nbreAliment;
     }
 
     public void setId_repas(int id_repas) {

@@ -100,9 +100,87 @@ public class Make_foods_forMenuController implements Initializable {
     private boolean travailEnregistre;
     private final modelFoodSelect model;
     ObservableList<alimentRepasModel> liste;
+    private TableView<repasModel> table=null;
+    private String nomModifAliment="";
+    private boolean modification=false;
+    private int tailleTable=0;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
+     travailEnregistre=false;
+        model=new modelFoodSelect();
+        piecharList=FXCollections.observableArrayList();
+        bilanList=FXCollections.observableArrayList();
+        data0=new Data("",0);
+        data1=new Data("",0);
+        data2=new Data("",0);
+    Double[] val={EnergieTotalePrEnregister,retentionGlucide,retentionLipide,retentionProtide};
+         initialisationValeurs(val);
+        idRepasAliment=formulyTools.TrouverDernierIdentifiant_Repas_aliment()+1;
+        idRepas=formulyTools.TrouverDernierIdentifiant_Repas()+1;
+        libelle="";
+        repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
+        repasCont=new FmRepasJpaController(formulyTools.getEm());
+        alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
+       // initialiserLesElementsDepuisLeRepas(list);
+     //   liste=FXCollections.observableArrayList();
+         liste=list;
+    }
+      public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table)
+    {
+        this.table=table;
+     travailEnregistre=false;
+        model=new modelFoodSelect();
+        piecharList=FXCollections.observableArrayList();
+        bilanList=FXCollections.observableArrayList();
+        data0=new Data("",0);
+        data1=new Data("",0);
+        data2=new Data("",0);
+    Double[] val={EnergieTotalePrEnregister,retentionGlucide,retentionLipide,retentionProtide};
+         initialisationValeurs(val);
+        idRepasAliment=formulyTools.TrouverDernierIdentifiant_Repas_aliment()+1;
+        idRepas=formulyTools.TrouverDernierIdentifiant_Repas()+1;
+        libelle="";
+        repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
+        repasCont=new FmRepasJpaController(formulyTools.getEm());
+        alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
+       // initialiserLesElementsDepuisLeRepas(list);
+     //   liste=FXCollections.observableArrayList();
+         liste=list;
+    }
+        public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables)
+    {
+        // System.out.println("taille tab: "+tailleTables);
+        this.table=table;
+        this.tailleTable=tailleTables+1;
+      //    System.out.println("taille tab ee: "+tailleTable);
+     travailEnregistre=false;
+        model=new modelFoodSelect();
+        piecharList=FXCollections.observableArrayList();
+        bilanList=FXCollections.observableArrayList();
+        data0=new Data("",0);
+        data1=new Data("",0);
+        data2=new Data("",0);
+    Double[] val={EnergieTotalePrEnregister,retentionGlucide,retentionLipide,retentionProtide};
+         initialisationValeurs(val);
+        idRepasAliment=formulyTools.TrouverDernierIdentifiant_Repas_aliment()+1;
+        idRepas=formulyTools.TrouverDernierIdentifiant_Repas()+1;
+        libelle="";
+        repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
+        repasCont=new FmRepasJpaController(formulyTools.getEm());
+        alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
+       // initialiserLesElementsDepuisLeRepas(list);
+     //   liste=FXCollections.observableArrayList();
+         liste=list;
+    }
+          public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,String NomAliment)
+    {
+        // System.out.println("taille tab: "+tailleTables);
+        this.nomModifAliment=NomAliment;
+        this.modification=true;
+        this.table=table;
+        this.tailleTable=tailleTables+1;
+      //    System.out.println("taille tab ee: "+tailleTable);
      travailEnregistre=false;
         model=new modelFoodSelect();
         piecharList=FXCollections.observableArrayList();
@@ -211,7 +289,6 @@ public class Make_foods_forMenuController implements Initializable {
          public void TraiterInterdi()
          {
    ObservableList<FmAlimentsPathologie>  list=verificationPathologie(table_aliment_deja_choisi.getItems());
-             System.out.println("taille: "+list.size());
              String info="";
         info = formatageInterdi(list);
     String lesElement="";
@@ -960,9 +1037,7 @@ public class Make_foods_forMenuController implements Initializable {
           prttGl=(sommeGlucide/(sommeProtide+sommeLipide+sommeGlucide))*100;
         prttLp=(sommeLipide/(sommeProtide+sommeLipide+sommeGlucide))*100;
         prPrtd=(sommeProtide/(sommeProtide+sommeLipide+sommeGlucide))*100;
-           System.out.println("lip:"+aetLipide+"prt: "+aetProtide+"Gl:"+aetGlucide+" enr: "+EnergieTotale);
-            System.out.println("---------------------------------------------");
-            System.out.println("lip:"+aetLip+"prt: "+aetPr+"Gl:"+aetGl+" enr: "+energiteTot);
+          
            data0.setName("Gl");
            data0.setPieValue( prttGl);
            data1.setName("Pr");
@@ -1137,23 +1212,36 @@ else{
            java.util.Date date= new java.util.Date();
       //  System.out.println());
            FmRepas repas=new FmRepas(idRepas);
+           repasModel rpM=new repasModel();
            repas.setEnergie(Float.parseFloat(EnergieTotalePrEnregister.toString()));
            repas.setLipide(Float.parseFloat(retentionLipide.toString()));
            repas.setProtide(Float.parseFloat(retentionProtide.toString()));
            repas.setGlucide(Float.parseFloat(retentionGlucide.toString()));
            repas.setLibelle(libelle);
            repas.setDate(new Timestamp(date.getTime()));
+           //element pour actualiser la tableau de provenace
+           rpM.setId_repas(idRepas);
+           rpM.setDate(new Timestamp(date.getTime()));
+           rpM.setEnergie(Float.parseFloat(EnergieTotalePrEnregister.toString()));
+           rpM.setLibelle(libelle);
+           rpM.setGlucide(Float.parseFloat(retentionGlucide.toString()));
+           rpM.setLipide(Float.parseFloat(retentionLipide.toString()));
+           rpM.setNumero(tailleTable);
+           rpM.setNbreAliment(table_aliment_deja_choisi.getItems().size());
+           //fin mis a jour table de provenance
            formulyTools.getEm().createEntityManager().getTransaction().begin();
            repasCont.create(repas);
            //appel du controller de Jpa 
           List<mainModel> liste=table_aliment_deja_choisi.getItems();
           int tailleDonnee=liste.size();
-          System.out.println("id :");
-          int  j=4;
+          int  j= (100/tailleDonnee);
+          int debut=j+2;
+          updateProgress(debut, 100);
         for (int i = 0; i <tailleDonnee; i++) {
           Thread.sleep(200);
           //nous allonslancer le Proccess
-            System.out.println("id repas aliment: "+idRepasAliment);
+          //  System.out.println("id repas aliment: "+idRepasAliment);
+           
           mainModel ls=liste.get(i);
           FmAliments al=alimenCtr.findFmAliments(ls.getIdAliment());
           FmRepasAliments repaAlmt=new FmRepasAliments(idRepasAliment);
@@ -1163,14 +1251,22 @@ else{
           repaAlmt.setDate(new Timestamp(date.getTime()));
           repasAlCtr.create(repaAlmt);
           idRepasAliment++;
-          updateProgress(j + 1, 10);
-          j=(100/tailleDonnee);
+             debut=debut+j;
+             updateProgress(debut, 100);
+             
+         // j=(100/tailleDonnee);
           if(i!=tailleDonnee-1)
           {
           updateMessage(""+i+1);
           }
           else{
-         updateMessage("terminer");
+              updateProgress(100, 100);
+            if(table!=null)
+            {
+              table.getItems().add(rpM);
+            }
+            tailleTable++;
+            updateMessage("terminer");
           }
          
         }

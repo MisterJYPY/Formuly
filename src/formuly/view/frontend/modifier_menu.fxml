@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/listemenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Modifier_menuController">
+   <top>
+      <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" prefHeight="55.0" prefWidth="644.0" text="Liste de Tous vos Menus" textFill="#801b1b" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Book Antiqua Bold" size="24.0" />
+               </font>
+            </Label>
+         </center>
+         <bottom>
+            <AnchorPane prefHeight="39.0" prefWidth="891.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" layoutX="475.0" layoutY="8.0" prefHeight="24.0" prefWidth="153.0" text="Recherche :" />
+                  <TextField fx:id="recherche" layoutX="659.0" layoutY="5.0" prefHeight="29.0" prefWidth="253.0" promptText="saisissez ici" />
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </top>
+   <center>
+      <BorderPane prefHeight="389.0" prefWidth="957.0" BorderPane.alignment="CENTER">
+         <center>
+            <TableView fx:id="tableRepas" prefHeight="357.0" prefWidth="957.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="numero" prefWidth="35.0" text="N°" />
+                <TableColumn fx:id="nom_repas" prefWidth="192.0" text="Nom menu" />
+                  <TableColumn fx:id="glucideTotale" prefWidth="101.0" text="glucide" />
+                  <TableColumn fx:id="lipideTotale" prefWidth="100.0" text="Lipide" />
+                  <TableColumn fx:id="protideTotale" prefWidth="123.0" text="Protide" />
+                  <TableColumn fx:id="energieTotale" prefWidth="107.0" text="Energie" />
+                  <TableColumn fx:id="nbreAliment" prefWidth="78.0" text="Nbre Almts" />
+                  <TableColumn fx:id="date" prefWidth="109.0" text="Date" />
+                  <TableColumn fx:id="supMenu" prefWidth="57.0" text="supp" />
+                  <TableColumn fx:id="modifMenu" prefWidth="54.0" text="modif" />
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <AnchorPane prefHeight="29.0" prefWidth="957.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="363.0" prefHeight="28.0" prefWidth="279.0" text="Liste des Aliments du menu" />
+               </children>
+            </AnchorPane>
+         </bottom></BorderPane>
+   </center>
+   <bottom>
+      <BorderPane prefHeight="200.0" prefWidth="906.0" BorderPane.alignment="CENTER">
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="855.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tableAliment" layoutX="90.0" prefHeight="200.0" prefWidth="768.0">
+                    <columns>
+                      <TableColumn fx:id="numeroLocale" prefWidth="36.0" text="N°" />
+                      <TableColumn fx:id="nom_aliment" prefWidth="242.0" text="Nom aliment" />
+                        <TableColumn fx:id="quantite" prefWidth="59.0" text="Qte" />
+                        <TableColumn fx:id="glucideLocale" prefWidth="99.0" text="Glucide" />
+                        <TableColumn fx:id="lipideLocale" prefWidth="93.0" text="Lipide" />
+                        <TableColumn fx:id="protideLocale" prefWidth="94.0" text="Protide" />
+                        <TableColumn fx:id="energieLocale" prefWidth="90.0" text="Energie" />
+                        <TableColumn fx:id="prendre" prefWidth="54.0" text="Del" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </bottom>
+</BorderPane>

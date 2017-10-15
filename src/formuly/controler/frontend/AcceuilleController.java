@@ -77,7 +77,10 @@ public class AcceuilleController implements Initializable {
         listAliment.setOnAction(event->{
            placerListAliment();
         });
-   
+     modifierMenu.setOnAction(event->{
+      String urls="/formuly/view/frontend/modifier_menu.fxml";
+         placerVue(urls);
+     });
        // cat.setClip(lb);
     }    
     public void placerListAliment()
@@ -89,6 +92,21 @@ public class AcceuilleController implements Initializable {
               FXMLLoader loader = new FXMLLoader();
         // Parent root = (Parent)loader.load(); 
       ((BorderPane)(principal.getCenter())).getChildren().add(loader.load(getClass().getResource("/formuly/view/frontend/liste_aliments.fxml")));
+      // loader.setController(new Liste_AlimentsControllers());
+            //initialiserTableBilan();
+          } catch (IOException ex) {
+                     Logger.getLogger(Liste_alimentsController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
+     public void placerVue(String url)
+    {
+     try {
+                    
+      ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
+              FXMLLoader loader = new FXMLLoader();
+        // Parent root = (Parent)loader.load(); 
+      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load(getClass().getResource(url)));
       // loader.setController(new Liste_AlimentsControllers());
             //initialiserTableBilan();
           } catch (IOException ex) {

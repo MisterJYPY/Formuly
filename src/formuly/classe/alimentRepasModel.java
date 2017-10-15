@@ -5,6 +5,8 @@
  */
 package formuly.classe;
 
+import formuly.entities.FmRepasAliments;
+
 /**
  *classe permettant de servir de model de TableView 
  * elle est principalement utilisée dans la confection d'un menu avec menu existant
@@ -22,9 +24,19 @@ public class alimentRepasModel {
     private String libelle;
     private Float quantite;
     private int id_aliment;
+    private int id_repas;
+    private  FmRepasAliments alrepas;
 
     public int getId_aliment() {
         return id_aliment;
+    }
+
+    public FmRepasAliments getAlrepas() {
+        return alrepas;
+    }
+
+    public void setAlrepas(FmRepasAliments alrepas) {
+        this.alrepas = alrepas;
     }
 
     public void setId_aliment(int id_aliment) {
@@ -32,6 +44,14 @@ public class alimentRepasModel {
     }
     public String getLibelle() {
         return libelle;
+    }
+
+    public int getId_repas() {
+        return id_repas;
+    }
+
+    public void setId_repas(int id_repas) {
+        this.id_repas = id_repas;
     }
 
     public void setLibelle(String libelle) {
