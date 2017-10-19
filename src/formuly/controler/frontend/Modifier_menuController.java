@@ -15,6 +15,7 @@ import formuly.entities.FmRetentionNutriments;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -224,7 +225,7 @@ public class Modifier_menuController implements Initializable {
                             btn.setOnAction(event -> {
                                 try {
                                     repasModel aliment= getTableView().getItems().get(getIndex());
-                                    chargerPanelRepas(btn,aliment);
+                                    chargerPanelRepas(btn,aliment,getIndex());
                                 } catch (IOException ex) {
                                     Logger.getLogger(Modifier_menuController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -302,6 +303,7 @@ public class Modifier_menuController implements Initializable {
        NumberFormat format=NumberFormat.getInstance();
             format.setMaximumFractionDigits(2); 
       ObservableList<repasModel> model=FXCollections.observableArrayList();
+         FmRepasAlimentsJpaController repasAliment=new FmRepasAlimentsJpaController(formulyTools.getEm());
          List<FmRepas> lisRepas;
        // FmRepasJpaController repaC=new FmRepasJpaController(formulyTools.getEm());
         lisRepas=formulyTools.Liste_Repas();
@@ -320,8 +322,9 @@ public class Modifier_menuController implements Initializable {
            rpM.setLibelle(repas.getLibelle());
            rpM.setId_repas(repas.getId());
            rpM.setDate(repas.getDate());
-             rpM.setRepas(repas);
-           rpM.setNbreAliment(repas.getFmRepasAlimentsCollection().size());
+             rpM.setRepas(repas); 
+       List< FmRepasAliments> listeRepasAl=(  List<FmRepasAliments> ) repasAliment.findFmRepasAlimentsByRepas(repas.getId());  
+           rpM.setNbreAliment(listeRepasAl.size());
              model.add(rpM);
              i++;
         }
@@ -432,7 +435,7 @@ public class Modifier_menuController implements Initializable {
         detailAliment=listDesAliment(repas);
         tableAliment.setItems(detailAliment);
     }
-     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas) throws IOException
+     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas,int indexTableau) throws IOException
     {
             detailAliment.clear();
             detailAliment=listDesAliment(modelRepas);
@@ -440,7 +443,7 @@ public class Modifier_menuController implements Initializable {
         // loader.setLocation();
         // ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment);
            int taille=bilanList.size();
-         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille,modelRepas.getLibelle());
+         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille,modelRepas.getRepas(),indexTableau,bilanList);
          loader.setController(ctrMakeFoods);
           Parent root = loader.load();
          st=new Stage();
@@ -682,19 +685,71 @@ public class Modifier_menuController implements Initializable {
             em.getTransaction().begin(); 
             FmRepasAliments Alrepas=models.getAlrepas();
             FmRepas repas=Alrepas.getRepas();
+          FmRepasAlimentsJpaController repasAliment=new FmRepasAlimentsJpaController(formulyTools.getEm());
+       List< FmRepasAliments> listeRepasAl=(  List<FmRepasAliments> ) repasAliment.findFmRepasAlimentsByRepas(repas.getId());
+          //  System.out.println("nom repas "+repas.getLibelle());
             updateMessage("en cour ......");
             updateProgress(50,100);
             FmRepasAliments current=Alrepas;
-             if (!em.contains(Alrepas)) {
+         List< FmRepasAliments> listAliment=(List<FmRepasAliments>)repas.getFmRepasAlimentsCollection();
+              System.out.println("nbre ALM : "+listAliment.size());
+         List<FmRetentionNutriments> listR=(List<FmRetentionNutriments>)current.getAliment().getFmRetentionNutrimentsCollection();
+             FmRetentionNutriments ret=listR.get(0);
+           float quantite=current.getQuantite();
+           float lpde=((quantite*ret.getLipide())/100);
+           float glce=((quantite*ret.getGlucide())/100);
+           float prtde=((quantite*ret.getProtein())/100);
+           float energieAliment=9*lpde+4*glce+4*prtde;
+         //les aliments du menu on reclacul la valeur en lipide et en glucide
+           float lipideTotale=0;
+           float glucideTotale=0;
+           float protideTotale=0;
+           float EnergieTotale=0;
+           float quantites;
+         //  float energieAliments=9*lpde+4*glce+4*prtde;
+            for(FmRepasAliments rpasAli:listeRepasAl)
+            {
+              quantites=rpasAli.getQuantite();
+              FmAliments al=rpasAli.getAliment();
+              System.out.println("nom aliment : "+al.getNomFr()+" qte : "+quantites);
+    List<FmRetentionNutriments> listRi=(List<FmRetentionNutriments>)al.getFmRetentionNutrimentsCollection();
+         FmRetentionNutriments reti=listRi.get(0);
+                //System.out.println("lipide : "+reti.getLipide());
+         lipideTotale=lipideTotale+((quantites*reti.getLipide())/100);  
+         glucideTotale=glucideTotale+((quantites*reti.getGlucide())/100); 
+         protideTotale=protideTotale+((quantites*reti.getProtein())/100); 
+           quantites=0;
+            }
+            float ener=(lipideTotale*9 )+(protideTotale*4) +(glucideTotale*4);
+         lipideTotale=lipideTotale-lpde;
+         glucideTotale=glucideTotale-glce;
+         protideTotale=protideTotale-prtde;
+         EnergieTotale= lipideTotale*9 +protideTotale*4 +glucideTotale*4;
+        float nutrimentTotal=lipideTotale +protideTotale +glucideTotale;
+         float pcenLp=(lipideTotale/nutrimentTotal)*100;
+        float pcenPt=(protideTotale/nutrimentTotal)*100;
+        float pcenGl=(glucideTotale/nutrimentTotal)*100;
+       
+             repas.setGlucide(pcenGl);
+             repas.setLipide(pcenLp);
+             repas.setProtide(pcenPt);
+             repas.setEnergie(EnergieTotale);
+             em.merge(repas);
+              if (!em.contains(Alrepas)) {
              current = em.merge(Alrepas);
              }
              em.remove(current);
               tableAliment.getItems().remove(models);
               formulyTools.actualiserNumeroListes(tableAliment.getItems(),models.getNumero()-1);
-              repasCourant.setNbreAliment(  tableAliment.getItems().size());
+              repasCourant.setNbreAliment(tableAliment.getItems().size());
+              repasCourant.setEnergie(EnergieTotale);
+              repasCourant.setLipide(pcenLp);
+              repasCourant.setProtide(pcenPt);
+              repasCourant.setGlucide(pcenGl);
+              repasCourant.setNbreAliment( tableAliment.getItems().size()); 
               bilanList.set(repasCourant.getNumero()-1, repasCourant);
-             tableRepas.getItems().set(indexCourant, repasCourant);
-               int tailleAliment=tableAliment.getItems().size();
+              tableRepas.getItems().set(indexCourant, repasCourant);
+                int tailleAliment=tableAliment.getItems().size();
                  if(tailleAliment==0)
                 //on supprime le repas en question 
                     {
@@ -702,9 +757,10 @@ public class Modifier_menuController implements Initializable {
              if (!em.contains(currentRepas)) {
              currentRepas= em.merge(repas);
              }
-              em.remove( currentRepas);
+              em.remove(currentRepas);
               tableRepas.getItems().remove(repasCourant);
               bilanList.remove(repasCourant);
+             formulyTools.actualiserNumeroListe(bilanList,repasCourant.getNumero()-1);
              formulyTools.actualiserNumeroListe(tableRepas.getItems(),indexCourant);
                       }
             updateMessage("suppression des aliments lié au menu.....");

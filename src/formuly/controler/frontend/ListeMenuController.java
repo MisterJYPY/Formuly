@@ -211,6 +211,7 @@ EntityManagerFactory     entityManagerFactory;
            rpM.setId_repas(repas.getId());
            rpM.setDate(repas.getDate());  
            rpM.setRepas(repas);
+           rpM.setNbreAliment(repas.getFmRepasAlimentsCollection().size());
              model.add(rpM);
              i++;
         }
