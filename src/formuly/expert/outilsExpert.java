@@ -13,15 +13,93 @@ import java.util.ArrayList;
  */
 public class outilsExpert {
     
-       ArrayList<String> lesFaitsTrouver;
+   ArrayList<String> lesFaitsTrouver;
     private double ageClient;
     private double poidsClient;
     private double sexeClient;
-
+/**
+ * constructeur par defaut de la classe outil expert
+ */
     public outilsExpert() {
         lesFaitsTrouver=new ArrayList<>();
     }
-       
+/**
+ * constructeur parametre
+ * @param AetLipide apport energetique en Lipide
+ * @param AetProide apport energetique en Protide
+ * @param AetGlucide apport energetique en Glucide
+ * @param prcentGlucide pourcentage en Glucide
+ * @param prcentProtide pourcentage en Protide
+ * @param prcenLipide   pourcentage en Lipide
+ * @param regime1500    pourcentage regime de 1500
+ * @param regime2000    pourcentage regime de 2000
+ * @param regime2500    pourcentage regime de 2500
+ * @param regime3000    pourcentage regime de 3000
+ * @param regime3500    pourcentage regime de 3500
+ * @param regime4500    pourcentage regime de 4500
+ * @param EnergieTotale valeur en energie Totale
+ */
+    public outilsExpert(double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double regime4500, double EnergieTotale) {
+        this.AetLipide = AetLipide;
+        this.AetProide = AetProide;
+        this.AetGlucide = AetGlucide;
+        this.prcentGlucide = prcentGlucide;
+        this.prcentProtide = prcentProtide;
+        this.prcenLipide = prcenLipide;
+        this.regime1500 = regime1500;
+        this.regime2000 = regime2000;
+        this.regime2500 = regime2500;
+        this.regime3000 = regime3000;
+        this.regime3500 = regime3500;
+        this.regime4500 = regime4500;
+        this.EnergieTotale = EnergieTotale;
+    }
+
+    /**
+ * constructeur parametre
+* @param lesFaitsTrouver liste des faits enregistré apres le chainage avant
+* @param ageClient      l'age du client
+* @param poidsClient    le poids du client
+* @param sexeClient     le sexe du client
+ * @param AetLipide apport energetique en Lipide
+ * @param AetProide apport energetique en Protide
+ * @param AetGlucide apport energetique en Glucide
+ * @param prcentGlucide pourcentage en Glucide
+ * @param prcentProtide pourcentage en Protide
+ * @param prcenLipide   pourcentage en Lipide
+ * @param regime1500    pourcentage regime de 1500
+ * @param regime2000    pourcentage regime de 2000
+ * @param regime2500    pourcentage regime de 2500
+ * @param regime3000    pourcentage regime de 3000
+ * @param regime3500    pourcentage regime de 3500
+ * @param regime4500    pourcentage regime de 4500
+ * @param EnergieTotale valeur en energie Totale
+ */
+    public outilsExpert(ArrayList<String> lesFaitsTrouver, double ageClient, double poidsClient, double sexeClient, double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double regime4500, double EnergieTotale) {
+        this.lesFaitsTrouver = lesFaitsTrouver;
+        this.ageClient = ageClient;
+        this.poidsClient = poidsClient;
+        this.sexeClient = sexeClient;
+        this.AetLipide = AetLipide;
+        this.AetProide = AetProide;
+        this.AetGlucide = AetGlucide;
+        this.prcentGlucide = prcentGlucide;
+        this.prcentProtide = prcentProtide;
+        this.prcenLipide = prcenLipide;
+        this.regime1500 = regime1500;
+        this.regime2000 = regime2000;
+        this.regime2500 = regime2500;
+        this.regime3000 = regime3000;
+        this.regime3500 = regime3500;
+        this.regime4500 = regime4500;
+        this.EnergieTotale = EnergieTotale;
+    }
+     /**
+      * methode permettant de traiter une regle 
+      * en verifiant si ces premisses sont verifiés
+      * @param regle  la regle
+      * @return  un boolean qui est true si la regle est declenchable et non ds la cas contraire
+      */
       public boolean decouperVal(String regle)
     {
    String [] donnee=regle.split("ET");
@@ -163,6 +241,333 @@ public class outilsExpert {
        
        return regleApplicable;
     }
+       /**
+      * methode permettant de traiter une regle 
+      * particuliarite : permet d'inclure les connecteur OU
+      * en verifiant si ces premisses sont verifiés
+      * @param regle  la regle
+     * @param parametreFictif un parametre qui sert de surcharge 
+      * @return  un boolean qui est true si la regle est declenchable et non ds la cas contraire
+      */
+           public boolean decouperVal(String regle,String parametreFictif)
+    {
+   String [] donnee=regle.split("ET");
+ //  String [] TableConjonction=regle.split("/");//pour dire ou
+   String [] TableDisjonction=regle.split("//");//pour dire Et
+   ArrayList<Integer> list=new ArrayList<>();
+  int tailleElementOu=TableDisjonction.length;
+  
+   boolean regleApplicable=false;
+      
+       String element;
+       String cond;
+       String val;
+       String [] alors;
+       String conclusion="";
+     if(tailleElementOu<=1)
+       {
+     System.out.println("**********presence de ou**************");
+   if(donnee.length>1)
+   {
+       System.out.println("**********nous avons des e**************");
+       for(int i=0;i<donnee.length;i++)
+       {
+       String expr=donnee[i];
+       String [] exprOu=expr.split("ou");
+       int tailleOu =exprOu.length;
+       if(tailleOu<=1)  
+       {
+          element="";
+          cond="";
+          val="";
+         conclusion="";
+        
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5);
+          
+         if(expr.contains("alors"))
+         {
+           System.out.println("");
+           alors=val.split("alors");
+           val=alors[0];      
+          conclusion=alors[1];
+         }
+   System.out.println(val);
+       list.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+      else{
+        ArrayList<Integer> listResultOu=new ArrayList<>();
+        for(int j=0;j<tailleOu;j++)  
+       {
+            expr=exprOu[j]; 
+           // System.out.println("expr *******************: "+expr);
+            String[] snsAlors=expr.split("alors");
+          //  System.out.println("expr tailel*******************: "+snsAlors.length);
+          //   conclusion=snsAlors[snsAlors.length-1];
+          String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
+       if(expr.contains("alors"))
+       {
+          expr=snsAlors[0];
+       }
+             //       System.out.println("entrer dans la condition");
+         element="";
+         cond="";
+         val="";
+         conclusion=snsAlors[snsAlors.length-1];
+    
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5); 
+          
+      listResultOu.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+        int cptOu=0;
+        for(Integer res:listResultOu)
+        {
+        cptOu=cptOu+res;
+        }
+        list.add((cptOu>=1)?1:0);
+       }
+       }
+       }
+   //ici dans le cas ou il n'y a pas de et 
+   else{
+        String expr=donnee[0];
+        String [] exprOu=expr.split("ou");
+       int tailleOu =exprOu.length;
+         //nous allons traiter le cas ou il n'y pas de ou
+       // System.out.println("regle :"+regle);
+     if(tailleOu<=1)
+             {
+         alors=regle.split("alors");
+         String nv=alors[0];
+         element=nv.substring(0, 3);
+         cond=nv.substring(3,5);
+         val=nv.substring(5);
+         conclusion=alors[1];
+    
+      list.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+             }
+    else{
+      
+        ArrayList<Integer> listResultOu=new ArrayList<>();
+        for(int j=0;j<tailleOu;j++)  
+       {
+ 
+               expr=exprOu[j]; 
+         String[] snsAlors=expr.split("alors");
+       //    System.out.println(""+snsAlors[snsAlors.length-1]);
+        String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
+       if(expr.contains("alors"))
+       {
+          expr=snsAlors[0];
+       }
+             //       System.out.println("entrer dans la condition");
+         element="";
+         cond="";
+         val="";
+        conclusion=snsAlors[snsAlors.length-1];
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5); 
+       listResultOu.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+        int cptOu=0;
+        for(Integer res:listResultOu)
+        {
+        cptOu=cptOu+res;
+        }
+        list.add((cptOu>=1)?1:0);
+       }
+   }
+      int tailleListe=list.size();
+      int cpt=0;
+       for(Integer ent:list)
+       {
+         cpt=cpt+ent; 
+        //   System.out.println(ent+" ");
+       }
+       if(cpt==tailleListe)
+       {
+      lesFaitsTrouver.add(conclusion);
+      regleApplicable=true;
+       }
+    }  
+     else{
+         System.out.println("************bcp de ou ***********");
+       ArrayList<Integer> solutionPrimaire=new ArrayList<>();
+     for(int k=0;k<TableDisjonction.length;k++)
+         {
+           String  expression=TableDisjonction[k];
+        System.out.println("ex "+expression);
+        donnee=expression.split("ET");   
+        
+        if(donnee.length>1)
+   {
+            System.out.println("************bcp de donnee***********");
+       for(int i=0;i<donnee.length;i++)
+       {
+       String expr=donnee[i];
+       String [] exprOu=expr.split("ou");
+           System.out.println("expr :"+expr);
+       if(expr.contains("alors")){
+       String[] exprConcl=expr.split("alors");
+        conclusion=exprConcl[exprConcl.length-1];
+        //   System.out.println("Conclusion "+conclusion);
+           }
+       int tailleOu =exprOu.length;
+       if(tailleOu<=1)  
+       {
+          element="";
+          cond="";
+          val="";
+        // conclusion="";
+        
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5);
+          
+         if(i==donnee.length-1)
+         {
+           System.out.println("VAL: "+val);
+           alors=val.split("alors");
+           val=alors[0];
+         //  conclusion=alors[1];
+         }
+  
+       list.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+      else{
+        ArrayList<Integer> listResultOu=new ArrayList<>();
+        for(int j=0;j<tailleOu;j++)  
+       {
+            expr=exprOu[j]; 
+           // System.out.println("expr *******************: "+expr);
+            String[] snsAlors=expr.split("alors");
+          //  System.out.println("expr tailel*******************: "+snsAlors.length);
+          //   conclusion=snsAlors[snsAlors.length-1];
+          String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
+       if(expr.contains("alors"))
+       {
+          expr=snsAlors[0];
+       }
+             //       System.out.println("entrer dans la condition");
+         element="";
+         cond="";
+         val="";
+         conclusion=snsAlors[snsAlors.length-1];
+    
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5); 
+          
+      listResultOu.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+        int cptOu=0;
+        for(Integer res:listResultOu)
+        {
+        cptOu=cptOu+res;
+        }
+        list.add((cptOu>=1)?1:0);
+       }
+       }
+       }
+   //ici dans le cas ou il n'y a pas de et 
+   else{
+            System.out.println("EXXX"+expression);
+        String expr=expression;
+        String [] exprOu=expr.split("ou");
+       int tailleOu =exprOu.length;
+          
+         //nous allons traiter le cas ou il n'y pas de ou
+       // System.out.println("regle :"+regle);
+     if(tailleOu<=1 && expression.contains("alors"))
+             {
+         alors=expression.split("alors");
+         String nv=alors[0];
+         element=nv.substring(0, 3);
+         cond=nv.substring(3,5);
+         val=nv.substring(5);
+         conclusion=alors[1];
+                 System.out.println("conclu "+conclusion);
+//      list.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+         int result=(premisseRespecter(Double.parseDouble(val),element, cond))?1:0;
+                     System.out.println("resulllt alors " +result);
+            list.add(result);
+             }
+     
+     if(tailleOu<=1 && !expression.contains("alors"))
+     {
+         System.out.println("esees"+expression);
+         element=expression.substring(0, 3);
+         cond=expression.substring(3,5);
+         val=expression.substring(5);
+             
+              int result=(premisseRespecter(Double.parseDouble(val),element, cond))?1:0;
+                     System.out.println("resulllt " +result);
+            list.add(result);
+     }
+    else{
+      
+        ArrayList<Integer> listResultOu=new ArrayList<>();
+        for(int j=0;j<tailleOu;j++)  
+       {
+ 
+               expr=exprOu[j]; 
+         String[] snsAlors=expr.split("alors");
+       //    System.out.println(""+snsAlors[snsAlors.length-1]);
+        String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
+       if(expr.contains("alors"))
+       {
+          expr=snsAlors[0];
+       }
+             //       System.out.println("entrer dans la condition");
+         element="";
+         cond="";
+         val="";
+        conclusion=snsAlors[snsAlors.length-1];
+         element=expr.substring(0, 3);
+         cond=expr.substring(3,5);
+         val=expr.substring(5); 
+       listResultOu.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
+       }
+        int cptOu=0;
+        for(Integer res:listResultOu)
+        {
+        cptOu=cptOu+res;
+        }
+        list.add((cptOu>=1)?1:0);
+       }
+   }
+      int tailleListe=list.size();
+    
+      int cpt=0;
+       for(Integer ent:list)
+       {
+         cpt=cpt+ent;
+       }
+       solutionPrimaire.add((cpt==tailleListe)?1:0);
+        list.clear();
+      
+         }
+     int cptvaleur=0;
+         System.out.println("solution pmaire: "+solutionPrimaire.size());
+     for(Integer valeurSoluPrimaire:solutionPrimaire)
+         {
+        cptvaleur=cptvaleur+valeurSoluPrimaire;
+           System.out.println("solution pmaire: "+valeurSoluPrimaire);
+         }
+      if(cptvaleur>=1)
+       {
+      lesFaitsTrouver.add(conclusion);   
+      regleApplicable=true;
+       }
+     }
+     //  for(String eleme)
+       
+       return regleApplicable;
+    }
       public void ChainageAvant(ArrayList<String> ensemble_des_regles)
       {  
           //parcours de l'ensemble des regles pour etudier les cas
@@ -171,6 +576,11 @@ public class outilsExpert {
                  decouperVal(regle);
                }
       }
+      /**
+       * methode qui retourne une chaine concaenée qui donne 
+       * le resultat de l'analyse fait
+       * @return la chaine qui est en fait l'analyse
+       */
       public String donnerResultatConclusion()
       {
        String resultat="";
@@ -226,6 +636,14 @@ public class outilsExpert {
          }
        return conclusion;
       }
+      /**
+       * methode appeler dans la methode traitant une regle apres separation
+       * des elements permettant de le traiter comme les signe >=,<= ...
+       * @param valeur la valeur apres l'operateur
+       * @param Donnee la donnee qui est l'element ex: vEn pour energie Totale
+       * @param cond   la condition qui peut etre > ,< ,<< ,>>,<=,>=,!=,==,
+       * @return 
+       */
     public boolean premisseRespecter(double valeur,String Donnee,String cond)
        {
            boolean respecte=false;
@@ -432,6 +850,15 @@ public class outilsExpert {
     public void setEnergieTotale(double EnergieTotale) {
         this.EnergieTotale = EnergieTotale;
     }
+    /**
+     * methode permettant de retourner la conclusion d'une regle
+     * @param element l'element qui est la chaine apres "alors"
+     * @return une chaine
+     */
+    private String retournerConclusion(String element) {
+       String conclusion="YALA AUCUN";
+       return conclusion;
+    }
     
   //public 
   private double AetLipide;
@@ -448,9 +875,4 @@ public class outilsExpert {
   private double regime4500;
   private double EnergieTotale;
 
-    private String retournerConclusion(String element) {
-       String conclusion="YALA AUCUN";
-       return conclusion;
-    }
-    
 }

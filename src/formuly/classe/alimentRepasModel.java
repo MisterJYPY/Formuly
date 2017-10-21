@@ -14,6 +14,7 @@ import formuly.entities.FmRepasAliments;
  * elle doit absolument respecter la structure d'un bean java
  * @author Mr_JYPY
  */
+
 public class alimentRepasModel {
     
     private int numero;

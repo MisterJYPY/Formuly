@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FmRepas.findByAgeSujet", query = "SELECT f FROM FmRepas f WHERE f.ageSujet = :ageSujet"),
     @NamedQuery(name = "FmRepas.findByDate", query = "SELECT f FROM FmRepas f WHERE f.date = :date")})
 public class FmRepas implements Serializable {
+    @OneToMany(mappedBy = "repas")
+    private Collection<FmRepasAnalyse> fmRepasAnalyseCollection;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "energie")
     private Float energie;
@@ -173,6 +175,15 @@ public class FmRepas implements Serializable {
 
     public void setProtide(Float protide) {
         this.protide = protide;
+    }
+
+    @XmlTransient
+    public Collection<FmRepasAnalyse> getFmRepasAnalyseCollection() {
+        return fmRepasAnalyseCollection;
+    }
+
+    public void setFmRepasAnalyseCollection(Collection<FmRepasAnalyse> fmRepasAnalyseCollection) {
+        this.fmRepasAnalyseCollection = fmRepasAnalyseCollection;
     }
     
 }
