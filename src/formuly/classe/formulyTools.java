@@ -10,6 +10,7 @@ import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmPathologie;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
@@ -17,9 +18,19 @@ import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.modelFoodSelect;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -106,7 +117,7 @@ public class formulyTools {
        
     }
             /**
-             * methode qui retourne la derniere entree d'un repas
+             * methode qui retourne la derniere entree d'un faitConcl
              * @return un entier qui est en fait l'id du dernier enregistrement
              */
     public static int TrouverDernierIdentifiant_Repas() 
@@ -129,7 +140,7 @@ public class formulyTools {
         
     }
     /**
-     * methode static qui retourne la liste de tous les repas etabli 
+     * methode static qui retourne la liste de tous les faitConcl etabli 
      * @return une List d'obdjet FmRepas
      */
     public static List<FmRepas> Liste_Repas() 
@@ -142,6 +153,47 @@ public class formulyTools {
          
         return repas;
     }
+      public static List<FmFaitConclusion> Liste_FaitConclusion() 
+    {
+      List<FmFaitConclusion> faitConcl;
+      EntityManager em=getEm().createEntityManager();
+   //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
+      Query eqr=em.createNamedQuery("FmFaitConclusion.findAll");
+         faitConcl=eqr.getResultList();
+         
+        return faitConcl;
+    }
+        public static ArrayList<String> RecupererElementFichierFt(File files)
+    {
+    ArrayList<String> list=new ArrayList();
+     try{
+       String ligne;
+    //chemins=this.takeTheFile();
+BufferedReader buffer=new BufferedReader(new FileReader(files));
+ LineNumberReader numeroLigne = new LineNumberReader(buffer);
+                 int i =0;
+     while((ligne=buffer.readLine())!=null ){     
+         //System.out.println(ligne);
+             list.add(ligne);
+             numeroLigne.getLineNumber();
+            //}
+        }
+     buffer.close();
+        }catch(IOException e){
+            System.out.println(Arrays.toString(e.getStackTrace()));
+          }
+   
+     return list;
+    }
+      public static List<String> listRegles()
+      {
+        // List<String> myList = Files.lines(Paths.get("/formuly/expert/regle.txt")).collect(Collectors.toList());
+          List<String> list=new ArrayList<>();
+         String parent=System.getProperty("user.dir");
+          File fichier=new File(parent+"/regle.txt");
+          list= RecupererElementFichierFt(fichier);
+          return list;
+      }
     /**
      * methode static qui retourne la liste de tous les pays enregistré
      * @deprecated à limiter l'utilisation
@@ -175,7 +227,7 @@ public class formulyTools {
     return nbre=ls.size();
     }
        /**
-        * methode qui retourne le nombre de repas effectuer 
+        * methode qui retourne le nombre de faitConcl effectuer 
         * @return un entier
         */
          public int NbreRepasEffectuer()
@@ -374,8 +426,8 @@ public class formulyTools {
          return nbre;
     }
     /**
-     * methode qui retourne le dernier identifiant des aliments repas (tous)
-     * utilile pour l'insertion et pour la generaration de code aliment
+     * methode qui retourne le dernier identifiant des aliments faitConcl (tous)
+ utilile pour l'insertion et pour la generaration de code aliment
      * @return 
      */
      public static int TrouverDernierIdentifiant_Repas_aliment() 

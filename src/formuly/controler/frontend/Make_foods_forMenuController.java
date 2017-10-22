@@ -113,6 +113,15 @@ public class Make_foods_forMenuController implements Initializable {
     private repasModel repasModel;
     private ObservableList<alimentRepasModel> listAlimentRepasModel;
     private ObservableList<repasModel> ObslistModelRepas;
+    private double aetLipid;
+    private double aetProti;
+    private double aetGlucid;
+    private double pcentMil;
+    private double pcentMil5;
+    private double pcent2Mil;
+    private double pcent2Mil5;
+    private double pcent3Mil;
+    private double pcent3Mil5;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
@@ -1149,6 +1158,10 @@ public class Make_foods_forMenuController implements Initializable {
        double aetLipide=(EnergieTotaleLipide/EnergieTotale)*100;
        double aetProtide=(EnergieTotalProtide/EnergieTotale)*100;
        double aetGlucide=(EnergieTotalGlucide/EnergieTotale)*100;
+       
+        aetLipid=aetLipide;
+        aetProti=aetProtide;
+        aetGlucid=aetGlucide;
          //transformer en caractere
        NumberFormat format=NumberFormat.getInstance();
             format.setMaximumFractionDigits(2); 
@@ -1211,12 +1224,18 @@ public class Make_foods_forMenuController implements Initializable {
         prcentProtide.setText(prcenProtide+" %");
         prcentLipide.setText(prcenLipide+" %");
         // % des valeurs Energetiques
-        String prcM=format.format((EnergieTotale/1000)*100);
-        String prcMC=format.format((EnergieTotale/1500)*100);
-        String prcDM=format.format((EnergieTotale/2000)*100);
-        String prcDMC=format.format((EnergieTotale/2500)*100);
-        String prcTM=format.format((EnergieTotale/3000)*100);
-        String prcTMC=format.format((EnergieTotale/3500)*100);
+        pcentMil=(EnergieTotale/1000)*100;
+        pcentMil5=(EnergieTotale/1500)*100;
+        pcent2Mil=(EnergieTotale/2000)*100;
+        pcent2Mil5=(EnergieTotale/2500)*100;
+        pcent3Mil=(EnergieTotale/3000)*100;
+        pcent3Mil5=(EnergieTotale/3500)*100;
+        String prcM=format.format( pcentMil);
+        String prcMC=format.format(pcentMil5);
+        String prcDM=format.format(pcent2Mil);
+        String prcDMC=format.format( pcent2Mil5);
+        String prcTM=format.format(  pcent3Mil);
+        String prcTMC=format.format(pcent3Mil5);
         pcentMilCinq.setText(prcMC+" %");
         pcentTroisMillCinq.setText(prcMC+" %");
         pcentDeuxMill.setText(prcDM+" %");

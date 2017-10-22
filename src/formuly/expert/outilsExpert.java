@@ -5,7 +5,11 @@
  */
 package formuly.expert;
 
+import formuly.entities.FmFaitConclusion;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -17,6 +21,8 @@ public class outilsExpert {
     private double ageClient;
     private double poidsClient;
     private double sexeClient;
+    private double regime1000;
+    private String conclusion;
 /**
  * constructeur par defaut de la classe outil expert
  */
@@ -31,6 +37,7 @@ public class outilsExpert {
  * @param prcentGlucide pourcentage en Glucide
  * @param prcentProtide pourcentage en Protide
  * @param prcenLipide   pourcentage en Lipide
+     * @param regime1000
  * @param regime1500    pourcentage regime de 1500
  * @param regime2000    pourcentage regime de 2000
  * @param regime2500    pourcentage regime de 2500
@@ -39,13 +46,14 @@ public class outilsExpert {
  * @param regime4500    pourcentage regime de 4500
  * @param EnergieTotale valeur en energie Totale
  */
-    public outilsExpert(double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double regime4500, double EnergieTotale) {
+    public outilsExpert(double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1000,double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double regime4500, double EnergieTotale) {
         this.AetLipide = AetLipide;
         this.AetProide = AetProide;
         this.AetGlucide = AetGlucide;
         this.prcentGlucide = prcentGlucide;
         this.prcentProtide = prcentProtide;
         this.prcenLipide = prcenLipide;
+     this.regime1000 = regime1000;
         this.regime1500 = regime1500;
         this.regime2000 = regime2000;
         this.regime2500 = regime2500;
@@ -54,7 +62,21 @@ public class outilsExpert {
         this.regime4500 = regime4500;
         this.EnergieTotale = EnergieTotale;
     }
-
+public outilsExpert(double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1000,double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double EnergieTotale) {
+        this.AetLipide = AetLipide;
+        this.AetProide = AetProide;
+        this.AetGlucide = AetGlucide;
+        this.prcentGlucide = prcentGlucide;
+        this.prcentProtide = prcentProtide;
+        this.prcenLipide = prcenLipide;
+     this.regime1000 = regime1000;
+        this.regime1500 = regime1500;
+        this.regime2000 = regime2000;
+        this.regime2500 = regime2500;
+        this.regime3000 = regime3000;
+        this.regime3500 = regime3500;
+        this.EnergieTotale = EnergieTotale;
+    }
     /**
  * constructeur parametre
 * @param lesFaitsTrouver liste des faits enregistré apres le chainage avant
@@ -599,7 +621,6 @@ public class outilsExpert {
          }
          else{
              //nous sommes dans le cas ou s'est un cas qui est traité
-             System.out.println("li li ");
               String separateur="";
               String concluspartielle="";
               if(elementOu.length>1)
@@ -634,6 +655,7 @@ public class outilsExpert {
              }
         }
          }
+         this.conclusion=conclusion;
        return conclusion;
       }
       /**
@@ -670,7 +692,10 @@ public class outilsExpert {
     break;       
      case "vEn":
      valeurTraiter=this.EnergieTotale;
-     break;      
+     break;    
+         case "r10":
+      valeurTraiter=this.regime1000;
+     break;
      case "r15":
       valeurTraiter=this.regime1500;
      break;
@@ -763,6 +788,22 @@ public class outilsExpert {
         this.prcenLipide = prcenLipide;
     }
 
+    public double getRegime1000() {
+        return regime1000;
+    }
+
+    public void setRegime1000(double regime1000) {
+        this.regime1000 = regime1000;
+    }
+
+    public String getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
+    }
+
     public double getRegime1500() {
         return regime1500;
     }
@@ -850,14 +891,35 @@ public class outilsExpert {
     public void setEnergieTotale(double EnergieTotale) {
         this.EnergieTotale = EnergieTotale;
     }
+
+    public List<FmFaitConclusion> getListConclusion() {
+        return listConclusion;
+    }
+
+    public void setListConclusion(List<FmFaitConclusion> listConclusion) {
+        this.listConclusion = listConclusion;
+    }
+    
     /**
      * methode permettant de retourner la conclusion d'une regle
      * @param element l'element qui est la chaine apres "alors"
      * @return une chaine
      */
     private String retournerConclusion(String element) {
-       String conclusion="YALA AUCUN";
-       return conclusion;
+        String conclus="";
+      for(FmFaitConclusion fait :listConclusion)
+      {
+        String ligne=fait.getFait();
+        Pattern p = Pattern.compile(element, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(ligne);
+        if(m.find())
+        {
+         conclus=fait.getConclusion();
+         break;
+        }
+      }
+        
+       return conclus;
     }
     
   //public 
@@ -874,5 +936,7 @@ public class outilsExpert {
   private double regime3500;
   private double regime4500;
   private double EnergieTotale;
+  List<FmFaitConclusion> listConclusion;
+  
 
 }

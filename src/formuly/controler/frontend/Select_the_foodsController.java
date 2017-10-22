@@ -38,8 +38,10 @@ import formuly.classe.TooltipTableRow ;
 import formuly.classe.bilanMacroNut;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
+import formuly.expert.outilsExpert;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.Optional;
@@ -93,6 +95,20 @@ public class Select_the_foodsController implements Initializable {
       Thread VerificationPathologie;
       private boolean travailEnregistre;
     private final modelFoodSelect model;
+    private String aetGlucide;
+    private Double pcentMil;
+    private Double pcentMil5;
+    private Double pcent2Mil;
+    private Double pcent2Mil5;
+    private Double pcent3Mil;
+    private Double pcent3Mil5;
+    private double aetLipid;
+    private Label aetProtid;
+    private double aetGlucid;
+    private double aetProti;
+    private List<FmFaitConclusion> listFaitConclusion;
+    private List<String> listDesRegles;
+    private outilsExpert expert;
 /**
  * constructeur non parametré qui intialement intialise les variables 
  * repasAlCtr,repasCont, alimenCtr pour la persistence
@@ -114,6 +130,9 @@ public class Select_the_foodsController implements Initializable {
         repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
         repasCont=new FmRepasJpaController(formulyTools.getEm());
         alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
+        listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
     /**
      * permet de rendre le bouton qui sert a lancer l'analyse expert 
@@ -129,6 +148,29 @@ public class Select_the_foodsController implements Initializable {
         {
         buttonExpert.setVisible(false);
         }
+        
+    }
+    public void actionBoutonExpert()
+    {
+     buttonExpert.setOnAction(event->{
+          Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Analyse expert :");
+            alert.setHeaderText("Recapitulatif :");
+            alert.setContentText("SEXE : Non Defini \n"
+                    + " Age : Non defini \n"
+                    + " Taille : Non defini \n"
+                    + " L'analyse se fera dans un cas general:"
+                    + "Confirmer donc ");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+            // nous allons charger la liste des regles 
+           if(listDesRegles==null)
+           {
+               listDesRegles=formulyTools.listRegles();
+           }
+       }
+     });
     }
     /**
      * methode permettant de retourner une chaine de caractere (concatenée ) des aliments concernée par 
@@ -146,7 +188,7 @@ public class Select_the_foodsController implements Initializable {
           {
            String nom=(!"aucun".equals(liste.getAliment().getSurnom()))?liste.getAliment().getSurnom():liste.getAliment().getNomFr();
            String pathologie=liste.getPathologie().getLibelle();
-           String ligne=nom.concat(" :pat: "+pathologie);
+           String ligne=nom.concat(" :pathologie : "+pathologie);
           content=content.concat(ligne+"\n");
           }
         }
@@ -187,7 +229,8 @@ public class Select_the_foodsController implements Initializable {
       public void initialize(URL url, ResourceBundle rb) {
    
           Button[] btn={envoi,fermerFentre,validerMenu,buttonExpert};
-        visibiliteBoutonAnalyse();
+          visibiliteBoutonAnalyse();
+          actionBoutonExpert();
           formulyTools.mettreEffetButton(btn);
           mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi,tableBilan);
           actionBoutonFermer();
@@ -924,6 +967,10 @@ public class Select_the_foodsController implements Initializable {
        double aetLipide=(EnergieTotaleLipide/EnergieTotale)*100;
        double aetProtide=(EnergieTotalProtide/EnergieTotale)*100;
        double aetGlucide=(EnergieTotalGlucide/EnergieTotale)*100;
+          //prise des aet lipide
+        aetLipid=aetLipide;
+        aetProti=aetProtide;
+        aetGlucid=aetGlucide;
          //transformer en caractere
        NumberFormat format=NumberFormat.getInstance();
             format.setMaximumFractionDigits(2); 
@@ -980,6 +1027,8 @@ public class Select_the_foodsController implements Initializable {
         aetLipides.setText(aetLip+" %");
         aetProtides.setText(aetPr+" %");
         energieTotale.setText(energiteTot+" Kcal");
+       //assignation des valeurs *
+           
      // % des lipides ormatages des element
         String prcenProtide=(bilanElements.size()>0)?format.format(prPrtd) :"0";
         String prcenGlucide=(bilanElements.size()>0)?format.format(prttGl):"0";
@@ -988,18 +1037,25 @@ public class Select_the_foodsController implements Initializable {
         prcentProtide.setText(prcenProtide+" %");
         prcentLipide.setText(prcenLipide+" %");
         // % des valeurs Energetiques
-        String prcM=format.format((EnergieTotale/1000)*100);
-        String prcMC=format.format((EnergieTotale/1500)*100);
-        String prcDM=format.format((EnergieTotale/2000)*100);
-        String prcDMC=format.format((EnergieTotale/2500)*100);
-        String prcTM=format.format((EnergieTotale/3000)*100);
-        String prcTMC=format.format((EnergieTotale/3500)*100);
+        pcentMil=(EnergieTotale/1000)*100;
+        pcentMil5=(EnergieTotale/1500)*100;
+        pcent2Mil=(EnergieTotale/2000)*100;
+        pcent2Mil5=(EnergieTotale/2500)*100;
+        pcent3Mil=(EnergieTotale/3000)*100;
+        pcent3Mil5=(EnergieTotale/3500)*100;
+        String prcM=format.format( pcentMil);
+        String prcMC=format.format(pcentMil5);
+        String prcDM=format.format(pcent2Mil);
+        String prcDMC=format.format( pcent2Mil5);
+        String prcTM=format.format(  pcent3Mil);
+        String prcTMC=format.format(pcent3Mil5);
         pcentMilCinq.setText(prcMC+" %");
         pcentTroisMillCinq.setText(prcMC+" %");
         pcentDeuxMill.setText(prcDM+" %");
         pcentDeuxMillCinq.setText(prcDMC+" %");
         pcentTroisMill.setText(prcTM+" %");
         pcentTroisMillCinq.setText(prcTMC+" %");
+        
    }
    /**
     * l'ecouteur d'action utilisateur sur le bouton fermer

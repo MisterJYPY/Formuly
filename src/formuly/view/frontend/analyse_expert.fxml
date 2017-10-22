@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="721.0" stylesheets="@../../css/frontend/analyse_expert.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane prefHeight="205.0" prefWidth="721.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" layoutX="211.0" layoutY="6.0" prefHeight="17.0" prefWidth="292.0" text="Données analysées" />
+            <Label alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="61.0" prefHeight="26.0" prefWidth="92.0" text="Energie Totale :" />
+            <Label fx:id="energieTotale" alignment="CENTER" layoutX="94.0" layoutY="62.0" prefHeight="27.0" prefWidth="186.0" text="Label" />
+            <Label alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="94.0" prefHeight="22.0" prefWidth="92.0" text="Aet Glucide :" />
+            <Separator layoutX="285.0" layoutY="37.0" orientation="VERTICAL" prefHeight="143.0" prefWidth="3.0" />
+            <Label fx:id="aetGlucide" alignment="CENTER" layoutX="95.0" layoutY="88.0" prefHeight="33.0" prefWidth="186.0" text="Label" />
+            <Label alignment="CENTER_RIGHT" layoutY="126.0" prefHeight="22.0" prefWidth="90.0" text="Aet Lipide :" />
+            <Label fx:id="aetLipide" alignment="CENTER" layoutX="90.0" layoutY="125.0" prefHeight="29.0" prefWidth="195.0" text="Label" />
+            <Label alignment="CENTER_RIGHT" layoutX="1.0" layoutY="158.0" prefHeight="27.0" prefWidth="90.0" text="Aet Protide :" />
+            <Label fx:id="aetProtide" alignment="CENTER" layoutX="95.0" layoutY="155.0" prefHeight="32.0" prefWidth="188.0" text="Label" />
+            <Label layoutX="294.0" layoutY="86.0" prefHeight="28.0" prefWidth="66.0" text="\%Glucide :" />
+            <Label fx:id="prcentGlucide" layoutX="366.0" layoutY="88.0" prefHeight="25.0" prefWidth="101.0" text="Label" />
+            <Label layoutX="289.0" layoutY="120.0" prefHeight="28.0" prefWidth="67.0" text="\%Lipide :" />
+            <Label layoutX="290.0" layoutY="155.0" prefHeight="28.0" prefWidth="67.0" text="\%Protide :" />
+            <Label fx:id="prcentLipide" layoutX="366.0" layoutY="122.0" prefHeight="25.0" prefWidth="106.0" text="Label" />
+            <Label fx:id="prcentProtide" layoutX="366.0" layoutY="155.0" prefHeight="28.0" prefWidth="105.0" text="Label" />
+            <Separator layoutX="471.0" layoutY="30.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="8.0" />
+            <Label layoutX="490.0" layoutY="52.0" prefHeight="30.0" prefWidth="84.0" text="\% Reg 1.500 :" />
+            <Label layoutX="491.0" layoutY="79.0" prefHeight="29.0" prefWidth="80.0" text="\% Reg 2.000 :" />
+            <Label layoutX="493.0" layoutY="104.0" prefHeight="28.0" prefWidth="84.0" text="\% Reg 2.500 :" />
+            <Label layoutX="492.0" layoutY="134.0" prefHeight="29.0" prefWidth="84.0" text="\% Reg 3.000 :" />
+            <Label layoutX="488.0" layoutY="23.0" prefHeight="29.0" prefWidth="89.0" text="\% Reg 1.000  :" />
+            <Label layoutX="492.0" layoutY="161.0" prefHeight="28.0" prefWidth="87.0" text="\% Reg 3.500 :" />
+            <Label fx:id="regime1000" layoutX="595.0" layoutY="25.0" prefHeight="28.0" prefWidth="122.0" text="Label" />
+            <Label fx:id="regime1500" layoutX="595.0" layoutY="53.0" prefHeight="28.0" prefWidth="120.0" text="Label" />
+            <Label fx:id="regime2000" layoutX="593.0" layoutY="81.0" prefHeight="28.0" prefWidth="123.0" text="Label" />
+            <Label fx:id="regime2500" layoutX="593.0" layoutY="104.0" prefHeight="28.0" prefWidth="130.0" text="Label" />
+            <Label fx:id="regime3000" layoutX="591.0" layoutY="134.0" prefHeight="28.0" prefWidth="131.0" text="Label" />
+            <Label fx:id="regime3500" layoutX="590.0" layoutY="161.0" prefHeight="26.0" prefWidth="133.0" text="Label" />
+            <Label layoutX="1.0" layoutY="10.0" prefHeight="22.0" prefWidth="40.0" text="Sexe :" />
+            <Label fx:id="sexe" layoutX="46.0" layoutY="8.0" prefHeight="26.0" prefWidth="31.0" text="ND" />
+            <Label layoutX="91.0" layoutY="10.0" prefHeight="23.0" prefWidth="42.0" text="Poids :" />
+            <Label fx:id="poids" layoutX="135.0" layoutY="10.0" prefHeight="22.0" prefWidth="93.0" text="Label" />
+            <Label layoutX="291.0" layoutY="41.0" prefHeight="23.0" prefWidth="56.0" text="Age :" />
+            <Label fx:id="age" layoutX="335.0" layoutY="41.0" prefHeight="20.0" prefWidth="122.0" text="Label" />
+            <Label layoutX="90.0" layoutY="33.0" prefHeight="22.0" prefWidth="43.0" text="Taille :" />
+            <Label fx:id="taille" layoutX="137.0" layoutY="33.0" prefHeight="22.0" prefWidth="89.0" text="Label" />
+            <Label alignment="CENTER" layoutX="245.0" layoutY="189.0" prefHeight="20.0" prefWidth="202.0" text="Interpretation :" />
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="valider" layoutX="313.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Valider">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextArea fx:id="resultAnalyse" layoutX="17.0" layoutY="-1.0" prefHeight="329.0" prefWidth="690.0" text="yayayyyya" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
