@@ -28,6 +28,14 @@ public class outilsExpert {
  */
     public outilsExpert() {
         lesFaitsTrouver=new ArrayList<>();
+        init_valeur();
+    }
+    public void init_valeur()
+    {
+     this.poidsClient=-2;
+     this.ageClient=-2;
+     this.sexeClient=-2;
+     this.tailleclient=-2;
     }
 /**
  * constructeur parametre
@@ -124,6 +132,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
       */
       public boolean decouperVal(String regle)
     {
+        lesFaitsTrouver.clear();
    String [] donnee=regle.split("ET");
    ArrayList<Integer> list=new ArrayList<>();
    boolean regleApplicable=false;
@@ -169,7 +178,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
            // System.out.println("expr *******************: "+expr);
             String[] snsAlors=expr.split("alors");
           //  System.out.println("expr tailel*******************: "+snsAlors.length);
-          //   conclusion=snsAlors[snsAlors.length-1];
+          //   conclusions=snsAlors[snsAlors.length-1];
           String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
        if(expr.contains("alors"))
        {
@@ -326,7 +335,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
            // System.out.println("expr *******************: "+expr);
             String[] snsAlors=expr.split("alors");
           //  System.out.println("expr tailel*******************: "+snsAlors.length);
-          //   conclusion=snsAlors[snsAlors.length-1];
+          //   conclusions=snsAlors[snsAlors.length-1];
           String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
        if(expr.contains("alors"))
        {
@@ -436,7 +445,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
        if(expr.contains("alors")){
        String[] exprConcl=expr.split("alors");
         conclusion=exprConcl[exprConcl.length-1];
-        //   System.out.println("Conclusion "+conclusion);
+        //   System.out.println("Conclusion "+conclusions);
            }
        int tailleOu =exprOu.length;
        if(tailleOu<=1)  
@@ -444,7 +453,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
           element="";
           cond="";
           val="";
-        // conclusion="";
+        // conclusions="";
         
          element=expr.substring(0, 3);
          cond=expr.substring(3,5);
@@ -455,7 +464,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
            System.out.println("VAL: "+val);
            alors=val.split("alors");
            val=alors[0];
-         //  conclusion=alors[1];
+         //  conclusions=alors[1];
          }
   
        list.add((premisseRespecter(Double.parseDouble(val),element, cond))?1:0);
@@ -468,7 +477,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
            // System.out.println("expr *******************: "+expr);
             String[] snsAlors=expr.split("alors");
           //  System.out.println("expr tailel*******************: "+snsAlors.length);
-          //   conclusion=snsAlors[snsAlors.length-1];
+          //   conclusions=snsAlors[snsAlors.length-1];
           String  elementDroiteAvecAlors=snsAlors[snsAlors.length-1];
        if(expr.contains("alors"))
        {
@@ -595,7 +604,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
           //parcours de l'ensemble des regles pour etudier les cas
                for(String regle:ensemble_des_regles)
                {
-                 decouperVal(regle);
+                 decouperVal(regle,"");
                }
       }
       /**
@@ -606,7 +615,8 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
       public String donnerResultatConclusion()
       {
        String resultat="";
-       String conclusion="";
+       String conclusions="";
+          System.out.println("nombre fait "+lesFaitsTrouver.size());
          if(lesFaitsTrouver.size()>0)
          {
         for(String element:lesFaitsTrouver)
@@ -616,8 +626,8 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
  
          if(elementOu.length==1 && elementEt.length==1)
          {
-           conclusion=conclusion.concat(retournerConclusion(element));
-           conclusion=conclusion.concat("\n");
+           conclusions=conclusions.concat(retournerConclusion(element));
+           conclusions=conclusions.concat("\n");
          }
          else{
              //nous sommes dans le cas ou s'est un cas qui est traité
@@ -635,7 +645,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
                 concluspartielle=concluspartielle.concat(separateur);
                 }
                 }
-                conclusion=conclusion.concat(concluspartielle);
+                conclusions=conclusions.concat(concluspartielle).concat("\n\n");
               }
               //nous somme dans le cas ou s'et et qui est traité
               else
@@ -650,13 +660,14 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
                 concluspartielle=concluspartielle.concat(separateur);
                 }
                 }
-                  conclusion=conclusion.concat(concluspartielle);
+                  conclusions=conclusions.concat(concluspartielle).concat("\n");
               }
              }
         }
          }
-         this.conclusion=conclusion;
-       return conclusion;
+          System.out.println(conclusions);
+         this.conclusion=conclusions;
+       return conclusions;
       }
       /**
        * methode appeler dans la methode traitant une regle apres separation
@@ -872,6 +883,14 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
         return regime3500;
     }
 
+    public double getTailleclient() {
+        return tailleclient;
+    }
+
+    public void setTailleclient(double tailleclient) {
+        this.tailleclient = tailleclient;
+    }
+
     public void setRegime3500(double regime3500) {
         this.regime3500 = regime3500;
     }
@@ -901,7 +920,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
     }
     
     /**
-     * methode permettant de retourner la conclusion d'une regle
+     * methode permettant de retourner la conclusions d'une regle
      * @param element l'element qui est la chaine apres "alors"
      * @return une chaine
      */
@@ -910,8 +929,8 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
       for(FmFaitConclusion fait :listConclusion)
       {
         String ligne=fait.getFait();
-        Pattern p = Pattern.compile(element, Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(ligne);
+        Pattern p = Pattern.compile(ligne);
+        Matcher m = p.matcher(element);
         if(m.find())
         {
          conclus=fait.getConclusion();
@@ -936,6 +955,7 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
   private double regime3500;
   private double regime4500;
   private double EnergieTotale;
+  private double tailleclient;
   List<FmFaitConclusion> listConclusion;
   
 

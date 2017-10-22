@@ -41,11 +41,14 @@ import formuly.classe.bilanMacroNut;
 import formuly.classe.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
+import formuly.expert.outilsExpert;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.Objects;
@@ -55,6 +58,9 @@ import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
@@ -63,6 +69,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 
@@ -122,6 +129,11 @@ public class Make_foods_forMenuController implements Initializable {
     private double pcent2Mil5;
     private double pcent3Mil;
     private double pcent3Mil5;
+   
+    private String conclusion;
+    private List<FmFaitConclusion> listFaitConclusion;
+    private List<String> listDesRegles;
+    private outilsExpert expert;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
@@ -143,6 +155,9 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
          
     }
      public final void initialiserListAliment(List<FmRepasAliments> listeRepas)
@@ -177,6 +192,9 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
         public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables)
     {
@@ -202,6 +220,9 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
           public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,String NomAliment)
     {
@@ -229,6 +250,9 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
           /**
            * 
@@ -267,6 +291,9 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
                    public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,FmRepas repas,int index)
     {
@@ -300,11 +327,15 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,FmRepas repas,int index,ObservableList<repasModel> modelRepasList)
     {
         // System.out.println("taille tab: "+tailleTables);
        // this.nomModifAliment=NomAliment;
+       // System.out.println("repas "+repas.getEnergie());
         repasAliment=(List<FmRepasAliments>) repas.getFmRepasAlimentsCollection();
         initialiserListAliment(repasAliment);
         this.repasModel=repasM;
@@ -334,7 +365,182 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        expert=new outilsExpert();
+        expert.setListConclusion(listFaitConclusion);
     }
+      public void visibiliteBoutonAnalyse()
+    {
+        if(table_aliment_deja_choisi.getItems().size()>0)
+        {
+        buttonExpert.setVisible(true);
+        }
+        else
+        {
+        buttonExpert.setVisible(false);
+        }
+        
+    }
+    public void actionBoutonExpert()
+    {
+     buttonExpert.setOnAction(event->{
+          Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Analyse expert :");
+            alert.setHeaderText("Recapitulatif :");
+            alert.setContentText("SEXE : Non Defini \n"
+                    + " Age : Non defini \n"
+                    + " Taille : Non defini \n"
+                    + " L'analyse se fera dans un cas general:"
+                    + "Confirmer donc ");
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+            // nous allons charger la liste des regles 
+          Expert_Init();
+          controlAnalyse();
+       }
+     });
+    }
+         public void Expert_Init()
+         {
+          expert.setAetGlucide(aetGlucid);
+          expert.setAetLipide(aetLipid);
+          expert.setAetProide(aetProti);
+          expert.setEnergieTotale(EnergieTotalePrEnregister);
+          expert.setRegime1000(pcentMil);
+          expert.setRegime1500(pcentMil5);
+          expert.setRegime2000(pcent2Mil);
+          expert.setRegime2500(pcent2Mil5);
+          expert.setRegime3000(pcent3Mil);
+          expert.setRegime3500(pcent3Mil5);
+          expert.setPrcenLipide(retentionLipide);
+          expert.setPrcentGlucide(retentionGlucide);
+          expert.setPrcentProtide(retentionProtide);
+         }
+     public void controlAnalyse()
+     {
+               ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Analyse en cour : ");
+               alert.show();
+               Task copyWorker = ProccessusAnalyse();
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+          
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+               alert.setContentText("demarrage de l'interface...");
+              //  initialisation();
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+//               Image imageSucces = new Image(
+//                       getClass().getResourceAsStream("/formuly/image/correct.png"));
+//               alert.setGraphic(new ImageView(imageSucces));
+//               alert.setTitle("Fin Suppression");
+//               alert.setContentText("L'operation a ete un succes");
+//               alert.getButtonTypes().setAll(ButtonType.FINISH);
+            
+                  try {
+                       // alert.show();
+                      chargerResultAnalyse() ;            
+                  } catch (IOException ex) {
+                      Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                   // alert.show();
+                 System.out.println(conclusion);
+            
+              }
+              else{
+                if(!"vide".equals(newValue))
+                {
+             alert.setContentText(newValue); 
+                }
+               else{
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.close();
+                    Image imageSucces = new Image(
+                            getClass().getResourceAsStream("/formuly/image/war.png"));
+                    alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("ERREUR RENCONTRE");
+                    alert.setContentText("L'operation a ete un fiasco");
+                    alert.getButtonTypes().setAll(ButtonType.FINISH);
+                    alert.showAndWait();
+                }
+               }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+     }
+       public Task ProccessusAnalyse() {
+    return new Task() {
+  
+      @Override
+      protected Object call() throws Exception {
+          updateMessage("Chargement de la base des regles ......");
+           updateProgress(5,100);
+               if(listDesRegles==null)
+           {
+               listDesRegles=formulyTools.listRegles();
+           }
+                updateProgress(15,100);
+           int nbreRegle=listDesRegles.size();
+           if(nbreRegle>0)
+            {
+             double progress=30/nbreRegle;
+             double increment=15+progress;
+           updateMessage("Demarrage du chainage....."); 
+           expert.getLesFaitsTrouver().clear();
+            for(String regle:listDesRegles)
+            {
+            expert.decouperVal(regle,"");
+             updateProgress(increment,100);
+             increment=increment+progress;
+            }
+             updateProgress(69,100);
+            //preparation pour l'affichage
+          updateMessage("Traitement des resultas (presque terminer).....");   
+           conclusion=expert.donnerResultatConclusion();
+             updateProgress(90,100);
+          updateMessage("Nous preparons votre interface....."); 
+               //chargerResultAnalyse() ;
+                updateProgress(100,100);
+                updateMessage("terminer");
+             }
+          else{
+          updateMessage("vide");
+           }
+        return true;
+      }
+    };
+  }
+         public void chargerResultAnalyse() throws IOException
+    {
+             
+         FXMLLoader loader = new FXMLLoader();
+         loader.setLocation(getClass().getResource("/formuly/view/frontend/analyse_expert.fxml"));
+          Analyse_expertController   controller=new Analyse_expertController(expert);
+             loader.setController(controller);
+         Parent root = loader.load();
+        Stage st=new Stage();
+         st.setScene(new Scene(root));
+         st.setTitle("Analyse expet result");
+        st.initOwner(buttonExpert.getScene().getWindow());
+        st.initModality(Modality.APPLICATION_MODAL);
+         
+         st.showAndWait();
+       //  return st;
+       
+      }
+    
     public   ObservableList<mainModel> chargerTableListeAliments(ObservableList<alimentRepasModel> liste)
     {
       ObservableList<mainModel> obsL=FXCollections.observableArrayList();
@@ -394,17 +600,7 @@ public class Make_foods_forMenuController implements Initializable {
         alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
         liste.clear();
     }
-    public void visibiliteBoutonAnalyse()
-    {
-        if(table_aliment_deja_choisi.getItems().size()>0)
-        {
-        buttonExpert.setVisible(true);
-        }
-        else
-        {
-        buttonExpert.setVisible(false);
-        }
-    }
+   
       public String formatageInterdi(ObservableList<FmAlimentsPathologie> list)
       {
         String content="";
@@ -452,7 +648,8 @@ public class Make_foods_forMenuController implements Initializable {
       public void initialize(URL url, ResourceBundle rb) {
    
           Button[] btn={envoi,fermerFentre,validerMenu,buttonExpert};
-        visibiliteBoutonAnalyse();
+          visibiliteBoutonAnalyse();
+          actionBoutonExpert();
           formulyTools.mettreEffetButton(btn);
           mettreLesToolTip(table_aliment_a_choisir, table_aliment_deja_choisi,tableBilan);
           actionBoutonFermer();
@@ -1442,6 +1639,7 @@ else{
            repas.setLipide(Float.parseFloat(retentionLipide.toString()));
            repas.setProtide(Float.parseFloat(retentionProtide.toString()));
            repas.setDate(new Timestamp(date.getTime()));
+           List<FmRepasAliments> listAlRepas=new ArrayList<>();
             //mis a jour du repas
             //supprimer tous les elements de la table et les construire
            FmRepas repascurr=repasOrigine;
@@ -1470,15 +1668,19 @@ else{
           repaAlmt.setRepas(repas);
           repaAlmt.setDate(new Timestamp(date.getTime()));
           em.persist(repaAlmt);
+          listAlRepas.add(repaAlmt);
           AlimentsEnregsiter.add(repaAlmt);
           idRepasAliment++;
+           updateMessage("Aliment "+al.getNomFr()+" actulisé");
            debut=debut+j;
          updateProgress(debut, 100);
-          updateMessage("Aliment "+al.getNomFr()+" actulisé");
+         
           
         }
-             updateProgress(80,100);
+               updateProgress(80,100);
                 rpM.setNumero(repasModel.getNumero());
+                repas.setFmRepasAlimentsCollection(listAlRepas);
+                rpM.setRepas(repas);
                 ObslistModelRepas.set(repasModel.getNumero()-1, rpM);
                 table.getItems().set(indexElementModifier, rpM);
 

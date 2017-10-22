@@ -50,9 +50,9 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
-   <!-- <target name="-post-jfx-deploy">
+     <target name="-post-jfx-deploy">
        <fx:deploy width="${javafx.run.width}" height="${javafx.run.height}" 
-                  nativeBundles="all"
+                  nativeBundles="exe"
                   outdir="${basedir}/${dist.dir}" outfile="${application.title}">
           <fx:application name="${application.title}" 
                           mainClass="${javafx.main.class}"/>
@@ -61,11 +61,12 @@
                           includes="*.jar"/>
                 <fx:fileset dir="${basedir}/${dist.dir}"
                           includes="lib/*.jar"/>
+                 
           </fx:resources>
           <fx:info title="${application.title}" 
                    vendor="${application.vendor}"/>
         </fx:deploy>        
         <fx:platform basedir="C:\Program Files\Java\jdk1.8.0_45"/>    
-     </target> -->
+     </target> 
      
 </project>

@@ -10,6 +10,7 @@ package formuly.controler.frontend;
 import formuly.entities.FmFaitConclusion;
 import formuly.expert.outilsExpert;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -172,28 +173,55 @@ public class Analyse_expertController implements Initializable {
         
     } 
     
+      public Analyse_expertController(outilsExpert expert) {   
+        this.expert=expert;
+         this.aetLipid = expert.getAetLipide();
+        this.aetProti = expert.getAetProide();
+        this.aetGlucid = expert.getAetGlucide();
+        this.energieTotal = expert.getEnergieTotale();
+        this.prcentLipid = expert.getPrcenLipide();
+        this.prcenProtid = expert.getPrcentProtide();
+        this.prcenGlucid = expert.getPrcentGlucide();
+        this.reg1000 = expert.getRegime1000();
+        this.reg1500 = expert.getRegime1500();
+        this.reg2000 = expert.getRegime2000();
+        this.reg2500 = expert.getRegime2500();
+        this.reg3000 = expert.getRegime3000();
+        this.reg3500 = expert.getRegime3500();
+//        this.sex = (int) expert.getSexeClient();
+//        this.poid = expert.getPoidsClient();
+//       // this.taill = expert.gettailleClient();
+//        this.ages = expert.getAgeClient(); 
+        this.analys = expert.getConclusion();
+//       listConclusion=formulyTools.Liste_FaitConclusion();
+//       expert.setListConclusion(listConclusion);
+       // expert=new outilsExpert(aetLipid, aetProti, aetGlucid, prcenGlucid, prcenProtid, prcentLipid,reg1000, reg1500, reg2000, reg2500, reg3000, reg3500,energieTotal);
+        
+    } 
     
     public void intialiserLesLabels()
     {
-     energieTotale.setText(String.valueOf(energieTotal)+" Kcal ");
-     aetGlucide.setText(String.valueOf(aetGlucid)+" % ");
-     aetProtide.setText(String.valueOf(aetProti)+" % ");
-     aetLipide.setText(String.valueOf(aetLipid)+" % ");
-     prcentGlucide.setText(String.valueOf(prcenGlucid)+" % ");
-     prcentLipide.setText(String.valueOf(prcentLipid)+" % ");
-     prcentProtide.setText(String.valueOf(prcenProtid)+" % ");
-     regime1000.setText(String.valueOf(reg1000)+" % ");
-     regime1500.setText(String.valueOf(reg1500)+" % ");
-     regime2000.setText(String.valueOf(reg2000)+" % ");
-     regime2500.setText(String.valueOf(reg2500)+" % ");
-     regime3000.setText(String.valueOf(reg3000)+" % ");
-     regime3500.setText(String.valueOf(reg3500)+" % ");
-    poids.setText((poid>0)?String.valueOf(poid)+" Kg ":"Non Def");
-    age.setText((ages>0)?String.valueOf(ages)+" Ans":"Non Def");
-    taille.setText((taill>0)?String.valueOf(taill)+" m ":"Non Def");
+         NumberFormat format=NumberFormat.getInstance();
+            format.setMaximumFractionDigits(2); 
+     energieTotale.setText(format.format(energieTotal)+" Kcal ");
+     aetGlucide.setText(format.format(aetGlucid)+" % ");
+     aetProtide.setText(format.format(aetProti)+" % ");
+     aetLipide.setText(format.format(aetLipid)+" % ");
+     prcentGlucide.setText(format.format(prcenGlucid)+" % ");
+     prcentLipide.setText(format.format(prcentLipid)+" % ");
+     prcentProtide.setText(format.format(prcenProtid)+" % ");
+     regime1000.setText(format.format(reg1000)+" % ");
+     regime1500.setText(format.format(reg1500)+" % ");
+     regime2000.setText(format.format(reg2000)+" % ");
+     regime2500.setText(format.format(reg2500)+" % ");
+     regime3000.setText(format.format(reg3000)+" % ");
+     regime3500.setText(format.format(reg3500)+" % ");
+    poids.setText((poid>0)?format.format(poid)+" Kg ":"Non Def");
+    age.setText((ages>0)?format.format(ages)+" Ans":"Non Def");
+    taille.setText((taill>0)?format.format(taill)+" m ":"Non Def");
     sexe.setText((sex>0)?donnerSexe(sex):"ND");
     analys=expert.getConclusion();
-    this.resultAnalyse.setText(analys);
+    this.resultAnalyse.setText(!(analys.isEmpty())?analys:"Aucune Interpretation valide pour ce menu");
     }
     /**
      * methode qui retourne le sexe format string du sujet
