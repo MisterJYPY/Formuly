@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package formuly.classe;
-
 import formuly.entities.FmRepas;
 import java.util.Date;
 

@@ -118,6 +118,7 @@ public class Select_the_foodsController implements Initializable {
     private List<FmFaitConclusion> listFaitConclusion;
     private List<String> listDesRegles;
     private outilsExpert expert;
+    
 /**
  * constructeur non parametré qui intialement intialise les variables 
  * repasAlCtr,repasCont, alimenCtr pour la persistence
@@ -142,6 +143,7 @@ public class Select_the_foodsController implements Initializable {
         listFaitConclusion=formulyTools.Liste_FaitConclusion();
         expert=new outilsExpert();
         expert.setListConclusion(listFaitConclusion);
+       
     }
     /**
      * permet de rendre le bouton qui sert a lancer l'analyse expert 
@@ -156,8 +158,7 @@ public class Select_the_foodsController implements Initializable {
         else
         {
         buttonExpert.setVisible(false);
-        }
-        
+        }  
     }
     public void actionBoutonExpert()
     {
@@ -1026,7 +1027,7 @@ public class Select_the_foodsController implements Initializable {
                      double qt=Double.valueOf(qte);
                             mainModel md= table.getItems().get(ligne);
                if(qt>0){
-        
+             
                table.getItems().set(ligne, md);
                    //  t.getTableView().getItems().get(ligne).setQte(qte);
                      ((mainModel) t.getTableView().getItems().get(

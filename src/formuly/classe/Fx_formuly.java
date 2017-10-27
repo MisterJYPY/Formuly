@@ -32,7 +32,7 @@ public class Fx_formuly extends Application {
             primaryStage.getIcons().add(image);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-        
+  
     }
     /**
      * @param args the command line arguments

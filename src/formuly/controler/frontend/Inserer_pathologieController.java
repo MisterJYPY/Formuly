@@ -6,24 +6,17 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.classe.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmPathologie;
-import formuly.entities.FmRetentionMineraux;
-import formuly.entities.FmRetentionNutriments;
-import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.mainModel;
 import formuly.model.frontend.modelFoodSelect;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;

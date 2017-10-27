@@ -152,6 +152,7 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor></Button>
+                                    <Button fx:id="formulation" layoutX="2.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="193.0" text="Prog Lineaire " />
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>

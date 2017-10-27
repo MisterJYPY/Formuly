@@ -56,8 +56,9 @@ public class AcceuilleController implements Initializable {
     @FXML private Button enregistrer_aliment_fichier;
     @FXML private Button moteurCalcul;
     @FXML private Button interditAlimentaire;
+    @FXML private Button formulation;
     private Stage st;
-
+    private Formuly_calculController  fmCalcul;
     public AcceuilleController() {
         windowMteurCacul=null;
     }
@@ -80,6 +81,10 @@ public class AcceuilleController implements Initializable {
      modifierMenu.setOnAction(event->{
       String urls="/formuly/view/frontend/modifier_menu.fxml";
          placerVue(urls);
+     });
+     formulation.setOnAction(event->{
+      String urls="/formuly/view/frontend/formuly_calcul.fxml";
+       afficherFentre(urls) ;
      });
        // cat.setClip(lb);
     }    
@@ -128,6 +133,28 @@ public class AcceuilleController implements Initializable {
          
          st.showAndWait();
        //  return st;
+       
+      }
+      public void afficherFentre(String url) 
+    {
+             
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(url));
+            fmCalcul=new Formuly_calculController();
+            loader.setController(fmCalcul);
+            Parent root = loader.load();
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("formuly Foods Selector");
+            st.initOwner(formulation.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+            
+            st.showAndWait();
+            //  return st;
+        } catch (IOException ex) {
+            Logger.getLogger(AcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
       }
      public void actionFenetreSelectionFoods()

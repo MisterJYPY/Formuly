@@ -23,14 +23,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -38,8 +35,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -185,6 +184,64 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
    
      return list;
     }
+        public static void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne )
+      {
+      table.setEditable(true);
+        colonne.setCellFactory(TextFieldTableCell.forTableColumn());
+             colonne.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<mainModel, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<mainModel, String> t) {
+                    String qte=formulyTools.preformaterChaine(t.getNewValue());
+                     int ligne= t.getTablePosition().getRow();
+                     double qt=Double.valueOf(qte);
+                            mainModel md= table.getItems().get(ligne);
+                            
+               if(qt>0){
+        
+               table.getItems().set(ligne, md);
+                   //  t.getTableView().getItems().get(ligne).setQte(qte);
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setPrixUnitaire(qte);
+                }
+                else{
+       //alert pour dire la valeur est nulle nous allons la supprimer ?  
+                   Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error prix ");
+            alert.setHeaderText("la valeur saisie n'est pas valide: "+t.getNewValue()+" \n");
+            alert.setContentText("Nom aliment: "+md.getNom_aliment()+" encienne valeur :"+qte+"\n"
+                    + "Nous avons ignor2 votre saisie et concervé la precedente \n"
+                    + " Veuillez reessayer avec un nombre valide de prix SVP \n"
+                    + " NB: Tous les Prix entrés doivent etre strictement superieurs a 0 FCfa");
+            alert.show();
+              table.getItems().set(ligne, md);
+                    // t.getTableView().getItems().get(ligne).setQte(qte);
+                     ((mainModel) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setPrixUnitaire(md.getPrixUnitaire());
+               }
+      }
+            });
+      }
+           public static ObservableList<mainModel> retourneListParCritere(String chaineArechercher,ObservableList<mainModel> liste)
+     {
+       ObservableList<mainModel> listTri=FXCollections.observableArrayList();
+       String info="";
+        for(mainModel ligne:liste)
+      {
+         Pattern p = Pattern.compile(chaineArechercher, Pattern.CASE_INSENSITIVE);
+         info=info.concat(ligne.getNom_aliment()).concat(" "+ligne.getCategorie()).concat(" "+ligne.getPays()).concat(" "+ligne.getSurnom()).concat(" "+ligne.getMode_cuisson());
+          Matcher m = p.matcher(info);
+          
+        if(m.find())
+        {
+            listTri.add(ligne);
+        }
+        info="";
+      }   
+       return listTri;
+     }
       public static List<String> listRegles()
       {
         // List<String> myList = Files.lines(Paths.get("/formuly/expert/regle.txt")).collect(Collectors.toList());
@@ -629,6 +686,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             mainM.setRetMin(mine);
             mainM.setRetNu(nutr);
             mainM.setRetVit(vit);
+            mainM.setPrixUnitaire("0.0");
             inf.add(mainM);
             cpt++;
         }
@@ -872,7 +930,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       
     int n=0;
     String m=chaine.replace('.','_');
-    System.out.println(chaine);
+    //  System.out.println(chaine);
      for(int i=0;i<chaine.length();i++)
      {
      if(chaine.charAt(i)=='_')
@@ -894,7 +952,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       String pal=m;
       pal=pal.replace(',','.');
       pal=pal.replace('.','_');
-      System.out.println(pal);
+     // System.out.println(pal);
       m=m.replace(',','.');
       String mi=m;
      while(!t){
@@ -909,6 +967,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
        {
        m="0.0";
        }
+        System.out.println(m);
        t=true;
     }
     

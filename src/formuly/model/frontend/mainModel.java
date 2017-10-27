@@ -74,6 +74,7 @@ public class mainModel {
   private boolean PathologieAinsere;
   private pathologieModel pathologieModel;
   private int rangPathologieModelDansLaTable;
+  private String prixUnitaire;
 
   
 
@@ -90,6 +91,14 @@ public class mainModel {
 
     public void setRangPathologieModelDansLaTable(int rangPathologieModelDansLaTable) {
         this.rangPathologieModelDansLaTable = rangPathologieModelDansLaTable;
+    }
+
+    public String getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(String prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
     }
 
     public pathologieModel getPathologieModel() {

@@ -5,18 +5,14 @@
  */
 package formuly.classe;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import com.sun.javafx.scene.control.skin.VirtualFlow.ArrayLinkedList;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.modelFoodSelect;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import javafx.collections.FXCollections;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
