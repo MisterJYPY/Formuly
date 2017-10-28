@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="669.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/resultatpearson.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label alignment="CENTER" prefHeight="25.0" prefWidth="431.0" styleClass="info" text="Resultat de votre formulation par la formule de Pearson " BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <AnchorPane prefHeight="303.0" prefWidth="566.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="obdjectif" fx:id="obdjectif" alignment="CENTER" layoutX="271.0" layoutY="8.0" prefHeight="27.0" prefWidth="123.0" styleClass="obdjectif" text="Residu de calcul :">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="valeurObdjectif" layoutX="440.0" layoutY="7.0" prefHeight="29.0" prefWidth="48.0" styleClass="valeurObdjectif" text="Residu" />
+            <TableView fx:id="TableResultat" layoutX="66.0" layoutY="58.0" prefHeight="135.0" prefWidth="560.0">
+              <columns>
+                <TableColumn id="nomAliment" fx:id="nomAliment" prefWidth="195.0" styleClass="coloneCentre" text="Nom de l'aliment" />
+                <TableColumn fx:id="glucide" prefWidth="85.0" styleClass="coloneCentre" text="Glucide" />
+                  <TableColumn fx:id="lipide" prefWidth="87.0" styleClass="coloneCentre" text="Lipide" />
+                  <TableColumn fx:id="protide" prefWidth="78.0" styleClass="coloneCentre" text="Protide" />
+                  <TableColumn id="resultat" fx:id="resultat" prefWidth="114.0" styleClass="coloneCentre" text="Resultat calcul" />
+              </columns>
+            </TableView>
+            <Button fx:id="fermer" layoutX="596.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" styleClass="buttonCancel" text="fermer">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Label layoutX="43.0" layoutY="294.0" prefHeight="17.0" prefWidth="336.0" />
+            <Label alignment="CENTER" layoutX="6.0" layoutY="10.0" prefHeight="22.0" prefWidth="268.0" text="Objectif  avoir un melange avec un taux de :" />
+            <Accordion layoutX="5.0" layoutY="200.0" prefHeight="158.0" prefWidth="661.0">
+              <panes>
+                <TitledPane alignment="CENTER" animated="false" text="Equilibre des autres Composantes">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Separator layoutX="222.0" layoutY="7.0" orientation="VERTICAL" prefHeight="119.0" prefWidth="6.0" />
+                              <Separator layoutX="456.0" orientation="VERTICAL" prefHeight="133.0" prefWidth="7.0" />
+                              <ListView fx:id="liste1" layoutY="-4.0" prefHeight="136.0" prefWidth="227.0" />
+                              <ListView fx:id="liste2" layoutX="227.0" layoutY="1.0" prefHeight="130.0" prefWidth="229.0" />
+                              <ListView fx:id="liste3" layoutX="456.0" layoutY="1.0" prefHeight="132.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+            <Label alignment="CENTER" layoutX="389.0" layoutY="9.0" prefHeight="24.0" prefWidth="47.0" text="de :" />
+            <Label layoutX="489.0" layoutY="8.0" prefHeight="28.0" prefWidth="29.0" text="\%" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

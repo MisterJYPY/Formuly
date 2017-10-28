@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,29 +9,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="658.0" prefWidth="1047.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="principal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="658.0" prefWidth="1047.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/formuly_calcul.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <AnchorPane prefHeight="55.0" prefWidth="871.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="399.0" layoutY="11.0" prefHeight="33.0" prefWidth="272.0" text="ESPACE DE FORMULATION ALIMENTAIRE" />
+            <Label id="info" alignment="CENTER" layoutX="205.0" layoutY="1.0" prefHeight="49.0" prefWidth="641.0" text="VOTRE ESPACE DE FORMULATION ALIMENTAIRE">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </top>
    <left>
-      <TitledPane alignment="CENTER" animated="false" prefHeight="603.0" prefWidth="144.0" text="Menu " BorderPane.alignment="CENTER">
+      <TitledPane alignment="CENTER" animated="false" prefHeight="603.0" prefWidth="149.0" text="Menu " BorderPane.alignment="CENTER">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="97.0">
                <children>
-                  <Button fx:id="programmationLineaire" layoutX="2.0" layoutY="119.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Prog Lineaire">
+                  <Button fx:id="programmationLineaire" layoutX="2.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" styleClass="nav" text="Prog Lineaire">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button fx:id="matrice33" layoutX="1.0" layoutY="24.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Matrice 3*3 d'aliments">
+                  <Button fx:id="matrice33" layoutX="1.0" layoutY="24.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" styleClass="nav" text="Matrice 3*3 d'aliments">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="carrePearson" layoutX="1.0" layoutY="198.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Carré de Pearson">
+                  <Button fx:id="carrePearson" layoutX="2.0" layoutY="181.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" styleClass="nav" text="Carré de Pearson">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -41,8 +46,42 @@
    </left>
    <center>
       <BorderPane fx:id="center" prefHeight="603.0" prefWidth="881.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane prefHeight="170.0" prefWidth="898.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="83.0" fitWidth="145.0" layoutX="311.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/acceuille1.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="85.0" fitWidth="289.0" layoutX="14.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/foodsForm.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="83.0" fitWidth="252.0" layoutX="628.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/foodsForm.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="83.0" fitWidth="145.0" layoutX="471.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/acceuille1.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </top>
          <center>
-            <ComboBox prefWidth="150.0" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="57.0" prefWidth="730.0" text="Formulez en toute simplicité et en toute rapidité" textAlignment="CENTER">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </center>

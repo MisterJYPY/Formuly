@@ -35,16 +35,25 @@ public class Inserer_pathologieAlimentsController implements Initializable {
     @FXML private Button enregistrerPathologie;
     @FXML private Button supprimerPathologie;
     @FXML private Button quitter;
-
+    private Button [] listBtn;
+    private final int NOMBRE_MAX_BUTTON=3;
+     public Button[] retournerListBtn()
+     {
+        Button[] btns={supprimerPathologie,enregistrerPathologie};
+       return btns;
+     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        listBtn=retournerListBtn();
         placerContenuAcceuille();
         enregistrerPathologie.setOnAction(event->{
          placerContenuAcceuille();
+       miseAjourCouleurBtn(enregistrerPathologie, listBtn, NOMBRE_MAX_BUTTON);
         });
         supprimerPathologie.setOnAction(event->{
          placerSuppprimerPathologie();
+        miseAjourCouleurBtn( supprimerPathologie, listBtn, NOMBRE_MAX_BUTTON);
         });
         quitter.setOnAction(event->{
         quitterFenetre(quitter);
@@ -52,6 +61,20 @@ public class Inserer_pathologieAlimentsController implements Initializable {
         Button [] btn={quitter};
         formulyTools.mettreEffetButton(btn);
     }  
+     public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
+    {
+         btn.getStyleClass().clear();
+         btn.getStyleClass().add("navi");
+        String idbtn=btn.getId();
+       for(int i=0;i<nbreBtnEnregistrer;i++)
+         {
+             if(!(listBntn[i].getId()).equals(idbtn)) 
+             {
+             listBntn[i].getStyleClass().clear();  
+             listBntn[i].getStyleClass().add("nav");
+             } 
+         }
+    }
      public static void quitterFenetre(Button quitte)
      {
        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

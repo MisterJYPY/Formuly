@@ -6,6 +6,22 @@
   -fx-background-color:linear-gradient(to top right,#90EE90,white 30%,#90EE90,white,white,#90EE90);
  
 }
+.valeurObdjectif
+{
+       -fx-background-color:#E9C9B1;
+       -fx-font-size:13px; 
+}
+#obdjectif
+{
+       -fx-font-size:13px; 
+       -fx-text-fill: orangered;
+       -fx-font-weight:bold;
+}
+.info
+{
+   //  -fx-background-color:#757575;
+       -fx-font-size:15px; 
+}
 #buttonCancel
 {
  //-fx-background-image: url(/formuly/image/cansel.png)   ;
@@ -13,11 +29,6 @@
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
      
-}
-#info
-{
-    -fx-text-fill:#B82010;
-    -fx-font-size:17px; 
 }
 .titreRapide
 {
@@ -34,17 +45,21 @@
 {
        -fx-background-color:linear-gradient(to top right,white 30%,#90EE90,white 50%,#90EE90,white,white,#90EE90);
 }
-.info
-{
-    -fx-font-size:17px; 
-}
 .coloneCentre
 {
     -fx-alignment: center;  
 }
-.btnreload
+#resultat
 {
-    -fx-background-color:whitesmoke;
+       -fx-text-fill:#7D0000;
+      -fx-font-size:16px; 
+      -fx-font-weight:bold;
+  //  -fx-background-color: red;
+}
+#nomAliment
+{
+        -fx-font-size:12px; 
+        -fx-font-weight:bold;  
 }
 .enregistrer
 {
@@ -75,54 +90,4 @@
    -fx-font-family: "Arial";
     -fx-text-fill: black;
     -fx-font-weight:bold;
-}
-.labelshaut
-{
-    background-color:red;
-}
-.nav {
-    -fx-background-color:#2F4F4F;
-    -fx-background-radius: 5,4,3,5;
-    -fx-background-insets: 0,1,2,0;
-    -fx-text-fill: white;
-    -fx-font-family: "Arial";
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
-    -fx-padding: 10 20 10 20;
-}
-.nav:pressed {
-    -fx-padding: 8 12 11 12;
-    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    -fx-background-color:#a34313;
-    
-}
-.nav:hover {
-    -fx-background-color: 
-        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-        #9d4024,
-        #d86e3a,
-        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
-}
-.navi {
-    -fx-background-color:#a34313;
-    -fx-background-radius: 5,4,3,5;
-    -fx-background-insets: 0,1,2,0;
-    -fx-text-fill: white;
-    -fx-font-family: "Arial";
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-font-size: 12px;
-    -fx-padding: 10 20 10 20;
-}
-.navi:pressed {
-    -fx-padding: 8 12 11 12;
-    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    -fx-background-color:#a34313;
-    
-}
-.navi:hover {
-    -fx-background-color: 
-        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-        #9d4024,
-        #d86e3a,
-        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }

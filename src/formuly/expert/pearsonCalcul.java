@@ -106,6 +106,7 @@ public class pearsonCalcul {
        //affichages des resultats sur la console
     if(elementAequilibre!=null && elementAequilibre.size()>0)
     {
+       ListResultatEquilibre.clear();
       for(String element :elementAequilibre)
       {
          CalculValeurAEquilibre(element);

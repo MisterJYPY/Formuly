@@ -59,35 +59,60 @@ public class AcceuilleController implements Initializable {
     @FXML private Button formulation;
     private Stage st;
     private Formuly_calculController  fmCalcul;
+    private final int NOMBRE_BUTTON_MAX=7;
+    private Button[] listBtn;
     public AcceuilleController() {
         windowMteurCacul=null;
+        //lisBtn=new Button[NOMBRE_BUTTON_MAX];
     }
    
-     
+     public Button[] retournerListBtn()
+     {
+        Button[] btns={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
+       return btns;
+     }
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        listBtn=retournerListBtn();
          placerContenuAcceuille();
         actionFenetreSelectionFoods();
-        Button[] btn={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
-        formulyTools.mettreEffetButton(btn,Color.ROYALBLUE);
+       // Button[] btn={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
+        formulyTools.mettreEffetButton(listBtn,Color.ROYALBLUE);
         accordGauche.setExpandedPane(paneGauche);
         accordDroite.setExpandedPane(paneDroite);
         listAliment.setOnAction(event->{
            placerListAliment();
+            miseAjourCouleurBtn(listAliment, listBtn, NOMBRE_BUTTON_MAX);
         });
      modifierMenu.setOnAction(event->{
       String urls="/formuly/view/frontend/modifier_menu.fxml";
          placerVue(urls);
+     miseAjourCouleurBtn(modifierMenu, listBtn, NOMBRE_BUTTON_MAX);
      });
      formulation.setOnAction(event->{
       String urls="/formuly/view/frontend/formuly_calcul.fxml";
        afficherFentre(urls) ;
+       
      });
        // cat.setClip(lb);
-    }    
+    } 
+      public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
+    {
+         btn.getStyleClass().clear();
+         btn.getStyleClass().add("navi");
+        String idbtn=btn.getId();
+       for(int i=0;i<nbreBtnEnregistrer;i++)
+         {
+             if(!(listBntn[i].getId()).equals(idbtn)) 
+             {
+             listBntn[i].getStyleClass().clear();  
+             listBntn[i].getStyleClass().add("nav");
+             } 
+         }
+    }
     public void placerListAliment()
     {
      try {
@@ -183,6 +208,7 @@ public class AcceuilleController implements Initializable {
              @Override
              public void handle(ActionEvent event) {
                 placerBilanChoixFoods();
+             miseAjourCouleurBtn( MenuAvecMenuExistant, listBtn, NOMBRE_BUTTON_MAX);
              }
          }); 
        enregistrer_aliment.setOnAction(new EventHandler<ActionEvent>() {
@@ -196,9 +222,11 @@ public class AcceuilleController implements Initializable {
       });
     moteurCalcul.setOnAction(event->{
         LancerMoteur();
+        //  miseAjourCouleurBtn(moteurCalcul, listBtn, NOMBRE_BUTTON_MAX);
       });
     interditAlimentaire.setOnAction(event->{
       lancerGestionInterditAlimentaire();
+     //  miseAjourCouleurBtn(moteurCalcul, listBtn, NOMBRE_BUTTON_MAX);
     });
   }
       public void placerBilanChoixFoods()

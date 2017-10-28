@@ -149,10 +149,12 @@ public class PearsonResolveController implements Initializable {
         ListElementsAequilibrer.add("Ca");
         ListElementsAequilibrer.add("Mg");
         ListElementsAequilibrer.add("Phos");
-        ListElementsAequilibrer.add("Phos");
         ListElementsAequilibrer.add("Fer");
-        ListElementsAequilibrer.add("Ash");
         ListElementsAequilibrer.add("Zn");
+        ListElementsAequilibrer.add("Ash");
+        ListElementsAequilibrer.add("fibre");
+        ListElementsAequilibrer.add("eau");
+        ListElementsAequilibrer.add("niacine");
         ListElementsAequilibrer.add("vitA");
         ListElementsAequilibrer.add("vitE");
         ListElementsAequilibrer.add("vitC");
@@ -161,11 +163,10 @@ public class PearsonResolveController implements Initializable {
         ListElementsAequilibrer.add("vitB2");
         ListElementsAequilibrer.add("vitB6");
         ListElementsAequilibrer.add("vitB12");
-        ListElementsAequilibrer.add("fibre");
         ListElementsAequilibrer.add("folates");
         ListElementsAequilibrer.add("thiamin");
         ListElementsAequilibrer.add("riboflavin");
-        ListElementsAequilibrer.add("niacine");
+        
      }
        
     @Override
@@ -371,23 +372,27 @@ public class PearsonResolveController implements Initializable {
        {
       pearsonCal=new pearsonCalcul( listAliment, valeurMaxx,Objdectif,ListElementsAequilibrer);
       pearsonCal.calculPearson();
+      List<Double> resultAutres=pearsonCal.getListResultatEquilibre();
            System.out.println("affichage des resultats : ");
            for(mainModel elmt:alimentsChoisi)
            {
           System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
            }
+           affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
    else{
         pearsonCal.initialiserLesList();
         pearsonCal.setObdjectif(Objdectif);
         pearsonCal.setValeurObdjective(valeurMaxx);
         pearsonCal.setListAliments( listAliment);
-         pearsonCal.calculPearson();
+        pearsonCal.calculPearson();
+      List<Double> resultAutres=pearsonCal.getListResultatEquilibre();
            System.out.println("affichage des resultats une fois : ");
            for(mainModel elmt:alimentsChoisi)
            {
           System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
            }
+         affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
     }
      }
@@ -430,13 +435,13 @@ StringConverter<Double> converter = new StringConverter<Double>() {
   }
     
     }
-         public void affichageResult(ObservableList<mainModel> listChoix)
+         public void affichageResult(ObservableList<mainModel> listChoix,String objectif,double valeurObj,List<Double> valeurAutresElementCalculer)
    {
           try {
      //  if(loader==null){
               loader = new FXMLLoader();
-               loader.setLocation(getClass().getResource("/formuly/view/frontend/resultatCalcul.fxml"));
-               ctr_Result=new ResultatCalculController(listChoix, residu);
+               loader.setLocation(getClass().getResource("/formuly/view/frontend/resultatPearson.fxml"));
+               ctr_Result=new ResultatPearsonController(listChoix,objectif,valeurObj, ListElementsAequilibrer, valeurAutresElementCalculer);
                loader.setController(ctr_Result);
                Parent root = (Parent)loader.load(); 
                  st=null;
@@ -460,7 +465,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
    }
         private  FXMLLoader loader=null;
         private Stage st;
-        private ResultatCalculController ctr_Result=null;
+        private ResultatPearsonController ctr_Result=null;
         private double[] colonneDroite;
         private double[] resultat;
         private double residu;
