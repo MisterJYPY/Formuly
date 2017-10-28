@@ -25,11 +25,25 @@ public class pearsonCalcul {
  private double valeurObdjective;
  private ArrayList<Double> ListResultatEquilibre;
  private  int TailleList;
+ /**
+  * 
+  * @param listAliments
+  * @param valeurObj
+  * @param obdjectif 
+  */
     public pearsonCalcul(ObservableList<mainModel> listAliments,double valeurObj, String obdjectif) {
         this.listAliments = listAliments;
         this.obdjectif = obdjectif;
         this.valeurObdjective=valeurObj;
     }
+   /**
+    * 
+    * @param listAliments
+    * @param valeurObj
+    * @param obdjectif
+    * @param listElementCasEquilibre
+    * @param ValeurListEquilibre 
+    */
     public pearsonCalcul(ObservableList<mainModel> listAliments,double valeurObj, String obdjectif,List<String> listElementCasEquilibre,List<Double> ValeurListEquilibre) {
         this.listAliments = listAliments;
         this.obdjectif = obdjectif;
@@ -54,7 +68,11 @@ public class pearsonCalcul {
         ListResultatEquilibre=new ArrayList<>();
         
     }
- 
+ /**
+  * methode qui permet de retourner la valeur de l'obdjectif (lipide,Glucide,Protide)
+  * @param aliment un obdjet de type mainModel
+  * @return une valeur de type double
+  */
     private double retourneLaValeurObdjectif(mainModel aliment)
     {
     double valeur=0;
@@ -95,6 +113,10 @@ public class pearsonCalcul {
     }
     return resultat;
     }
+ /**
+  * methode qui permet de calculer l'equilibre d'un element(mineraux,vitamines,sel minearux)
+  * @param elementAequilibre 
+  */
  private void CalculValeurAEquilibre(String elementAequilibre)
    {
    double valeur=0.0;
@@ -185,7 +207,7 @@ public class pearsonCalcul {
      break;
     case "vitB6":
       valeur1=(listAliments.get(0).getRetVit()!=null)?listAliments.get(0).getRetVit().getVitb6():0.0;
-     valeur2=(listAliments.get(1).getRetVit()!=null)?listAliments.get(1).getRetVit().getVitb6():0.0;
+      valeur2=(listAliments.get(1).getRetVit()!=null)?listAliments.get(1).getRetVit().getVitb6():0.0;
      valeur=(valeur1*(proportionAliment1/100))+(valeur2*(proportionAliment2/100));
      break;
     case "vitB12":
