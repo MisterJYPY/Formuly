@@ -75,6 +75,7 @@ public class mainModel {
   private pathologieModel pathologieModel;
   private int rangPathologieModelDansLaTable;
   private String prixUnitaire;
+  private Double resultatCalcul;
 
   
 
@@ -107,6 +108,14 @@ public class mainModel {
 
     public void setPathologieModel(pathologieModel pathologieModel) {
         this.pathologieModel = pathologieModel;
+    }
+
+    public Double getResultatCalcul() {
+        return resultatCalcul;
+    }
+
+    public void setResultatCalcul(Double resultatCalcul) {
+        this.resultatCalcul = resultatCalcul;
     }
     
       public boolean isPathologieAinsere() {

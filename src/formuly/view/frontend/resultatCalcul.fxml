@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="345.0" prefWidth="566.0" stylesheets="@../../css/frontend/resultatcalcul.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label alignment="CENTER" prefHeight="25.0" prefWidth="331.0" styleClass="info" text="Resultat de votre formulation " BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <AnchorPane prefHeight="303.0" prefWidth="566.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" layoutX="42.0" layoutY="11.0" prefHeight="27.0" prefWidth="153.0" text="Residu de calcul :">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="residu" alignment="CENTER" layoutX="201.0" layoutY="11.0" prefHeight="29.0" prefWidth="264.0" styleClass="residu" text="Residu" />
+            <TableView fx:id="TableResultat" layoutX="2.0" layoutY="60.0" prefHeight="228.0" prefWidth="560.0">
+              <columns>
+                <TableColumn id="nomAliment" fx:id="nomAliment" prefWidth="195.0" styleClass="coloneCentre" text="Nom de l'aliment" />
+                <TableColumn fx:id="glucide" prefWidth="85.0" styleClass="coloneCentre" text="Glucide" />
+                  <TableColumn fx:id="lipide" prefWidth="87.0" styleClass="coloneCentre" text="Lipide" />
+                  <TableColumn fx:id="protide" prefWidth="78.0" styleClass="coloneCentre" text="Protide" />
+                  <TableColumn id="resultat" fx:id="resultat" prefWidth="114.0" styleClass="coloneCentre" text="Resultat calcul" />
+              </columns>
+            </TableView>
+            <Button fx:id="fermer" layoutX="483.0" layoutY="294.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" styleClass="buttonCancel" text="fermer">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Label layoutX="43.0" layoutY="294.0" prefHeight="17.0" prefWidth="336.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="836.0" stylesheets="@../../css/frontend/inserer_pathologie.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Matrix33ResolveController" >
+   <top>
+      <BorderPane prefHeight="270.0" prefWidth="779.0" BorderPane.alignment="CENTER">
+         <center>
+            <AnchorPane prefHeight="246.0" prefWidth="779.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="248.0" layoutY="-1.0" prefHeight="24.0" prefWidth="283.0" text="Selection des Aliments pour la formulation" />
+                  <TableView fx:id="table1" layoutX="27.0" layoutY="62.0" prefHeight="210.0" prefWidth="802.0">
+                    <columns>
+                      <TableColumn fx:id="table1_numero" prefWidth="27.0" text="N°" />
+                      <TableColumn fx:id="table1_nomFr" prefWidth="199.0" text="Nom de l'aliment " />
+                        <TableColumn fx:id="table1_categorie" prefWidth="123.0" text="categorie" />
+                        <TableColumn fx:id="table1_modeCuisson" prefWidth="74.0" text="cuisson" />
+                        <TableColumn fx:id="table1_glucide" prefWidth="66.0" text="Glucide" />
+                        <TableColumn fx:id="table1_lipide" prefWidth="70.0" text="Lipide" />
+                        <TableColumn fx:id="table1_protide" prefWidth="68.0" text="Protide" />
+                        <TableColumn fx:id="table1_pays" prefWidth="118.0" text="Pays" />
+                        <TableColumn fx:id="choix" prefWidth="56.0" text="Cp" />
+                    </columns>
+                  </TableView>
+                  <Label alignment="CENTER_RIGHT" layoutX="404.0" layoutY="31.0" prefHeight="26.0" prefWidth="67.0" text="Recherche :" />
+                  <TextField fx:id="recherche" layoutX="492.0" layoutY="32.0" prefHeight="25.0" prefWidth="226.0" />
+                  <Label alignment="CENTER" layoutX="32.0" layoutY="31.0" prefHeight="20.0" prefWidth="329.0" text="Cette Formulation prend au Max 3 aliments" />
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <Separator prefHeight="16.0" prefWidth="815.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="83.0" prefWidth="779.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="27.0" layoutY="12.0" prefHeight="27.0" prefWidth="78.0" text="Glucide Max :" />
+            <TextField fx:id="glucideMax" layoutX="115.0" layoutY="7.0" prefHeight="34.0" prefWidth="132.0" />
+            <Label layoutX="252.0" layoutY="9.0" prefHeight="29.0" prefWidth="67.0" text="Lipide Max :" />
+            <TextField fx:id="LipideMax" layoutX="319.0" layoutY="6.0" prefHeight="33.0" prefWidth="158.0" />
+            <Label layoutX="494.0" layoutY="9.0" prefHeight="27.0" prefWidth="76.0" text="Protide Max :" />
+            <TextField fx:id="protideMax" layoutX="585.0" layoutY="7.0" prefHeight="31.0" prefWidth="170.0" />
+            <Button fx:id="lancerCalcul" layoutX="328.0" layoutY="57.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Lancer le calcul" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <BorderPane prefHeight="189.0" prefWidth="787.0" BorderPane.alignment="CENTER">
+         <center>
+            <TableView fx:id="tableChoix" prefHeight="189.0" prefWidth="777.0" BorderPane.alignment="CENTER">
+               <columns>
+                  <TableColumn fx:id="table2_numero" prefWidth="41.0" text="N°" />
+                  <TableColumn fx:id="table2_nomAliment" prefWidth="215.0" text="Aliment " />
+                  <TableColumn fx:id="table2_glucide" prefWidth="84.0" text="Glucide" />
+                  <TableColumn fx:id="table2_protide" prefWidth="98.0" text="Protide " />
+                  <TableColumn fx:id="table2_lipide" prefWidth="100.0" text="Lipide" />
+                  <TableColumn fx:id="table2_prixUn" prefWidth="91.0" text="Prix Un" visible="false" />
+                  <TableColumn fx:id="table2_pays" prefWidth="84.0" text="Pays" />
+                  <TableColumn fx:id="table2_supp" prefWidth="67.0" text="Retirer" />
+               </columns></TableView>
+         </center>
+         <left>
+            <ImageView fitHeight="188.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <ImageView fitHeight="150.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </center>
+</BorderPane>

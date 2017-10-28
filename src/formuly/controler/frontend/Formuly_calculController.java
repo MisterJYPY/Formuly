@@ -29,6 +29,8 @@ public class Formuly_calculController implements Initializable {
     @FXML private BorderPane center;
     @FXML private BorderPane principal;
     @FXML private Button programmationLineaire;
+    @FXML private Button matrice33;
+    @FXML private Button carrePearson;
 
     
     @Override
@@ -37,6 +39,14 @@ public class Formuly_calculController implements Initializable {
      programmationLineaire.setOnAction(event->{
        String urls="/formuly/view/frontend/prog_lineaire.fxml";
        placerVue(urls);
+     });
+     matrice33.setOnAction(event->{
+       String urls="/formuly/view/frontend/matrix33Resolve.fxml";
+         placerVue(urls);
+     });
+      carrePearson.setOnAction(event->{
+       String urls="/formuly/view/frontend/pearsonResolve.fxml";
+         placerVue(urls);
      });
     }    
      public void placerVue(String url)
