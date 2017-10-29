@@ -30,7 +30,7 @@
                   </TableView>
                   <Label alignment="CENTER_RIGHT" layoutX="404.0" layoutY="31.0" prefHeight="26.0" prefWidth="67.0" text="Recherche :" />
                   <TextField fx:id="recherche" layoutX="492.0" layoutY="32.0" prefHeight="25.0" prefWidth="226.0" />
-                  <Label alignment="CENTER" layoutX="32.0" layoutY="31.0" prefHeight="20.0" prefWidth="329.0" text="Cette Formulation prend au Max 3 aliments" />
+                  <Label alignment="CENTER" layoutX="32.0" layoutY="31.0" prefHeight="20.0" prefWidth="329.0" text="Cette Formulation prend au Max 2 aliments" />
                </children>
             </AnchorPane>
          </center>
@@ -44,7 +44,10 @@
          <children>
             <Label layoutX="148.0" layoutY="5.0" prefHeight="31.0" prefWidth="135.0" text="Choisissez le Nutriment :" />
             <TextField fx:id="valeurMax" layoutX="455.0" layoutY="6.0" prefHeight="33.0" prefWidth="158.0" />
-            <Button fx:id="lancerCalcul" layoutX="328.0" layoutY="57.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Lancer le calcul" />
+            <Button fx:id="lancerCalcul" layoutX="328.0" layoutY="57.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="186.0" text="Lancer le calcul">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <ComboBox fx:id="listeNutriment" layoutX="289.0" layoutY="6.0" prefHeight="34.0" prefWidth="158.0" promptText="choisissez" visibleRowCount="3" />
          </children>
       </AnchorPane>

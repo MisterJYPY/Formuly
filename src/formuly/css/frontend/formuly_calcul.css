@@ -126,3 +126,14 @@
         #d86e3a,
         radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }
+.algorithme
+{
+    -fx-text-fill:orangered;
+    -fx-font-size:14px;
+    //-fx-font-weight:bold;
+}
+.separator
+{
+   -fx-text-fill:orangered;
+   -fx-background-color:#1B4F08;
+}
