@@ -38,7 +38,7 @@ import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
 import formuly.classe.alimentRepasModel;
 import formuly.classe.bilanMacroNut;
-import formuly.classe.repasModel;
+import formuly.model.frontend.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmFaitConclusion;

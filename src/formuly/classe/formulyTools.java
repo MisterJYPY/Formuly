@@ -6,6 +6,8 @@
 package formuly.classe;
 
 
+import formuly.model.frontend.repasModel;
+import formuly.model.frontend.pathologieModel;
 import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;

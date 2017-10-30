@@ -6,7 +6,7 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.classe.pathologieModel;
+import formuly.model.frontend.pathologieModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmPathologie;
 import formuly.model.frontend.mainModel;

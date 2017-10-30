@@ -7,7 +7,7 @@ package formuly.controler.frontend;
 
 import formuly.classe.alimentRepasModel;
 import formuly.classe.formulyTools;
-import formuly.classe.repasModel;
+import formuly.model.frontend.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;

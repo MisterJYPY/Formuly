@@ -6,7 +6,6 @@
 package formuly.model.frontend;
 
 import formuly.classe.RetentionAlments;
-import formuly.classe.pathologieModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmPathologie;
