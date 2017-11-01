@@ -5,7 +5,6 @@
  */
 package formuly.controler.frontend;
 
-import Jama.Matrix;
 import formuly.classe.formulyTools;
 import formuly.expert.Simplexe;
 import formuly.expert.pearsonCalcul;

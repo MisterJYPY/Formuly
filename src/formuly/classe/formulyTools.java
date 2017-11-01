@@ -12,14 +12,17 @@ import formuly.controler.frontend.FmAlimentsJpaController;
 import formuly.model.frontend.mainModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmPathologie;
+import formuly.entities.FmRegleFait;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
 import formuly.model.frontend.modelFoodSelect;
+import formuly.model.frontend.regleFaitModel;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -693,6 +697,35 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             cpt++;
         }
       }
+     return inf;
+  }  
+   public static ObservableList<regleFaitModel> getobservableListRegleFaitModel()
+  {
+      ObservableList<regleFaitModel> inf = FXCollections.observableArrayList();
+       List<FmFait> listeFait=new ArrayList<>();
+         EntityManagerFactory emf=getEm();
+        EntityManager em=emf.createEntityManager();
+      Query eqr=em.createNamedQuery("FmFait.findAll");
+      listeFait=eqr.getResultList();
+       regleFaitModel regleModel=null;
+       int numero=1;
+        for(FmFait fait : listeFait)
+        {
+            System.out.println("fait : "+fait);
+        List<FmRegleFait> listRegleAssociees=(List<FmRegleFait>) fait.getFmRegleFaitCollection();
+         int nbreRegleApplicable=listRegleAssociees.size();
+        String conclusion=fait.getLibelleFait();
+        String lettre=fait.getLettreFait();
+        int id=fait.getId();
+        Date dateModif=fait.getDerniereModif();
+        
+        regleModel=new regleFaitModel(numero,lettre,conclusion, nbreRegleApplicable);
+        regleModel.setFait(fait);
+        regleModel.setListRegleFait(listRegleAssociees);
+        regleModel.setDateModif(dateModif);
+        inf.add(regleModel);
+        numero++;
+        }
      return inf;
   }  
    /**

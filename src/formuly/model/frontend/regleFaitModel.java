@@ -5,7 +5,9 @@
  */
 package formuly.model.frontend;
 
+import formuly.entities.FmFait;
 import formuly.entities.FmRegleFait;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,24 +17,59 @@ import java.util.List;
 public class regleFaitModel {
     
     private int numero;
-    private String fait;
+    private String identifiantFait;
+    private int idFait;
     private String Conclusion;
     private int nombreRegleApplicable;
     private List<FmRegleFait> listRegleFait;
+    private FmFait Fait;
+    private Date dateModif;
 
     public regleFaitModel(int numero, String fait, String Conclusion, int nombreRegleApplicable) {
         this.numero = numero;
-        this.fait = fait;
+        this.identifiantFait = fait;
         this.Conclusion = Conclusion;
         this.nombreRegleApplicable = nombreRegleApplicable;
     }
 
     public regleFaitModel(int numero, String fait, String Conclusion, int nombreRegleApplicable, List<FmRegleFait> listRegleFait) {
         this.numero = numero;
-        this.fait = fait;
+        this.identifiantFait = fait;
         this.Conclusion = Conclusion;
         this.nombreRegleApplicable = nombreRegleApplicable;
         this.listRegleFait = listRegleFait;
+    }
+
+    public Date getDateModif() {
+        return dateModif;
+    }
+
+    public void setDateModif(Date dateModif) {
+        this.dateModif = dateModif;
+    }
+
+    public String getIdentifiantFait() {
+        return identifiantFait;
+    }
+
+    public void setIdentifiantFait(String identifiantFait) {
+        this.identifiantFait = identifiantFait;
+    }
+
+    public int getIdFait() {
+        return idFait;
+    }
+
+    public void setIdFait(int idFait) {
+        this.idFait = idFait;
+    }
+
+    public FmFait getFait() {
+        return Fait;
+    }
+
+    public void setFait(FmFait Fait) {
+        this.Fait = Fait;
     }
 
     
@@ -44,12 +81,12 @@ public class regleFaitModel {
         this.numero = numero;
     }
 
-    public String getFait() {
-        return fait;
+    public String getlettreFait() {
+        return identifiantFait;
     }
 
     public void setFait(String fait) {
-        this.fait = fait;
+        this.identifiantFait = fait;
     }
 
     public String getConclusion() {

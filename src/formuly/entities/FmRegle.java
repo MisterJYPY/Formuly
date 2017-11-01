@@ -6,7 +6,6 @@
 package formuly.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,12 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,7 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FmRegle.findById", query = "SELECT f FROM FmRegle f WHERE f.id = :id"),
     @NamedQuery(name = "FmRegle.findByLibelleRegle", query = "SELECT f FROM FmRegle f WHERE f.libelleRegle = :libelleRegle"),
     @NamedQuery(name = "FmRegle.findByDerniereModif", query = "SELECT f FROM FmRegle f WHERE f.derniereModif = :derniereModif"),
-    @NamedQuery(name = "FmRegle.findByLibelleRegleClair", query = "SELECT f FROM FmRegle f WHERE f.libelleRegleClair = :libelleRegleClair")})
+    @NamedQuery(name = "FmRegle.findByLibelleRegleClair", query = "SELECT f FROM FmRegle f WHERE f.libelleRegleClair = :libelleRegleClair"),
+    @NamedQuery(name = "FmRegle.findByNbreFaitDeclencher", query = "SELECT f FROM FmRegle f WHERE f.nbreFaitDeclencher = :nbreFaitDeclencher"),
+    @NamedQuery(name = "FmRegle.findByConnecteur", query = "SELECT f FROM FmRegle f WHERE f.connecteur = :connecteur")})
 public class FmRegle implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,8 +46,10 @@ public class FmRegle implements Serializable {
     private Date derniereModif;
     @Column(name = "libelle_regle_clair")
     private String libelleRegleClair;
-    @OneToMany(mappedBy = "regle")
-    private Collection<FmRegleFait> fmRegleFaitCollection;
+    @Column(name = "nbre_fait_declencher")
+    private Integer nbreFaitDeclencher;
+    @Column(name = "connecteur")
+    private String connecteur;
 
     public FmRegle() {
     }
@@ -89,13 +90,20 @@ public class FmRegle implements Serializable {
         this.libelleRegleClair = libelleRegleClair;
     }
 
-    @XmlTransient
-    public Collection<FmRegleFait> getFmRegleFaitCollection() {
-        return fmRegleFaitCollection;
+    public Integer getNbreFaitDeclencher() {
+        return nbreFaitDeclencher;
     }
 
-    public void setFmRegleFaitCollection(Collection<FmRegleFait> fmRegleFaitCollection) {
-        this.fmRegleFaitCollection = fmRegleFaitCollection;
+    public void setNbreFaitDeclencher(Integer nbreFaitDeclencher) {
+        this.nbreFaitDeclencher = nbreFaitDeclencher;
+    }
+
+    public String getConnecteur() {
+        return connecteur;
+    }
+
+    public void setConnecteur(String connecteur) {
+        this.connecteur = connecteur;
     }
 
     @Override

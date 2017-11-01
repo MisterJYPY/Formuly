@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/expert.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <AnchorPane prefHeight="54.0" prefWidth="823.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,9 +32,9 @@
             </Pane>
             <Pane layoutX="426.0" layoutY="256.0" prefHeight="123.0" prefWidth="327.0">
                <children>
-                  <Label layoutX="8.0" layoutY="14.0" prefHeight="29.0" prefWidth="117.0" text="Connecteur" />
-                  <Label layoutX="8.0" layoutY="52.0" prefHeight="29.0" prefWidth="117.0" text="delimiteur" />
-                  <Label layoutX="8.0" layoutY="90.0" prefHeight="29.0" prefWidth="117.0" text="parenthese" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="14.0" prefHeight="29.0" prefWidth="104.0" text="Connecteur" wrapText="true" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="52.0" prefHeight="29.0" prefWidth="102.0" text="delimiteur" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="90.0" prefHeight="29.0" prefWidth="101.0" text="Outils" />
                   <ComboBox fx:id="comparateur" layoutX="147.0" layoutY="16.0" prefHeight="25.0" prefWidth="167.0" />
                   <ComboBox fx:id="connecteur" layoutX="147.0" layoutY="54.0" prefHeight="25.0" prefWidth="167.0" />
                   <ComboBox fx:id="parenthese" layoutX="147.0" layoutY="92.0" prefHeight="25.0" prefWidth="167.0" />
@@ -44,31 +44,38 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TableView fx:id="listFaitConclusion" layoutX="117.0" layoutY="40.0" prefHeight="200.0" prefWidth="724.0">
+            <TableView fx:id="listFaitConclusion" layoutX="117.0" layoutY="40.0" prefHeight="200.0" prefWidth="694.0">
               <columns>
                 <TableColumn fx:id="numero" prefWidth="37.0" text="N°" />
-                <TableColumn fx:id="fait" prefWidth="77.0" text="Fait" />
-                  <TableColumn fx:id="conclusion" minWidth="8.0" prefWidth="531.0" text="Conclusion" />
-                  <TableColumn fx:id="nbreRegleApplicable" prefWidth="78.0" text="Nbre Regles" />
+                <TableColumn fx:id="identifiant" prefWidth="77.0" text="identifiant" />
+                  <TableColumn fx:id="fait" minWidth="8.0" prefWidth="444.0" text="Fait" />
+                  <TableColumn fx:id="nbreRegleApplicable" prefWidth="95.0" text="Nbre Regles" visible="false" />
+                  <TableColumn fx:id="action" prefWidth="50.0" text="action" />
+                  <TableColumn fx:id="detailsFait" prefWidth="85.0" text="details" />
               </columns>
             </TableView>
-            <TextArea fx:id="affichageProgressif" layoutX="648.0" layoutY="429.0" prefHeight="107.0" prefWidth="303.0" />
+            <TextArea fx:id="affichageProgressif" editable="false" layoutX="648.0" layoutY="429.0" prefHeight="107.0" prefWidth="303.0" wrapText="true" />
             <Label alignment="CENTER" layoutX="706.0" layoutY="383.0" prefHeight="26.0" prefWidth="229.0" text="Evolution de la construction" />
             <Label alignment="CENTER" layoutX="188.0" layoutY="385.0" prefHeight="45.0" prefWidth="290.0" text="Entrer l'interpretation" />
-            <TextField fx:id="valeurConnecteur" layoutX="770.0" layoutY="269.0" prefHeight="27.0" prefWidth="143.0" />
-            <Button fx:id="poussez" layoutX="813.0" layoutY="334.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="26.0" text="Button" />
             <Button fx:id="enregistrer" layoutX="745.0" layoutY="571.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="148.0" text="enregistré" />
-            <Button layoutX="800.0" layoutY="541.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" text="&lt;&lt;&lt;&lt;">
+            <Button fx:id="effacerDernierElement2" layoutX="800.0" layoutY="541.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" text="&lt;&lt;&lt;&lt;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="867.0" layoutY="353.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" text="&lt;&lt;&lt;&lt;">
+            <Button fx:id="effacerDernierElement" layoutX="867.0" layoutY="353.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" text="&lt;&lt;&lt;&lt;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextArea fx:id="conclusion" layoutX="29.0" layoutY="430.0" prefHeight="172.0" prefWidth="594.0" />
+            <TextArea fx:id="conclusion" layoutX="29.0" layoutY="430.0" prefHeight="172.0" prefWidth="594.0" wrapText="true" />
+            <Button fx:id="envoiValeur" layoutX="923.0" layoutY="305.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="24.0" text="E" />
+            <ComboBox fx:id="listeIntelligente" editable="true" layoutX="768.0" layoutY="305.0" prefHeight="25.0" prefWidth="92.0" />
+            <Label fx:id="mesure" layoutX="867.0" layoutY="304.0" prefHeight="27.0" prefWidth="53.0" text="\%">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </center>

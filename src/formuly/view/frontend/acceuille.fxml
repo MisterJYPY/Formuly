@@ -161,6 +161,11 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Button>
+                                    <Button fx:id="expert" layoutX="1.0" layoutY="48.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="198.0" styleClass="sous-nav" text="Expert">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>

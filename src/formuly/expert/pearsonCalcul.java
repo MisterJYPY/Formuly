@@ -121,8 +121,8 @@ public class pearsonCalcul {
  private void CalculValeurAEquilibre(String elementAequilibre)
    {
    double valeur=0.0;
-   double valeur1;
-   double valeur2;
+   double valeur1=0.0;
+   double valeur2=0.0;
     
        switch (elementAequilibre)
   {
@@ -241,7 +241,6 @@ public class pearsonCalcul {
       valeur2=(listAliments.get(1).getRetVit()!=null)?listAliments.get(1).getRetVit().getNiacine():0.0;
      valeur=(valeur1*(proportionAliment1/100))+(valeur2*(proportionAliment2/100));
      break;
-  
        }
       ListResultatEquilibre.add(valeur);
    }

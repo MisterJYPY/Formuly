@@ -29,10 +29,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "fm_fait")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FmFait.findAll", query = "SELECT f FROM FmFait f"),
+    @NamedQuery(name = "FmFait.findAll", query = "SELECT f FROM FmFait f ORDER BY f.lettreFait"),
     @NamedQuery(name = "FmFait.findById", query = "SELECT f FROM FmFait f WHERE f.id = :id"),
     @NamedQuery(name = "FmFait.findByLibelleFait", query = "SELECT f FROM FmFait f WHERE f.libelleFait = :libelleFait"),
-    @NamedQuery(name = "FmFait.findByDerniereModif", query = "SELECT f FROM FmFait f WHERE f.derniereModif = :derniereModif")})
+    @NamedQuery(name = "FmFait.findByDerniereModif", query = "SELECT f FROM FmFait f WHERE f.derniereModif = :derniereModif"),
+    @NamedQuery(name = "FmFait.findByLettreFait", query = "SELECT f FROM FmFait f WHERE f.lettreFait = :lettreFait")})
 public class FmFait implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,6 +45,8 @@ public class FmFait implements Serializable {
     @Column(name = "derniere_modif")
     @Temporal(TemporalType.TIMESTAMP)
     private Date derniereModif;
+    @Column(name = "lettre_fait")
+    private String lettreFait;
     @OneToMany(mappedBy = "fait")
     private Collection<FmRegleFait> fmRegleFaitCollection;
 
@@ -76,6 +79,14 @@ public class FmFait implements Serializable {
 
     public void setDerniereModif(Date derniereModif) {
         this.derniereModif = derniereModif;
+    }
+
+    public String getLettreFait() {
+        return lettreFait;
+    }
+
+    public void setLettreFait(String lettreFait) {
+        this.lettreFait = lettreFait;
     }
 
     @XmlTransient

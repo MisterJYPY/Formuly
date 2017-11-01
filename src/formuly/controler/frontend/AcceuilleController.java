@@ -57,8 +57,10 @@ public class AcceuilleController implements Initializable {
     @FXML private Button moteurCalcul;
     @FXML private Button interditAlimentaire;
     @FXML private Button formulation;
+    @FXML private Button expert;
     private Stage st;
     private Formuly_calculController  fmCalcul;
+     private ExpertController  fmexpert;
     private final int NOMBRE_BUTTON_MAX=7;
     private Button[] listBtn;
     public AcceuilleController() {
@@ -95,6 +97,11 @@ public class AcceuilleController implements Initializable {
      formulation.setOnAction(event->{
       String urls="/formuly/view/frontend/formuly_calcul.fxml";
        afficherFentre(urls) ;
+       
+     });
+     expert.setOnAction(event->{
+      String urls="/formuly/view/frontend/expert.fxml";
+       LancerExpert(urls) ;
        
      });
        // cat.setClip(lb);
@@ -173,6 +180,28 @@ public class AcceuilleController implements Initializable {
             st.setScene(new Scene(root));
             st.setTitle("formuly Foods Selector");
             st.initOwner(formulation.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+            
+            st.showAndWait();
+            //  return st;
+        } catch (IOException ex) {
+            Logger.getLogger(AcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+      }
+       public void LancerExpert(String url) 
+    {
+             
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(url));
+            fmexpert=new ExpertController();
+            loader.setController(fmexpert);
+            Parent root = loader.load();
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Votre Expert");
+            st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
             
             st.showAndWait();
