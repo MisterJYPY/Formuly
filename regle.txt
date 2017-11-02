@@ -1,6 +1,6 @@
 vEn>=600ETaLp<=786799.78ETr30<=55.89002ETvEn>>4000 alors A
 vEn=8900ouaLp<<786799.78 alors C
 aLp<=786799.78ETage>>30 alors B
-vEn<=8900ouaLp>=786799.78ETage>>29//vEn<<6008.0//aLp<=786799.78ETage<<29 alors A OR D OR E
+vEn<=8900ouaLp>=786799.78ouvEn==4000ETage>>29//vEn<<6008.0//aLp<=786799.78ETage<<29 alors A OR D OR E
 vEn<=600ouaLp<=186799.78ETvEn<<600899.0ouvEn>>6008.0 alors E
 vEn>>6008.0 alors A

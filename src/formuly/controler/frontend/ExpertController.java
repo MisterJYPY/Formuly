@@ -102,22 +102,40 @@ public class ExpertController implements Initializable {
      private ComboBox<String>  listeIntelligente;
     @FXML
     private Label mesure;
+    @FXML 
+    private ImageView alert;
+    
     private ObservableList<regleFaitModel> list;
     private int nombreCaractere;
     private String uniteMesure="";
     private String derniereChaineCaractere="";
     private ArrayList<String> listSectionEnregistre;
+    private ArrayList<String> listSectionEnregistreClair;
+    private String message="\n";
+    private  ComboBox<String> dernierComboBoxModifier;
+    private  List<ComboBox<String>> ListComboBoxModifier=new ArrayList<>();
+    
+    
     public ExpertController() {
       list=formulyTools.getobservableListRegleFaitModel();
       listSectionEnregistre=new ArrayList<>();
+      listSectionEnregistreClair=new ArrayList<>();
     }
-    
-    
+    public void lancerEnregistrement()
+    {
+    enregistrer.setOnAction(event->{
+      boolean b=  validiteCrochet(listSectionEnregistre);
+        System.out.println(" res : "+b);
+          System.out.println("nbreElement : "+listSectionEnregistre.size());
+        System.out.println("regle : "+retournerValeurFormater(listSectionEnregistreClair));
+    });
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
        IntitLesElementsDeLaVue();
        traiterAction();
+       lancerEnregistrement();
        mesure.setVisible(false);
     }    
      private void traiterAction()
@@ -126,12 +144,14 @@ public class ExpertController implements Initializable {
          String entite=(entites.getValue()!=null)?entites.getValue():"";
           if(!entite.isEmpty() && !entite.equals("----Aucun Choix-----"))
          {
+         String elementClair=entite;
          String textVolu=affichageProgressif.getText();
          String nvoText=textVolu.concat(entite);
          affichageProgressif.setText(nvoText+" ");
           nombreCaractere=textVolu.length();
           derniereChaineCaractere=nvoText;
           listSectionEnregistre.add(entite);
+          listSectionEnregistreClair.add(elementClair);
           List<String> operateurAuth=donnerComparateurManiereIntelligente(entite);
          List<String> optionValeur=valeurAutorise(entite);
           comparateur.getItems().clear();
@@ -144,6 +164,13 @@ public class ExpertController implements Initializable {
           listeIntelligente.getItems().addAll(FXCollections.observableArrayList(optionValeur));
           mesure.setText(uniteMesure);
           mesure.setVisible(true);
+         // comparateur.setDisable(true);
+          parenthese.setDisable(true);
+          connecteur.setDisable(true);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+          comparateur.setDisable(false);
+          ListComboBoxModifier.add(entites);
          }
           else{
           comparateur.getItems().clear();  
@@ -158,18 +185,28 @@ public class ExpertController implements Initializable {
          String entite=(connecteur.getValue()!=null)?connecteur.getValue():"";
          if(!entite.isEmpty() && !entite.equals("----Aucun Choix-----"))
          {
+         String elementClair=entite;
          String textVolu=affichageProgressif.getText();
          String nvoText=textVolu.concat(" "+entite+" ");
          affichageProgressif.setText(nvoText+" ");
           nombreCaractere=textVolu.length();
           derniereChaineCaractere=nvoText;
            listSectionEnregistre.add(entite);
+           listSectionEnregistreClair.add(elementClair);
+           parenthese.setDisable(false);
+          connecteur.setDisable(true);
+          comparateur.setDisable(true);
+          entites.setDisable(false);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+         ListComboBoxModifier.add(connecteur);
          }
       });
       comparateur.setOnAction(event->{
          String entite=(comparateur.getValue()!=null)?comparateur.getValue():"";
           if(!entite.isEmpty() && !entite.equals("----Aucun Choix-----"))
          {
+             String elementClair=entite;
          entite=retournerCorrespondanceComparateur(entite, true);
          String textVolu=affichageProgressif.getText();
          String nvoText=textVolu.concat(entite);
@@ -177,18 +214,16 @@ public class ExpertController implements Initializable {
          nombreCaractere=textVolu.length();
          derniereChaineCaractere=nvoText;
           listSectionEnregistre.add(entite);
+          listSectionEnregistreClair.add(elementClair);
+          parenthese.setDisable(true);
+          connecteur.setDisable(true);
+          entites.setDisable(true);
+          listeIntelligente.setDisable(false);
+          envoiValeur.setDisable(false);
+          ListComboBoxModifier.add(comparateur);
          }
       });
       
-//      valeurConnecteur.setOnKeyReleased(event->{
-//         String text=valeurConnecteur.getText();
-//        String textVolu=derniereChaineCaractere;
-//         String nvoText=textVolu.concat(text);
-//         affichageProgressif.setText(nvoText+" ");
-//         nombreCaractere=textVolu.length();
-//         //  listSectionEnregistre.add("");
-//        // derniereChaineCaractere=nvoText;
-//      });
        envoiValeur.setOnAction(event->{
          String text=listeIntelligente.getValue();
         String textVolu=derniereChaineCaractere;
@@ -196,17 +231,20 @@ public class ExpertController implements Initializable {
          affichageProgressif.setText(nvoText+" ");
          nombreCaractere=textVolu.length();
           listSectionEnregistre.add(text);
+         //  System.out.println(" text "+text);
+          listSectionEnregistreClair.add(text);
         // derniereChaineCaractere=nvoText;
+          parenthese.setDisable(true);
+          connecteur.setDisable(false);
+          comparateur.setDisable(true);
+          entites.setDisable(true);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+         ListComboBoxModifier.add(listeIntelligente);
       });
         listeIntelligente.setOnAction(event->{
          String text=listeIntelligente.getValue();
             System.out.println("valer : "+text);
-//        String textVolu=derniereChaineCaractere;
-//         String nvoText=textVolu.concat(text);
-//         affichageProgressif.setText(nvoText+" ");
-//         nombreCaractere=textVolu.length();
-//          listSectionEnregistre.add(text);
-        // derniereChaineCaractere=nvoText;
       });
       parenthese.setOnAction(event->{
          String entite=(parenthese.getValue()!=null)?parenthese.getValue():"";
@@ -218,6 +256,13 @@ public class ExpertController implements Initializable {
            nombreCaractere=textVolu.length();
            derniereChaineCaractere=nvoText;
            listSectionEnregistre.add(entite);
+           parenthese.setDisable(true);
+          connecteur.setDisable(false);
+          comparateur.setDisable(true);
+          entites.setDisable(false);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+         ListComboBoxModifier.add(parenthese);
          }
       });
       
@@ -230,6 +275,20 @@ public class ExpertController implements Initializable {
          nombreCaractere=affichageProgressif.getText().length();
          listSectionEnregistre.remove(nbre-1);
          affichageProgressif.setText(chaineOrdre());
+         int tailleElment=ListComboBoxModifier.size();
+          if(tailleElment>0)
+          {
+           parenthese.setDisable(true);
+          connecteur.setDisable(true);
+          comparateur.setDisable(true);
+          entites.setDisable(true);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+          ListComboBoxModifier.get(tailleElment-1).setDisable(false);
+          //desactiver tous le reste
+          ListComboBoxModifier.get(tailleElment-1).setDisable(false);
+          ListComboBoxModifier.remove(tailleElment-1);
+          }
           }
       });
        effacerDernierElement2.setOnAction(event->{
@@ -243,6 +302,98 @@ public class ExpertController implements Initializable {
          affichageProgressif.setText(chaineOrdre());
           }
       });
+     }
+     private boolean ExistenceDelimiteur(String element)
+     {
+       boolean b;
+       ArrayList<String> listElement=new ArrayList<>();
+        listElement.add("[");
+        listElement.add("]");
+        listElement.add("(");
+        listElement.add(")");
+       b=listElement.contains(element);
+       return b;
+     }
+     private boolean ExistenceConnecteur(String element)
+     {
+       boolean b;
+       ArrayList<String> listElement=new ArrayList<>();
+        listElement.add("OU");
+        listElement.add("ET");
+       b=listElement.contains(element);
+       return b;
+     }
+     private boolean ExistanceEntite(String element)
+     {
+       List<String> entite=listEntitite();
+     boolean b=entite.contains(element);
+      return b;
+     }
+      private boolean ExistanceComparateur(String element)
+     {
+       List<String> entite=listComparateur();
+     boolean b=entite.contains(element);
+      return b;
+     }
+     private String retournerValeurFormater(ArrayList<String> listElementsPris)
+     {
+      String regle="";
+      
+       for(String element:listElementsPris)
+       {
+           System.out.println("elemnt : "+element);
+           boolean b=ExistenceDelimiteur(element);
+         if(b)
+         {
+            if(element.equals("]"))
+            {
+           regle=regle.concat("//");
+             
+            }
+         }
+          else
+         {
+            boolean br=ExistenceConnecteur(element);
+         if(br)
+          {
+         if(element.contains("OU"))
+         {
+         regle=regle.concat("ou");
+         }
+          if(element.contains("ET"))
+         {
+         regle=regle.concat("ET");
+         }
+          }
+         else
+           {
+         //nous avons des operateurs a gerer
+               boolean cmparateur=ExistanceComparateur(element);
+               boolean entite=ExistanceEntite(element);
+              if(cmparateur)
+              {
+                  System.out.println("op "+element);
+             String operateur=retournerCorrespondanceComparateur(element,false);
+                   System.out.println("op ap "+operateur);
+             regle=regle.concat(operateur);
+              }
+              else
+              {
+                if(entite)
+                {
+            String entitess=retournerCorrespondanceEntites(element);
+             regle=regle.concat(entitess);    
+                }
+                else
+                {
+              regle=regle.concat(element);
+                }
+              }
+           }
+         }
+         
+       }
+      return regle;
      }
      private List<String> valeurAutorise(String event)
      {
@@ -329,9 +480,77 @@ public class ExpertController implements Initializable {
      }
        return list;
      }
-     private void controllePaenthese()
+     private void controllePaenthese(String valeurParenthese)
      {
-     
+       if(!valeurParenthese.equals("----Aucun Choix-----"))
+       {
+         if(valeurParenthese.equals("("));
+         {
+        //lancement du control d'ouverture si non  
+         }
+       }
+     }
+      private boolean validiteCrochet(ArrayList<String> listChaine)
+     {
+         boolean b=true;
+         int i=0;
+         int cptOuvr=0;
+         int cptFer=0;
+         for(String element:listChaine)
+         {
+         if(i==0)
+         {
+     if(element.equals("]") || element.equals("["))
+        {
+         cptOuvr=(element.equals("["))?cptOuvr++:cptOuvr; 
+        // cptFer=(element.equals("]"))?cptFer++:cptFer;
+         if(element.equals("]"))
+          {
+          b=false;
+          break;
+          }
+         else{
+         cptOuvr++;
+         }
+         }
+         }
+       else{
+        String chainePreccedent=listChaine.get(i-1);
+        int taillePresumesup=i+1;
+        String chaineSuivant=(listChaine.size()>taillePresumesup)?listChaine.get(taillePresumesup):null;
+        boolean estOu=chainePreccedent.contains("OU");
+        boolean estOuSuivant=(chaineSuivant==null || chaineSuivant.contains("OU"));
+       //ici on verifie si derriere un crochet se trouve un ou
+      if(element.equals("]") || element.equals("["))
+        {
+         if(element.equals("[") && estOu)
+         {
+         cptOuvr++;
+         }
+       else{
+       //probleme de crochet
+          if(element.equals("]") && estOuSuivant)
+           {
+           cptFer++;
+           }
+          else{
+               b=false;
+         message=message.concat("Probleme au niveau des crochets  \n");
+             System.out.println(message);
+           break;
+              }
+          }
+         }
+          }
+         i++;
+         }
+          System.out.println("nbre [ "+cptOuvr);
+          System.out.println("nbre ] "+cptFer);
+//        if(cptOuvr!=cptFer)
+//        {
+//        b=false;
+//        }
+       return b;
      }
      private List<String> donnerComparateurManiereIntelligente(String event)
      {
@@ -437,7 +656,7 @@ public class ExpertController implements Initializable {
       break;
 
   default:
-    System.out.println("Mrs JYPY");
+    System.out.println("pas de correspondance");
              }
      }
      private String chaineOrdre()
@@ -582,7 +801,7 @@ public class ExpertController implements Initializable {
       break;
 
   default:
-    System.out.println("Mrs JYPY");
+    System.out.println("pas de correspondance ");
              }
          return correspondance;
      }
@@ -622,6 +841,8 @@ public class ExpertController implements Initializable {
         list.add("----Aucun Choix-----");
         list.add("(");
         list.add(")");
+        list.add("[");
+        list.add("]");
 
      return list;
     }
