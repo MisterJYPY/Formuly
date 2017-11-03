@@ -80,6 +80,10 @@ public class pearsonCalcul {
        
     return valeur;
     }
+    /**
+     * l'algorithme du calcul de pearson a proprement dite
+     * @return un tableau de valeurs double qui contienne en realite les resultats de calculs
+     */
     public double[] calculPearson()
     {
     double [] resultat=new double[2];
@@ -244,38 +248,69 @@ public class pearsonCalcul {
        }
       ListResultatEquilibre.add(valeur);
    }
-
+  /**
+   * avoir tous les aliments qui ont ete passés en parametre lors de la construction du controller
+   * @return une liste d'instance de mainModel 
+   */
     public List<mainModel> getListAliments() {
         return listAliments;
     }
-
+ /**
+  * methode pour modifier la liste d'aliments
+  * @param listAliments  la liste des aliments 
+  */
     public void setListAliments(List<mainModel> listAliments) {
         this.listAliments = listAliments;
     }
-
+/**
+ * getter pour avoir notre Obdjectif qui est le nutriment rechercher
+ * @return une chaine de caractere 
+ */
     public String getObdjectif() {
         return obdjectif;
     }
+    /**
+     * methode mettant a vide la list des  resultats
+     */
 public void initialiserLesList()
 {
  ListResultatEquilibre.clear();
 }
+/**
+ * modifier la valeur de notre obdjectif
+ * peut etre utile lorsque on veut utiliser la memeinstance du controlleur 
+ * pour executer un autre calcul de pearson
+ * @param obdjectif 
+ */
     public void setObdjectif(String obdjectif) {
         this.obdjectif = obdjectif;
     }
-
+/**
+ * getter pour avoir la valeur de l'obdjectif
+ * @return une valeur double
+ */
     public double getValeurObdjective() {
         return valeurObdjective;
     }
-
+/**
+ * modifier la valeur de notre Obdjectif
+ * @param valeurObdjective 
+ */
     public void setValeurObdjective(double valeurObdjective) {
         this.valeurObdjective = valeurObdjective;
     }
-
+/**
+ * avoir la liste de tous les resultats d'equilibre
+ * @return une list de valeur Double
+ */
     public ArrayList<Double> getListResultatEquilibre() {
         return ListResultatEquilibre;
     }
-
+/**
+ * modifier la liste des resultats es valeurs mises en equilibre
+ * utile lorsque on veut utiliser la meme instance de l'obdjet
+ * @param ListResultatEquilibre 
+ */
     public void setListResultatEquilibre(ArrayList<Double> ListResultatEquilibre) {
         this.ListResultatEquilibre = ListResultatEquilibre;
     }

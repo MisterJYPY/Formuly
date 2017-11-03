@@ -12,20 +12,62 @@ package formuly.expert;
  */
 public class Simplexe {
     
-    
+    /**
+     * stipule le cas .permet de preciser quel algorithme on veut lancer
+     */
      public static String cas="MIN";
+     /**
+      * l'attribut qui stocke pour chaque iteration la ligne pivot
+      * elle est tres utile pour le calcul dans le tableau du simplexe
+      */
      protected int lignePivot;
+     /**
+      * la colonne du pivot
+      */
      protected int colonnePivot;
+     /**
+      * le nombre de lignedu tableau stockant les variables de la forme standard
+      */
      protected int nbreLigne;
+     /**
+      * le nombre de colonne du tableau stockant les variables de la forme standard
+      */
      protected int nbreColonne;
+     /**
+      * variable qui stocke la variable du pivot courant
+      */
      protected double Currentpivot;
+     /**
+      * la matrix qui represente notre matrice pour le calcul pour une nouvelle iteration
+      */
      protected double [][] MatrixSuivant;
+     /**
+      * matrix de depart qui est initialiser a chaque fois qu'il y a un
+      *nouveau calcul
+      */
      protected double [][] MatrixNouveau;
+     /**
+      * le vecteur qui stok les variables en base en base du programme
+      */
      protected String [] enBase;
+     /**
+      * variable non en base
+      */
      protected String [] nonEnBase;
+     /**
+      * une variable qui pointe sur l'obdjet dual 
+      * et qui est appeler lorsque nous constatons que le dual peut etre declencher
+      */
      private dualSimplexe dual;
+     /**
+      * variable qui nous dira si au cour de la resolution le dual a ete lancer ou pas
+      */
     protected boolean dualLncer=true;
-
+/**
+ * constructeur parametré du simplexe
+ * @param nbreLignes le nombre de lignes du tableau
+ * @param nbreColonnes le nombre de colonnes du tableau
+ */
     public Simplexe(int nbreLignes,int nbreColonnes) {
         
       this.nbreColonne=nbreColonnes;
@@ -35,6 +77,11 @@ public class Simplexe {
       MatrixSuivant=new double[nbreLigne][nbreColonne];
       MatrixNouveau=new double[nbreLigne][nbreColonne];  
     }
+    /**
+     * le constructeur qui prends en parametre seulement la matrice de depart
+     * @deprecated à eviter l'instance.il n'est pas utiliser pour ce cour de programme
+     * @param MatrixNouveau 
+     */
     public Simplexe(double[][] MatrixNouveau) {
         this.MatrixNouveau = MatrixNouveau;
     }
@@ -53,6 +100,9 @@ public class Simplexe {
         MatrixSuivant=new double[nbreLigne][nbreColonne];
         dual=new dualSimplexe(nbreLigne, nbreColonne);
     }
+    /**
+     * initialisation des variables en base
+     */
     public void intitTableEnBase()
     {
         int val=nbreColonne;
@@ -62,6 +112,9 @@ public class Simplexe {
       val++;
      }
     }
+    /**
+     * initialisation des variables hors base
+     */
     public void initHorsBase()
     {
         int val=nbreColonne;
@@ -91,6 +144,10 @@ public class Simplexe {
      }
        return estNul;
      }
+     /**
+      * initialisation a zero de la matrice acceuillant les resultats de calcul
+      * la matrix nouveau
+      */
     public void intialiserMatriceNvo()
     {
       //copie des valeurs
@@ -122,6 +179,9 @@ public class Simplexe {
      }
      }
     }
+    /**
+     * initioalisation de la matrice depuis le dual
+     */
      public void intialiserMatriceNvoDepuisLeDual()
     {
      //mise a null des elements de la matrix suivante
