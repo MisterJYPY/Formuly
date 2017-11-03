@@ -197,7 +197,6 @@ public final class Inserer_aliment_fichierController implements Initializable {
     List<String> listPays;
     ObservableList<String> ListmodeCuisson;
    
-    
     public Inserer_aliment_fichierController() {
          desktop = Desktop.getDesktop();
          fileChooser = new FileChooser();
