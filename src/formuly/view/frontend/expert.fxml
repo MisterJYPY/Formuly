@@ -78,6 +78,11 @@
                </font>
             </Label>
             <ImageView fx:id="alert" fitHeight="28.0" fitWidth="40.0" layoutX="909.0" layoutY="382.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="enleverImportConclusion" layoutX="510.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="&lt;-">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
    </center>

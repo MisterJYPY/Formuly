@@ -99,7 +99,7 @@ public class AcceuilleController implements Initializable {
        afficherFentre(urls) ;
        
      });
-     expert.setOnAction(event->{
+     expert.setOnMouseClicked(event->{
       String urls="/formuly/view/frontend/expert.fxml";
        LancerExpert(urls) ;
        

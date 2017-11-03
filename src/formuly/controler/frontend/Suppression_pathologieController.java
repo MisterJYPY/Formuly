@@ -312,7 +312,7 @@ public final class Suppression_pathologieController implements Initializable {
       }
     };
   }
-       public Task ProccessusSupressionPathologie(pathologieModel models) {
+     public Task ProccessusSupressionPathologie(pathologieModel models) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
@@ -359,7 +359,7 @@ public final class Suppression_pathologieController implements Initializable {
       }
     };
   }
-        public void SupprimerPathologie(pathologieModel model)
+     public void SupprimerPathologie(pathologieModel model)
          {
               ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);

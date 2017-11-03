@@ -15,6 +15,7 @@ import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmPathologie;
+import formuly.entities.FmRegle;
 import formuly.entities.FmRegleFait;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
@@ -523,6 +524,58 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         id=aliment.getId();
       }
        
+       return id;
+    }
+      /**
+      * methode qui retourne le dernier identiant des entree des fait
+      * @return un entier 
+      */
+      public static int TrouverDernierIdentifiant_Fait() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_fait f WHERE f.id=(SELECT MAX(s.id) FROM fm_fait s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmFait.class);
+     FmFait fait=(eqr.getResultList().size()>0)?(FmFait) eqr.getSingleResult():null;
+      if(fait!=null)
+      {
+        id=fait.getId();
+      }
+       
+       return id;
+    }
+       /**
+      * methode qui retourne le dernier identiant des entree des regle
+      * @return un entier 
+      */
+      public static int TrouverDernierIdentifiant_Regle() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_regle f WHERE f.id=(SELECT MAX(s.id) FROM fm_regle s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRegle.class);
+     FmRegle fait=(eqr.getResultList().size()>0)?(FmRegle) eqr.getSingleResult():null;
+      if(fait!=null)
+      {
+        id=fait.getId();
+      }
+       return id;
+    }
+       /**
+      * methode qui retourne le dernier identiant des entree des regle
+      * @return un entier 
+      */
+      public static int TrouverDernierIdentifiant_RegleFait() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_regle_fait f WHERE f.id=(SELECT MAX(s.id) FROM fm_regle_fait s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRegleFait.class);
+     FmRegleFait fait=(eqr.getResultList().size()>0)?(FmRegleFait) eqr.getSingleResult():null;
+      if(fait!=null)
+      {
+        id=fait.getId();
+      }
        return id;
     }
        /**

@@ -6,26 +6,39 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
+import formuly.entities.FmFait;
+import formuly.entities.FmPathologie;
+import formuly.entities.FmRegle;
+import formuly.entities.FmRegleFait;
+import formuly.model.frontend.pathologieModel;
 import formuly.model.frontend.regleFaitModel;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,6 +52,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -97,6 +111,8 @@ public class ExpertController implements Initializable {
     private Label mesure;
     @FXML 
     private ImageView alert; 
+    @FXML
+    private Button enleverImportConclusion;
     private ObservableList<regleFaitModel> list;
     private int nombreCaractere;
     private String uniteMesure="";
@@ -106,32 +122,202 @@ public class ExpertController implements Initializable {
     private String message="\n";
     private  ComboBox<String> dernierComboBoxModifier;
     private  List<ComboBox<String>> ListComboBoxModifier=new ArrayList<>();
+    private final int NOMBRE_MAX_DEDUCTION_TABLEAU=1;
+    private String conclusionAjouter;
+    private String regle="";
+    private int dernierIdFait;
+    private int dernierIdRegle;
+    private int dernierIdRegleFait;
     
-    
-     public ExpertController() {
+    public ExpertController() {
       list=formulyTools.getobservableListRegleFaitModel();
       listSectionEnregistre=new ArrayList<>();
       listSectionEnregistreClair=new ArrayList<>();
+      alphabet=new ArrayList<>();
+      remplirListAlphabet();
+       dernierIdFait=formulyTools.TrouverDernierIdentifiant_Fait()+1;
+       dernierIdRegle=formulyTools.TrouverDernierIdentifiant_Regle()+1;
+       dernierIdRegleFait=formulyTools.TrouverDernierIdentifiant_RegleFait()+1;
+//      retournerIdentifiant("B");
     }
-     public void lancerEnregistrement()
+    public void initialiserLesElementsDeConception()
+    {
+      entites.getItems().clear();
+      parenthese.getItems().clear();
+      connecteur.getItems().clear();
+      comparateur.getItems().clear();
+       listeIntelligente.getItems().clear();
+       conclusion.setText("");
+       affichageProgressif.setText("");
+       mesure.setText("");
+       mesure.setVisible(false);
+     entites.setItems(FXCollections.observableList(listEntitite()));
+    parenthese.setItems(FXCollections.observableList(listParenthese()));
+    connecteur.setItems(FXCollections.observableList(listConnecteur()));
+    comparateur.setItems(FXCollections.observableList(listComparateur()));
+    }
+    public final void remplirListAlphabet()
+     {
+       alphabet.add(0,"A");
+       alphabet.add(1,"B");
+       alphabet.add(2,"C");
+       alphabet.add(3,"D");
+       alphabet.add(4,"E");
+       alphabet.add(5,"F");
+       alphabet.add(6,"G");
+       alphabet.add(7,"H");
+       alphabet.add(8,"I");
+       alphabet.add(9,"J");
+       alphabet.add(10,"K");
+       alphabet.add(11,"L");
+       alphabet.add(12,"M");
+       alphabet.add(13,"N");
+       alphabet.add(14,"O");
+       alphabet.add(15,"P");
+       alphabet.add(16,"Q");
+       alphabet.add(17,"R");
+       alphabet.add(18,"S");
+       alphabet.add(19,"T");
+       alphabet.add(20,"U");
+       alphabet.add(21,"V");
+       alphabet.add(22,"W");
+       alphabet.add(23,"X");
+       alphabet.add(24,"Y");
+       alphabet.add(25,"Z");
+     }
+    public int returnerIndiceCaractere(String caractere)
+     {
+       int indice=-1;
+       int cpt=0;
+       for(String element:alphabet)
+       {
+        if(element.equals(caractere))
+        {
+         indice=cpt;
+         break;
+        }
+        else{
+         cpt++;
+           }
+       }
+       return indice;
+     }
+    public String retournerCaractereSuivant(int indiceActuelle)
+     {
+      String caractereSuivant="";
+      if(indiceActuelle<25)
+      {
+      caractereSuivant=alphabet.get(indiceActuelle+1);
+      }
+    else{
+       caractereSuivant=alphabet.get(0);
+      }
+      return caractereSuivant;
+     }
+    public String retournerIdentifiant(String dernierIdentifiant)
+     {
+      String id="";
+      int nbreElement=dernierIdentifiant.length();
+//      if(nbreElement>1)
+//       {
+      //recuperation du dernierCaractere
+          String dernierCaractere=dernierIdentifiant.substring(nbreElement-1);
+           int indiceElement=returnerIndiceCaractere(dernierCaractere);
+           String caractereSuivant=retournerCaractereSuivant(indiceElement);
+           /*dans le ou le caractere suivant le dernier caractere est different de A alors
+           *nous sommes dans une chaine nous devons donc remplacer le dernier par le caractere suivant
+           */
+      if(!caractereSuivant.equals("A"))
+       {
+    CharSequence elementPrec=dernierIdentifiant.subSequence(0,nbreElement-1);
+            String element=elementPrec.toString();
+            element=element.concat(caractereSuivant);
+            id=element;
+            System.out.println("l'id est : "+id);
+       }
+      //si egale a A nous faisons une concatenanion cela permet de garder l'encoien
+     else{
+         id=dernierIdentifiant.concat(caractereSuivant);
+           System.out.println("l'id est : "+id);
+        }
+    //   }
+//      else
+//      {
+//     int indiceElement=returnerIndiceCaractere(dernierIdentifiant);
+//     String caractereSuivant=retournerCaractereSuivant(indiceElement);
+//     if(!caractereSuivant.equals("A"))
+//       {
+//      id=caractereSuivant;
+//       }
+//     else{
+//       id=dernierIdentifiant.concat(caractereSuivant);
+//        }
+//      }
+      return id;
+     }
+    public void lancerEnregistrement()
     {
     enregistrer.setOnAction(event->{
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
       boolean b=  validiteCrochet(listSectionEnregistre);
-        System.out.println(" res : "+b);
-          System.out.println("nbreElement : "+listSectionEnregistre.size());
-       String regle=(b)?retournerValeurFormater(listSectionEnregistreClair):"Mal Formatage cause d'un crochet malveillant";
-        System.out.println("regle : "+regle);
+        if(b)
+         {
+          String messages="Veuillez confirmer la mise a jour \n"
+                        + "SVP \n"
+                     + "";
+          alert.setTitle("Confirmation");
+             Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png"));
+             alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+                     alert.setContentText(messages);
+                     alert.showAndWait();
+                if(alert.getResult()==ButtonType.YES)
+                {
+             //SupprimerPathologie(pat);
+      regle=(b)?retournerValeurFormater(listSectionEnregistreClair):"Mal Formatage cause d'un crochet malveillant";
+                creationregle();
+                }
+         }
+     else{
+      
+          String messages="Une erreur rencontré dans la formulation de la regle\n"
+                        + "details : "+message+"\n"
+                     + " veuillez revoir vos saisies : \n"
+                     + "";
+          alert.setTitle("Erreur rencontre");
+             Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+             alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.OK);
+                     alert.setContentText(messages);
+                     alert.showAndWait();
+                 
+         }
     });
     }
+    public String retournerRegleComplet(String regle,String identifiantFaitDeclencher)
+    {
+    String regleComplet=regle.concat(" ALORS ").concat(identifiantFaitDeclencher);
+    return regleComplet;
+    }
     @Override
-     public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {
         // TODO
        IntitLesElementsDeLaVue();
        traiterAction();
        lancerEnregistrement();
        mesure.setVisible(false);
-    }    
-     private void traiterAction()
+       actionEnleverImportConclusion();
+    }  
+    private void actionEnleverImportConclusion()
+     {
+     enleverImportConclusion.setOnAction(event->
+     {
+      initialiserAjoutConclusion();
+     });
+     }
+    private void traiterAction()
      {
       entites.setOnAction(event->{
          String entite=(entites.getValue()!=null)?entites.getValue():"";
@@ -186,13 +372,25 @@ public class ExpertController implements Initializable {
           derniereChaineCaractere=nvoText;
            listSectionEnregistre.add(entite);
            listSectionEnregistreClair.add(elementClair);
+           if(!elementClair.contains("ALORS"))
+           {
            parenthese.setDisable(false);
           connecteur.setDisable(true);
           comparateur.setDisable(true);
           entites.setDisable(false);
           listeIntelligente.setDisable(true);
           envoiValeur.setDisable(true);
-         ListComboBoxModifier.add(connecteur);
+           }
+           else{
+           parenthese.setDisable(true);
+          connecteur.setDisable(true);
+          comparateur.setDisable(true);
+          entites.setDisable(true);
+          listeIntelligente.setDisable(true);
+          envoiValeur.setDisable(true);
+          fin=true;
+           }
+             ListComboBoxModifier.add(connecteur);
          }
       });
       comparateur.setOnAction(event->{
@@ -302,7 +500,7 @@ public class ExpertController implements Initializable {
           }
       });
      }
-     private boolean ExistenceDelimiteur(String element)
+    private boolean ExistenceDelimiteur(String element)
      {
        boolean b;
        ArrayList<String> listElement=new ArrayList<>();
@@ -313,7 +511,7 @@ public class ExpertController implements Initializable {
        b=listElement.contains(element);
        return b;
      }
-     private boolean ExistenceConnecteur(String element)
+    private boolean ExistenceConnecteur(String element)
      {
        boolean b;
        ArrayList<String> listElement=new ArrayList<>();
@@ -322,19 +520,19 @@ public class ExpertController implements Initializable {
        b=listElement.contains(element);
        return b;
      }
-     private boolean ExistanceEntite(String element)
+    private boolean ExistanceEntite(String element)
      {
        List<String> entite=listEntitite();
      boolean b=entite.contains(element);
       return b;
      }
-     private boolean ExistanceComparateur(String element)
+    private boolean ExistanceComparateur(String element)
      {
        List<String> entite=listComparateur();
      boolean b=entite.contains(element);
       return b;
      }
-     private boolean ExistanceNiveauAge(String element)
+    private boolean ExistanceNiveauAge(String element)
       {
        boolean b;
        List<String> nvage=retournerListeNiveauAge();
@@ -347,11 +545,19 @@ public class ExpertController implements Initializable {
        int i=0;
        for(String element:listElementsPris)
        {
+         if(!element.contains("ALORS"))
+           {
            System.out.println("elemnt : "+element);
+      
            boolean b=ExistenceDelimiteur(element);
          if(b)
          {
-            if(element.contains("]") && listElementsPris.size()>(i+1))
+          // String chaineSuivant=
+          
+         int vSuiv=i+1; 
+         String suivant=(listElementsPris.size()>(i+1))?listElementsPris.get(vSuiv):"";
+         boolean contientAlors=suivant.contains("ALORS");
+            if(element.contains("]") && listElementsPris.size()>(i+1) && !contientAlors)
             {
            regle=regle.concat("//");
              
@@ -370,9 +576,12 @@ public class ExpertController implements Initializable {
          String suivant=listElementsPris.get(vSuiv);
          boolean ctCrochetP=precedent.contains("]");
          boolean ctCrochetS=suivant.contains("[");
-        if(ctCrochetP && ctCrochetS)
+        if(ctCrochetP || ctCrochetS)
         {
         regle=regle.concat("");
+        }
+        else{
+            regle=regle.concat(element.toLowerCase());
         }
          }
           if(element.contains("ET"))
@@ -426,6 +635,7 @@ public class ExpertController implements Initializable {
          }
          i++;
        }
+     }
       return regle;
      }
     private String retournerValeurJeune(String element)
@@ -455,21 +665,21 @@ public class ExpertController implements Initializable {
       }
       return elmt;
      }
-     private List<String> listSexe()
+    private List<String> listSexe()
      {
       List<String> list=new ArrayList<>();
       list.add("Masculin");
       list.add("Feminin");
        return list;
      }
-     private boolean ExistenceDeValeurSexe(String element)
+    private boolean ExistenceDeValeurSexe(String element)
      {
       boolean b;
       List<String> listSexe=listSexe();
       b=listSexe.contains(element);
       return b;
      }
-     private List<String> retournerListeNiveauAge()
+    private List<String> retournerListeNiveauAge()
      {
          ArrayList<String> list=new ArrayList<>();
        list.add("Enfant");
@@ -479,7 +689,7 @@ public class ExpertController implements Initializable {
        list.add("Age avancé");
        return list;
      }
-     private List<String> valeurAutorise(String event)
+    private List<String> valeurAutorise(String event)
      {
          List<String> list=new ArrayList<>();
     switch(event)
@@ -564,7 +774,7 @@ public class ExpertController implements Initializable {
      }
        return list;
      }
-     private void controllePaenthese(String valeurParenthese)
+    private void controllePaenthese(String valeurParenthese)
      {
        if(!valeurParenthese.equals("----Aucun Choix-----"))
        {
@@ -574,7 +784,7 @@ public class ExpertController implements Initializable {
          }
        }
      }
-      private boolean validiteCrochet(ArrayList<String> listChaine)
+    private boolean validiteCrochet(ArrayList<String> listChaine)
      {
          boolean b=true;
          int i=0;
@@ -602,8 +812,8 @@ public class ExpertController implements Initializable {
         String chainePreccedent=listChaine.get(i-1);
         int taillePresumesup=i+1;
         String chaineSuivant=(listChaine.size()>taillePresumesup)?listChaine.get(taillePresumesup):null;
-        boolean estOu=chainePreccedent.contains("OU");
-        boolean estOuSuivant=(chaineSuivant==null || chaineSuivant.contains("OU"));
+      boolean estOu=chainePreccedent.contains("OU");
+      boolean estOuSuivant=(chaineSuivant==null || chaineSuivant.contains("OU") || chaineSuivant.contains("ALORS"));
        //ici on verifie si derriere un crochet se trouve un ou
       if(element.equals("]") || element.equals("["))
         {
@@ -636,7 +846,7 @@ public class ExpertController implements Initializable {
         }
        return b;
      }
-     private List<String> donnerComparateurManiereIntelligente(String event)
+    private List<String> donnerComparateurManiereIntelligente(String event)
      {
        List<String> list=new ArrayList<>();
          switch(event)
@@ -657,7 +867,7 @@ public class ExpertController implements Initializable {
      }
          return list;
      }
-     private String valeurEquivalentSexe(String sexeParticulier)
+    private String valeurEquivalentSexe(String sexeParticulier)
      {
         String chaineSexeClient="";
          String op="";
@@ -671,7 +881,7 @@ public class ExpertController implements Initializable {
         }
         return chaineSexeClient;
      }
-     private void remplirLaListeIntelligente(String event)
+    private void remplirLaListeIntelligente(String event)
      {
        String correspondance="";
              switch (event)
@@ -741,7 +951,7 @@ public class ExpertController implements Initializable {
     System.out.println("pas de correspondance");
              }
      }
-     private String chaineOrdre()
+    private String chaineOrdre()
      {
          String chaine="";
       for(String element:listSectionEnregistre)
@@ -750,7 +960,7 @@ public class ExpertController implements Initializable {
         }
       return chaine;
      }
-     private void IntitLesElementsDeLaVue()
+    private void IntitLesElementsDeLaVue()
       {
           initTable();
     entites.setItems(FXCollections.observableList(listEntitite()));
@@ -759,7 +969,7 @@ public class ExpertController implements Initializable {
     comparateur.setItems(FXCollections.observableList(listComparateur()));
     
       }
-     private void initTable()
+    private void initTable()
     {
         numero.setCellValueFactory(new PropertyValueFactory<>("numero")); 
         identifiant.setCellValueFactory(new PropertyValueFactory<>("identifiantFait"));
@@ -769,7 +979,7 @@ public class ExpertController implements Initializable {
          placerBouton(detailsFait,2);
         listFaitConclusion.setItems(list);
     }
-     private List<String> listEntitite()
+    private List<String> listEntitite()
     {
     List<String> list=new ArrayList<>();
     
@@ -792,7 +1002,7 @@ public class ExpertController implements Initializable {
         list.add("Taille");
      return list;
     }
-     private List<String> listConnecteur()
+    private List<String> listConnecteur()
     {
     List<String> list=new ArrayList<>();
        
@@ -806,7 +1016,7 @@ public class ExpertController implements Initializable {
     {
     List<String> list=new ArrayList<>();
       
-         list.add("----Aucun Choix-----");
+        list.add("----Aucun Choix-----");
         list.add("Superieur");
         list.add("Superieur ou Egale");
         list.add("Inferieur");
@@ -1082,36 +1292,193 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                      Logger.getLogger(DetailsFaitController.class.getName()).log(Level.SEVERE, null, ex);
                  }
       }
+    
+     public void initialiserAjoutConclusion()
+     {
+             String text=conclusion.getText();
+           if(conclusionAjouter!=null)
+           {
+         if(text.contains(conclusionAjouter))
+         {
+              text=text.replaceAll(conclusionAjouter,"");
+              conclusion.setText(text);
+              fin=true;
+              compteurMax=0;
+         }
+         else
+         {
+        fin=true;
+        compteurMax=0;
+         }
+           }
+     }
      public void insererFaitExistant(regleFaitModel rgM)
       {
          //nous sommes a la fin nous l'inserons dans la conclusion et dans la progression
+        if(compteurMax<NOMBRE_MAX_DEDUCTION_TABLEAU)
+        {
             if(fin)
             {
-        String lettreFait=rgM.getlettreFait();
-        String conclusionPartielle=rgM.getConclusion();
+         String lettreFait=rgM.getlettreFait();
+         String conclusionPartielle=rgM.getConclusion();
+         conclusionAjouter="<"+conclusionPartielle+">";
          String concl=conclusion.getText();
+         
                  if(concl.isEmpty())
                  {
-              conclusion.setText("["+lettreFait+"]");
+              conclusion.setText("<"+conclusionPartielle+">");
                  }
                  else
                  {
-               conclusion.setText(concl.concat("\n"));
+                     concl=concl.concat("\n");
+               String nouveauText=concl.concat("<"+conclusionPartielle+">");
+               conclusion.setText(nouveauText);
                  }
-            }
-            //
-       else
-       // nous l'inserons dans la progression
-            {
-       String lettreFait=rgM.getlettreFait();
-       String conclusionPartielle=rgM.getConclusion();  
-       String text=affichageProgressif.getText();
-       affichageProgressif.setText(text.concat(lettreFait));
-       listSectionEnregistre.add(lettreFait);
-            }
+                  compteurMax++;
+            }  
+        }
+        else
+        {
+   //une alerte pour signifier que une seule regle existante est accordee   
+        }
       }
+     private Task ProccessusCreationRegle() {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+            EntityManager em=formulyTools.getEm().createEntityManager();
+              updateMessage("debut de la mise a jour ......");
+              updateProgress(15,100);
+          try {
+            em.getTransaction().begin(); 
+            regleFaitModel rgF=list.get(list.size()-1);
+            String id=retournerIdentifiant(rgF.getlettreFait());
+           String regleCmpletCmp=retournerRegleComplet(regle,id);
+           //creation de la regle
+           updateMessage("mise a jour des info de la regle...");
+              updateProgress(35,100);
+           FmRegle regle=new FmRegle();
+           regle.setId(dernierIdRegle);
+           regle.setNbreFaitDeclencher(1);
+           regle.setLibelleRegle(regleCmpletCmp);
+           regle.setDerniereModif(new Timestamp(new Date().getTime()));
+           String textRegle=affichageProgressif.getText();
+           textRegle=textRegle.replaceAll("ALORS","");
+           regle.setLibelleRegleClair(textRegle);
+          //fin de la mise a jour des info de la regle et debut creation du fait
+            FmFait fait=new FmFait();
+            updateMessage("mise a jour des info du fait engendré...");
+            updateProgress(35,100);
+            fait.setId(dernierIdFait);
+            fait.setDerniereModif(new Timestamp(new Date().getTime()));
+            fait.setLettreFait(id);
+            fait.setLibelleFait(conclusion.getText());
+         //fin de la mise a jour du fait nous allons creer FmRegleFait
+            updateMessage("mise a jour ...");
+            updateProgress(55,100);
+            FmRegleFait regleFait=new FmRegleFait();
+             regleFait.setId(dernierIdRegleFait);
+             regleFait.setFait(fait);
+             regleFait.setRegle(regle);
+            regleFait.setDerniereModif(new Timestamp(new Date().getTime()));
+         //fin mise a jour des elements actualistion des  informations
+              List<FmRegleFait> listFmRegle=new ArrayList<>();
+              listFmRegle.add(regleFait);
+              fait.setFmRegleFaitCollection(listFmRegle);
+            updateMessage("Debut de la persistence ...");
+            updateProgress(65,100);
+            //creation des elements
+              em.persist(fait);
+            updateMessage("persistence du fait ...");
+            updateProgress(75,100);
+            updateMessage("persistence de la regle ...");
+              em.persist(regle);
+            updateProgress(75,100);
+              em.persist(regleFait);
+            updateMessage("persistence des infos  ...");
+              updateProgress(90,100);
+              dernierIdFait++;
+              dernierIdRegle++;
+              dernierIdRegleFait++;
+              updateProgress(95,100);
+              //mise a jour des elements pour la table
+              regleFaitModelAjouter=new regleFaitModel(rgF.getNumero()+1,fait.getLettreFait(),fait.getLibelleFait(),1);
+              regleFaitModelAjouter.setFait(fait);
+              regleFaitModelAjouter.setListRegleFait(listFmRegle);
+              regleFaitModelAjouter.setIdentifiantFait(fait.getLettreFait());
+              list.add(regleFaitModelAjouter);
+              //listFaitConclusion.getItems().
+               updateProgress(100,100);
+           updateMessage("terminer");
+            
+           em.getTransaction().commit();
+          }catch (Exception e) {
+              System.out.println(""+e.getLocalizedMessage());
+              System.out.println(""+e.getMessage());
+              System.out.println(""+e.getCause().toString());
+              Logger.getLogger(ExpertController.class.getName()).log(Level.SEVERE, null, e);
+              updateMessage("erreur");
+          }
+        return true;
+      }
+    };
+  }
+     private void creationregle()
+         {
+              ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Mise a jour de votre Base de connaissance");
+               alert.show();
+               Task copyWorker =ProccessusCreationRegle();
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("erreur".equals(newValue))
+              {
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Erreur");
+               alert.setContentText("Une erreur est Survenue lors de l'operation causant un arret du processus \n"
+                       + " Veuillez reessayer SVP !!!!!!");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+              if("terminer".equals(newValue))
+              {
+               alert.setContentText("operation Reussie");
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                initialiserLesElementsDeConception();
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Fin Mise a jour ");
+               alert.setContentText("Connaissance acquise avec succes");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+              else{
+             alert.setContentText(newValue);   
+              }
+         }
+                });
+      new Thread(copyWorker).start();
+         }
+     private List<String> alphabet;
      private DetailsFaitController ctr_details;
      private FXMLLoader loader;
      private Stage st;
      private boolean fin=false;
+     private int compteurMax=0;
+     private regleFaitModel regleFaitModelAjouter;
 }
