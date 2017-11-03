@@ -6,7 +6,6 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.model.frontend.mainModel;
 import formuly.model.frontend.regleFaitModel;
 import java.io.IOException;
 import java.net.URL;
@@ -74,13 +73,10 @@ public class ExpertController implements Initializable {
 
     @FXML
     private TableView<regleFaitModel> listFaitConclusion;
-
     @FXML
     private TextArea conclusion;
-
     @FXML
     private TableColumn<regleFaitModel, Integer> nbreRegleApplicable;
-    
     @FXML
     private TableColumn<regleFaitModel, Integer> fait;
 
@@ -127,7 +123,8 @@ public class ExpertController implements Initializable {
       boolean b=  validiteCrochet(listSectionEnregistre);
         System.out.println(" res : "+b);
           System.out.println("nbreElement : "+listSectionEnregistre.size());
-        System.out.println("regle : "+retournerValeurFormater(listSectionEnregistreClair));
+       String regle=(b)?retournerValeurFormater(listSectionEnregistreClair):"Mal Formatage cause d'un crochet malveillant";
+        System.out.println("regle : "+regle);
     });
     }
     @Override
@@ -152,7 +149,7 @@ public class ExpertController implements Initializable {
           derniereChaineCaractere=nvoText;
           listSectionEnregistre.add(entite);
           listSectionEnregistreClair.add(elementClair);
-          List<String> operateurAuth=donnerComparateurManiereIntelligente(entite);
+         List<String> operateurAuth=donnerComparateurManiereIntelligente(entite);
          List<String> optionValeur=valeurAutorise(entite);
           comparateur.getItems().clear();
           comparateur.getItems().addAll(operateurAuth);    
@@ -233,8 +230,11 @@ public class ExpertController implements Initializable {
           listSectionEnregistre.add(text);
          //  System.out.println(" text "+text);
           listSectionEnregistreClair.add(text);
+          //nous allos verifier si il y a un crochet deja
+          boolean b=validiteCrochet(listSectionEnregistre);
         // derniereChaineCaractere=nvoText;
-          parenthese.setDisable(true);
+        
+          parenthese.setDisable(b);
           connecteur.setDisable(false);
           comparateur.setDisable(true);
           entites.setDisable(true);
@@ -250,12 +250,14 @@ public class ExpertController implements Initializable {
          String entite=(parenthese.getValue()!=null)?parenthese.getValue():"";
           if(!entite.isEmpty() && !entite.equals("----Aucun Choix-----"))
          {
+             System.out.println("parenthese:  "+entite);
          String textVolu=affichageProgressif.getText();
          String nvoText=textVolu.concat(entite);
            affichageProgressif.setText(nvoText+" ");
            nombreCaractere=textVolu.length();
            derniereChaineCaractere=nvoText;
            listSectionEnregistre.add(entite);
+          listSectionEnregistreClair.add(entite);
            parenthese.setDisable(true);
           connecteur.setDisable(false);
           comparateur.setDisable(true);
@@ -274,6 +276,7 @@ public class ExpertController implements Initializable {
               int nbre= listSectionEnregistre.size();
          nombreCaractere=affichageProgressif.getText().length();
          listSectionEnregistre.remove(nbre-1);
+         listSectionEnregistreClair.remove(nbre-1);
          affichageProgressif.setText(chaineOrdre());
          int tailleElment=ListComboBoxModifier.size();
           if(tailleElment>0)
@@ -335,17 +338,24 @@ public class ExpertController implements Initializable {
      boolean b=entite.contains(element);
       return b;
      }
+      private boolean ExistanceNiveauAge(String element)
+      {
+       boolean b;
+       List<String> nvage=retournerListeNiveauAge();
+       b=nvage.contains(element);
+       return b;
+      }
      private String retournerValeurFormater(ArrayList<String> listElementsPris)
      {
       String regle="";
-      
+       int i=0;
        for(String element:listElementsPris)
        {
            System.out.println("elemnt : "+element);
            boolean b=ExistenceDelimiteur(element);
          if(b)
          {
-            if(element.equals("]"))
+            if(element.contains("]") && listElementsPris.size()>(i+1))
             {
            regle=regle.concat("//");
              
@@ -358,7 +368,16 @@ public class ExpertController implements Initializable {
           {
          if(element.contains("OU"))
          {
-         regle=regle.concat("ou");
+         int vPrec=i-1;
+         int vSuiv=i+1; 
+         String precedent=listElementsPris.get(vPrec);
+         String suivant=listElementsPris.get(vSuiv);
+         boolean ctCrochetP=precedent.contains("]");
+         boolean ctCrochetS=suivant.contains("[");
+        if(ctCrochetP && ctCrochetS)
+        {
+        regle=regle.concat("");
+        }
          }
           if(element.contains("ET"))
          {
@@ -386,14 +405,83 @@ public class ExpertController implements Initializable {
                 }
                 else
                 {
+             boolean exAge=ExistanceNiveauAge(element);
+             String valeurAge="";
+               if(exAge)
+               {
+         valeurAge=retournerValeurJeune(element);
+          regle=regle.concat(valeurAge);
+               }
+               else{
+               boolean exSexe=ExistenceDeValeurSexe(element);
+               if(exSexe)
+               {
+               String valeurSexe=valeurEquivalentSexe(element);
+               regle=regle.concat(valeurSexe);
+               }
+               else
+               {
               regle=regle.concat(element);
+               }
+                 }
                 }
               }
            }
          }
-         
+         i++;
        }
       return regle;
+     }
+     private String retournerValeurJeune(String element)
+     {
+      String elmt="";
+      switch(element)
+      {
+          case "Jeune":
+          //age compri entre
+           elmt="3";
+          break;         
+         case "Enfant":
+          // age compri   entre 0 et 16 ans
+            elmt="1";
+              break;
+         case "Adolescent":
+          // age compri
+             elmt="2";
+              break;
+         case "Adulte":
+               elmt="4";
+              break;
+         case "Age avancé":
+              elmt="5";
+              break;
+      
+      }
+      return elmt;
+     }
+     private List<String> listSexe()
+     {
+      List<String> list=new ArrayList<>();
+      list.add("Masculin");
+      list.add("Feminin");
+       return list;
+     }
+     private boolean ExistenceDeValeurSexe(String element)
+     {
+      boolean b;
+      List<String> listSexe=listSexe();
+      b=listSexe.contains(element);
+      return b;
+     }
+     private List<String> retournerListeNiveauAge()
+     {
+         ArrayList<String> list=new ArrayList<>();
+       list.add("Enfant");
+       list.add("Adolescent");
+       list.add("Jeune");
+       list.add("Adulte");
+       list.add("Age avancé");
+       return list;
      }
      private List<String> valeurAutorise(String event)
      {
@@ -546,10 +634,10 @@ public class ExpertController implements Initializable {
          }
           System.out.println("nbre [ "+cptOuvr);
           System.out.println("nbre ] "+cptFer);
-//        if(cptOuvr!=cptFer)
-//        {
-//        b=false;
-//        }
+        if(cptOuvr!=cptFer)
+        {
+        b=false;
+        }
        return b;
      }
      private List<String> donnerComparateurManiereIntelligente(String event)
@@ -573,19 +661,17 @@ public class ExpertController implements Initializable {
      }
          return list;
      }
-     private String renvoyerChaineFormaterSexe(String sexeParticulier,String comparateurSelection)
+     private String valeurEquivalentSexe(String sexeParticulier)
      {
         String chaineSexeClient="";
          String op="";
         switch(sexeParticulier){
             case "Masculin":
-               op=retournerCorrespondanceComparateur(comparateurSelection,false);
-               chaineSexeClient="sex".concat(op+"0");
+               chaineSexeClient="0";
                 break;
-           case "Feminin":
-               op=retournerCorrespondanceComparateur(comparateurSelection,false);
-                chaineSexeClient="sex".concat(op+"1");
-                break;
+            case "Feminin":
+               chaineSexeClient="1";
+            break;
         }
         return chaineSexeClient;
      }
@@ -834,7 +920,7 @@ public class ExpertController implements Initializable {
              }
          return correspondance;
      }
-     private List<String> listParenthese()
+      private List<String> listParenthese()
     {
     List<String> list=new ArrayList<>();
     
@@ -846,7 +932,7 @@ public class ExpertController implements Initializable {
 
      return list;
     }
-       public void textConverter(TextField...textField)
+      public void textConverter(TextField...textField)
     {
     Pattern validEditingState = Pattern.compile("-?(([1-9][0-9]*)|0)?(\\.[0-9]*)?");
 
@@ -885,7 +971,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
   }
     
     }
-           public void placerBouton(TableColumn<regleFaitModel,String> colonne,int option)
+      public void placerBouton(TableColumn<regleFaitModel,String> colonne,int option)
     {
         if(option==1)
         {
