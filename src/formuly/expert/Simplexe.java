@@ -10,8 +10,7 @@ package formuly.expert;
  *
  * @author Mr_JYPY
  */
-public class Simplexe {
-    
+public class Simplexe {  
     /**
      * stipule le cas .permet de preciser quel algorithme on veut lancer
      */
