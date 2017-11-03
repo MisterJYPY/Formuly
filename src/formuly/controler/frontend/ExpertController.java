@@ -79,13 +79,10 @@ public class ExpertController implements Initializable {
     private TableColumn<regleFaitModel, Integer> nbreRegleApplicable;
     @FXML
     private TableColumn<regleFaitModel, Integer> fait;
-
     @FXML
     private Button enregistrer;
-
     @FXML
     private ComboBox<String> entites;
-
     @FXML
     private ComboBox<String> connecteur;
     @FXML
@@ -99,8 +96,7 @@ public class ExpertController implements Initializable {
     @FXML
     private Label mesure;
     @FXML 
-    private ImageView alert;
-    
+    private ImageView alert; 
     private ObservableList<regleFaitModel> list;
     private int nombreCaractere;
     private String uniteMesure="";
@@ -112,12 +108,12 @@ public class ExpertController implements Initializable {
     private  List<ComboBox<String>> ListComboBoxModifier=new ArrayList<>();
     
     
-    public ExpertController() {
+     public ExpertController() {
       list=formulyTools.getobservableListRegleFaitModel();
       listSectionEnregistre=new ArrayList<>();
       listSectionEnregistreClair=new ArrayList<>();
     }
-    public void lancerEnregistrement()
+     public void lancerEnregistrement()
     {
     enregistrer.setOnAction(event->{
       boolean b=  validiteCrochet(listSectionEnregistre);
@@ -128,7 +124,7 @@ public class ExpertController implements Initializable {
     });
     }
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+     public void initialize(URL url, ResourceBundle rb) {
         // TODO
        IntitLesElementsDeLaVue();
        traiterAction();
@@ -754,7 +750,7 @@ public class ExpertController implements Initializable {
         }
       return chaine;
      }
-    private void IntitLesElementsDeLaVue()
+     private void IntitLesElementsDeLaVue()
       {
           initTable();
     entites.setItems(FXCollections.observableList(listEntitite()));
@@ -763,7 +759,7 @@ public class ExpertController implements Initializable {
     comparateur.setItems(FXCollections.observableList(listComparateur()));
     
       }
-    private void initTable()
+     private void initTable()
     {
         numero.setCellValueFactory(new PropertyValueFactory<>("numero")); 
         identifiant.setCellValueFactory(new PropertyValueFactory<>("identifiantFait"));
@@ -773,7 +769,7 @@ public class ExpertController implements Initializable {
          placerBouton(detailsFait,2);
         listFaitConclusion.setItems(list);
     }
-    private List<String> listEntitite()
+     private List<String> listEntitite()
     {
     List<String> list=new ArrayList<>();
     
@@ -796,7 +792,7 @@ public class ExpertController implements Initializable {
         list.add("Taille");
      return list;
     }
-    private List<String> listConnecteur()
+     private List<String> listConnecteur()
     {
     List<String> list=new ArrayList<>();
        
@@ -891,7 +887,7 @@ public class ExpertController implements Initializable {
              }
          return correspondance;
      }
-      private String retournerCorrespondanceComparateur(String entites,boolean pourAffichage)
+     private String retournerCorrespondanceComparateur(String entites,boolean pourAffichage)
      {
          String correspondance="";
              switch (entites)
@@ -920,7 +916,7 @@ public class ExpertController implements Initializable {
              }
          return correspondance;
      }
-      private List<String> listParenthese()
+     private List<String> listParenthese()
     {
     List<String> list=new ArrayList<>();
     
@@ -932,7 +928,7 @@ public class ExpertController implements Initializable {
 
      return list;
     }
-      public void textConverter(TextField...textField)
+     public void textConverter(TextField...textField)
     {
     Pattern validEditingState = Pattern.compile("-?(([1-9][0-9]*)|0)?(\\.[0-9]*)?");
 
@@ -971,7 +967,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
   }
     
     }
-      public void placerBouton(TableColumn<regleFaitModel,String> colonne,int option)
+     public void placerBouton(TableColumn<regleFaitModel,String> colonne,int option)
     {
         if(option==1)
         {
@@ -1063,7 +1059,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         
         }
     }
-      public void lancerDetailsFait(regleFaitModel rgfait,Button btn)
+     public void lancerDetailsFait(regleFaitModel rgfait,Button btn)
       {
        
           try {
@@ -1086,7 +1082,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                      Logger.getLogger(DetailsFaitController.class.getName()).log(Level.SEVERE, null, ex);
                  }
       }
-      public void insererFaitExistant(regleFaitModel rgM)
+     public void insererFaitExistant(regleFaitModel rgM)
       {
          //nous sommes a la fin nous l'inserons dans la conclusion et dans la progression
             if(fin)
@@ -1114,8 +1110,8 @@ StringConverter<Double> converter = new StringConverter<Double>() {
        listSectionEnregistre.add(lettreFait);
             }
       }
-      private DetailsFaitController ctr_details;
-      private FXMLLoader loader;
-      private Stage st;
-      private boolean fin=false;
+     private DetailsFaitController ctr_details;
+     private FXMLLoader loader;
+     private Stage st;
+     private boolean fin=false;
 }
