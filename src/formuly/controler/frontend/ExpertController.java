@@ -332,20 +332,20 @@ public class ExpertController implements Initializable {
      boolean b=entite.contains(element);
       return b;
      }
-      private boolean ExistanceComparateur(String element)
+     private boolean ExistanceComparateur(String element)
      {
        List<String> entite=listComparateur();
      boolean b=entite.contains(element);
       return b;
      }
-      private boolean ExistanceNiveauAge(String element)
+     private boolean ExistanceNiveauAge(String element)
       {
        boolean b;
        List<String> nvage=retournerListeNiveauAge();
        b=nvage.contains(element);
        return b;
       }
-     private String retournerValeurFormater(ArrayList<String> listElementsPris)
+    private String retournerValeurFormater(ArrayList<String> listElementsPris)
      {
       String regle="";
        int i=0;
@@ -432,7 +432,7 @@ public class ExpertController implements Initializable {
        }
       return regle;
      }
-     private String retournerValeurJeune(String element)
+    private String retournerValeurJeune(String element)
      {
       String elmt="";
       switch(element)
