@@ -298,7 +298,7 @@ public class ExpertController implements Initializable {
     }
     public String retournerRegleComplet(String regle,String identifiantFaitDeclencher)
     {
-    String regleComplet=regle.concat(" ALORS ").concat(identifiantFaitDeclencher);
+    String regleComplet=regle.concat(" alors ").concat(identifiantFaitDeclencher);
     return regleComplet;
     }
     @Override

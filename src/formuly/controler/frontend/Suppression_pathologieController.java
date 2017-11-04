@@ -419,7 +419,7 @@ public final class Suppression_pathologieController implements Initializable {
         
       new Thread(copyWorker).start();
          }
-      public void placerBouton(TableColumn<pathologieModel,String> colonne,int option)
+     public void placerBouton(TableColumn<pathologieModel,String> colonne,int option)
     {
         if(option==1)
         {
@@ -509,7 +509,7 @@ public final class Suppression_pathologieController implements Initializable {
         
         }
     }
-      public void SupprimerPathologieExis(pathologieModel pat)
+     public void SupprimerPathologieExis(pathologieModel pat)
       {
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
           String message="NOM DE LA PATHOLOGIE : "+pat.getLibelle()+"\n"
@@ -529,7 +529,7 @@ public final class Suppression_pathologieController implements Initializable {
              SupprimerPathologie(pat);
                 }
       }
-        public void enregistrerAlimentDeuxPathologie(pathologieModel model,int index)
+     public void enregistrerAlimentDeuxPathologie(pathologieModel model,int index)
          {
               ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
@@ -589,7 +589,7 @@ public final class Suppression_pathologieController implements Initializable {
         
       new Thread(copyWorker).start();
          }
-        public void actionSurTable(TableView table)
+     public void actionSurTable(TableView table)
     {
    table.setOnMousePressed(new EventHandler<MouseEvent>() {
     @Override 
@@ -609,7 +609,7 @@ public final class Suppression_pathologieController implements Initializable {
       ObservableList<mainModel> listAliment=ListeAliments(l);
       initialiserTableauListeAliment(listAliment);
      }
-      public void initialiserTableauListeAliment(ObservableList<mainModel> liste)
+     public void initialiserTableauListeAliment(ObservableList<mainModel> liste)
      {
       nom_aliment.setCellValueFactory(new PropertyValueFactory<>("nom_aliment")); 
       aliment_numero.setCellValueFactory(new PropertyValueFactory<>("numero")); 
@@ -620,7 +620,7 @@ public final class Suppression_pathologieController implements Initializable {
        placerBoutonSuppresionAlimentPathologie();
        listeAliment.getItems().setAll(liste);
      }
-      public void placerBoutonSuppresionAlimentPathologie()
+     public void placerBoutonSuppresionAlimentPathologie()
       {  
       supAliment.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
   Callback<TableColumn<mainModel, String>, TableCell<mainModel, String>> cellFactory = new Callback<TableColumn<mainModel, String>, TableCell<mainModel, String>>() {      
@@ -662,7 +662,7 @@ public final class Suppression_pathologieController implements Initializable {
         };
          supAliment.setCellFactory(cellFactory);
       }
-         public Task ProccessusSupressionAlimentPathologie(mainModel models,int nbre) {
+     public Task ProccessusSupressionAlimentPathologie(mainModel models,int nbre) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
