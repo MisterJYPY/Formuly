@@ -87,7 +87,6 @@ public class formulyTools {
      */
     public static EntityManagerFactory getEm(String persistenceName)
     {
-         EntityManagerFactory   entityManagerFactoys ;
            if( entityManagerFactory ==null )
            {
           entityManagerFactory = Persistence.createEntityManagerFactory(persistenceName);
@@ -167,6 +166,17 @@ public class formulyTools {
       Query eqr=em.createNamedQuery("FmFaitConclusion.findAll");
          faitConcl=eqr.getResultList();
          
+        return faitConcl;
+    }
+        public static List<FmFait> Liste_Fait() 
+    {
+      List<FmFait> faitConcl;
+      EntityManager em=getEm().createEntityManager();
+      em.getTransaction().begin();
+   //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
+      Query eqr=em.createNamedQuery("FmFait.findAll");
+         faitConcl=eqr.getResultList();
+         em.getTransaction().commit();
         return faitConcl;
     }
         public static ArrayList<String> RecupererElementFichierFt(File files)
@@ -253,9 +263,25 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       {
         // List<String> myList = Files.lines(Paths.get("/formuly/expert/regle.txt")).collect(Collectors.toList());
           List<String> list=new ArrayList<>();
-         String parent=System.getProperty("user.dir");
-          File fichier=new File(parent+"/regle.txt");
-          list= RecupererElementFichierFt(fichier);
+      try{
+         EntityManager em=getEm().createEntityManager();
+          em.getTransaction().begin();
+          String nameQuery="FmRegle.findAll";
+          Query query =em.createNamedQuery(nameQuery);
+          List<FmRegle> lists = query.getResultList();
+          for(FmRegle elmt :lists)
+          {
+          list.add(elmt.getLibelleRegle());
+          }
+//         String parent=System.getProperty("user.dir");
+//          File fichier=new File(parent+"/regle.txt");
+//          list= RecupererElementFichierFt(fichier);
+          em.getTransaction().commit();
+      }
+      catch(Exception e)
+      {
+          System.out.println("execption rencontre : "+e.getLocalizedMessage());
+      }
           return list;
       }
     /**

@@ -105,7 +105,7 @@ public class dualSimplexe extends Simplexe{
   public boolean conditionArret()
     {
      boolean arret=true;
-     for(int i=0;i<nbreLigne;i++)
+     for(int i=0;i<nbreLigne-1;i++)
      {
        if(MatrixSuivant[i][nbreColonne-1]<0)
        {

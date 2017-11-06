@@ -115,11 +115,12 @@ public class Prog_lineaireController implements Initializable {
         private ObservableList<mainModel> obsListTable1 ;
         private final double [][] matrix;
         public static int Nombre_MAX_ALIMENT=50;
+         public static int Nombre_MAX_CONTRAINTE=5;
         private Simplexe simplexe;
     public Prog_lineaireController() {
         listeAliments=formulyTools.getobservableListMainModel();
          listeRecherche=listeAliments;
-           matrix=new double[4][Nombre_MAX_ALIMENT];    
+           matrix=new double[Nombre_MAX_CONTRAINTE][Nombre_MAX_ALIMENT];    
     }
        
        
@@ -298,21 +299,27 @@ public class Prog_lineaireController implements Initializable {
         matrix[1][nombreAliment]=lipideMax;
         matrix[2][nombreAliment]=protidMax;
         
-//        for(int cpt=0;cpt<=nombreAliment;i++)
-//      {
-//       double val=matrix[0][cpt];
-//       matrix[i][cpt]=-val;
-//      }
+        for(int cpt=0;cpt<=nombreAliment;cpt++)
+      {
+       double val=matrix[1][cpt];
+       double valLip=matrix[1][cpt];
+       double valPro=matrix[2][cpt];
+       matrix[3][cpt]=-val;
+      //   matrix[4][cpt]=-valLip;
+       // matrix[5][cpt]=-valPro;
+      }
+        
+        
       //enregistrement des coefficient de la fonction obdjective
         i=0;
        for(mainModel element:alimentsChoisi)
        {
        //chargement des prix unitaires
-        matrix[3][i]=Double.parseDouble(element.getPrixUnitaire());
+        matrix[4][i]=Double.parseDouble(element.getPrixUnitaire());
                 i++;
        } 
-        matrix[3][i]=0.0;
-       for(int j=0;j<=3;j++)
+        matrix[4][i]=0.0;
+       for(int j=0;j<=4;j++)
        {
            System.out.println("");
          for(int k=0;k<=nombreAliment;k++)
@@ -322,11 +329,12 @@ public class Prog_lineaireController implements Initializable {
            System.out.println("");
        }
        // System.out.println("taile tablà "+matrix.length);
-       simplexe=new Simplexe(4, nombreAliment+1);
+       simplexe=new Simplexe(5, nombreAliment+1,matrix);
      //  double[][] matrixDual=simplexe.retournerDual(matrix);
        
-       simplexe.setMatrixNouveau(matrix);
+      // simplexe.setMatrixNouveau(matrix);
        double[][] matrixSuivant=new double[nombreAliment+1][4];
+       
       // simplexe.setMatrixSuivant(matrixSuivant);
        //les valeurs en base et non en base
 //       String [] enbase=new String[nombreAliment+1];

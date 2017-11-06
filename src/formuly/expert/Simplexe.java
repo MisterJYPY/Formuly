@@ -94,7 +94,7 @@ public class Simplexe {
         this.nbreLigne = nbreLigne;
         this.nbreColonne = nbreColonne;
         this.MatrixNouveau = MatrixNouveau;
-        enBase=new String[nbreColonne];
+        enBase=new String[nbreLigne];
         nonEnBase=new String[nbreColonne];
         MatrixSuivant=new double[nbreLigne][nbreColonne];
         dual=new dualSimplexe(nbreLigne, nbreColonne);
@@ -261,6 +261,8 @@ public class Simplexe {
          {  
            dualLncer=true;
          dual.MatrixNouveau=MatrixNouveau;
+         dual.enBase=enBase;
+         dual.nonEnBase=nonEnBase;
          dual.algorithmeSimplexe();
          intialiserMatriceNvoDepuisLeDual();
          MatrixNouveau=dual.MatrixNouveau;
@@ -275,7 +277,7 @@ public class Simplexe {
     
        if(!declencheDual)
        {
-         res=extractionResult(MatrixNouveau);
+         res=extractionResult(dual.MatrixSuivant);
        }
        else{
        res=extractionResult(MatrixSuivant);

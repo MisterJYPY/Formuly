@@ -39,6 +39,7 @@ import formuly.classe.alimentRepasModel;
 import formuly.classe.bilanMacroNut;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
@@ -117,6 +118,7 @@ public class Select_the_foodsController implements Initializable {
     private List<FmFaitConclusion> listFaitConclusion;
     private List<String> listDesRegles;
     private outilsExpert expert;
+    private final List<FmFait> listFait;
     
 /**
  * constructeur non parametré qui intialement intialise les variables 
@@ -139,9 +141,11 @@ public class Select_the_foodsController implements Initializable {
         repasAlCtr=new FmRepasAlimentsJpaController(formulyTools.getEm());
         repasCont=new FmRepasJpaController(formulyTools.getEm());
         alimenCtr=new FmAlimentsJpaController(formulyTools.getEm());
-        listFaitConclusion=formulyTools.Liste_FaitConclusion();
+      //  listFaitConclusion=formulyTools.Liste_FaitConclusion();
+        listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
+       // expert.setListConclusion(listFaitConclusion);
        
     }
     /**

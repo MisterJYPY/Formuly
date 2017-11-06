@@ -5,6 +5,7 @@
  */
 package formuly.expert;
 
+import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class outilsExpert {
     private double sexeClient;
     private double regime1000;
     private String conclusion;
+    private List<FmFait> listeFait;
 /**
  * constructeur par defaut de la classe outil expert
  */
@@ -926,19 +928,29 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
      */
     private String retournerConclusion(String element) {
         String conclus="";
-      for(FmFaitConclusion fait :listConclusion)
+      for(FmFait fait :listeFait)
       {
-        String ligne=fait.getFait();
+          System.out.println("element : "+fait.getLettreFait());
+           System.out.println("element : "+fait.getLibelleFait());
+        String ligne=fait.getLettreFait();
         Pattern p = Pattern.compile(ligne);
         Matcher m = p.matcher(element);
         if(m.find())
         {
-         conclus=fait.getConclusion();
+         conclus=fait.getLibelleFait();
          break;
         }
       }
         
        return conclus;
+    }
+
+    public List<FmFait> getListeFait() {
+        return listeFait;
+    }
+
+    public void setListeFait(List<FmFait> listeFait) {
+        this.listeFait = listeFait;
     }
     
   //public 
