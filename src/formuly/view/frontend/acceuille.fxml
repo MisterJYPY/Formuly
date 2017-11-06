@@ -218,6 +218,7 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor></Button>
+                                    <Button fx:id="fermer" layoutX="52.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="102.0" text="Quitter" />
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>

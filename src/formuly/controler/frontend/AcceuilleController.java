@@ -58,11 +58,13 @@ public class AcceuilleController implements Initializable {
     @FXML private Button interditAlimentaire;
     @FXML private Button formulation;
     @FXML private Button expert;
+    @FXML  private Button fermer;
     private Stage st;
     private Formuly_calculController  fmCalcul;
      private ExpertController  fmexpert;
     private final int NOMBRE_BUTTON_MAX=7;
     private Button[] listBtn;
+    
     public AcceuilleController() {
         windowMteurCacul=null;
         //lisBtn=new Button[NOMBRE_BUTTON_MAX];
@@ -105,6 +107,9 @@ public class AcceuilleController implements Initializable {
        
      });
        // cat.setClip(lb);
+     fermer.setOnAction(event->{
+    // formulyTools.getEm().close();
+     });
     } 
       public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
     {
