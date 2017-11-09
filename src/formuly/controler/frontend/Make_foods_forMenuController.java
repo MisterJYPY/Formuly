@@ -41,6 +41,7 @@ import formuly.classe.bilanMacroNut;
 import formuly.model.frontend.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
@@ -134,6 +135,7 @@ public class Make_foods_forMenuController implements Initializable {
     private List<FmFaitConclusion> listFaitConclusion;
     private List<String> listDesRegles;
     private outilsExpert expert;
+    private List<FmFait> listFait;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
@@ -192,9 +194,12 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
-        expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+            listFait=formulyTools.Liste_Fait();
+            expert=new outilsExpert();
+            expert.setListeFait(listFait);
     }
         public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables)
     {
@@ -390,6 +395,7 @@ public class Make_foods_forMenuController implements Initializable {
             alert.setContentText("SEXE : Non Defini \n"
                     + " Age : Non defini \n"
                     + " Taille : Non defini \n"
+                     + "Poids : Non defini \n"
                     + " L'analyse se fera dans un cas general:"
                     + "Confirmer donc ");
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
@@ -416,6 +422,7 @@ public class Make_foods_forMenuController implements Initializable {
           expert.setPrcenLipide(retentionLipide);
           expert.setPrcentGlucide(retentionGlucide);
           expert.setPrcentProtide(retentionProtide);
+          
          }
      public void controlAnalyse()
      {

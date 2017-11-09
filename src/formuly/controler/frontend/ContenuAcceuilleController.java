@@ -66,28 +66,42 @@ public class ContenuAcceuilleController implements Initializable {
      ObservableList<XYChart.Data> BarChartList;
        ObservableList<XYChart.Data> LineChartList;
      List<String> pays ;
-    List<FmAliments> list=null;
+     List<FmAliments> list=null;
       XYChart.Series seriesBarChat ;
       XYChart.Series seriesLineChat ;
+     private int nbreAlr=0;
+   private int nbreAlimentInterdit=0;
+   private int nbrePatho=0;
+  private int nbreRepas=0;
+  private int nbreAlimentNonUtilisable=0;
+ private int nbreAlimentMenuInterdit=0;
    private  formulyTools   formul;
    // String [] pays=new String["General","Cote Ivoire","Ghana","Benin","Mali","Burkina Faso","Nigeria","Niger","Senegal","Gambie"];
     public ContenuAcceuilleController() {
-      seriesBarChat = new XYChart.Series();
-        BarChartList=FXCollections.observableArrayList();
-        pays=FXCollections.observableArrayList();
-          LineChartList=FXCollections.observableArrayList();
+         seriesBarChat = new XYChart.Series();
+         BarChartList=FXCollections.observableArrayList();
+         pays=FXCollections.observableArrayList();
+            LineChartList=FXCollections.observableArrayList();
             seriesLineChat = new XYChart.Series();
-           formul= new formulyTools();
+            nbreAlimentMenuInterdit=formulyTools.NbremenuAvecAlimentInterdit();
+          nbreAlr=formulyTools.NbreAlimentEnregistrer(1);
+            nbreAlimentInterdit=formulyTools.NbreAlimentInterdit();
+            nbrePatho=formulyTools.NbrePathologie();
+            nbreRepas=formulyTools.NbreRepasEffectuer();
+            nbreAlimentNonUtilisable=formulyTools.nbreAlimentNonUtilisable();
+           
+      //    formul= new formulyTools();
          //chargerDonner();
     }
     public void IntialiserLabel()
     {
-    nbreAlmtEnregistrer.setText(String.valueOf(formul.NbreAlimentEnregistrer()));
-    nbreAlmtInterdit.setText(String.valueOf(formul.NbreAlimentInterdit()));
-   nbrePathologieEnregistrer.setText(String.valueOf(formul.NbrePathologie()));
-     nbreMenu.setText(String.valueOf(formul.NbreRepasEffectuer()));
-    nbreAlmtNonEntierementEnregistrer.setText(String.valueOf(formul.nbreAlimentNonUtilisable()));
-   nbreMenuAvecAlimentInterdit.setText(String.valueOf(formul.NbremenuAvecAlimentInterdit()));
+       // System.out.println("nbreAliment : "+formulyTools.NbreAlimentEnregistrer(1));
+    nbreAlmtEnregistrer.setText(String.valueOf(nbreAlr));
+    nbreAlmtInterdit.setText(String.valueOf(nbreAlimentInterdit));
+   nbrePathologieEnregistrer.setText(String.valueOf( nbrePatho));
+   nbreMenu.setText(String.valueOf( nbreRepas));
+    nbreAlmtNonEntierementEnregistrer.setText(String.valueOf(nbreAlimentNonUtilisable));
+   nbreMenuAvecAlimentInterdit.setText(String.valueOf(nbreAlimentMenuInterdit));
     }
     public void chargerDonner()
     {
@@ -112,31 +126,32 @@ public class ContenuAcceuilleController implements Initializable {
              decoupe="Ngria";      
                    }
               
-                nbre=formul.AvoirNbreAlimentPays(nompay);
+                nbre=formulyTools.AvoirNbreAlimentPays(nompay);
                 BarChartList.add(new XYChart.Data(decoupe,nbre));
              }
              System.out.println("count :"+BarChartList.size());
              seriesBarChat.getData().addAll(BarChartList);
              bc.getData().addAll(seriesBarChat);
-             LineChartList.add(new XYChart.Data(1000,formul.NbrerepasFonctionRegime(1000.)));
-             LineChartList.add(new XYChart.Data(1500,formul.NbrerepasFonctionRegime(1500.)));
-             LineChartList.add(new XYChart.Data(2000,formul.NbrerepasFonctionRegime(2500.)));
-             LineChartList.add(new XYChart.Data(2500,formul.NbrerepasFonctionRegime(3000.)));
-             LineChartList.add(new XYChart.Data(3000,formul.NbrerepasFonctionRegime(3500.)));
-             LineChartList.add(new XYChart.Data(3500,formul.NbrerepasFonctionRegime(3500.)));
-            LineChartList.add(new XYChart.Data(5000,formul.NbrerepasFonctionRegime(5000.)));
-               LineChartList.add(new XYChart.Data(10000,formul.NbrerepasFonctionRegime(10000.)));
+             LineChartList.add(new XYChart.Data(1000,formulyTools.NbrerepasFonctionRegime(1000.)));
+             LineChartList.add(new XYChart.Data(1500,formulyTools.NbrerepasFonctionRegime(1500.)));
+             LineChartList.add(new XYChart.Data(2000,formulyTools.NbrerepasFonctionRegime(2500.)));
+             LineChartList.add(new XYChart.Data(2500,formulyTools.NbrerepasFonctionRegime(3000.)));
+             LineChartList.add(new XYChart.Data(3000,formulyTools.NbrerepasFonctionRegime(3500.)));
+             LineChartList.add(new XYChart.Data(3500,formulyTools.NbrerepasFonctionRegime(3500.)));
+            LineChartList.add(new XYChart.Data(5000,formulyTools.NbrerepasFonctionRegime(5000.)));
+               LineChartList.add(new XYChart.Data(10000,formulyTools.NbrerepasFonctionRegime(10000.)));
                 //seriesLineChat.getNode().getStyleClass().add("series-line");
              seriesLineChat.getData().addAll(LineChartList);
                 stick.getData().addAll(seriesLineChat);
-                formul.fermerConnection();
+                formulyTools.getEm().getCache().evictAll();
+              //  formul.fermerConnection();
     }
     
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-      IntialiserLabel();
+       IntialiserLabel();
         chargerDonner(); 
        
       

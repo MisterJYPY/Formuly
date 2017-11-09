@@ -41,39 +41,45 @@ public class RetentionAlments {
            FmRetentionNutriments retentionNutriment=null;
             FmRetentionVitamines retentionVitamine=null;
             FmRetentionMineraux retentionMineraux=null;
-            instance.rm=retentionMineraux ;
-            instance.rn=retentionNutriment;
-            instance.rvtm=retentionVitamine;
-          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
-          EntityManager emq=emf.createEntityManager();      
-          Query reqs=emq.createNamedQuery("FmRetentionMineraux.findByAliment");
-          Query reqnut=emq.createNamedQuery("FmRetentionNutriments.findByAliment");
-          Query reqvit=emq.createNamedQuery("FmRetentionVitamines.findByAliment");
-          reqs.setParameter("aliment",aliments);
-          reqnut.setParameter("aliment",aliments);
-          reqvit.setParameter("aliment",aliments);
+//            instance.rm=retentionMineraux ;
+//            instance.rn=retentionNutriment;
+//            instance.rvtm=retentionVitamine;
+//          EntityManagerFactory emf=formulyTools.getEm("fx_formulyPU" );
+//          EntityManager emq=emf.createEntityManager();      
+//          Query reqs=emq.createNamedQuery("FmRetentionMineraux.findByAliment");
+//          Query reqnut=emq.createNamedQuery("FmRetentionNutriments.findByAliment");
+//          Query reqvit=emq.createNamedQuery("FmRetentionVitamines.findByAliment");
+//          reqs.setParameter("aliment",aliments);
+//          reqnut.setParameter("aliment",aliments);
+//          reqvit.setParameter("aliment",aliments);
           
          //  if(reqs!=null){
-               List<Object> min=reqs.getResultList();
+             //  List<Object> min=reqs.getResultList();
               // System.out.println("mine"+min.size());
-               if(min.size()!=0)
-               {
-             instance.rm= retentionMineraux = (FmRetentionMineraux) reqs.getSingleResult();
-               }
-               min=null;
-               min=reqnut.getResultList();
-               // System.out.println("nutr"+min.size());
-            // }
-              if(min.size()!=0){
-           instance.rn=retentionNutriment= (FmRetentionNutriments) reqnut.getSingleResult();
-            }
-              min=null;
-              min=reqvit.getResultList();
-            //   System.out.println("vit"+min.size());
-             if(min.size()!=0){
-         instance.rvtm=retentionVitamine= (FmRetentionVitamines) reqvit.getSingleResult();        
-             }
-           emq.clear();
+//               if(min.size()!=0)
+//               {
+//             instance.rm= retentionMineraux = (FmRetentionMineraux) reqs.getSingleResult();
+//               }
+//               min=null;
+//               min=reqnut.getResultList();
+//               // System.out.println("nutr"+min.size());
+//            // }
+//              if(min.size()!=0){
+//           instance.rn=retentionNutriment= (FmRetentionNutriments) reqnut.getSingleResult();
+//            }
+//              min=null;
+//              min=reqvit.getResultList();
+//            //   System.out.println("vit"+min.size());
+//             if(min.size()!=0){
+//         instance.rvtm=retentionVitamine= (FmRetentionVitamines) reqvit.getSingleResult();        
+//             }
+            List<FmRetentionMineraux> lisM=(List<FmRetentionMineraux>) aliments.getFmRetentionMinerauxCollection();
+            List<FmRetentionNutriments> lisN=(List<FmRetentionNutriments>) aliments.getFmRetentionNutrimentsCollection();
+            List<FmRetentionVitamines> lisV=(List<FmRetentionVitamines>) aliments.getFmRetentionVitaminesCollection();
+            instance.rm=(lisM.size()>0)?lisM.get(0):null;
+            instance.rn=(lisN.size()>0)?lisN.get(0):null;
+            instance.rvtm=(lisV.size()>0)?lisV.get(0):null;
+           //emq.clear();
           
        return instance;
        
@@ -83,9 +89,9 @@ public class RetentionAlments {
    {
          // instance=null;
           List<RetentionAlments> retentionAl = null;
-          EntityManagerFactory emf=formulyTools.getEm();
-          EntityManager entityM=emf.createEntityManager(); 
-           entityM.getTransaction().begin();
+         // EntityManagerFactory emf=formulyTools.getEm();
+       EntityManager entityM=formulyTools.getEm().createEntityManager(); 
+       //    entityM.getTransaction().begin();
           Query reqAliment =entityM.createNamedQuery("FmAliments.findAll");//FmAliments.findByPays
           List<FmAliments> Aliments= reqAliment.getResultList();
           // List<FmAliments> Aliments=formulyTools.ListeAlimentUtilisable();
@@ -93,21 +99,19 @@ public class RetentionAlments {
             retentionAl=new ArrayList<>();
           for(FmAliments aliments: Aliments)
           {
-             // System.out.println("aliments: "+aliments.getNomFr());
+             System.out.println("aliments: "+aliments.getNomFr());
                RetentionAlments reta= getRetentionAliment(aliments);
-               
-//             if(reta.rm!=null && reta.rn!=null)
-//             {
-//                 
+                reta.aliments=aliments;
                  retentionAl.add(cpt,reta);
                 
                   cpt++;
          //    }
-          }      
-             entityM.getTransaction().commit();
+          }   
+//            entityM.clear();
+//            entityM.close();
+           //  entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());
-           entityM.clear();
-           entityM.close();
+           
            Aliments=null;
          return retentionAl;
    }

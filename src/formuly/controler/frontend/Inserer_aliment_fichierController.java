@@ -5,6 +5,8 @@
  */
 package formuly.controler.frontend;
 
+import formuly.Excel.Book;
+import formuly.Excel.ExcelReader;
 import formuly.classe.TooltipTableRow;
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
@@ -196,7 +198,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
     List<FmPathologie> listePathologie;
     List<String> listPays;
     ObservableList<String> ListmodeCuisson;
-   
+   private boolean EstfichierExcel;
     public Inserer_aliment_fichierController() {
          desktop = Desktop.getDesktop();
          fileChooser = new FileChooser();
@@ -205,6 +207,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
         ListmodeCuisson=modelFoodSelect.listeDesMode_cuissonss();
         listPays=initialiserPays();
         listeEnregistrer=formulyTools.TouteLaListeDesAliments();
+        EstfichierExcel=false;
       //  System.out.println("groupe: "+recupererGroupeParNomFichier(listeCategorie,"céréale"));
     }
     public void initialiserTab1(ObservableList<mainModel> model)
@@ -546,11 +549,11 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           mainModel mainModels = null;
           int numero=1;
           int derNierIdAliment=formulyTools.TrouverDernierIdentifiant_Aliment()+1;
-         int derNierIdentifiantNut=formulyTools.TrouverDernierIdentifiant_RetentionNutriment()+1; 
-         int dernierIdentifiantVit=formulyTools.TrouverDernierIdentifiant_RetentionVitamines()+1; 
-         int dernierIdentifianMin=formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1; 
-        int dernierIdentifiantPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1; 
-        int dernierIdentifiantAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
+          int derNierIdentifiantNut=formulyTools.TrouverDernierIdentifiant_RetentionNutriment()+1; 
+          int dernierIdentifiantVit=formulyTools.TrouverDernierIdentifiant_RetentionVitamines()+1; 
+          int dernierIdentifianMin=formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1; 
+          int dernierIdentifiantPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1; 
+          int dernierIdentifiantAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
                for(String ligne :donneeExtraiteTable)
                {
                 tabInfo=ligne.split("/");
@@ -832,15 +835,228 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                
            return list;
     }
+      public ObservableList<mainModel> remetreLalistesousFormeDecouper(List<Book> donneeExtraiteTable)
+    {
+           ObservableList<mainModel> list=FXCollections.observableArrayList();  
+          mainModel mainModels = null;
+          int numero=1;
+          int derNierIdAliment=formulyTools.TrouverDernierIdentifiant_Aliment()+1;
+          int derNierIdentifiantNut=formulyTools.TrouverDernierIdentifiant_RetentionNutriment()+1; 
+          int dernierIdentifiantVit=formulyTools.TrouverDernierIdentifiant_RetentionVitamines()+1; 
+          int dernierIdentifianMin=formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1; 
+          int dernierIdentifiantPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1; 
+          int dernierIdentifiantAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
+               for(Book ligne :donneeExtraiteTable)
+               {
+                  String nomFr;
+                  String nomEng;
+                  String surnom;
+                  String pays;
+                  String modeCuisson;
+                  String categorie;
+                  String pathologie;
+                  
+                //info sur l'aliment
+                    nomFr=ligne.getNomFr();
+                    categorie=ligne.getCategorie();
+                    modeCuisson=ligne.getModeCuisson();
+                    nomEng=ligne.getNomEng();
+                     surnom=ligne.getSurnom();
+                    pathologie="";
+                     pays=ligne.getPays();
+                
+                 //verification pour creer laliment
+                     FmAliments aliments=null;
+                     FmGroupeAliment grpe=null;
+                     FmPathologie pat=null;
+                     FmAlimentsPathologie fmp=null;
+                     boolean pathAinserer=false;
+                      if((nomFr.isEmpty() || categorie.isEmpty()) || (nomFr.isEmpty() && categorie.isEmpty()))continue;
+                     if(!nomFr.isEmpty() && !categorie.isEmpty())
+                     {
+           //on peut proccesser a a la creation mais en verifiant si la categorie existe
+                  grpe= recupererGroupeParNomFichier(listeCategorie,categorie);
+                      if(grpe!=null)
+                      {
+                       aliments=new FmAliments(derNierIdAliment);
+                       aliments.setGroupe(grpe);
+                       String code=grpe.getCode()+derNierIdAliment;
+                       aliments.setCode(code);
+                       aliments.setNomEng(nomEng);
+                       aliments.setSurnom(surnom);
+                       aliments.setNomFr(nomFr);
+                       String pa=donnerPays(listPays, pays);
+                       String pay=(!pa.isEmpty())?pa:pays;
+                       aliments.setPays(pays);
+                       String modeCuissons=recupererModecuissonParNomFichier(ListmodeCuisson,modeCuisson);
+                       aliments.setModeCuisson(modeCuissons);
+                       aliments.setDerniereModif(new Timestamp(new Date().getTime()));
+                        pat=recupererPathologieParNomFichier(listePathologie,pathologie);
+                      //verifiaction si la pathologie existe ou pas nous traitons le cas ou elle nexiste pas
+                      }
+                   if(aliments!=null)
+                   {
+                       String lipide;
+                String protide;
+                String glucide;
+                String energie;
+                String ash;
+                String eau;
+                String fibre;
+                
+                double lipides=ligne.getLipide();
+                double protides=ligne.getProtide();
+                double glucides=ligne.getGlucide();
+                double energies=ligne.getGlucide();
+                double ashs=ligne.getAsh();
+                double eaus=ligne.getEau();
+                double fibres=ligne.getFibre();
+                FmRetentionNutriments FmRn=null;
+         if(lipides>0.0 || glucides>0.0 || protides>0.0)
+                {
+             //a quel moment on cree l'entree de l'aliment  
+                    FmRn=new FmRetentionNutriments(derNierIdentifiantNut);
+                    FmRn.setAliment(aliments);
+                    FmRn.setAsh((float)ashs);
+                    FmRn.setEau((float)eaus);
+                    FmRn.setEnergieKcal((float)energies);
+                    FmRn.setFibre((float)fibres);
+                    FmRn.setLipide((float)lipides);
+                    FmRn.setProtein((float)protides);
+                    FmRn.setGlucide((float)glucides);
+                }
+                    //recuperation des info relatif a aux nutriments
+           if(FmRn!=null)
+           {
+     
+               double vitaa=ligne.getVita();
+               double vitb11=ligne.getVitb1();
+               double vitb22=ligne.getVitb2();
+               double vitb66=ligne.getVitb6();
+               double vitb122=ligne.getVitb12();
+               double vitcc=ligne.getVitc();
+               double  vitdd=ligne.getVitd();
+               double vitee=ligne.getVite();
+               double niacinee=ligne.getNiacine();
+               double folatess=ligne.getFolates();
+               double thiaminn=ligne.getThiamin();
+               double riboflavinn=ligne.getRiboflavin();
+               //creation de vitamines
+               FmRetentionVitamines FmRv=null;
+               FmRv=new FmRetentionVitamines(dernierIdentifiantVit);
+               FmRv.setAliment(aliments);
+               FmRv.setFolates((float)folatess);
+               FmRv.setNiacine((float)niacinee);
+               FmRv.setRiboflavin((float)riboflavinn);
+               FmRv.setThiamin((float)thiaminn);
+               FmRv.setVita((float)vitaa);
+               FmRv.setVitb1((float)vitb11);
+               FmRv.setVitb12((float)vitb122);
+               FmRv.setVitb2((float)vitb22);
+               FmRv.setVitb6((float)vitb66);
+               FmRv.setVitc((float)vitcc);
+               FmRv.setVitd((float)vitdd);
+               FmRv.setVite((float)vitee);
+               
+               //recuperation des informations pour les sells mineraux
+              //recuperation des info pour les sels mineraux
+              double caa=ligne.getCa();
+              double fee=ligne.getFer();
+              double mgg=ligne.getMg();
+              double phoss=ligne.getPhos();
+              double potas=ligne.getPota();
+              double naa=ligne.getNa();
+              double znn=ligne.getZn();
+              double cuu=ligne.getCu();
+              
+       FmRetentionMineraux FmRs=new FmRetentionMineraux(dernierIdentifianMin);
+              FmRs.setAliment(aliments);
+              FmRs.setCa((float)caa);
+              FmRs.setCu((float)cuu);
+              FmRs.setFe((float)fee);
+              FmRs.setMg((float)mgg);
+              FmRs.setNa((float)naa);
+              FmRs.setPhos((float)phoss);
+              FmRs.setPota((float)potas);
+              FmRs.setZn((float)znn);
+              
+                mainModels=new mainModel();
+                //enregistrement des objets
+                mainModels.setAliment(aliments);
+                mainModels.setFmpathologie(pat);
+                mainModels.setAlimentPathologie(fmp);
+                mainModels.setRetMin(FmRs);
+                mainModels.setRetNu(FmRn);
+                mainModels.setRetVit(FmRv);
+                //fin enregistrement des objets
+                mainModels.setPathologieAinsere(pathAinserer);
+                mainModels.setNumero(numero);
+                mainModels.setNa(naa);
+                mainModels.setNom_aliment(aliments.getNomFr());
+                mainModels.setNomEng(nomEng);
+                mainModels.setSurnom(aliments.getSurnom());
+                mainModels.setAsh(ashs);
+                mainModels.setCa(caa);
+                mainModels.setCategorie(grpe.getNomFr());
+                mainModels.setCloumPcGlucide(glucides);
+                mainModels.setCloumPclipide(lipides);
+                mainModels.setCloumPcprotide(protides);
+                mainModels.setCu(cuu);
+                mainModels.setEau(eaus);
+                mainModels.setEnergie(energies);
+                mainModels.setFer(fee);
+                mainModels.setFibre(fibres);
+                mainModels.setIdAliment(aliments.getId());
+                mainModels.setKa(potas);
+                mainModels.setMg(mgg);
+                mainModels.setMode_cuisson(aliments.getModeCuisson());
+                mainModels.setPathologie(pat.getLibelle());
+                mainModels.setPays(aliments.getPays());
+                mainModels.setPota(potas);
+                mainModels.setPhos(phoss);
+                mainModels.setZn(znn);
+                mainModels.setRiboflavin(riboflavinn);
+                mainModels.setThiamin(thiaminn);
+                mainModels.setVita(vitaa);
+                mainModels.setVitb1(vitb11);
+                mainModels.setVitb12(vitb122);
+                mainModels.setVitb2(vitb22);
+                mainModels.setVitb6(vitb66);
+                mainModels.setVitb9(folatess);
+                mainModels.setVitc(vitcc);
+                mainModels.setVitd(vitdd);
+                mainModels.setVite(vitee);
+                list.add(mainModels);
+                derNierIdAliment++;
+                derNierIdentifiantNut++;
+                dernierIdentifiantVit++;
+                dernierIdentifianMin++;
+                 if(fmp!=null)
+                 {
+                 dernierIdentifiantAlimentPathologie++;
+                 }
+                 if(pathAinserer)
+                 {
+                 dernierIdentifiantPathologie++;
+                 }
+                numero++;
+                     }
+                     }
+                     //recuperation des valeurs pour nutriment 
+                     }
+             }
+           return list;
+    }
   
             private static void configureFileChooser(
         final FileChooser fileChooser) {      
-             fileChooser.setTitle("Select de Fichier Aliment");
+             fileChooser.setTitle("Selection de fichier");
             fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
             );                 
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("TXT", "*.txt")
+                new FileChooser.ExtensionFilter("TXT", "*.txt"), 
+                    new FileChooser.ExtensionFilter("EXCEL", "*.xlsx")
             );
     }
            
@@ -851,9 +1067,25 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                     File file = fileChooser.showOpenDialog(stage);
                     ArrayList<String> info;
                      ArrayList<String> infoTrie;
-                     
+                     //String extension=file.
+                    
                     if (file != null) {
                        // openFile(file);
+                        String   nomFichiers=file.getName();
+                        String extension =nomFichiers.substring(nomFichiers.indexOf(".")).toLowerCase();
+                       if(extension.equals(".txt"))
+                       {
+                       EstfichierExcel=false;
+                         System.out.println("fichier txt");
+                       }
+                       else
+                       {
+                       if(extension.equals(".xlsx"))
+                       {
+                         EstfichierExcel=true;
+                           System.out.println("exel recuperer");
+                       }
+                       }
                         enregistrerAliment(file);
                     }
                    
@@ -888,6 +1120,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                alert.showAndWait();
                
               }
+              else{
                if("terminer rien".equals(newValue))
               { 
                 // registerThread.
@@ -903,25 +1136,23 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                alert.showAndWait();
                
               }
-               if("lecture".equals(newValue))
-              { 
-                // registerThread.
-               alert.setContentText("lecture du fichier ");    
-              }
-               if("fin lecture".equals(newValue))
-              { 
-                // registerThread.
-               alert.setContentText("traitement et recuperation des entrees valides ");    
-              }
-               if("trie".equals(newValue))
-              { 
-                // registerThread.
-               alert.setContentText("regroupement des Informations");    
-              }
-                if("affichage".equals(newValue))
-              { 
-                // registerThread.
-               alert.setContentText("Preparation pour l'affichage.....");    
+               else{
+                   if("erreur".equals(newValue))
+                   {
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+               alert.setGraphic(null);
+               alert.setTitle("Erreur rencontre");
+               alert.setContentText("Une erreur innatendue s'est produite lors :\n"
+                       + " de la lecture du fichier choisie  \n"
+                       + " Veuillez revoir le format du fichier et reessayer SVP !!!! ");
+               alert.getButtonTypes().setAll(ButtonType.FINISH);  
+               alert.showAndWait();     
+                   }
+                 else{
+              alert.setContentText(newValue)  ;
+                   }
+               }
               }
              
          }
@@ -937,39 +1168,76 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                      ArrayList<String> infoTrie;
    
           try {
-                     updateProgress(5, 10);
-                     updateMessage("lecture");
+              if(!EstfichierExcel)
+              {
+                     updateProgress(5, 100);
+                     updateMessage("Debut de la lecture du fichier ...");
                      Thread.sleep(90);
                      info=RecupererElementFichier(file);
-                     updateProgress(30, 10);
-                     updateMessage("fin lecture");
+                     updateProgress(30, 100);
+                     updateMessage("fin de la lecture");
                      Thread.sleep(50);
                      infoTrie=extraireInformationDsLeLot(info);
-                      updateProgress(40, 10);
-                     updateMessage("trie");
+                      updateProgress(40, 100);
+                     updateMessage("recuperation des informations non erronnées...");
                      Thread.sleep(50);
                      listeSaisie= remetreLalistesousFormeDecouper(infoTrie);
-                      updateProgress(70, 10);  
+                      updateProgress(70, 100);  
                       if(listeSaisie.size()>0)
                       {
+                    updateMessage("nous preparons l'affichage...");
                          listeEnregistrer=listeSaisie;
-                          updateProgress(80, 10); 
-                          updateMessage("affichage");
+                          updateProgress(80, 100); 
+                          updateMessage("Presque Fini");
                           Thread.sleep(30);
                         initialiserTab1(listeSaisie);
-                          updateProgress(100, 10);
+                          updateProgress(100, 100);
                           updateMessage("terminer");
                       }
                       else{
-                      updateProgress(30, 10);
+                      updateProgress(100, 100);
                       updateMessage("terminer rien");
                       }
+              }
+            else
+              {
+                   List<Book> listElement;
+                  updateProgress(5, 100);
+              updateMessage("Debut de la lecture du fichier....");
+                ExcelReader lecteurFichirM=new ExcelReader();
+                 updateProgress(9, 100);
+                 updateMessage("Recuperation des Information contenu dans le fichier...");       
+                listElement=lecteurFichirM.readBooksFromExcelFile(file);
+                 updateProgress(30, 100);
+                updateMessage("Extraction des Information Valides contenu dans le fichier...");
+                     Thread.sleep(20);
+               listeSaisie= remetreLalistesousFormeDecouper(listElement);
+             updateMessage("Preparation de certains elements pour l'affichage ...");
+                      updateProgress(50, 100);
+                     updateMessage("Re");
+                     Thread.sleep(10);
+                      updateProgress(70, 100);  
+                      if(listeSaisie.size()>0)
+                      {
+                         listeEnregistrer=listeSaisie;
+                          updateProgress(80, 100); 
+                          updateMessage("presque terminé .... ");
+                          Thread.sleep(30);
+                        initialiserTab1(listeSaisie);
+                          updateProgress(100, 100);
+                          updateMessage("terminer");
+                      }
+                      else{
+                      updateProgress(100, 10);
+                      updateMessage("terminer rien");
+                      }
+              }
           } catch (Exception e) {
+               updateMessage("erreur");  
+              System.out.println("une erreur produite : "+e.getLocalizedMessage());
+         Logger.getLogger(ExcelReader.class.getName()).log(Level.SEVERE, null, e);
+           
           }
-         
-         
-          
-      
         return true;
       }
     };

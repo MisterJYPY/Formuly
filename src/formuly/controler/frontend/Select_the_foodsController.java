@@ -115,6 +115,10 @@ public class Select_the_foodsController implements Initializable {
     private double aetGlucid;
     private double aetProti;
     private String conclusion;
+    private String sex;
+    private Double poids;
+    private Double taille;
+    private Double age ;
     private List<FmFaitConclusion> listFaitConclusion;
     private List<String> listDesRegles;
     private outilsExpert expert;
@@ -172,6 +176,7 @@ public class Select_the_foodsController implements Initializable {
             alert.setContentText("SEXE : Non Defini \n"
                     + " Age : Non defini \n"
                     + " Taille : Non defini \n"
+                      + "Poids : Non defini \n"
                     + " L'analyse se fera dans un cas general:"
                     + "LE FICHIER PROVIENT DE "+System.getProperty("user.dir"));
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);

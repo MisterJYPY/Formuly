@@ -77,7 +77,7 @@ public class formulyTools {
  */
     public formulyTools() {     
         entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
-        entityManger=entityManagerFactory.createEntityManager();
+        entityManger=Persistence.createEntityManagerFactory("fx_formulyPU").createEntityManager();
     }
      
     /**
@@ -311,51 +311,73 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         int nbre=0;
      List<FmAliments> ls=null;
   
-      String sql="SELECT f.id FROM fm_aliments f";
+      String sql="SELECT f.id,f.nom_eng,f.nom_fr,f.code,f.pays,f.surnom FROM fm_aliments f";
       Query eqr=entityManger.createNativeQuery(sql,FmAliments.class);
       ls=eqr.getResultList();
+       // entityManger.clear();
+       // entityManger.close();
+    
+    return nbre=ls.size();
+    }
+        public static int NbreAlimentEnregistrer(int n)
+    {
+        int nbre=0;
+     List<FmAliments> ls=null;
+  
+      String sql="FmAliments.findAll";
+      EntityManager em=getEm().createEntityManager();
+      Query eqr=em.createNamedQuery(sql);
+      ls=eqr.getResultList();
+      em.close();
     return nbre=ls.size();
     }
        /**
         * methode qui retourne le nombre de faitConcl effectuer 
         * @return un entier
         */
-         public int NbreRepasEffectuer()
+         public static int NbreRepasEffectuer()
     {
         int nbre=0;
-     List<FmRepas> ls=null;
-      String sql="SELECT f.id FROM fm_repas f";
-      Query eqr=entityManger.createNativeQuery(sql,FmRepas.class);
+      List<FmRepas> ls=null;
+       EntityManager em=getEm().createEntityManager();
+         em.getTransaction().begin();
+        String sql="FmRepas.findAll";
+//       String sql="SELECT f.id,f.libelle,f.energie,f.lipide,f.glucide,f.protide FROM fm_repas f ";
+//      Query eqr=em.createNativeQuery(sql,FmRepas.class);
+      Query eqr=em.createNamedQuery(sql);
       ls=eqr.getResultList();
-     
+      em.clear();
+         em.getTransaction().commit();
     return nbre=ls.size();
     }
     /**
      * methode qui retourne le nombre d'aliment Interdits
      * @return un entier
      */   
-         public  int NbreAlimentInterdit()
+         public  static int NbreAlimentInterdit()
     {
         int nbre=0;
+      EntityManager em=getEm().createEntityManager();
+      em.getTransaction().begin();
      List<FmAlimentsPathologie> ls=null;
       String sql="SELECT f.id FROM fm_aliments_pathologie f";
-      Query eqr=entityManger.createNativeQuery(sql,FmAlimentsPathologie.class);
+      Query eqr=em.createNativeQuery(sql,FmAlimentsPathologie.class);
       
       ls=eqr.getResultList();
-        
+         em.getTransaction().commit();
     return nbre=ls.size();
     }
        /**
         * methode qui retourne le nombre de pathologie enregistrée
         * @return un entier
         */  
-         public  int NbrePathologie()
+         public static int NbrePathologie()
     {
         int nbre=0;
      List<FmPathologie> ls=null;
-      
-      String sql="SELECT f.id FROM fm_pathologie f";
-      Query eqr=entityManger.createNativeQuery(sql,FmPathologie.class);
+       EntityManager em=getEm().createEntityManager();
+      String sql="FmPathologie.findAll";
+      Query eqr=em.createNamedQuery(sql);
       ls=eqr.getResultList();
        
     return nbre=ls.size();
@@ -364,27 +386,31 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           * methode qui retourne le nombre de menu avec aliment Interdit
           * @return 
           */
-         public int NbremenuAvecAlimentInterdit()
+         public static int NbremenuAvecAlimentInterdit()
     {
         int nbre=0;
+         EntityManager em=getEm().createEntityManager();
+      em.getTransaction().begin();
      List<FmAliments> ls=null;
       String sql="SELECT f.id FROM fm_repas f WHERE f.id IN (SELECT a.repas FROM fm_repas_aliments a WHERE a.aliment IN (SELECT p.aliment FROM fm_aliments_pathologie p))";
-      Query eqr=entityManger.createNativeQuery(sql,FmAliments.class);
+      Query eqr=em.createNativeQuery(sql,FmRepas.class);
       ls=eqr.getResultList();
+      em.getTransaction().commit();
     return nbre=ls.size();
     }
          /**
           * methode qui return le nombre d'aliment ou les valeurs en glucides ,lipide,protide sont toutes nulles ou non enregistré
           * @return un entier
           */
-     public int nbreAlimentNonUtilisable()
+     public static int nbreAlimentNonUtilisable()
     {
         int nbre=0;
      List<FmAliments> ls=null;
+     EntityManager em=getEm().createEntityManager();
       String sql="SELECT f.id FROM fm_aliments f Where f.id NOT IN (SELECT v.aliment From fm_retention_nutriments v)";
-      Query eqr=entityManger.createNativeQuery(sql,FmAliments.class);
+      Query eqr=em.createNativeQuery(sql,FmAliments.class);
       ls=eqr.getResultList();
-        
+   
     return nbre=ls.size();
     }
        /**
@@ -440,11 +466,11 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
          * @param regime
          * @return 
          */
-    public int NbrerepasFonctionRegime(Double regime)
+    public static int NbrerepasFonctionRegime(Double regime)
         {
        int nbre=0;
         List<FmRepas> ls=null;
-         
+          EntityManager em=getEm().createEntityManager();
            String sql="";
           if(regime<=1500){
            sql="SELECT f.id FROM fm_repas f WHERE f.energie<="+regime;
@@ -465,10 +491,9 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
        sql="SELECT f.id FROM fm_repas f WHERE f.energie<="+regime+" and f.energie>5000";     
             }
           
-      Query eqr=entityManger.createNativeQuery(sql,FmRepas.class);
+      Query eqr=em.createNativeQuery(sql,FmRepas.class);
       ls=eqr.getResultList();
        nbre=ls.size();
-        
        return nbre;
        }
     /**
@@ -504,12 +529,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
      * @param pays le pays conerné
      * @return 
      */
-    public  int AvoirNbreAlimentPays(String pays)
+    public  static int AvoirNbreAlimentPays(String pays)
     {
        int nbre=0;
        String sql="SELECT f.id FROM fm_aliments f WHERE f.pays='"+pays+"'";
-       
-       Query eqr=entityManger.createNativeQuery(sql,FmRepasAliments.class);
+       EntityManager em=getEm().createEntityManager();
+       Query eqr=em.createNativeQuery(sql,FmRepasAliments.class);
        List< FmAliments >aliment=eqr.getResultList();
        nbre=aliment.size();
        
@@ -872,16 +897,22 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
   {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
       mainModel mainM=null;
-     List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention();
-      if(retentionAliment!=null)
+      EntityManager em=formulyTools.getEm().createEntityManager();
+      Query reqAliment =em.createNamedQuery("FmAliments.findAll");//FmAliments.findByPays
+          List<FmAliments> Aliments= reqAliment.getResultList();
+      //List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention();
+      if(true)
       {
            int cpt=1;
-        for(RetentionAlments ret: retentionAliment)
+        for(FmAliments aliment: Aliments)
         {
-            FmAliments aliment=ret.getAliments();
-            FmRetentionMineraux mine=ret.getRm();
-            FmRetentionNutriments nutr=ret.getRn();
-            FmRetentionVitamines vit=ret.getRvtm();
+         //   FmAliments aliment=ret.getAliments();
+       List<FmRetentionMineraux> lisM=(List<FmRetentionMineraux>) aliment.getFmRetentionMinerauxCollection();
+       List<FmRetentionNutriments> lisN=(List<FmRetentionNutriments>) aliment.getFmRetentionNutrimentsCollection();
+       List<FmRetentionVitamines> lisV=(List<FmRetentionVitamines>) aliment.getFmRetentionVitaminesCollection();
+       FmRetentionMineraux mine=(lisM.size()>0)?lisM.get(0):null;
+       FmRetentionNutriments nutr=(lisN.size()>0)?lisN.get(0):null;
+        FmRetentionVitamines vit=(lisV.size()>0)?lisV.get(0):null;
 //             mainM=new mainModel(cpt,aliment.getNomFr(),null,(double)nutr.getGlucide(),null,(double)nutr.getLipide(),null, (double)nutr.getProtein(),null,(double)nutr.getEnergieKcal(),(double)mine.getFe(),(double)mine.getMg(),(double)mine.getNa(),(double)mine.getPota(), (double)vit.getVitc(),(double)vit.getVite(),null,(double)vit.getVita());
            // System.out.println(aliment.getSurnom());
             mainM=new mainModel(cpt,("aucun".equals(aliment.getSurnom()))?aliment.getNomFr():aliment.getSurnom(),(nutr==null)?0.0:nutr.getGlucide(),0.0,(nutr==null)?0.0:nutr.getLipide(),0.0,(nutr==null)?0.0:nutr.getProtein(),0.0,(nutr==null)?0.0:nutr.getEnergieKcal(),(mine==null)?0.0:mine.getFe(),(mine==null)?0.0:mine.getMg(),(mine==null)?0.0:mine.getNa(),(mine==null)?0.0:mine.getPota(),(vit==null)?0.0:vit.getVitc(),(vit==null)?0.0:vit.getVite(),(vit==null)?0.0:vit.getFolates(),(vit==null)?0.0:vit.getVita());
