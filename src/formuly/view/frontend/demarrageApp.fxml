@@ -7,8 +7,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.DemarrageAppController">
+<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="622.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.DemarrageAppController">
     <stylesheets>
-        <URL value="@/formuly/css/frontend/demarrageapp.css"/>
+        <URL value="@/formuly/css/frontend/demarrageapp.css" />
     </stylesheets>
+   <children>
+      <BorderPane prefHeight="40.0" prefWidth="622.0" />
+      <BorderPane layoutX="3.0" layoutY="357.0" prefHeight="74.0" prefWidth="614.0" />
+   </children>
 </AnchorPane>

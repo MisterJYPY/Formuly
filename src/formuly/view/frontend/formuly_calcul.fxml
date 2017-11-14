@@ -13,7 +13,7 @@
    <top>
       <AnchorPane prefHeight="55.0" prefWidth="871.0" BorderPane.alignment="CENTER">
          <children>
-            <Label id="info" alignment="CENTER" layoutX="205.0" layoutY="1.0" prefHeight="49.0" prefWidth="641.0" text="VOTRE ESPACE DE FORMULATION ALIMENTAIRE">
+            <Label id="info" alignment="CENTER" layoutX="205.0" layoutY="1.0" prefHeight="49.0" prefWidth="641.0" text="VOTRE BASE DE CALCUL ALIMENTAIRE">
                <font>
                   <Font size="14.0" />
                </font></Label>

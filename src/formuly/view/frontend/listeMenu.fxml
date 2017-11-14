@@ -13,7 +13,7 @@
    <top>
       <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" prefHeight="55.0" prefWidth="644.0" text="Veuillez Choisi un Menu dans la liste des Menu" textFill="#801b1b" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" prefHeight="55.0" prefWidth="644.0" text="Veuillez Choisir un Menu dans la liste des Menus" textFill="#801b1b" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Book Antiqua Bold" size="24.0" />
                </font>

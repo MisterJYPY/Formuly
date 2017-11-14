@@ -7,10 +7,8 @@ package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
 import formuly.entities.FmFait;
-import formuly.entities.FmPathologie;
 import formuly.entities.FmRegle;
 import formuly.entities.FmRegleFait;
-import formuly.model.frontend.pathologieModel;
 import formuly.model.frontend.regleFaitModel;
 import java.io.IOException;
 import java.net.URL;

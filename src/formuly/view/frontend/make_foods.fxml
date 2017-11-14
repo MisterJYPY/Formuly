@@ -13,7 +13,7 @@
    <top>
       <BorderPane prefHeight="64.0" prefWidth="1096.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" prefHeight="57.0" prefWidth="639.0" text="CONFECTION DE MENU DIETHETIQUE" textFill="#6b1b1b" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" prefHeight="57.0" prefWidth="639.0" text="CONFECTION DE MENU DIETETIQUE" textFill="#6b1b1b" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Arial Black" size="24.0" />
                </font></Label>
