@@ -99,7 +99,7 @@ public class RetentionAlments {
             retentionAl=new ArrayList<>();
           for(FmAliments aliments: Aliments)
           {
-             System.out.println("aliments: "+aliments.getNomFr());
+            // System.out.println("aliments: "+aliments.getNomFr());
                RetentionAlments reta= getRetentionAliment(aliments);
                 reta.aliments=aliments;
                  retentionAl.add(cpt,reta);

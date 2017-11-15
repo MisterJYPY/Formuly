@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,12 +8,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="622.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="formuly.controler.frontend.DemarrageAppController">
-    <stylesheets>
-        <URL value="@/formuly/css/frontend/demarrageapp.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" prefHeight="356.0" prefWidth="572.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/demarrageapp.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane prefHeight="40.0" prefWidth="622.0" />
-      <BorderPane layoutX="3.0" layoutY="357.0" prefHeight="74.0" prefWidth="614.0" />
+      <ImageView fitHeight="182.0" fitWidth="521.0" layoutX="67.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/FoodsCreator.png" />
+         </image>
+      </ImageView>
+      <Label id="info1" layoutX="10.0" layoutY="2.0" prefHeight="25.0" prefWidth="551.0" text="         Votre outil de formulation ,de confection de menu diététique est en cours de chargement ..... " />
+      <ProgressBar fx:id="barProgression" layoutX="68.0" layoutY="290.0" prefHeight="18.0" prefWidth="437.0" progress="0.0" />
+      <Label id="indication" fx:id="infop" layoutX="74.0" layoutY="263.0" prefHeight="17.0" prefWidth="425.0" text="    nous chargeons votre espace de calcul , veuillez patientez svp ........." />
+      <Label id="autheur" layoutX="252.0" layoutY="324.0" prefHeight="18.0" prefWidth="300.0" text="Nanou kakou Jean-paul   nanoukakoujp@gmail.com" />
+      <Label id="info2" layoutX="87.0" layoutY="36.0" prefHeight="25.0" prefWidth="398.0" text="Pratique et personnalisé il vous aidera dans vos prises de décisions " />
+      <ImageView fitHeight="25.0" fitWidth="43.0" layoutX="456.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/logoStaTPf.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="33.0" layoutX="68.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/unaPti.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -856,6 +856,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
            // System.out.println(aliment.getSurnom());
             mainM=new mainModel(cpt,("aucun".equals(aliment.getSurnom()))?aliment.getNomFr():aliment.getSurnom(),String.valueOf(100.0),(nutr==null)?0.0:nutr.getGlucide(),0.0,(nutr==null)?0.0:nutr.getLipide(),0.0,(nutr==null)?0.0:nutr.getProtein(),0.0,(nutr==null)?0.0:nutr.getEnergieKcal(),(mine==null)?0.0:mine.getFe(),(mine==null)?0.0:mine.getMg(),(mine==null)?0.0:mine.getNa(),(mine==null)?0.0:mine.getPota(),(vit==null)?0.0:vit.getVitc(),(vit==null)?0.0:vit.getVite(),(vit==null)?0.0:vit.getFolates(),(vit==null)?0.0:vit.getVita());
             mainM.setNumero(cpt);
+         //   mainM.setSurnom((aliment.getSurnom().equals("aucun") || aliment.getSurnom().isEmpty())?aliment.getSurnom():"aucun");
             mainM.setIdAliment(aliment.getId());
             mainM.setNom_aliment(aliment.getNomFr());
             mainM.setPays(aliment.getPays());
@@ -863,6 +864,27 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             mainM.setCategorie(aliment.getGroupe().getNomFr());
             mainM.setNomEng(aliment.getNomEng());
             mainM.setPathologie(searchAlimentPathologie(aliment));
+            mainM.setEau(Double.parseDouble((nutr!=null && nutr.getEau()!=null)?preformaterChaine(nutr.getEau().toString()):"0.0"));
+            mainM.setAsh(Double.parseDouble((nutr!=null && nutr.getAsh()!=null)?preformaterChaine(nutr.getAsh().toString()):"0.0"));
+            mainM.setCa(Double.parseDouble((mine!=null && mine.getCa()!=null)?preformaterChaine(mine.getCa().toString()):"0.0"));
+            mainM.setFer(Double.parseDouble((mine!=null && mine.getFe()!=null)?preformaterChaine(mine.getFe().toString()):"0.0"));
+            mainM.setMg(Double.parseDouble((mine!=null && mine.getMg()!=null)?preformaterChaine(mine.getMg().toString()):"0.0"));
+            mainM.setPhos(Double.parseDouble((mine!=null && mine.getPhos()!=null)?preformaterChaine(mine.getPhos().toString()):"0.0"));
+            mainM.setPota(Double.parseDouble((mine!=null && mine.getPota()!=null)?preformaterChaine(mine.getPota().toString()):"0.0"));
+            mainM.setNa(Double.parseDouble((mine!=null && mine.getNa()!=null)?preformaterChaine(mine.getNa().toString()):"0.0"));
+            mainM.setVita(Double.parseDouble((vit!=null && vit.getVita()!=null)?preformaterChaine(vit.getVita().toString()):"0.0"));
+            mainM.setVitb1(Double.parseDouble((vit!=null && vit.getVitb1()!=null)?preformaterChaine(vit.getVitb1().toString()):"0.0"));
+            mainM.setVitb12(Double.parseDouble((vit!=null && vit.getVitb12()!=null)?preformaterChaine(vit.getVitb12().toString()):"0.0"));
+            mainM.setVitb6(Double.parseDouble((vit!=null && vit.getVitb6()!=null)?preformaterChaine(vit.getVitb6().toString()):"0.0"));
+            mainM.setVitb9(Double.parseDouble((vit!=null && vit.getFolates()!=null)?preformaterChaine(vit.getFolates().toString()):"0.0"));
+            mainM.setCu(Double.parseDouble((mine!=null && mine.getCu()!=null)?preformaterChaine(mine.getCu().toString()):"0.0"));
+            mainM.setFibre(Double.parseDouble((nutr!=null && nutr.getFibre()!=null)?preformaterChaine(nutr.getFibre().toString()):"0.0"));  
+            mainM.setRiboflavin(Double.parseDouble((vit!=null && vit.getRiboflavin()!=null)?preformaterChaine(vit.getRiboflavin().toString()):"0.0"));  
+            mainM.setVitc(Double.parseDouble((vit!=null && vit.getVitc()!=null)?preformaterChaine(vit.getVitc().toString()):"0.0"));  
+            mainM.setVitd(Double.parseDouble((vit!=null && vit.getVitd()!=null)?preformaterChaine(vit.getVitd().toString()):"0.0"));   
+            mainM.setVite(Double.parseDouble((vit!=null && vit.getVite()!=null)?preformaterChaine(vit.getVite().toString()):"0.0"));   
+            mainM.setThiamin(Double.parseDouble((vit!=null && vit.getThiamin()!=null)?preformaterChaine(vit.getThiamin().toString()):"0.0"));  
+            mainM.setZn(Double.parseDouble((mine!=null && mine.getZn()!=null)?preformaterChaine(mine.getZn().toString()):"0.0"));  
             inf.add(mainM);
             cpt++;
         }
@@ -877,13 +899,14 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
     */
    public static String searchAlimentPathologie(FmAliments aliment)
    {
-     String pat="";
+       String pat="";
       Query qer=getEm().createEntityManager().createNamedQuery("FmAlimentsPathologie.findByAliment");
         qer.setParameter("aliment",aliment);
        List<FmAlimentsPathologie> list=qer.getResultList();
+      
           for(FmAlimentsPathologie alp:list)
-          {
-          pat=pat.concat(alp.getPathologie().getLibelle()+" ,\n");
+          {          
+          pat=pat.concat((alp!=null && alp.getPathologie()!=null )?alp.getPathologie().getLibelle()+" ,\n":" \n");
           }
      return pat;
    }

@@ -207,7 +207,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
         ListmodeCuisson=modelFoodSelect.listeDesMode_cuissonss();
         listPays=initialiserPays();
         listeEnregistrer=formulyTools.TouteLaListeDesAliments();
-        EstfichierExcel=false;
+        //EstfichierExcel=false;
       //  System.out.println("groupe: "+recupererGroupeParNomFichier(listeCategorie,"céréale"));
     }
     public void initialiserTab1(ObservableList<mainModel> model)
