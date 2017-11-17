@@ -57,7 +57,7 @@ public class DemarrageAppController implements Initializable {
    }
    public void positionnerAcceuille()
    {
-      Task copyWorker = lancerAcceuille();
+          Task copyWorker = lancerAcceuille();
           barProgression.progressProperty().unbind();
           barProgression.progressProperty().bind(copyWorker.progressProperty());
         
@@ -127,9 +127,12 @@ public class DemarrageAppController implements Initializable {
            Thread.sleep(15);
           updateMessage("terminer");
           }
-         catch(Exception e)
+         catch(Exception ex)
       {
           updateMessage("erreur");
+            Logger.getLogger(DemarrageAppController.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
       }
         return true;
       

@@ -107,7 +107,7 @@ public class Inserer_pathologieAlimentsController implements Initializable {
    {
           try {
                     
-        ((BorderPane)(principal.getCenter())).getChildren().clear();
+          ((BorderPane)(principal.getCenter())).getChildren().clear();
             center.getChildren().clear();
                FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_pathologie.fxml"));
                   loader.setController(new Inserer_pathologieController());

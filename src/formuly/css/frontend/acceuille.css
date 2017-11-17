@@ -330,3 +330,15 @@
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
+.dump
+{
+    -fx-cursor: hand;
+    -fx-text-fill: orange;
+     -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-color: 
+        #3c7fb1,
+        linear-gradient(#fafdfe, #e8f5fc),
+        linear-gradient(#ffffcc 0%, whitesmoke 49%, #bee6fd 50%, #ffffcc 100%);
+       -fx-alignement:center;
+}

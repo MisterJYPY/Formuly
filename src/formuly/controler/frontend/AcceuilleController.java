@@ -5,12 +5,25 @@
  */
 package formuly.controler.frontend;
 
+import formuly.Excel.ExcelTools;
 import formuly.classe.formulyTools;
+import formuly.entities.FmAliments;
+import formuly.entities.FmAlimentsPathologie;
+import formuly.entities.FmPathologie;
+import formuly.entities.FmRetentionMineraux;
+import formuly.entities.FmRetentionNutriments;
+import formuly.entities.FmRetentionVitamines;
+import formuly.model.frontend.mainModel;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,14 +32,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -59,6 +80,10 @@ public class AcceuilleController implements Initializable {
     @FXML private Button formulation;
     @FXML private Button expert;
     @FXML  private Button fermer;
+    @FXML private Label dumpLabelIndicator;
+    @FXML private ProgressBar dumpProgressIndicator;
+    @FXML private MenuItem telecharerAlimentItem;
+
     private Stage st;
     private Formuly_calculController  fmCalcul;
      private ExpertController  fmexpert;
@@ -76,7 +101,30 @@ public class AcceuilleController implements Initializable {
        return btns;
      }
     
-    
+    public void ActionDumpageFoods()
+    {
+    telecharerAlimentItem.setOnAction(e->{
+     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de Telechargement");
+            alert.setHeaderText("Voulez vous vraiment lancer le téléchargment \n");
+            alert.setContentText("NB: Le processus est irreversible  \n"
+                    + "CONFIRMER L'OPERATION SVP ?");
+               Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png")
+      );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+//           Stage stage = (Stage) quitter.getScene().getWindow();
+              // stage.close();
+          List<FmAliments> list=formulyTools.listeAliment();
+         ExcelTools.cas=1;
+         ExcelTools exlT=new ExcelTools();
+         exlT.DumpFoodsDataBase(list, dumpProgressIndicator,dumpLabelIndicator);
+        }      
+    });
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -103,14 +151,197 @@ public class AcceuilleController implements Initializable {
      });
      expert.setOnMouseClicked(event->{
       String urls="/formuly/view/frontend/expert.fxml";
-       LancerExpert(urls) ;
-       
+     LancerExpert(urls) ;
+     //  lancerExpert(urls);
      });
        // cat.setClip(lb);
      fermer.setOnAction(event->{
     // formulyTools.getEm().close();
      });
+     dumpLabelIndicator.setVisible(false);
+     dumpProgressIndicator.setVisible(false);
+     ActionDumpageFoods();
     } 
+      public Task createExpertWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+            
+          try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            fmexpert=new ExpertController();
+            loader.setController(fmexpert);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             updateProgress(9,10);
+            updateMessage("presque terminé patientez juste un peu SVP...");
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+               updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+            
+             }
+
+        return true;
+      }
+    };
+  }
+      public Task createNewFoodsWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          try {
+            updateMessage("debut du traitement....");
+            updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            updateMessage("chargement des modules supplémentaires...");
+            updateProgress(8,10);
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("presque terminé patientez juste un peu SVP...");
+             Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+               updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+            
+             }
+
+        return true;
+      }
+    };
+    
+  }
+        public Task createPathologieWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            ctr_patAliment=new Inserer_pathologieAlimentsController();
+            loader.setController(ctr_patAliment);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("presque terminé patientez juste un peu SVP...");
+             Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+            
+             }
+
+        return true;
+      }
+    };
+    
+  }
+         public Task createInserFoodsForFileWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            ctr_inserAlimentFichier=new Inserer_aliment_fichierController();
+            loader.setController(ctr_inserAlimentFichier);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
+           public Task createInserFoodsWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            ctr_inserAliment=new Inserer_alimentController();
+            loader.setController(ctr_inserAliment);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
       public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
     {
          btn.getStyleClass().clear();
@@ -155,21 +386,59 @@ public class AcceuilleController implements Initializable {
                      Logger.getLogger(Liste_alimentsController.class.getName()).log(Level.SEVERE, null, ex);
                  }
     }
-    public void chargerPanelRepas() throws IOException
+    public void chargerPanelRepas(String url) throws IOException
     {
-             
-         FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(getClass().getResource("/formuly/view/frontend/make_foods.fxml"));
-         Parent root = loader.load();
-         controllerSelectionFoods= loader.getController();
-         st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("formuly Foods Selector");
-         st.initOwner(faireRepas.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         
-         st.showAndWait();
-       //  return st;
+          ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createNewFoodsWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Easy Foods Créator");
+            st.initOwner(expert.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });     
+      new Thread(copyWorker).start();
        
       }
       public void afficherFentre(String url) 
@@ -183,7 +452,7 @@ public class AcceuilleController implements Initializable {
             Parent root = loader.load();
             st=new Stage();
             st.setScene(new Scene(root));
-            st.setTitle("formuly Foods Selector");
+            st.setTitle("base de calcul");
             st.initOwner(formulation.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
             
@@ -197,47 +466,52 @@ public class AcceuilleController implements Initializable {
        public void LancerExpert(String url) 
     {
              
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(url));
-            fmexpert=new ExpertController();
-            loader.setController(fmexpert);
-            Parent root = loader.load();
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de l'expert");
+               alert.show();
+               Task copyWorker =createExpertWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
             st=new Stage();
             st.setScene(new Scene(root));
             st.setTitle("Votre Expert");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
-            
+              alert.close();
             st.showAndWait();
-            //  return st;
-        } catch (IOException ex) {
-            Logger.getLogger(AcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+              }
+              else{
+             alert.setContentText(newValue);   
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
        
       }
      public void actionFenetreSelectionFoods()
   {
-   faireRepas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
-    new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent e) {
-            try {
-               
-//                faireRepas.getScene().setCursor(javafx.scene.Cursor.WAIT);
-//                st.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
-//               
-//                
-//                st.showAndWait();
-//                faireRepas.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
-//              //  st=new Stage();
-                chargerPanelRepas();
-               // mettreAction();
-            } catch (IOException ex) {
-                Logger.getLogger(MainPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-});
+     faireRepas.setOnMouseClicked(e->{
+         try {
+             String url="/formuly/view/frontend/make_foods.fxml";
+             chargerPanelRepas(url);
+         } catch (IOException ex) {
+             Logger.getLogger(AcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+     });
         MenuAvecMenuExistant.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
@@ -248,18 +522,21 @@ public class AcceuilleController implements Initializable {
        enregistrer_aliment.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-             InsertionAliment();
+             String url="/formuly/view/frontend/inserer_aliment.fxml";
+             InsertionAliment(url);
              }
          }); 
       enregistrer_aliment_fichier.setOnAction(event->{
-        InsertionAliment_Fichier();
+          String url="/formuly/view/frontend/inserer_aliment_fichier.fxml";
+        InsertionAliment_Fichier(url);
       });
     moteurCalcul.setOnAction(event->{
         LancerMoteur();
         //  miseAjourCouleurBtn(moteurCalcul, listBtn, NOMBRE_BUTTON_MAX);
       });
     interditAlimentaire.setOnAction(event->{
-      lancerGestionInterditAlimentaire();
+        String url="/formuly/view/frontend/inserer_pathologieAliments.fxml";
+      lancerGestionInterditAlimentaire(url);
      //  miseAjourCouleurBtn(moteurCalcul, listBtn, NOMBRE_BUTTON_MAX);
     });
   }
@@ -278,23 +555,57 @@ public class AcceuilleController implements Initializable {
                      Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
-         public void InsertionAliment()
+         public void InsertionAliment(String url)
    {
-          try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_aliment.fxml"));
-               ctr_inserAliment=new Inserer_alimentController();
-               loader.setController(ctr_inserAliment);
-           Parent root = (Parent)loader.load(); 
-                 st=null;
-               st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("Insertion Aliment");
-         st.initOwner(enregistrer_aliment.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         st.showAndWait();
-          } catch (IOException ex) {
-                     Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+           ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createInserFoodsWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Enter Foods");
+            st.initOwner(expert.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+              else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur ");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
    }
                 public void LancerMoteur()
    {
@@ -320,40 +631,112 @@ public class AcceuilleController implements Initializable {
        windowMteurCacul.showAndWait();
        }
    }
-              public void InsertionAliment_Fichier()
+              public void InsertionAliment_Fichier(String url)
    {
-          try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_aliment_fichier.fxml"));
-               ctr_inserAlimentFichier=new Inserer_aliment_fichierController();
-               loader.setController(ctr_inserAlimentFichier);
-           Parent root = (Parent)loader.load(); 
-                 st=null;
-               st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("Insertion Aliment");
-         st.initOwner(enregistrer_aliment_fichier.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         st.showAndWait();
-          } catch (IOException ex) {
-                     Logger.getLogger(Inserer_aliment_fichierController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+           ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createInserFoodsForFileWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Enter Foods For File");
+            st.initOwner(expert.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+             else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
    }
-    private void lancerGestionInterditAlimentaire() {
-      try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/inserer_pathologieAliments.fxml"));
-               ctr_patAliment=new Inserer_pathologieAlimentsController();
-               loader.setController( ctr_patAliment);
-           Parent root = (Parent)loader.load(); 
-                 st=null;
-               st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("Insertion Aliment");
-         st.initOwner(interditAlimentaire.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         st.showAndWait();
-          } catch (IOException ex) {
-                     Logger.getLogger(Inserer_pathologieAlimentsController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+    private void lancerGestionInterditAlimentaire(String url) {
+          ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createPathologieWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Gerer vos pathologie");
+            st.initOwner(expert.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
     }
        public void placerContenuAcceuille()
    {
@@ -375,6 +758,7 @@ public class AcceuilleController implements Initializable {
     private Moteur_calculController ctr_moteur;
     private Inserer_pathologieAlimentsController ctr_patAliment;
     private Stage windowMteurCacul;
+    private Parent root;
 
     
 }

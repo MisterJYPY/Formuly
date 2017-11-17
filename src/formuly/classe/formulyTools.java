@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -800,6 +801,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             inf.add(mainM);
             cpt++;
         }
+        
       }
      return inf;
   }  
@@ -891,6 +893,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       }
      return inf;
   }  
+     public static String getUserName() {
+        String userName = null;
+        Properties infoSysteme = System.getProperties();
+        userName = infoSysteme.getProperty("user.name");
+        return userName;
+    }
    /**
     * donne sous forme de chaine de caractere (avec des concatenations) la liste de toutes les 
     * pathologies concernée par ce aliment (interdit alimentaire)
@@ -909,6 +917,16 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           pat=pat.concat((alp!=null && alp.getPathologie()!=null )?alp.getPathologie().getLibelle()+" ,\n":" \n");
           }
      return pat;
+   }
+   public static List<FmAliments> listeDesAlimentsBase()
+   {
+        List<FmAliments> Aliments;
+      EntityManager em=formulyTools.getEm().createEntityManager();
+      Query reqAliment =em.createNamedQuery("FmAliments.findAll");//FmAliments.findByPays
+       Aliments= reqAliment.getResultList();
+       em.clear();
+       em.close();
+       return Aliments;
    }
    /**
     * cette methode est en fait une surchage mqui prends un parametre qui en realité n'est pas 

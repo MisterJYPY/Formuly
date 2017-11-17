@@ -6,7 +6,7 @@
 package formuly.controler.frontend;
 
 import formuly.Excel.Book;
-import formuly.Excel.ExcelReader;
+import formuly.Excel.ExcelTools;
 import formuly.classe.TooltipTableRow;
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
@@ -1204,7 +1204,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                    List<Book> listElement;
                   updateProgress(5, 100);
               updateMessage("Debut de la lecture du fichier....");
-                ExcelReader lecteurFichirM=new ExcelReader();
+                ExcelTools lecteurFichirM=new ExcelTools();
                  updateProgress(9, 100);
                  updateMessage("Recuperation des Information contenu dans le fichier...");       
                 listElement=lecteurFichirM.readBooksFromExcelFile(file);
@@ -1235,7 +1235,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           } catch (Exception e) {
                updateMessage("erreur");  
               System.out.println("une erreur produite : "+e.getLocalizedMessage());
-         Logger.getLogger(ExcelReader.class.getName()).log(Level.SEVERE, null, e);
+         Logger.getLogger(ExcelTools.class.getName()).log(Level.SEVERE, null, e);
            
           }
         return true;

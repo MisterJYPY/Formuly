@@ -111,7 +111,7 @@ public class RetentionAlments {
 //            entityM.close();
            //  entityM.getTransaction().commit();
           //   System.out.println("nbre element: "+retentionAl.size());
-           
+           formulyTools.getEm().getCache().evict(FmAliments.class);
            Aliments=null;
          return retentionAl;
    }
