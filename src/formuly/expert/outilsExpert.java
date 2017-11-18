@@ -25,6 +25,7 @@ public class outilsExpert {
     private double regime1000;
     private String conclusion;
     private List<FmFait> listeFait;
+    private String typePersonne;
 /**
  * constructeur par defaut de la classe outil expert
  */
@@ -32,12 +33,13 @@ public class outilsExpert {
         lesFaitsTrouver=new ArrayList<>();
         init_valeur();
     }
-    public void init_valeur()
+    public final void init_valeur()
     {
      this.poidsClient=-2;
      this.ageClient=-2;
      this.sexeClient=-2;
      this.tailleclient=-2;
+     this.typePersonne="Général";
     }
 /**
  * constructeur parametre
@@ -72,6 +74,7 @@ public class outilsExpert {
         this.regime4500 = regime4500;
         this.EnergieTotale = EnergieTotale;
     }
+    
 public outilsExpert(double AetLipide, double AetProide, double AetGlucide, double prcentGlucide, double prcentProtide, double prcenLipide, double regime1000,double regime1500, double regime2000, double regime2500, double regime3000, double regime3500, double EnergieTotale) {
         this.AetLipide = AetLipide;
         this.AetProide = AetProide;
@@ -791,6 +794,14 @@ public outilsExpert(double AetLipide, double AetProide, double AetGlucide, doubl
 
     public void setPrcentProtide(double prcentProtide) {
         this.prcentProtide = prcentProtide;
+    }
+
+    public String getTypePersonne() {
+        return typePersonne;
+    }
+
+    public void setTypePersonne(String typePersonne) {
+        this.typePersonne = typePersonne;
     }
 
     public double getPrcenLipide() {

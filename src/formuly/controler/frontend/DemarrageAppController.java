@@ -10,9 +10,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -75,6 +77,8 @@ public class DemarrageAppController implements Initializable {
                   st.getIcons().add(image);
                   Stage stage = (Stage) barProgression.getScene().getWindow();
                   stage.close();
+//                AcceuilleController controller = loader.getController();
+//                  st.setOnHidden(e -> controller.shutdown());
                   st.showAndWait();
               }
               else{
@@ -139,6 +143,7 @@ public class DemarrageAppController implements Initializable {
       }
     };
   }
+
        private boolean estVisible;
        private AcceuilleController acceuille;
        private Stage st;

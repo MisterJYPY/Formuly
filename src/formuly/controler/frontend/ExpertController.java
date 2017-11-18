@@ -665,10 +665,10 @@ public class ExpertController implements Initializable {
      }
     private List<String> listSexe()
      {
-      List<String> list=new ArrayList<>();
-      list.add("Masculin");
-      list.add("Feminin");
-       return list;
+      List<String> lists=new ArrayList<>();
+      lists.add("Masculin");
+      lists.add("Feminin");
+       return lists;
      }
     private boolean ExistenceDeValeurSexe(String element)
      {
@@ -679,13 +679,13 @@ public class ExpertController implements Initializable {
      }
     private List<String> retournerListeNiveauAge()
      {
-         ArrayList<String> list=new ArrayList<>();
-       list.add("Enfant");
-       list.add("Adolescent");
-       list.add("Jeune");
-       list.add("Adulte");
-       list.add("Age avancé");
-       return list;
+         ArrayList<String> lists=new ArrayList<>();
+       lists.add("Enfant");
+       lists.add("Adolescent");
+       lists.add("Jeune");
+       lists.add("Adulte");
+       lists.add("Age avancé");
+       return lists;
      }
     private List<String> valeurAutorise(String event)
      {

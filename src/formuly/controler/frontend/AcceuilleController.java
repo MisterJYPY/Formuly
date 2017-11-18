@@ -20,12 +20,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,6 +49,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.persistence.EntityManager;
 
 /**
@@ -165,7 +168,30 @@ public class AcceuilleController implements Initializable {
      dumpLabelIndicator.setVisible(false);
      dumpProgressIndicator.setVisible(false);
      ActionDumpageFoods();
-    } 
+    }
+      public void shutdown() {
+        // cleanup code here...
+       Alert al= new Alert(Alert.AlertType.CONFIRMATION);
+       al.showAndWait();
+       al.getButtonTypes().addAll(ButtonType.OK,ButtonType.CANCEL);
+          if(al.getResult()==ButtonType.OK)
+          {
+          traiterFermerture();
+          }
+    }
+       private void traiterFermerture()
+  {
+//       Alert alerts =new Alert(Alert.AlertType.CONFIRMATION);
+//       alerts.setHeaderText("fermerture de Formuly");
+//       alerts.setContentText("voulez vraiment fermer l'application ? \n"
+//               + " ");
+//       alerts.getButtonTypes().addAll(ButtonType.OK,ButtonType.CANCEL);
+//       alerts.showAndWait();
+//       if(alerts.getResult()==ButtonType.OK)
+//       {
+        Platform.exit();
+      // }
+  }
       public Task createExpertWorker(String url) {
     return new Task() {
       @Override
@@ -201,7 +227,7 @@ public class AcceuilleController implements Initializable {
       }
     };
   }
-      public Task createNewFoodsWorker(String url) {
+        public Task createNewFoodsWorker(String url) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
@@ -326,6 +352,42 @@ public class AcceuilleController implements Initializable {
             updateProgress(4,10);
             ctr_inserAliment=new Inserer_alimentController();
             loader.setController(ctr_inserAliment);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
+           public Task createCalculBaseWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            fmCalcul=new Formuly_calculController();
+            loader.setController(fmCalcul);
             updateProgress(6,10);
             updateMessage("chargement des modules supplémentaires...");
              root = loader.load();
@@ -566,25 +628,56 @@ public class AcceuilleController implements Initializable {
       }
       public void afficherFentre(String url) 
     {
-             
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(url));
-            fmCalcul=new Formuly_calculController();
-            loader.setController(fmCalcul);
-            Parent root = loader.load();
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createCalculBaseWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
             st=new Stage();
             st.setScene(new Scene(root));
-            st.setTitle("base de calcul");
-            st.initOwner(formulation.getScene().getWindow());
+            st.setTitle("Base de calcul");
+            st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
-            
+              alert.close();
             st.showAndWait();
-            //  return st;
-        } catch (IOException ex) {
-            Logger.getLogger(AcceuilleController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });     
+      new Thread(copyWorker).start();
       }
        public void LancerExpert(String url) 
     {

@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -46,11 +47,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -1386,4 +1389,84 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
              liste.get(i).setNumero(liste.get(i).getNumero()-1);
               }
          }
+      public static void textsConverter(TextField...textField)
+    {
+    Pattern validEditingState = Pattern.compile("-?(([1-9][0-9]*)|0)?(\\.[0-9]*)?");
+
+UnaryOperator<TextFormatter.Change> filter = c -> {
+    String text = c.getControlNewText();
+    if (validEditingState.matcher(text).matches()) {
+        return c ;
+    } else {
+        return null ;
+    }
+};
+
+StringConverter<Double> converter = new StringConverter<Double>() {
+
+    @Override
+    public Double fromString(String s) {
+        if (s.isEmpty() || "-".equals(s) || ".".equals(s) || "-.".equals(s)) {
+            return 0.0 ;
+        } else {
+            return Double.valueOf(s);
+        }
+    }
+
+
+    @Override
+    public String toString(Double d) {
+        return d.toString();
+    }
+};
+
+
+  for(TextField tf: textField)
+  {
+  TextFormatter<Double> textFormatter = new TextFormatter<>(converter, 0.0, filter);
+  tf.setTextFormatter(textFormatter);
+  }
+    
+    }
+        public static String DonnerEquivalenceAge(String element)
+     {
+      String elmt="";
+      switch(element)
+      {
+          case "Jeune":
+          //age compri entre
+           elmt="3";
+          break;         
+         case "Enfant":
+          // age compri   entre 0 et 16 ans
+            elmt="1";
+              break;
+         case "Adolescent":
+          // age compri
+             elmt="2";
+              break;
+         case "Adulte":
+               elmt="4";
+              break;
+         case "Age avancé":
+              elmt="5";
+              break;
+      
+      }
+      return elmt;
+     }
+          public static String DonnerEquivalenceSexe(String sexeParticulier)
+     {
+        String chaineSexeClient="";
+         String op="";
+        switch(sexeParticulier){
+            case "Masculin":
+               chaineSexeClient="0";
+                break;
+            case "Feminin":
+               chaineSexeClient="1";
+            break;
+        }
+        return chaineSexeClient;
+     }
 }

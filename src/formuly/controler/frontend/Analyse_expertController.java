@@ -188,10 +188,11 @@ public class Analyse_expertController implements Initializable {
         this.reg2500 = expert.getRegime2500();
         this.reg3000 = expert.getRegime3000();
         this.reg3500 = expert.getRegime3500();
-//        this.sex = (int) expert.getSexeClient();
-//        this.poid = expert.getPoidsClient();
-//       // this.taill = expert.gettailleClient();
-//        this.ages = expert.getAgeClient(); 
+        this.sex = (int) expert.getSexeClient();
+        this.poid = expert.getPoidsClient();
+        this.taill = expert.getTailleclient();
+        this.ages = expert.getAgeClient(); 
+        this.typePersonne=expert.getTypePersonne();
         this.analys = expert.getConclusion();
 //       listConclusion=formulyTools.Liste_FaitConclusion();
 //       expert.setListConclusion(listConclusion);
@@ -216,10 +217,11 @@ public class Analyse_expertController implements Initializable {
      regime2500.setText(format.format(reg2500)+" % ");
      regime3000.setText(format.format(reg3000)+" % ");
      regime3500.setText(format.format(reg3500)+" % ");
-    poids.setText((poid>0)?format.format(poid)+" Kg ":"Non Def");
-    age.setText((ages>0)?format.format(ages)+" Ans":"Non Def");
-    taille.setText((taill>0)?format.format(taill)+" m ":"Non Def");
-    sexe.setText((sex>0)?donnerSexe(sex):"ND");
+    poids.setText((poid>0)?format.format(poid)+" Kg ":"Général");
+   // age.setText((ages>0)?format.format(ages)+" Ans":"Non Def");
+    age.setText(typePersonne);
+    taille.setText((taill>0)?format.format(taill)+" m ":"Général");
+    sexe.setText((sex>=0)?donnerSexe(sex):"Grl");
     analys=expert.getConclusion();
     this.resultAnalyse.setText(!(analys.isEmpty())?analys:"Aucune Interpretation valide pour ce menu");
     }
@@ -234,7 +236,7 @@ public class Analyse_expertController implements Initializable {
     public String donnerSexe(int valeur)
     {
         String sexs;
-      return  sexs=(valeur>0)?(valeur==1)?"M":(valeur==2)?"F":"Err":"ND";
+      return  sexs=(valeur>=0)?(valeur==0)?"M":(valeur==1)?"F":"Err":"ND";
     
     }
     @Override
@@ -546,6 +548,14 @@ public class Analyse_expertController implements Initializable {
     public void setAnalys(String analys) {
         this.analys = analys;
     }
+
+    public String getTypePersonne() {
+        return typePersonne;
+    }
+
+    public void setTypePersonne(String typePersonne) {
+        this.typePersonne = typePersonne;
+    }
     
     private double aetLipid;
     private double aetProti;
@@ -564,5 +574,7 @@ public class Analyse_expertController implements Initializable {
     private double poid;
     private double taill;
     private double ages;
+    private String typePersonne;
     private String analys;
+    
 }
