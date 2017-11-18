@@ -1047,16 +1047,14 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
              }
            return list;
     }
-  
-            private static void configureFileChooser(
-        final FileChooser fileChooser) {      
-             fileChooser.setTitle("Selection de fichier");
+      private static void configureFileChooser(final FileChooser fileChooser) {      
+             fileChooser.setTitle("fichier depuis Formuly V.0.1");
             fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
-            );                 
+            );    
+            fileChooser.getExtensionFilters().clear();
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("TXT", "*.txt"), 
-                    new FileChooser.ExtensionFilter("EXCEL", "*.xlsx")
+                new FileChooser.ExtensionFilter("TXT ou Excel ", "*.txt","*.xlsx")
             );
     }
            

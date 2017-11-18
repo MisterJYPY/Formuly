@@ -224,7 +224,8 @@ public class Modifier_menuController implements Initializable {
                             btn.setOnAction(event -> {
                                 try {
                                     repasModel aliment= getTableView().getItems().get(getIndex());
-                                    chargerPanelRepas(btn,aliment,getIndex());
+                                   String urls="/formuly/view/frontend/make_foods_forMenu.fxml";
+                                    chargerPanelRepas(btn,aliment,getIndex(),urls);
                                 } catch (IOException ex) {
                                     Logger.getLogger(Modifier_menuController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -434,27 +435,100 @@ public class Modifier_menuController implements Initializable {
         detailAliment=listDesAliment(repas);
         tableAliment.setItems(detailAliment);
     }
-     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas,int indexTableau) throws IOException
-    {
-            detailAliment.clear();
-            detailAliment=listDesAliment(modelRepas);
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/make_foods_forMenu.fxml"));
-        // loader.setLocation();
-        // ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment);
-           int taille=bilanList.size();
-         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille,modelRepas.getRepas(),indexTableau,bilanList);
-         loader.setController(ctrMakeFoods);
-          Parent root = loader.load();
-         st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("formuly Foods Selector");
-         st.initOwner(faireRepas.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         
-         st.showAndWait();
+     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas,int indexTableau,String url) throws IOException
+    {      
+           ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createUpdateFoodsForMenuWorker(faireRepas, modelRepas, indexTableau,url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Update Foods");
+            st.initOwner(faireRepas.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });     
+      new Thread(copyWorker).start();
        //  return st;
        
       }
+       public Task createUpdateFoodsForMenuWorker(Button faireRepas,repasModel modelRepas,int indexTableau,String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+              detailAliment.clear();
+            updateMessage("Chargement des liste....");
+            detailAliment=listDesAliment(modelRepas);
+             updateProgress(2,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(3,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+             int taille=bilanList.size();
+            ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille,modelRepas.getRepas(),indexTableau,bilanList);
+            loader.setController( ctrMakeFoods);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(Modifier_menuController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
        public void ControlSupprimerMenu(repasModel model,int nbre)
      {
       Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
@@ -790,6 +864,6 @@ public class Modifier_menuController implements Initializable {
   }
    private Make_foods_forMenuController ctrMakeFoods;
    private Stage st;   
-
+   private Parent root;
     
 }

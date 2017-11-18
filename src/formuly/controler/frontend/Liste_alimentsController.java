@@ -6,9 +6,7 @@
 package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
-import formuly.model.frontend.pathologieModel;
 import formuly.entities.FmAliments;
-import formuly.entities.FmPathologie;
 import formuly.model.frontend.mainModel;
 import java.io.IOException;
 import java.net.URL;
@@ -127,8 +125,9 @@ public class Liste_alimentsController implements Initializable {
                         } else {
                             btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
-                     mainModel aliment= getTableView().getItems().get(getIndex());      
-                             lancerFentreModif(aliment,btn,getIndex());
+                     mainModel aliment= getTableView().getItems().get(getIndex());  
+                     String urls="/formuly/view/frontend/modifier_info_aliment.fxml";
+                             lancerFentreModif(aliment,btn,getIndex(),urls);
                             });
                         
 //                            btn.setOnMouseDragOver(event->{
@@ -194,24 +193,56 @@ public class Liste_alimentsController implements Initializable {
         
         }
     }
-    public void lancerFentreModif(mainModel model,Button btn,int index)
+    public void lancerFentreModif(mainModel model,Button btn,int index,String url)
           {
-      Stage st=null;
-          try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/modifier_info_aliment.fxml"));
-      Modifier_info_alimentController    ctr_inserAliment=new Modifier_info_alimentController(model,table1,index);
-               loader.setController(ctr_inserAliment);
-           Parent root = (Parent)loader.load(); 
-                 st=null;
-               st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("modification Aliment");
-         st.initOwner(btn.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         st.showAndWait();
-          } catch (IOException ex) {
-                     Logger.getLogger(Modifier_info_alimentController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+           ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createUpdateFoodsWorker(model, btn, index,url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Update Foods");
+            st.initOwner(btn.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });     
+      new Thread(copyWorker).start();
           }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -366,4 +397,46 @@ public class Liste_alimentsController implements Initializable {
     };
   }
         
+
+        public Task createUpdateFoodsWorker(mainModel model,Button btn,int index,String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            updateMessage("debut du traitement....");
+             updateProgress(2,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(3,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+          ctr_inserAliment=new Modifier_info_alimentController(model,table1,index);
+               loader.setController(ctr_inserAliment);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(Modifier_menuController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
+        private   Modifier_info_alimentController   ctr_inserAliment;
+        private   Parent root;
+        private Stage st;
 }

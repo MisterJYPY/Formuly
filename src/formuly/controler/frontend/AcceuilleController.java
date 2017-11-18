@@ -136,12 +136,16 @@ public class AcceuilleController implements Initializable {
         accordGauche.setExpandedPane(paneGauche);
         accordDroite.setExpandedPane(paneDroite);
         listAliment.setOnAction(event->{
-           placerListAliment();
+        String urlLi="/formuly/view/frontend/liste_aliments.fxml";
+         //  placerListAliment(urlLi);
+           placeInStageMiddle(urlLi);
             miseAjourCouleurBtn(listAliment, listBtn, NOMBRE_BUTTON_MAX);
         });
      modifierMenu.setOnAction(event->{
-      String urls="/formuly/view/frontend/modifier_menu.fxml";
-         placerVue(urls);
+//      String urls="/formuly/view/frontend/modifier_menu.fxml";
+//         placerVue(urls);
+        String urlLi="/formuly/view/frontend/modifier_menu.fxml";
+           placeInStageMiddle(urlLi);
      miseAjourCouleurBtn(modifierMenu, listBtn, NOMBRE_BUTTON_MAX);
      });
      formulation.setOnAction(event->{
@@ -342,6 +346,42 @@ public class AcceuilleController implements Initializable {
     };
     
   }
+           public Task createPutInMidlleWorker(String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+        // loader.setLocation(getClass().getResource("/formuly/view/frontend/liste_aliments.fxml"));
+       //  Parent roots =loader.load();
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+            root = loader.load();
+            Thread.sleep(10);
+            updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
       public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
     {
          btn.getStyleClass().clear();
@@ -356,20 +396,103 @@ public class AcceuilleController implements Initializable {
              } 
          }
     }
-    public void placerListAliment()
+    public void placeInStageMiddle(String url)
     {
-     try {
-                    
-      ((BorderPane)(principal.getCenter())).getChildren().clear();
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createPutInMidlleWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+           ((BorderPane)(principal.getCenter())).getChildren().clear();
                   center.getChildren().clear();
-              FXMLLoader loader = new FXMLLoader();
-        // Parent root = (Parent)loader.load(); 
-      ((BorderPane)(principal.getCenter())).getChildren().add(loader.load(getClass().getResource("/formuly/view/frontend/liste_aliments.fxml")));
-      // loader.setController(new Liste_AlimentsControllers());
-            //initialiserTableBilan();
-          } catch (IOException ex) {
-                     Logger.getLogger(Liste_alimentsController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+          ((BorderPane)(principal.getCenter())).getChildren().add(root);
+              alert.close();
+              }
+              else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur ");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+    }
+    public void placerListAliment(String url)
+    {
+         ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createPutInMidlleWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+           ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
+          ((BorderPane)(principal.getCenter())).getChildren().add(root);
+              alert.close();
+              }
+              else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur ");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
     }
      public void placerVue(String url)
     {
@@ -515,7 +638,9 @@ public class AcceuilleController implements Initializable {
         MenuAvecMenuExistant.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-                placerBilanChoixFoods();
+              //  placerBilanChoixFoods();
+           String urlLi="/formuly/view/frontend/listeMenu.fxml";
+           placeInStageMiddle(urlLi);
              miseAjourCouleurBtn( MenuAvecMenuExistant, listBtn, NOMBRE_BUTTON_MAX);
              }
          }); 
