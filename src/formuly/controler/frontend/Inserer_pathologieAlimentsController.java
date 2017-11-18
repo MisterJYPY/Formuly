@@ -11,12 +11,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -36,7 +43,7 @@ public class Inserer_pathologieAlimentsController implements Initializable {
     @FXML private Button supprimerPathologie;
     @FXML private Button quitter;
     private Button [] listBtn;
-    private final int NOMBRE_MAX_BUTTON=3;
+    private final int NOMBRE_MAX_BUTTON=2;
      public Button[] retournerListBtn()
      {
         Button[] btns={supprimerPathologie,enregistrerPathologie};
@@ -48,11 +55,15 @@ public class Inserer_pathologieAlimentsController implements Initializable {
         listBtn=retournerListBtn();
         placerContenuAcceuille();
         enregistrerPathologie.setOnAction(event->{
-         placerContenuAcceuille();
+        // placerContenuAcceuille();
+          String urls="/formuly/view/frontend/inserer_pathologie.fxml";
+            placeInStageMiddle(urls,Inserer_pathologieController.class);
        miseAjourCouleurBtn(enregistrerPathologie, listBtn, NOMBRE_MAX_BUTTON);
         });
         supprimerPathologie.setOnAction(event->{
-         placerSuppprimerPathologie();
+        // placerSuppprimerPathologie();
+         String urls="/formuly/view/frontend/suppression_pathologie.fxml";
+            placeInStageMiddle(urls,Suppression_pathologieController.class);
         miseAjourCouleurBtn( supprimerPathologie, listBtn, NOMBRE_MAX_BUTTON);
         });
         quitter.setOnAction(event->{
@@ -116,4 +127,90 @@ public class Inserer_pathologieAlimentsController implements Initializable {
                      Logger.getLogger(Inserer_pathologieController.class.getName()).log(Level.SEVERE, null, ex);
                  }
    }
+          private Task createPutInMidlleWorker(String url,Class cls) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            loader.setController(cls.newInstance());
+            updateProgress(4,10);
+            updateProgress(8,10);
+            updateMessage("chargement des modules supplémentaires...");
+         
+            root = loader.load();
+            Thread.sleep(10);
+            updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
+          private void placeInStageMiddle(String url,Class cls)
+    {
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createPutInMidlleWorker(url,cls);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+           ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
+          ((BorderPane)(principal.getCenter())).getChildren().add(root);
+              alert.close();
+              }
+              else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur ");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+    }
+         private Parent root;
 }
