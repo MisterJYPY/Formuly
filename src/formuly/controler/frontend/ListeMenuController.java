@@ -13,7 +13,6 @@ import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
 import formuly.entities.FmRepasAnalyse;
 import formuly.entities.FmRetentionNutriments;
-import formuly.model.frontend.mainModel;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -256,12 +255,6 @@ EntityManagerFactory     entityManagerFactory;
             RemplirTableBas(rpm);
     }}
 });
-//   table.setOnMouseClicked(e->{
-//    if (e.isPrimaryButtonDown() && e.getClickCount() < 2) {
-//           repasModel rpm= (repasModel) table.getSelectionModel().getSelectedItem();
-//            RemplirTableBas(rpm);
-//    }
-//   });
   }
     public ObservableList<alimentRepasModel> listDesAliment(repasModel rpm)
     {
