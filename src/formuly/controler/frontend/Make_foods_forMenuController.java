@@ -70,8 +70,10 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.persistence.EntityManager;
 
 /**
@@ -386,26 +388,119 @@ public class Make_foods_forMenuController implements Initializable {
         }
         
     }
-    public void actionBoutonExpert()
+//    public void actionBoutonExpert()
+//    {
+//     buttonExpert.setOnAction(event->{
+//          Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setTitle("Analyse expert :");
+//            alert.setHeaderText("Recapitulatif :");
+//            alert.setContentText("SEXE : Non Defini \n"
+//                    + " Age : Non defini \n"
+//                    + " Taille : Non defini \n"
+//                     + "Poids : Non defini \n"
+//                    + " L'analyse se fera dans un cas general:"
+//                    + "Confirmer donc ");
+//            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+//            alert.showAndWait();
+//       if (alert.getResult() == ButtonType.YES) {
+//            // nous allons charger la liste des regles 
+//          Expert_Init();
+//          controlAnalyse();
+//       }
+//     });
+//    }
+       public void actionBoutonExpert()
     {
      buttonExpert.setOnAction(event->{
-          Alert alert = new Alert(AlertType.CONFIRMATION);
+            Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Analyse expert :");
-            alert.setHeaderText("Recapitulatif :");
-            alert.setContentText("SEXE : Non Defini \n"
-                    + " Age : Non defini \n"
-                    + " Taille : Non defini \n"
-                     + "Poids : Non defini \n"
-                    + " L'analyse se fera dans un cas general:"
-                    + "Confirmer donc ");
+            alert.setHeaderText("Options :");
+            alert.setContentText("Si l'analyse doit se faire de maniere spécifique\n"
+                    + " Vous devriez alors remplir les champs correspondants \n"
+                    + " En fonction des spécificité \n "
+                    + " NB : non obligatoire dans ce cas l'analyse sera généralisée");
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-            alert.showAndWait();
-       if (alert.getResult() == ButtonType.YES) {
-            // nous allons charger la liste des regles 
-          Expert_Init();
-          controlAnalyse();
+       /**
+        * intialisation de la taille du client
+        */
+             expert.setTailleclient(-2);
+             expert.setAgeClient(-2);
+             expert.setSexeClient(-2);
+             expert.setPoidsClient(-2);
+             expert.setTypePersonne("Général");
+           /**
+            * fin intialisation 
+            */
+GridPane grid = new GridPane();
+grid.setHgap(10);
+grid.setVgap(10);
+grid.setPadding(new javafx.geometry.Insets(0, 10, 0, 10));
+ final ComboBox<String> sexP= new ComboBox<>();
+ final ComboBox<String> ageP = new ComboBox<>();
+ final TextField tailleP = new TextField();
+ final TextField Poids = new TextField();
+ formulyTools.textsConverter(tailleP,Poids);
+ List<String> listSex=new ArrayList<>();
+ List<String> listAge=new ArrayList<>();
+ /* sex  */
+ listSex.add("cas général");
+ listSex.add("Masculin");
+ listSex.add("Feminin");
+ /* age */
+ listAge.add("cas général");
+ listAge.add("Enfant");
+ listAge.add("Adolescent");
+ listAge.add("Jeune");
+ listAge.add("Adulte");
+ listAge.add("Age avancé");
+ /*actualisation liste sexe*/
+sexP.getItems().addAll(FXCollections.observableArrayList(listSex));
+ /*actualisation liste age */
+ageP.getItems().addAll(FXCollections.observableArrayList(listAge));
+grid.add(new Label("sexe:"), 0, 0);
+grid.add(sexP, 1, 0);
+grid.add(new Label("age:"), 0, 1);
+grid.add(ageP, 1, 1);
+grid.add(new Label("tailleP:"), 0, 2);
+grid.add(tailleP, 1, 2);
+grid.add(new Label("masse:"), 0, 3);
+grid.add(Poids, 1, 3);
+
+Callback myCallback = new Callback() {
+     @Override
+   public Object call(Object param) {
+//              usernameResult = username.getText();
+//              passwordResult = password.getText();
+       return null;
+              }
+          };
+    alert.setGraphic(grid);
+      alert.showAndWait();
+             if (alert.getResult() == ButtonType.YES) {
+          if(sexP.getValue()!=null && !sexP.getValue().equals("cas général"))
+          {
+        expert.setSexeClient(Double.valueOf(formulyTools.DonnerEquivalenceSexe(sexP.getValue())));
+          }
+          if(ageP.getValue()!=null &&! ageP.getValue().equals("cas général"))
+          {
+        expert.setAgeClient(Double.valueOf(formulyTools.DonnerEquivalenceAge(ageP.getValue()))); 
+        expert.setTypePersonne(ageP.getValue());
+          }
+          double taill=(!tailleP.getText().isEmpty())?Double.valueOf(tailleP.getText()):0.0;
+          double poid=(!Poids.getText().isEmpty())?Double.valueOf(Poids.getText()):0.0;
+        if(taill>0.0)
+           {
+           expert.setTailleclient(taill);
+           }
+        if(poid>0.0)
+         {
+         expert.setPoidsClient(poid);
+         }
+           Expert_Init();
+           controlAnalyse();
        }
      });
+  
     }
          public void Expert_Init()
          {
@@ -665,11 +760,11 @@ public class Make_foods_forMenuController implements Initializable {
          initialiserLeTableauAchoisir();
           if(liste.size()>0)
           {
-              System.out.println("JY SUIS ");
+            //  System.out.println("JY SUIS ");
         initialiserLesElementsDepuisLeRepas(liste);
           }
           else{
-           System.out.println("JY SUIS PAS"); 
+         //  System.out.println("JY SUIS PAS"); 
           }
        nom_aliment.setOnKeyReleased(
      event->{

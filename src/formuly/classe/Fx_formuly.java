@@ -62,7 +62,7 @@ public class Fx_formuly extends Application {
    public void stop(){
        formulyTools.getEm().getCache().evictAll();
        formulyTools.getEm().close();
-       System.out.println("Application fermée");
+       System.out.println("Application fermée avec succès");
     // Save file
 }
   private void traiterFermerture()
