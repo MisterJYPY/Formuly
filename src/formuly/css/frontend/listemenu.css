@@ -283,3 +283,15 @@
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
+.analyse
+{
+    -fx-text-fill:#660000;
+    -fx-font-size: 12px;   
+     -fx-font-weight: bold;
+}
+#analyse
+{
+    -fx-text-fill:#660000;
+    -fx-font-size: 12px;   
+     -fx-font-weight: bold;
+}

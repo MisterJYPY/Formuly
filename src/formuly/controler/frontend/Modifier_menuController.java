@@ -11,6 +11,7 @@ import formuly.model.frontend.repasModel;
 import formuly.entities.FmAliments;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
+import formuly.entities.FmRepasAnalyse;
 import formuly.entities.FmRetentionNutriments;
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -39,7 +41,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -344,11 +348,62 @@ public class Modifier_menuController implements Initializable {
           placerBouton(modifMenu,1);
           placerBouton(supMenu,2);
         bilanList=chargerLists();
-        actionSurTable(tableRepas);
+       // actionSurTable(tableRepas);
        tableRepas.setItems(bilanList);
+       supprimerElementDeLaListeen2click(tableRepas);
        
     }
-   
+   public void supprimerElementDeLaListeen2click(TableView<repasModel> table_aliment_deja_choisi)
+       {
+            table_aliment_deja_choisi.setOnMousePressed(new EventHandler<MouseEvent>() {
+    @Override 
+   public void handle(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            Node node = ((Node) event.getTarget()).getParent();
+            TableRow row;
+            if (node instanceof TableRow) {
+                row = (TableRow) node;
+            } else {
+                // clicking on text part
+                row = (TableRow) node.getParent();
+            }
+          if(row.getItem() instanceof repasModel)
+          {
+           int index=table_aliment_deja_choisi.getSelectionModel().getSelectedIndex(); 
+           List<FmRepasAnalyse> listAnalyse=(table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getRepas().getFmRepasAnalyseCollection()!=null)?(List<FmRepasAnalyse>) table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getRepas().getFmRepasAnalyseCollection():null;
+             // System.out.println("list "+listAnalyse);
+           String conclusion =(listAnalyse!=null && listAnalyse.size()>0)?listAnalyse.get(0).getConclusion():"aucune analyse faite pour ce Menu";
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("analyse");
+            TextArea tex=new TextArea();
+              tex.setText(conclusion);
+          //    tex.getStyleClass().add("analyse");
+              tex.setStyle(" -fx-text-fill:#660000;\n" +
+"    -fx-font-size: 14px;   \n" +
+"     -fx-font-weight: bold;");
+              tex.setEditable(false);
+              tex.setWrapText(true);
+            alert.setHeaderText("votre analyse : ");
+            alert.setGraphic(tex);
+          //  alert.setContentText(conclusion);
+ 
+            alert.showAndWait();
+          }
+          else
+          {
+              System.out.println("non instance");
+          }
+        }
+        
+        else
+        {
+          repasModel rpm= (repasModel) table_aliment_deja_choisi.getSelectionModel().getSelectedItem();
+            RemplirTableBas(rpm);
+        } 
+        
+    }
+});
+       }
     public void actionSurTable(TableView table)
     {
    table.setOnMousePressed(new EventHandler<MouseEvent>() {

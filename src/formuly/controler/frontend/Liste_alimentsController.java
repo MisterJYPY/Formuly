@@ -7,9 +7,12 @@ package formuly.controler.frontend;
 
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
+import formuly.entities.FmRepasAnalyse;
 import formuly.model.frontend.mainModel;
+import formuly.model.frontend.repasModel;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +23,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -31,11 +36,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -100,7 +107,7 @@ public class Liste_alimentsController implements Initializable {
      //  placerBouton();
         placerBouton(table1_del,2);
         placerBouton(table1_modif,1);
-         System.out.println("nbre aliment : "+listeAliments.size());
+        // System.out.println("nbre aliment : "+listeAliments.size());
         table1.setItems(model);
       
     }
@@ -392,7 +399,7 @@ public class Liste_alimentsController implements Initializable {
       }
     };
   }
-        
+      
 
         public Task createUpdateFoodsWorker(mainModel model,Button btn,int index,String url) {
     return new Task() {
