@@ -45,6 +45,7 @@ import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
+import formuly.entities.FmRepasAnalyse;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
@@ -52,6 +53,7 @@ import formuly.expert.outilsExpert;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -138,6 +140,7 @@ public class Make_foods_forMenuController implements Initializable {
     private List<String> listDesRegles;
     private outilsExpert expert;
     private List<FmFait> listFait;
+  private boolean analyseFait;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
@@ -159,9 +162,13 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+        
+         listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
          
     }
      public final void initialiserListAliment(List<FmRepasAliments> listeRepas)
@@ -227,9 +234,13 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+        
+         listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
     }
           public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,String NomAliment)
     {
@@ -257,9 +268,12 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+         listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
     }
           /**
            * 
@@ -298,9 +312,12 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+         listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
     }
                    public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,FmRepas repas,int index)
     {
@@ -334,9 +351,12 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+         listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
     }
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list,TableView<repasModel> table,int tailleTables,FmRepas repas,int index,ObservableList<repasModel> modelRepasList)
     {
@@ -372,9 +392,13 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
-          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//          listFaitConclusion=formulyTools.Liste_FaitConclusion();
+//        expert=new outilsExpert();
+//        expert.setListConclusion(listFaitConclusion);
+        
+        listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
-        expert.setListConclusion(listFaitConclusion);
+        expert.setListeFait(listFait);
     }
       public void visibiliteBoutonAnalyse()
     {
@@ -498,6 +522,7 @@ Callback myCallback = new Callback() {
          }
            Expert_Init();
            controlAnalyse();
+            analyseFait=true;
        }
      });
   
@@ -543,12 +568,7 @@ Callback myCallback = new Callback() {
               //  initialisation();
                alert.setAlertType(Alert.AlertType.INFORMATION); 
                alert.close();
-//               Image imageSucces = new Image(
-//                       getClass().getResourceAsStream("/formuly/image/correct.png"));
-//               alert.setGraphic(new ImageView(imageSucces));
-//               alert.setTitle("Fin Suppression");
-//               alert.setContentText("L'operation a ete un succes");
-//               alert.getButtonTypes().setAll(ButtonType.FINISH);
+
             
                   try {
                        // alert.show();
@@ -561,7 +581,7 @@ Callback myCallback = new Callback() {
             
               }
               else{
-                if(!"vide".equals(newValue))
+                if(!"erreur".equals(newValue))
                 {
              alert.setContentText(newValue); 
                 }
@@ -572,7 +592,7 @@ Callback myCallback = new Callback() {
                             getClass().getResourceAsStream("/formuly/image/war.png"));
                     alert.setGraphic(new ImageView(imageSucces));
                     alert.setTitle("ERREUR RENCONTRE");
-                    alert.setContentText("L'operation a ete un fiasco");
+                    alert.setContentText("L'operation a ete un echec");
                     alert.getButtonTypes().setAll(ButtonType.FINISH);
                     alert.showAndWait();
                 }
@@ -586,7 +606,10 @@ Callback myCallback = new Callback() {
     return new Task() {
   
       @Override
-      protected Object call() throws Exception {
+      protected Object call()  {
+          
+          try
+          {
           updateMessage("Chargement de la base des regles ......");
            updateProgress(5,100);
                if(listDesRegles==null)
@@ -611,6 +634,7 @@ Callback myCallback = new Callback() {
             //preparation pour l'affichage
           updateMessage("Traitement des resultas (presque terminer).....");   
            conclusion=expert.donnerResultatConclusion();
+             expert.setConclusion(conclusion);
              updateProgress(90,100);
           updateMessage("Nous preparons votre interface....."); 
                //chargerResultAnalyse() ;
@@ -620,6 +644,14 @@ Callback myCallback = new Callback() {
           else{
           updateMessage("vide");
            }
+          }
+          catch(Exception ex)
+          {
+                updateMessage("erreur");
+                 Logger.getLogger(Make_foods_forMenuController.class.getName()).log(
+                Level.SEVERE, null, ex
+            );
+          }
         return true;
       }
     };
@@ -1541,6 +1573,7 @@ Callback myCallback = new Callback() {
         pcentDeuxMillCinq.setText(prcDMC+" %");
         pcentTroisMill.setText(prcTM+" %");
         pcentTroisMillCinq.setText(prcTMC+" %");
+            analyseFait=false;
    }
    public void actionBoutonFermer()
    {
@@ -1593,8 +1626,29 @@ Callback myCallback = new Callback() {
     Optional<String> result = dialog.showAndWait();
      if (result.isPresent()){
       libelle=result.get();
- 
-               Alert alert = new Alert(AlertType.NONE);
+               Alert alert = new Alert(AlertType.CONFIRMATION);
+             boolean ok=true;
+             if(!analyseFait)
+             {
+           String message="Vous n'avez pas lancer l'analyse pour ce menu \n"
+                   + " Voulez vous enregistrer ce menu sans tenir compte de l'analyse ? \n"
+                   + " Veuilez choisir svp";
+           String header="Analyse non exécuté";
+             alert.setContentText(message);
+             alert.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+             alert.setHeaderText(header);
+             alert.showAndWait();
+               if(alert.getResult()==ButtonType.OK)
+               {
+               ok=true;
+               }
+            else{
+               ok=false;
+               }
+             }
+            if(ok)
+            {
+               alert.setAlertType(AlertType.NONE);
                alert.setTitle("Enregistrement des repas");
                ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
@@ -1639,7 +1693,7 @@ Callback myCallback = new Callback() {
         });
         new Thread(copyWorker).start();
              
-               
+            }
              }
 else{
     System.out.println("yessssssssssssss");
@@ -1688,8 +1742,18 @@ else{
              int tailleDonnee=liste.size();
           int  j= (100/tailleDonnee);
           int debut=j+2;
-          updateProgress(debut, 100);
+           updateProgress(debut, 100);
             em.persist(repasInserer);
+             if(analyseFait && (conclusion!=null && !conclusion.isEmpty()))
+           {
+          updateMessage("mise à jour de l'analyse...");
+           int idAnalyse=formulyTools.TrouverDernierIdentifiant_Repas_analyse()+1;
+           FmRepasAnalyse repasAnalyse=new FmRepasAnalyse(idAnalyse);
+           repasAnalyse.setRepas(repasInserer);
+           repasAnalyse.setConclusion(conclusion);
+           repasAnalyse.setDerniereModif(new Timestamp(date.getTime()));
+            em.persist(repasAnalyse);
+           }
         for (int i = 0; i <tailleDonnee; i++) {
           Thread.sleep(200);
           //nous allonslancer le Proccess
@@ -1749,10 +1813,21 @@ else{
                  {
                  repascurr=em.merge(repasOrigine);
                  }
-                 em.remove(repascurr);
-               updateProgress(20, 100);
+                 em.remove(repascurr);           
+                 updateProgress(20, 100);
                  repas.setId(idRepas);
                  em.persist(repas);
+            if(analyseFait && (conclusion!=null && !conclusion.isEmpty()))
+           {
+             // suppression
+          updateMessage("mise à jour de l'analyse...");
+           int idAnalyse=formulyTools.TrouverDernierIdentifiant_Repas_analyse()+1;
+           FmRepasAnalyse repasAnalyse=new FmRepasAnalyse(idAnalyse);
+           repasAnalyse.setRepas(repas);
+           repasAnalyse.setConclusion(conclusion);
+           repasAnalyse.setDerniereModif(new Timestamp(date.getTime()));
+            em.persist(repasAnalyse);
+           }
                 updateProgress(30, 100);
                 Thread.sleep(10);
                updateMessage("En cours .... "+tailleDonnee+" restant");
@@ -1834,6 +1909,7 @@ else{
  
      public void intialiserLesLabelsEnPourcentage(Label [] labels)
      {
+         energieTotale.setText("O Kcal");
          for(int i=0;i<labels.length;i++)
            {
       labels[i].setText("O %");

@@ -19,6 +19,7 @@ import formuly.entities.FmRegle;
 import formuly.entities.FmRegleFait;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
+import formuly.entities.FmRepasAnalyse;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
@@ -556,6 +557,20 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       String sql="SELECT f.id FROM fm_repas_aliments f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas_aliments s)";
       Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRepasAliments.class);
      FmRepasAliments aliment=(eqr.getResultList().size()>0)?(FmRepasAliments) eqr.getSingleResult():null;
+      if(aliment!=null)
+      {
+        id=aliment.getId();
+      }
+       
+       return id;
+    }
+      public static int TrouverDernierIdentifiant_Repas_analyse() 
+    {
+      int id=0;
+     
+      String sql="SELECT f.id FROM fm_repas_analyse f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas_analyse s)";
+      Query eqr=getEm().createEntityManager().createNativeQuery(sql,FmRepasAnalyse.class);
+       FmRepasAnalyse aliment=(eqr.getResultList().size()>0)?(FmRepasAnalyse) eqr.getSingleResult():null;
       if(aliment!=null)
       {
         id=aliment.getId();

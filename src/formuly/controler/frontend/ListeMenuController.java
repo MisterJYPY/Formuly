@@ -12,6 +12,7 @@ import formuly.entities.FmAliments;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
 import formuly.entities.FmRetentionNutriments;
+import formuly.model.frontend.mainModel;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
@@ -22,20 +23,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -162,7 +171,8 @@ EntityManagerFactory     entityManagerFactory;
                             btn.setOnAction(event -> {
                                 try {
                                     repasModel person = getTableView().getItems().get(getIndex());
-                                     chargerPanelRepas(btn,person) ;
+                                    
+                                    chargerPanelRepas(btn,person,"/formuly/view/frontend/make_foods_forMenu.fxml") ;
                                 } catch (IOException ex) {
                                     Logger.getLogger(ListeMenuController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -314,26 +324,100 @@ EntityManagerFactory     entityManagerFactory;
         detailAliment=listDesAliment(repas);
         tableAliment.setItems(detailAliment);
     }
-     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas) throws IOException
+     public void chargerPanelRepas(Button faireRepas,repasModel modelRepas,String url) throws IOException
     {
-              detailAliment.clear();
-            detailAliment=listDesAliment(modelRepas);
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/formuly/view/frontend/make_foods_forMenu.fxml"));
-        // loader.setLocation();
-          int taille=bilanList.size();
-         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille);
-         loader.setController(ctrMakeFoods);
-          Parent root = loader.load();
-         st=new Stage();
-         st.setScene(new Scene(root));
-         st.setTitle("formuly Foods Selector");
-         st.initOwner(faireRepas.getScene().getWindow());
-         st.initModality(Modality.APPLICATION_MODAL);
-         
-         st.showAndWait();
+          ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createUpdateFoodsWorker(modelRepas, faireRepas,url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Update Foods");
+            st.initOwner(faireRepas.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+            st.showAndWait();
+              }
+               else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur rencontre");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });     
+      new Thread(copyWorker).start();
        //  return st;
-       
       }
+       public Task createUpdateFoodsWorker(repasModel modelRepas,Button btn,String url) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+            detailAliment.clear();
+            detailAliment=listDesAliment(modelRepas);
+             updateProgress(1,10);
+            updateMessage("debut du traitement....");
+             updateProgress(2,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(3,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+           int taille=bilanList.size();
+         ctrMakeFoods=new Make_foods_forMenuController(modelRepas,detailAliment,tableRepas,taille);
+               loader.setController(ctrMakeFoods);
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             Thread.sleep(10);
+             updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(ListeMenuController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
    private Make_foods_forMenuController ctrMakeFoods;
    private Stage st;
+   private Parent root;
 }

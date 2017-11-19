@@ -5,7 +5,6 @@
  */
 package formuly.controler.frontend;
 
-import com.sun.jnlp.ApiDialog;
 import formuly.classe.Fx_formuly;
 import formuly.classe.formulyTools;
 import formuly.entities.FmGroupeAliment;
@@ -36,7 +35,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import formuly.classe.TooltipTableRow ;
-import formuly.classe.alimentRepasModel;
 import formuly.classe.bilanMacroNut;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
@@ -44,9 +42,8 @@ import formuly.entities.FmFait;
 import formuly.entities.FmFaitConclusion;
 import formuly.entities.FmRepas;
 import formuly.entities.FmRepasAliments;
-import formuly.entities.FmRetentionNutriments;
+import formuly.entities.FmRepasAnalyse;
 import formuly.expert.outilsExpert;
-import java.awt.Insets;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
@@ -62,7 +59,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
@@ -72,6 +68,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -130,6 +127,7 @@ public class Select_the_foodsController implements Initializable {
     private final List<FmFait> listFait;
    private String usernameResult;
    private String passwordResult;
+   private boolean analyseFait;
     
 /**
  * constructeur non parametré qui intialement intialise les variables 
@@ -263,6 +261,7 @@ Callback myCallback = new Callback() {
          }
            Expert_Init();
            controlAnalyse();
+           analyseFait=true;
        }
      });
   
@@ -307,13 +306,6 @@ Callback myCallback = new Callback() {
               //  initialisation();
                alert.setAlertType(Alert.AlertType.INFORMATION); 
                alert.close();
-//               Image imageSucces = new Image(
-//                       getClass().getResourceAsStream("/formuly/image/correct.png"));
-//               alert.setGraphic(new ImageView(imageSucces));
-//               alert.setTitle("Fin Suppression");
-//               alert.setContentText("L'operation a ete un succes");
-//               alert.getButtonTypes().setAll(ButtonType.FINISH);
-            
                   try {
                        // alert.show();
                       chargerResultAnalyse() ;            
@@ -325,7 +317,7 @@ Callback myCallback = new Callback() {
             
               }
               else{
-                if(!"vide".equals(newValue))
+                if(!"erreur".equals(newValue))
                 {
              alert.setContentText(newValue); 
                 }
@@ -335,8 +327,8 @@ Callback myCallback = new Callback() {
                     Image imageSucces = new Image(
                             getClass().getResourceAsStream("/formuly/image/war.png"));
                     alert.setGraphic(new ImageView(imageSucces));
-                    alert.setTitle("ERREUR RENCONTRE");
-                    alert.setContentText("L'operation a ete un fiasco");
+                    alert.setTitle("erreur");
+                    alert.setContentText("L'operation a ete un echec");
                     alert.getButtonTypes().setAll(ButtonType.FINISH);
                     alert.showAndWait();
                 }
@@ -1290,6 +1282,7 @@ Callback myCallback = new Callback() {
         pcentDeuxMillCinq.setText(prcDMC+" %");
         pcentTroisMill.setText(prcTM+" %");
         pcentTroisMillCinq.setText(prcTMC+" %");
+        analyseFait=false;
         
    }
    /**
@@ -1345,9 +1338,30 @@ Callback myCallback = new Callback() {
 // Traditional way to get the response value.
     Optional<String> result = dialog.showAndWait();
      if (result.isPresent()){
-      libelle=result.get();
- 
-               Alert alert = new Alert(AlertType.NONE);
+             libelle=result.get();
+             Alert alert = new Alert(AlertType.CONFIRMATION);
+             boolean ok=true;
+             if(!analyseFait)
+             {
+           String message="Vous n'avez pas lancer l'analyse pour ce menu \n"
+                   + " Voulez vous enregistrer ce menu sans tenir compte de l'analyse ? \n"
+                   + " Veuilez choisir svp";
+           String header="Analyse non exécuté";
+             alert.setContentText(message);
+             alert.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+             alert.setHeaderText(header);
+             alert.showAndWait();
+               if(alert.getResult()==ButtonType.OK)
+               {
+               ok=true;
+               }
+            else{
+               ok=false;
+               }
+             }
+            if(ok)
+            {
+               alert.setAlertType(AlertType.NONE);
                alert.setTitle("Enregistrement des repas");
                ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
@@ -1383,16 +1397,39 @@ Callback myCallback = new Callback() {
                alert.setContentText("Votre Menu a ete Enregistré :");
               alert.setAlertType(AlertType.INFORMATION);
                alert.close();
+                   Image imageSucces = new Image(
+       getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
               alert.getButtonTypes().setAll(ButtonType.FINISH);  
                         alert.showAndWait();
 //   alert.close();
             
            }
+           else
+           {
+            if(!"erreur".equals(newValue))
+            {
+            alert.setContentText(newValue);
+            }
+            else
+            {
+              alert.setTitle("Erreur rencontré");
+               alert.setContentText("Une erreur rencontré lors de l'enregistrement \n"
+                       + "Veuillez reesayyer SVP ....:");
+              alert.setAlertType(AlertType.INFORMATION);
+               alert.close();
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+                  Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+               alert.showAndWait();    
+            }
+           }
                     }
         });
         new Thread(copyWorker).start();
              
-               
+     }
              }
 else{
     System.out.println("yessssssssssssss");
@@ -1411,18 +1448,34 @@ else{
      public Task createWorker() {
     return new Task() {
       @Override
-      protected Object call() throws Exception {
+      protected Object call()  {
+          try
+          {
            java.util.Date date= new java.util.Date();
       //  System.out.println());
+           updateMessage("lancement des enregistrement");
            FmRepas repas=new FmRepas(idRepas);
            repas.setEnergie(Float.parseFloat(EnergieTotalePrEnregister.toString()));
            repas.setLipide(Float.parseFloat(retentionLipide.toString()));
            repas.setProtide(Float.parseFloat(retentionProtide.toString()));
            repas.setGlucide(Float.parseFloat(retentionGlucide.toString()));
            repas.setLibelle(libelle);
-           repas.setDate(new Timestamp(date.getTime()));
-           formulyTools.getEm().createEntityManager().getTransaction().begin();
-           repasCont.create(repas);
+          EntityManager em=formulyTools.getEm().createEntityManager();
+          em.getTransaction().begin();
+           updateMessage("Création du menu ...");
+         repas.setDate(new Timestamp(date.getTime()));  
+            em.persist(repas);
+           if(analyseFait && (conclusion!=null && !conclusion.isEmpty()))
+           {
+          updateMessage("mise à jour de l'analyse...");
+           int idAnalyse=formulyTools.TrouverDernierIdentifiant_Repas_analyse()+1;
+           FmRepasAnalyse repasAnalyse=new FmRepasAnalyse(idAnalyse);
+           repasAnalyse.setRepas(repas);
+           repasAnalyse.setConclusion(conclusion);
+           repasAnalyse.setDerniereModif(new Timestamp(date.getTime()));
+            em.persist(repasAnalyse);
+           }
+          // repasCont.create(repas);
            //appel du controller de Jpa 
           List<mainModel> liste=table_aliment_deja_choisi.getItems();
           int tailleDonnee=liste.size();
@@ -1433,9 +1486,9 @@ else{
           j=99;
           }
         for (int i = 0; i <tailleDonnee; i++) {
-          Thread.sleep(200);
+          Thread.sleep(20);
           //nous allonslancer le Proccess
-            System.out.println("id repas aliment: "+idRepasAliment);
+           // System.out.println("id repas aliment: "+idRepasAliment);
           mainModel ls=liste.get(i);
           FmAliments al=alimenCtr.findFmAliments(ls.getIdAliment());
           FmRepasAliments repaAlmt=new FmRepasAliments(idRepasAliment);
@@ -1443,20 +1496,27 @@ else{
           repaAlmt.setQuantite(Float.valueOf(ls.getQte()));
           repaAlmt.setRepas(repas);
           repaAlmt.setDate(new Timestamp(date.getTime()));
-          repasAlCtr.create(repaAlmt);
+         // repasAlCtr.create(repaAlmt);
+          em.persist(repaAlmt);
           idRepasAliment++;
-          updateProgress(j + 1, 10);
+          updateProgress(i + 1,tailleDonnee);
           j=(100/tailleDonnee);
           if(i!=tailleDonnee-1)
           {
-          updateMessage(""+i+1);
+          updateMessage("Mise à jour : "+al.getNomFr());
           }
           else{
          updateMessage("terminer");
           }
          
         }
-         formulyTools.getEm().createEntityManager().getTransaction().commit();
+         em.getTransaction().commit();
+          }
+          catch(Exception ex)
+          {
+              updateMessage("erreur");
+       Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);         
+          }
         return true;
       }
     };
@@ -1467,6 +1527,7 @@ else{
       */
      public void intialiserLesLabelsEnPourcentage(Label [] labels)
      {
+         energieTotale.setText("O Kcal");
          for(int i=0;i<labels.length;i++)
            {
       labels[i].setText("O %");

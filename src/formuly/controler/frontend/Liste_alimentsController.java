@@ -388,10 +388,6 @@ public class Liste_alimentsController implements Initializable {
                Logger.getLogger(Suppression_pathologieController.class.getName()).log(Level.SEVERE, null, e);
                updateMessage("erreur");
           }
-      
-         
-          
-      
         return true;
       }
     };
