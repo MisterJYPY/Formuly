@@ -5,7 +5,6 @@
  */
 package formuly.classe;
 
-
 import formuly.model.frontend.repasModel;
 import formuly.model.frontend.pathologieModel;
 import formuly.controler.frontend.FmAlimentsJpaController;
@@ -71,10 +70,10 @@ public class formulyTools {
     /**
      * cette variable static contient le nom de la persistence present dans le fichier xml persistence unit
      */
-    public static String persistenceUnit="fx_formulyPU";
-      static EntityManagerFactory   entityManagerFactory=null ;
+ public static String persistenceUnit="fx_formulyPU";
+        static EntityManagerFactory   entityManagerFactory=null ;
         static EntityManagerFactory   entityManagerFactoryss =null;
-      static   EntityManager entityManger;
+        static   EntityManager entityManger;
 
   
 /**
@@ -84,28 +83,27 @@ public class formulyTools {
         entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
         entityManger=Persistence.createEntityManagerFactory("fx_formulyPU").createEntityManager();
     }
-     
     /**
      * methode static qui retourne le manager de connection au serveur de donnee
      * @param persistenceName le nom de la persistence unit contenu dans le fichier xml et pouvant etre appelé de depuis la variable static pesisence unit de cette classe
      * @return un obdjet factory de connection
      */
     public static EntityManagerFactory getEm(String persistenceName)
-    {
-           if( entityManagerFactory ==null )
+        {
+           if( entityManagerFactory ==null)
            {
-          entityManagerFactory = Persistence.createEntityManagerFactory(persistenceName);
+               entityManagerFactory = Persistence.createEntityManagerFactory(persistenceName);
            }
-            else{
-           if(!entityManagerFactory .isOpen())
-           {
-           entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
-           }
-           }
+       else {
+               if(!entityManagerFactory .isOpen())
+            {
+               entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
+            }
+            }
       
-        return  entityManagerFactory ;
+         return  entityManagerFactory ;
        
-    }
+        }
     /**
      * methode renvoyant un obdet factory qui a la particuliarite de ne qu'etre utilisé pour notre base de données
      * @return un EntityManagerFactory
@@ -146,8 +144,7 @@ public class formulyTools {
          }
         em.clear();
         emf.close();
-        return id;
-        
+        return id;    
     }
     /**
      * methode static qui retourne la liste de tous les faitConcl etabli 
@@ -187,13 +184,14 @@ public class formulyTools {
         public static ArrayList<String> RecupererElementFichierFt(File files)
     {
     ArrayList<String> list=new ArrayList();
-     try{
+    try{
        String ligne;
     //chemins=this.takeTheFile();
 BufferedReader buffer=new BufferedReader(new FileReader(files));
  LineNumberReader numeroLigne = new LineNumberReader(buffer);
                  int i =0;
-     while((ligne=buffer.readLine())!=null ){     
+     while((ligne=buffer.readLine())!=null )
+       {     
          //System.out.println(ligne);
              list.add(ligne);
              numeroLigne.getLineNumber();
