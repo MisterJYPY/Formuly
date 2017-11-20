@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="fenetrePrincipal" prefHeight="513.0" prefWidth="693.0" styleClass="mainFxmlClass" stylesheets="@../../css/frontend/about.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.AboutController">
+   <children>
+      <Label alignment="CENTER" layoutX="175.0" layoutY="-2.0" prefHeight="25.0" prefWidth="307.0" text="About this software" textAlignment="CENTER" textFill="#5e5b12">
+         <font>
+            <Font name="Courier New Bold" size="18.0" />
+         </font></Label>
+      <Label layoutY="38.0" prefHeight="25.0" prefWidth="73.0" text="    Formuly" textFill="#167242">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <Label layoutX="78.0" layoutY="38.0" prefHeight="25.0" prefWidth="614.0" text="Est un logiciel de formulation alimentaire dévéloppé dans le cadre d'un mémoire de Master 2 Génie-Informatique" />
+      <Label layoutX="20.0" layoutY="104.0" prefHeight="25.0" prefWidth="200.0" text="La version actuelle du logiciel est la " />
+      <Label layoutX="220.0" layoutY="104.0" prefHeight="25.0" prefWidth="32.0" text="V.0.1" textFill="#c61818">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="74.0" prefHeight="17.0" prefWidth="438.0" text="Pour le laboratoire de Nutrition de L'université Nangui Abrogoua dirigé par  " />
+      <Label layoutX="427.0" layoutY="70.0" prefHeight="26.0" prefWidth="252.0" text="Prof. GBOGOURI ALBARAIN">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="192.0" layoutY="138.0" prefHeight="25.0" prefWidth="263.0" text="CONCEPTION ET REALISATION" textFill="#071c43">
+         <font>
+            <Font name="Perpetua Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="163.0" prefHeight="25.0" prefWidth="40.0" text="Nom :" />
+      <Label layoutX="93.0" layoutY="163.0" prefHeight="25.0" prefWidth="185.0" text="NANOU KAKOU JEAN-PAUL">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="294.0" layoutY="167.0" prefHeight="17.0" prefWidth="40.0" text="Cel :" />
+      <Label layoutX="344.0" layoutY="163.0" prefHeight="25.0" prefWidth="252.0" text="(00225)  09-19-78-19 / 02-13-42-18">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="198.0" text="mail : " />
+      <Hyperlink layoutX="86.0" layoutY="195.0" prefHeight="23.0" prefWidth="200.0" text="nanoukakoujeanpaul@gmail.com" />
+      <Label layoutX="260.0" layoutY="108.0" prefHeight="17.0" prefWidth="412.0" text="Ce Logiciel est l'implémentation de certains travaux de recherches du Labo" />
+      <Label layoutX="287.0" layoutY="198.0" prefHeight="17.0" prefWidth="73.0" text="Adresse :" />
+      <Label layoutX="350.0" layoutY="195.0" prefHeight="23.0" prefWidth="200.0" text="Abidjan  -- Cote Ivoire " />
+      <Label layoutX="48.0" layoutY="240.0" />
+      <Label alignment="CENTER" layoutX="58.0" layoutY="245.0" prefHeight="23.0" prefWidth="552.0" text="Concepteur et developpeur d'application web et Logiciels professionnels d'entreprises" textFill="#a42525">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="48.0" layoutY="268.0" prefHeight="19.0" prefWidth="606.0" text="Avec les Dernieres Technologies Recemmandées et solides assurants une flexibilité dans votre travaille" textFill="#831d1d">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="244.0" layoutY="224.0" prefHeight="23.0" prefWidth="452.0" text="Etudiant en Master 2 d'ingenierie Informatique Universite NANGUI-ABROGOUA" />
+      <Label layoutX="43.0" layoutY="227.0" prefHeight="17.0" prefWidth="193.0" text="Lors de la réalisation de ce Logiciel :" />
+      <Label alignment="CENTER" layoutX="232.0" layoutY="300.0" prefHeight="23.0" prefWidth="218.0" text="But du Logiciel" textFill="#161722">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <ImageView fitHeight="26.0" fitWidth="41.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="41.0" layoutX="622.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="41.0" layoutX="466.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="11.0" layoutY="323.0" prefHeight="24.0" prefWidth="675.0" text="Ce Logiciel possède une Base de données comportant et pouvant acceuillir une grande quantité d'aliments africains" />
+      <Label alignment="CENTER" layoutX="7.0" layoutY="347.0" prefHeight="17.0" prefWidth="650.0" text=" Cette base offre au Nutritionniste une rapidité et une efficacité de confection de menus diéthétiques" />
+      <Label alignment="CENTER" layoutX="12.0" layoutY="370.0" prefHeight="23.0" prefWidth="675.0" text="Un module Expert dynamique permet d'analyser les resultats du Menu et de donner des interpretations liés à :" />
+      <Label alignment="CENTER" layoutX="15.0" layoutY="393.0" prefHeight="17.0" prefWidth="665.0" text="ces Menus. Permettant alors à L'expert de gagner en temps dans ces prises de décisions (Conseils diététiques )" />
+      <Label layoutX="52.0" layoutY="419.0" prefHeight="17.0" prefWidth="614.0" text="Il Intègre aussi une base de calcul permettant la formaulation avec l'algorithme de PearSon Square " />
+      <Label alignment="CENTER" layoutX="-2.0" layoutY="442.0" prefHeight="17.0" prefWidth="699.0" text="Et une autre technique de la décomposition LU permettant de remplir le besoin de Trois nutriments en  meme temps" />
+      <Label alignment="CENTER" layoutX="34.0" layoutY="467.0" prefHeight="17.0" prefWidth="614.0" text="Les autres Fonctionnalités peuvent s'appercevoir dans l'utilisation du logiciel " />
+      <Label alignment="CENTER" layoutX="380.0" layoutY="491.0" prefHeight="17.0" prefWidth="127.0" text="Nanou Kakou Jp" textFill="#dcdd95">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Button id="okBtn" fx:id="okBtn" layoutX="617.0" layoutY="479.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="OK" />
+   </children>
+</AnchorPane>

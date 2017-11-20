@@ -156,8 +156,7 @@ public class formulyTools {
       EntityManager em=getEm().createEntityManager();
    //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
       Query eqr=em.createNamedQuery("FmRepas.findAll");
-         repas=eqr.getResultList();
-         
+         repas=eqr.getResultList();      
         return repas;
     }
       public static List<FmFaitConclusion> Liste_FaitConclusion() 
@@ -1481,4 +1480,14 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         }
         return chaineSexeClient;
      }
+          public static void fermerFenetre(Button btn)
+          {
+      Stage stage = (Stage) btn.getScene().getWindow();    
+        stage.close();
+          }
+           public static void RendreNonDimensionnable(Button btn)
+          {
+      Stage stage = (Stage) btn.getScene().getWindow();    
+        stage.close();
+          }
 }

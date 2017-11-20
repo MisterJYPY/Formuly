@@ -8,12 +8,6 @@ package formuly.controler.frontend;
 import formuly.Excel.ExcelTools;
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
-import formuly.entities.FmAlimentsPathologie;
-import formuly.entities.FmPathologie;
-import formuly.entities.FmRetentionMineraux;
-import formuly.entities.FmRetentionNutriments;
-import formuly.entities.FmRetentionVitamines;
-import formuly.model.frontend.mainModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -23,11 +17,9 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,14 +35,11 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javax.persistence.EntityManager;
 
 /**
  * FXML Controller class
@@ -86,6 +75,7 @@ public class AcceuilleController implements Initializable {
     @FXML private Label dumpLabelIndicator;
     @FXML private ProgressBar dumpProgressIndicator;
     @FXML private MenuItem telecharerAlimentItem;
+    @FXML private MenuItem  about;
 
     private Stage st;
     private Formuly_calculController  fmCalcul;
@@ -128,12 +118,37 @@ public class AcceuilleController implements Initializable {
         }      
     });
     }
+    public void actionAbout()
+    {
+    about.setOnAction(e->{
+     String urls="/formuly/view/frontend/about.fxml";
+        lancerAbout(urls);
+    });
+    }
+    public void lancerAbout(String url)
+    {
+     try {
+           
+    FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+           root = (Parent)loader.load(); 
+        st=new Stage();
+        st.setScene(new Scene(root));
+       st.setTitle("A propos de Formuly");
+        st.initOwner(moteurCalcul.getScene().getWindow());
+       st.initModality(Modality.APPLICATION_MODAL);
+       st.setResizable(false);
+        st.showAndWait();
+          } catch (IOException ex) {
+                     Logger.getLogger(Moteur_calculController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         listBtn=retournerListBtn();
          placerContenuAcceuille();
         actionFenetreSelectionFoods();
+        actionAbout();
        // Button[] btn={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
         formulyTools.mettreEffetButton(listBtn,Color.ROYALBLUE);
         accordGauche.setExpandedPane(paneGauche);
@@ -652,6 +667,7 @@ public class AcceuilleController implements Initializable {
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+            st.setResizable(false);
             st.showAndWait();
               }
                else{
@@ -707,6 +723,7 @@ public class AcceuilleController implements Initializable {
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+                st.setResizable(false);
             st.showAndWait();
               }
               else{
@@ -797,6 +814,7 @@ public class AcceuilleController implements Initializable {
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+                st.setResizable(false);
             st.showAndWait();
               }
               else{
@@ -875,6 +893,7 @@ public class AcceuilleController implements Initializable {
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+                st.setResizable(false);
             st.showAndWait();
               }
              else{
@@ -928,6 +947,7 @@ public class AcceuilleController implements Initializable {
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+                st.setResizable(false);
             st.showAndWait();
               }
                else{

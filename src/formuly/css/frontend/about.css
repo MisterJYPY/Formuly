@@ -1,0 +1,16 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+}
+#fenetrePrincipal
+{
+  -fx-background-color:linear-gradient(to top right,aqua,white,white,white,aqua); 
+}
+#okBtn
+{
+     -fx-cursor:hand;
+     -fx-background-color:#311c09;
+     -fx-effect: dropshadow( one-pass-box , rgba(255,255,255,0.5) , 0, 0.0 , 0 , 1);
+}
