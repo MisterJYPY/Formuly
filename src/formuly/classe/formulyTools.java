@@ -183,25 +183,24 @@ public class formulyTools {
     }
         public static ArrayList<String> RecupererElementFichierFt(File files)
     {
-    ArrayList<String> list=new ArrayList();
+       ArrayList<String> list=new ArrayList();
     try{
        String ligne;
     //chemins=this.takeTheFile();
-BufferedReader buffer=new BufferedReader(new FileReader(files));
- LineNumberReader numeroLigne = new LineNumberReader(buffer);
+       BufferedReader buffer=new BufferedReader(new FileReader(files));
+       LineNumberReader numeroLigne = new LineNumberReader(buffer);
                  int i =0;
-     while((ligne=buffer.readLine())!=null )
+       while((ligne=buffer.readLine())!=null )
        {     
          //System.out.println(ligne);
-             list.add(ligne);
-             numeroLigne.getLineNumber();
+       list.add(ligne);
+       numeroLigne.getLineNumber();
             //}
         }
-     buffer.close();
+       buffer.close();
         }catch(IOException e){
             System.out.println(Arrays.toString(e.getStackTrace()));
           }
-   
      return list;
     }
         public static void rendreCelluleEditable(TableView<mainModel> table ,TableColumn<mainModel,String> colonne )
