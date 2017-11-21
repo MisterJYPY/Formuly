@@ -5,16 +5,13 @@
  */
 package formuly.controler.frontend;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import sun.plugin.javascript.navig.JSType;
 
 /**
  * FXML Controller class
@@ -76,6 +74,8 @@ public class DemarrageAppController implements Initializable {
                   st.setScene(new Scene(root));
                   st.getIcons().add(image);
                   Stage stage = (Stage) barProgression.getScene().getWindow();
+                  st.centerOnScreen();
+                 // st.setResizable(false);
                   stage.close();
 //                AcceuilleController controller = loader.getController();
 //                  st.setOnHidden(e -> controller.shutdown());

@@ -92,7 +92,7 @@ public class dualSimplexe extends Simplexe{
        }
        cmptIteration++;
       }
-      for(int m=0;m<nbreColonne;m++)
+      for(int m=0;m<nbreLigne;m++)
        {
        System.out.print("en base  "+enBase[m]);
        }

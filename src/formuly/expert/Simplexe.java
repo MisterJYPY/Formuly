@@ -105,7 +105,7 @@ public class Simplexe {
     public void intitTableEnBase()
     {
         int val=nbreColonne;
-    for(int i=0;i<nbreColonne;i++)
+    for(int i=0;i<nbreLigne;i++)
      {
       enBase[i]="X"+val;
       val++;
@@ -269,7 +269,7 @@ public class Simplexe {
          enBase=dual.enBase;
          }
         
-      for(int m=0;m<nbreColonne;m++)
+      for(int m=0;m<nbreLigne;m++)
        {
        System.out.print("en base  "+enBase[m]);
        }
@@ -525,13 +525,16 @@ public class Simplexe {
       private int postionResult(String var)
       {
         int pos=-1;
-         for(int i=0;i<nbreColonne;i++)
+         for(int i=0;i<nbreLigne;i++)
          {
             // System.out.println(enBase[i]);
+        if(enBase.length>i)
+        {
            if(var.equals(enBase[i]))
            {
             pos=i;
            }
+          }
          }
         return pos;
       }
