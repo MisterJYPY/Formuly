@@ -722,8 +722,12 @@ public class AcceuilleController implements Initializable {
                 // registerThread.
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Votre Expert");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
@@ -813,8 +817,12 @@ public class AcceuilleController implements Initializable {
               {
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Enter Foods");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
@@ -892,8 +900,12 @@ public class AcceuilleController implements Initializable {
                 // registerThread.
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Enter Foods For File");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
@@ -946,8 +958,12 @@ public class AcceuilleController implements Initializable {
                 // registerThread.
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Gerer vos pathologie");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
