@@ -48,19 +48,19 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" prefHeight="6.0" prefWidth="200.0" text="categorie" />
-                        <ComboBox fx:id="categorie_Foods" onAction="#rechercher" prefHeight="25.0" prefWidth="204.0" promptText="-----------aucun Choix -----">
+                        <ComboBox id="combocn" fx:id="categorie_Foods" onAction="#rechercher" prefHeight="25.0" prefWidth="204.0" promptText="-----------aucun Choix -----">
                            <tooltip>
                               <Tooltip text="Selectionner par categorie" />
                            </tooltip></ComboBox>
                         <Separator prefHeight="21.0" prefWidth="200.0" visible="false" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="223.0" text="pays" />
-                        <ComboBox fx:id="pays_foods" onAction="#rechercher" prefHeight="25.0" prefWidth="207.0" promptText="-----------aucun Choix -----">
+                        <ComboBox id="combocn" fx:id="pays_foods" onAction="#rechercher" prefHeight="25.0" prefWidth="207.0" promptText="-----------aucun Choix -----">
                            <tooltip>
                               <Tooltip text="Chercher par le pays" />
                            </tooltip></ComboBox>
                         <Separator prefHeight="23.0" prefWidth="200.0" visible="false" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="Mode cuisson" />
-                        <ComboBox fx:id="mode_cuisson" onAction="#rechercher" prefHeight="25.0" prefWidth="202.0" promptText="-----------aucun Choix -----">
+                        <ComboBox id="combocn" fx:id="mode_cuisson" onAction="#rechercher" prefHeight="25.0" prefWidth="202.0" promptText="-----------aucun Choix -----">
                            <tooltip>
                               <Tooltip text="chercher par mode de cuisson" />
                            </tooltip></ComboBox>
@@ -209,11 +209,11 @@
                   <TableView fx:id="tableBilan" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <columns>
                       <TableColumn fx:id="aliment" prefWidth="118.0" styleClass="aliment" text="Nom aliment" />
-                      <TableColumn fx:id="quantites" minWidth="0.0" prefWidth="87.0" text="quantite" />
-                        <TableColumn fx:id="protide" minWidth="0.0" prefWidth="84.0" text="Protide" />
-                        <TableColumn fx:id="glucide" minWidth="0.0" prefWidth="77.0" text="Glucide" />
-                        <TableColumn fx:id="lipide" minWidth="0.0" prefWidth="84.0" text="Lipide" />
-                        <TableColumn fx:id="energie" minWidth="0.0" prefWidth="109.0" styleClass="energie" text="Energie" />
+                      <TableColumn id="qte" fx:id="quantites" minWidth="0.0" prefWidth="87.0" text="quantite" />
+                        <TableColumn id="nutr" fx:id="protide" minWidth="0.0" prefWidth="84.0" text="Protide" />
+                        <TableColumn id="nutr" fx:id="glucide" minWidth="0.0" prefWidth="77.0" text="Glucide" />
+                        <TableColumn id="nutr" fx:id="lipide" minWidth="0.0" prefWidth="84.0" text="Lipide" />
+                        <TableColumn id="energies" fx:id="energie" minWidth="0.0" prefWidth="109.0" styleClass="energie" text="Energie" />
                         <TableColumn id="pays" fx:id="pays" minWidth="0.0" prefWidth="136.0" styleClass="pays" text="Pays" />
                     </columns>
                   </TableView>

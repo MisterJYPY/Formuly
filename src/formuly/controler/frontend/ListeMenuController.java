@@ -346,11 +346,16 @@ EntityManagerFactory     entityManagerFactory;
               {
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+            Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Update Foods");
             st.initOwner(faireRepas.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
+             st.setResizable(false);
               alert.close();
             st.showAndWait();
               }

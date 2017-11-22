@@ -1497,4 +1497,13 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         e.printStackTrace();
     }
 }
+       /**
+        * contenu vide pour l'instant
+        * @param btn
+        * @param urlImage 
+        */
+       public static void mettreImageBtn(Button btn ,String urlImage)
+       {
+      
+       }
 }

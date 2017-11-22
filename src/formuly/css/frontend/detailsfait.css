@@ -36,14 +36,17 @@
 }
 #conclusion
 {
-      -fx-text-fill:#090a0c;
-      -fx-font-size :14px; 
+      -fx-text-fill:#20262b;
+      -fx-font-size :17px; 
       -fx-font-weight:bold;
+       -fx-font-family: "Courier New";
 }
 #regle
 {
-    -fx-font-size :15px;   
+    -fx-font-size :20px;   
     -fx-font-weight:bold;
+    -fx-font-family: "Courier New";
+    -fx-text-fill: #311c09;
 }
 .buttonCancel
 {
@@ -137,4 +140,8 @@
 {
      
      -fx-font-weight:bold;
+}
+.infbas
+{
+    -fx-text-fill: #ff9999;
 }

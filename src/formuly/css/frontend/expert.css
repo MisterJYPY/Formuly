@@ -164,3 +164,32 @@
        -fx-background-color:#311c09;
          -fx-cursor:hand;
 }
+#envoiValeur
+{
+    -fx-background-color:#E9C9B1;
+}
+#identifiantFait
+{
+       -fx-font-weight:bold;
+       -fx-text-fill :#903b12;
+       -fx-font-size:15px;
+}
+#envoiValeur:hover
+{
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+#envoiValeur:pressed
+{
+    -fx-padding: 5;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+#fait
+{
+    -fx-font-weight:bold;  
+     -fx-text-fill :#090a0c;
+      -fx-font-family: "Courier New";
+}

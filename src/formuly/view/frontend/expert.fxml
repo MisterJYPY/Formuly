@@ -64,9 +64,9 @@
                </font></Label>
             <TableView fx:id="listFaitConclusion" layoutX="117.0" layoutY="40.0" prefHeight="200.0" prefWidth="694.0">
               <columns>
-                <TableColumn fx:id="numero" prefWidth="37.0" text="N°" />
-                <TableColumn fx:id="identifiant" prefWidth="77.0" text="identifiant" />
-                  <TableColumn fx:id="fait" minWidth="8.0" prefWidth="444.0" text="Fait" />
+                <TableColumn fx:id="numero" prefWidth="37.0" styleClass="coloneCentre" text="N°" />
+                <TableColumn id="identifiantFait" fx:id="identifiant" prefWidth="77.0" styleClass="coloneCentre" text="identifiant" />
+                  <TableColumn id="fait" fx:id="fait" minWidth="8.0" prefWidth="444.0" styleClass="coloneCentre" text="Fait" />
                   <TableColumn fx:id="nbreRegleApplicable" prefWidth="95.0" text="Nbre Regles" visible="false" />
                   <TableColumn fx:id="action" prefWidth="50.0" text="action" />
                   <TableColumn fx:id="detailsFait" prefWidth="85.0" text="details" />
@@ -78,7 +78,10 @@
             <Button id="enregistrer" fx:id="enregistrer" layoutX="747.0" layoutY="568.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="148.0" styleClass="enregistrer" text="enregistré">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Button>
+               </cursor>
+               <tooltip>
+                  <Tooltip text="Enregistré le fait" />
+               </tooltip></Button>
             <Button id="retour" fx:id="effacerDernierElement2" layoutX="800.0" layoutY="541.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" styleClass="dark-blue" text="&lt;&lt;&lt;&lt;">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -96,7 +99,7 @@
                </tooltip>
             </Button>
             <TextArea fx:id="conclusion" layoutX="29.0" layoutY="430.0" prefHeight="172.0" prefWidth="594.0" styleClass="conclusion" wrapText="true" />
-            <Button fx:id="envoiValeur" layoutX="923.0" layoutY="305.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0" text="E">
+            <Button id="envoiValeur" fx:id="envoiValeur" layoutX="923.0" layoutY="305.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="25.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -107,16 +110,14 @@
                </font>
             </Label>
             <ImageView fx:id="alert" fitHeight="28.0" fitWidth="40.0" layoutX="909.0" layoutY="382.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="enleverImportConclusion" layoutX="510.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="&lt;-">
+            <Button fx:id="enleverImportConclusion" layoutX="510.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" styleClass="dark-blue" text="&lt;-">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <tooltip>
+                  <Tooltip text="effecer le fait Importé" />
+               </tooltip>
             </Button>
-            <ImageView fitHeight="34.0" fitWidth="47.0" layoutX="648.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../image/iconeAc.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="34.0" fitWidth="47.0" layoutX="860.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../image/iconeAc.png" />

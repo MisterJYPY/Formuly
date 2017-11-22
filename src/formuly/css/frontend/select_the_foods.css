@@ -93,6 +93,36 @@ and open the template in the editor.
 }
 .aliment
 {
-/*  -fx-alignment: CENTER;
-    -fx-background-color:#FFEFD5;    */
+  -fx-alignment: CENTER;
+ -fx-font-weight:bold;
+}
+#combocn
+{
+      -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#BBD2E1;
+       -fx-cursor:hand;
+        -fx-alignment: CENTER;
+}
+.colonneCentre
+{
+    -fx-alignment: center;
+}
+
+#nutr
+{
+ 
+    -fx-text-fill: #191d22;
+      -fx-alignment: CENTER;
+}
+#energies
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight:bold;
+    -fx-text-fill:#7D0000;
+}
+#qte
+{
+     -fx-font-weight:bold;
+     -fx-text-fill: #006699;
 }

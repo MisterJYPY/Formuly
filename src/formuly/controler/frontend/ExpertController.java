@@ -307,6 +307,9 @@ public class ExpertController implements Initializable {
        lancerEnregistrement();
        mesure.setVisible(false);
        actionEnleverImportConclusion();
+          Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/basExpert.png"));
+                            envoiValeur.setGraphic(new ImageView(image));
     }  
     private void actionEnleverImportConclusion()
      {
@@ -1269,7 +1272,6 @@ StringConverter<Double> converter = new StringConverter<Double>() {
     }
      public void lancerDetailsFait(regleFaitModel rgfait,Button btn)
       {
-       
           try {
      //  if(loader==null){
                loader = new FXMLLoader();
@@ -1278,8 +1280,12 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                loader.setController(ctr_details);
                Parent root = (Parent)loader.load(); 
                  st=null;
+                   Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
                st=new Stage();
          st.setScene(new Scene(root));
+         st.getIcons().add(image);
          st.setTitle("Details fait");
          st.initOwner(btn.getScene().getWindow());
          st.initModality(Modality.APPLICATION_MODAL);
