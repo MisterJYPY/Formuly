@@ -444,11 +444,16 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                loader.setController(ctr_Result);
                Parent root = (Parent)loader.load(); 
                  st=null;
+              Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
                st=new Stage();
          st.setScene(new Scene(root));
+         st.getIcons().add(image);
          st.setTitle("Resultat du calcul");
          st.initOwner(lancerCalcul.getScene().getWindow());
          st.initModality(Modality.APPLICATION_MODAL);
+         st.setResizable(false);
          st.showAndWait();
         //  }
 //       else{

@@ -417,6 +417,9 @@ StringConverter<Double> converter = new StringConverter<Double>() {
    {
           try {
      //  if(loader==null){
+                Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
               loader = new FXMLLoader();
                loader.setLocation(getClass().getResource("/formuly/view/frontend/resultatCalcul.fxml"));
                ctr_Result=new ResultatCalculController(listChoix, residu);
@@ -425,9 +428,11 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                  st=null;
                st=new Stage();
          st.setScene(new Scene(root));
+         st.getIcons().add(image);
          st.setTitle("Resultat du calcul");
          st.initOwner(lancerCalcul.getScene().getWindow());
          st.initModality(Modality.APPLICATION_MODAL);
+         st.setResizable(false);
          st.showAndWait();
         //  }
 //       else{

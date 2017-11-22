@@ -9,37 +9,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="731.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <stylesheets>
-        <URL value="@/formuly/css/frontend/resultatproglineaire.css" />
-    </stylesheets>
+<AnchorPane prefHeight="521.0" prefWidth="731.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/resultatproglineaire.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    
    <children>
-      <Label alignment="CENTER" layoutX="40.0" layoutY="6.0" prefHeight="35.0" prefWidth="671.0" text="Resultat du calcul de la Programmation Linéaire">
+      <Label id="info" alignment="CENTER" layoutX="40.0" layoutY="-2.0" prefHeight="43.0" prefWidth="671.0" text="Resultat du calcul de la Programmation Linéaire">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
       <TableView fx:id="table" layoutY="149.0" prefHeight="224.0" prefWidth="731.0">
         <columns>
-          <TableColumn fx:id="nomAliment" prefWidth="132.0" text="Nom de l'aliment" />
-            <TableColumn fx:id="cuisson" prefWidth="59.0" text="Cuisson" />
-            <TableColumn fx:id="glucide" prefWidth="74.0" text="Glucide" />
-            <TableColumn fx:id="lipide" prefWidth="99.0" text="Lipide" />
-            <TableColumn fx:id="protide" prefWidth="83.0" text="Protide" />
-            <TableColumn fx:id="pays" prefWidth="81.0" text="Pays" />
-            <TableColumn fx:id="Pu" minWidth="0.0" prefWidth="88.0" text="Prix Unitaire" />
-            <TableColumn fx:id="resultat" minWidth="0.0" prefWidth="114.0" text="Resultat" />
+          <TableColumn id="nomAliment" fx:id="nomAliment" prefWidth="132.0" styleClass="coloneCentre" text="Nom de l'aliment" />
+            <TableColumn fx:id="cuisson" prefWidth="59.0" styleClass="coloneCentre" text="Cuisson" />
+            <TableColumn fx:id="glucide" prefWidth="74.0" styleClass="coloneCentre" text="Glucide" />
+            <TableColumn fx:id="lipide" prefWidth="99.0" styleClass="coloneCentre" text="Lipide" />
+            <TableColumn fx:id="protide" prefWidth="83.0" styleClass="coloneCentre" text="Protide" />
+            <TableColumn fx:id="pays" prefWidth="81.0" styleClass="coloneCentre" text="Pays" />
+            <TableColumn id="prixUnitaire" fx:id="Pu" minWidth="0.0" prefWidth="88.0" styleClass="coloneCentre" text="Prix Unitaire" />
+            <TableColumn id="resultat" fx:id="resultat" minWidth="0.0" prefWidth="114.0" styleClass="colonneCentre" text="Resultat" />
         </columns>
       </TableView>
-      <Label alignment="CENTER" layoutX="193.0" layoutY="41.0" prefHeight="24.0" prefWidth="345.0" text="Quantités minimales  des nutriments" />
+      <Label id="infoMinimale" alignment="CENTER" layoutX="193.0" layoutY="41.0" prefHeight="24.0" prefWidth="345.0" text="Quantités minimales  des nutriments" />
       <Label layoutX="79.0" layoutY="80.0" prefHeight="24.0" prefWidth="79.0" text="Glucide" />
-      <Label fx:id="glucideMin" layoutX="172.0" layoutY="83.0" prefHeight="18.0" prefWidth="85.0" text="0.0" />
+      <Label id="min" fx:id="glucideMin" layoutX="172.0" layoutY="83.0" prefHeight="18.0" prefWidth="85.0" text="0.0" />
       <Label layoutX="266.0" layoutY="80.0" prefHeight="24.0" prefWidth="59.0" text="Protide :" />
-      <Label fx:id="protideMin" layoutX="326.0" layoutY="80.0" prefHeight="24.0" prefWidth="79.0" text="0.0" />
+      <Label id="min" fx:id="protideMin" layoutX="326.0" layoutY="80.0" prefHeight="24.0" prefWidth="79.0" text="0.0" />
       <Label layoutX="479.0" layoutY="77.0" prefHeight="24.0" prefWidth="59.0" text="Lipide : " />
-      <Label fx:id="lipideMin" layoutX="556.0" layoutY="72.0" prefHeight="35.0" prefWidth="72.0" text="0.0" />
+      <Label id="min" fx:id="lipideMin" layoutX="556.0" layoutY="72.0" prefHeight="35.0" prefWidth="72.0" text="0.0" />
       <Label layoutX="353.0" layoutY="387.0" prefHeight="24.0" prefWidth="156.0" text="Cout Total des Ingredients " />
-      <Label fx:id="coutTotal" layoutX="528.0" layoutY="384.0" prefHeight="35.0" prefWidth="128.0" text="0.0" />
+      <Label id="cout" fx:id="coutTotal" layoutX="528.0" layoutY="384.0" prefHeight="35.0" prefWidth="133.0" text="0.0" />
       <Label layoutX="675.0" layoutY="384.0" prefHeight="35.0" prefWidth="53.0" text="F CFA" />
       <ImageView fitHeight="35.0" fitWidth="53.0" layoutX="26.0" layoutY="383.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -56,7 +54,8 @@
             <Image url="@../../image/iconeAc.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="74.0" layoutY="433.0" prefHeight="24.0" prefWidth="563.0" text="               Les resultats ont tous été multiplié par 100" />
+      <Label id="infobas" alignment="CENTER" layoutX="72.0" layoutY="484.0" prefHeight="24.0" prefWidth="563.0" text="Toutes les valeurs pour l'affichage ont été arrondis au millième près" />
       <Button fx:id="fermer" layoutX="661.0" layoutY="471.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" text="X" />
+      <Label id="info100" alignment="CENTER_RIGHT" layoutX="341.0" layoutY="431.0" prefHeight="24.0" prefWidth="305.0" text="les resultats ont été multiplié par 100 " textAlignment="RIGHT" />
    </children>
 </AnchorPane>

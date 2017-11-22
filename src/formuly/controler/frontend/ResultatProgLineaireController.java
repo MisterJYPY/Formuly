@@ -76,6 +76,9 @@ public class ResultatProgLineaireController implements Initializable {
     private final ObservableList<mainModel> lists;
     private final double[] result;
     private final double [] donneeMin;
+    public static int arrondis=3;
+    
+    
       NumberFormat format;
       
 /**
@@ -89,7 +92,7 @@ public class ResultatProgLineaireController implements Initializable {
      this.result=resultat;
      this.donneeMin=donneMin;
      format=NumberFormat.getInstance();
-     format.setMaximumFractionDigits(2);
+     format.setMaximumFractionDigits(arrondis);
     }
     /**
  * 
@@ -102,7 +105,7 @@ public class ResultatProgLineaireController implements Initializable {
      this.result=resultat;
      this.donneeMin=donneMin;
      format=NumberFormat.getInstance();
-     format.setMaximumFractionDigits(2);
+     format.setMaximumFractionDigits(arrondis);
      miseAjourResultCalcul();
   
     }
@@ -110,7 +113,7 @@ public class ResultatProgLineaireController implements Initializable {
      this.lists=list;
      this.result=resultat;
      format=NumberFormat.getInstance();
-     format.setMaximumFractionDigits(2);
+     format.setMaximumFractionDigits(arrondis);
      miseAjourResultCalcul();
       donneeMin=new double[4];
       actualiserdonneeMin(LdonneMin);
@@ -122,7 +125,7 @@ public class ResultatProgLineaireController implements Initializable {
         for(Double element :list)
         {
          donneeMin[i]=element;
-         System.out.println("el : "+element);
+        // System.out.println("el : "+element);
          i++;
         }
        }

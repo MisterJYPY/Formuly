@@ -462,12 +462,17 @@ public class Prog_lineaireController implements Initializable {
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
             
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Resultat de la programmation linéaire");
             st.initOwner(lancerCalcul.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
+              st.setResizable(false);
               st.showAndWait();
              // alert.setContentText("Terminé...");  
               if(resulatCalcul!=null)
