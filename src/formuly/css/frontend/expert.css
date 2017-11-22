@@ -114,7 +114,7 @@
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
 .info_path{
-    -fx-text-alignment: center;
+      -fx-text-alignment: center;
       -fx-text-fill: red;
        -fx-font-weight:bold;
        -fx-font-size: 20 px;
@@ -123,4 +123,44 @@
 {
      
      -fx-font-weight:bold;
+}
+#expert
+{
+       -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-font-size: 25 px;
+}
+#combocn
+{
+     -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#d0d0d0;
+       -fx-cursor:hand;
+}
+#combode
+{
+     -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#d0d0d0;
+         -fx-cursor:hand;
+}
+#comboou
+{
+       -fx-font-weight:bold;
+       -fx-background-color:#d0d0d0;
+         -fx-cursor:hand;
+}
+#comboen
+{
+     -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#6B854B;
+         -fx-cursor:hand;
+}
+#combova
+{
+       -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#311c09;
+         -fx-cursor:hand;
 }
