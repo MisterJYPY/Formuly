@@ -50,7 +50,7 @@
          </font>
       </Label>
       <Label layoutX="46.0" layoutY="198.0" text="mail : " />
-      <Hyperlink layoutX="86.0" layoutY="195.0" prefHeight="23.0" prefWidth="200.0" text="nanoukakoujeanpaul@gmail.com" />
+      <Hyperlink fx:id="link" layoutX="86.0" layoutY="195.0" prefHeight="23.0" prefWidth="200.0" text="nanoukakoujeanpaul@gmail.com" />
       <Label layoutX="260.0" layoutY="108.0" prefHeight="17.0" prefWidth="412.0" text="Ce Logiciel est l'implémentation de certains travaux de recherches du Labo" />
       <Label layoutX="287.0" layoutY="198.0" prefHeight="17.0" prefWidth="73.0" text="Adresse :" />
       <Label layoutX="350.0" layoutY="195.0" prefHeight="23.0" prefWidth="200.0" text="Abidjan  -- Cote Ivoire " />

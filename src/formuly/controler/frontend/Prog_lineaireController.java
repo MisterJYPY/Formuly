@@ -129,10 +129,12 @@ public class Prog_lineaireController implements Initializable {
         public static int Nombre_MAX_ALIMENT=50;
          public static int Nombre_MAX_CONTRAINTE=5;
         private Simplexe simplexe;
+        private  double resulatCalcul[]=null;
     public Prog_lineaireController() {
         listeAliments=formulyTools.getobservableListMainModel();
          listeRecherche=listeAliments;
            matrix=new double[Nombre_MAX_CONTRAINTE][Nombre_MAX_ALIMENT];   
+             donneeMin=new double[4];
            
     }
        
@@ -166,7 +168,7 @@ public class Prog_lineaireController implements Initializable {
      //  placerBouton();
        // placerBouton(table1_del,2);
       placerBouton(choix,1);
-         System.out.println("nbre aliment : "+listeAliments.size());
+      //  System.out.println("nbre aliment : "+listeAliments.size());
         table1.setItems(model);
       
     }
@@ -234,8 +236,8 @@ public class Prog_lineaireController implements Initializable {
         };
          colonne.setCellFactory(cellFactory);
         }
-      else{
-        
+      else{    
+            
      colonne.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
   Callback<TableColumn<mainModel, String>, TableCell<mainModel, String>> cellFactory = new Callback<TableColumn<mainModel, String>, TableCell<mainModel, String>>() {      
                     @Override
@@ -328,6 +330,11 @@ public class Prog_lineaireController implements Initializable {
         double glucidMax=Double.parseDouble(glucideMax.getText());
         double lipideMax=Double.parseDouble(LipideMax.getText());
         double protidMax=Double.parseDouble(protideMax.getText());
+    
+        donneeMin[0]=lipideMax;
+        donneeMin[1]=protidMax;
+        donneeMin[2]=glucidMax;
+        
          updateProgress(9,100);
     updateMessage("Extraction des valeurs en nutriments des aliments ...."); 
        for(mainModel element:alimentsChoisi)
@@ -395,8 +402,27 @@ public class Prog_lineaireController implements Initializable {
          Thread.sleep(15);
        simplexe.algorithmeSimplexe();
         updateProgress(65,100);
-    updateMessage("Calcul Terminé préparation des resultats pour l'affichage....");
-           updateProgress(90,100);
+    updateMessage("Fin du calcul cupération des resultats....");
+      resulatCalcul=simplexe.getResulltatCalcul();
+              updateProgress(75,100);
+      updateMessage("Préparation pour l'affichage....");
+      String url="/formuly/view/frontend/resultatProgLineaire.fxml";
+         loader=new FXMLLoader();
+         loader.setLocation(getClass().getResource(url));
+             for(int k=0;k<donneeMin.length;k++)
+             {
+                 System.out.println("n: "+donneeMin[k]);
+             }
+         ctr=new ResultatProgLineaireController(alimentsChoisi, resulatCalcul, donneeMin);
+        updateMessage("chargement du controller....");
+            updateProgress(80,100);
+       loader.setController(ctr);
+        updateMessage("Chargement des composants pour la vue....");
+          updateProgress(85,100);
+          root=loader.load();
+          updateProgress(90,100);
+          updateMessage("initialisation 3 secondes....");
+          updateProgress(95,100);
           updateMessage("terminer");
            updateProgress(100,100);
           }
@@ -412,6 +438,7 @@ public class Prog_lineaireController implements Initializable {
       }
     };
   }
+    
        public void ControlCalcul() 
     {
              
@@ -434,15 +461,24 @@ public class Prog_lineaireController implements Initializable {
                 // registerThread.
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
-//            st=new Stage();
-//            st.setScene(new Scene(root));
-//            st.setTitle("Votre Expert");
-//            st.initOwner(lancerCalcul.getScene().getWindow());
-//            st.initModality(Modality.APPLICATION_MODAL);
+            
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.setTitle("Resultat de la programmation linéaire");
+            st.initOwner(lancerCalcul.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
-              alert.setContentText("Terminé...");  
-              alert.setAlertType(Alert.AlertType.INFORMATION);
-              alert.showAndWait();
+              st.showAndWait();
+             // alert.setContentText("Terminé...");  
+              if(resulatCalcul!=null)
+              {
+               System.out.println("");
+      for(int cpt=0;cpt<resulatCalcul.length;cpt++)
+      {
+       int nmro=cpt+1;
+      // System.out.println("X"+nmro+" : "+resulatCalcul[cpt]);
+      }
+              }
 //                st.setResizable(false);
 //            st.showAndWait();
               }
@@ -478,4 +514,6 @@ public class Prog_lineaireController implements Initializable {
       private Parent root;
       private FXMLLoader loader;
       private Stage st;
+      private double[] donneeMin;
+      private ResultatProgLineaireController ctr;
 }

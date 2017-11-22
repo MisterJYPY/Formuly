@@ -62,6 +62,8 @@ public class Simplexe {
       * variable qui nous dira si au cour de la resolution le dual a ete lancer ou pas
       */
     protected boolean dualLncer=true;
+    
+    private double [] resulltatCalcul;
 /**
  * constructeur parametré du simplexe
  * @param nbreLignes le nombre de lignes du tableau
@@ -277,10 +279,12 @@ public class Simplexe {
     
        if(!declencheDual)
        {
-         res=extractionResult(dual.MatrixSuivant);
+          resulltatCalcul=extractionResult(dual.MatrixSuivant);
+           res=resulltatCalcul;
        }
        else{
-       res=extractionResult(MatrixSuivant);
+        resulltatCalcul=extractionResult(MatrixSuivant);
+        res=resulltatCalcul;
        }
       System.out.println("");
       for(int cpt=0;cpt<res.length;cpt++)
@@ -580,6 +584,14 @@ public class Simplexe {
 
     public void setMatrixNouveau(double[][] MatrixNouveau) {
         this.MatrixNouveau = MatrixNouveau;
+    }
+
+    public double[] getResulltatCalcul() {
+        return resulltatCalcul;
+    }
+
+    public void setResulltatCalcul(double[] resulltatCalcul) {
+        this.resulltatCalcul = resulltatCalcul;
     }
       
 }

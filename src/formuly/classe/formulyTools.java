@@ -1490,4 +1490,11 @@ StringConverter<Double> converter = new StringConverter<Double>() {
       Stage stage = (Stage) btn.getScene().getWindow();    
         stage.close();
           }
+       public static void openWebpage(String url) {
+    try {
+        new ProcessBuilder("x-www-browser", url).start();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }

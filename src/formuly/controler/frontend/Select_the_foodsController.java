@@ -1199,7 +1199,7 @@ Callback myCallback = new Callback() {
         aetProti=aetProtide;
         aetGlucid=aetGlucide;
          //transformer en caractere
-       NumberFormat format=NumberFormat.getInstance();
+            NumberFormat format=NumberFormat.getInstance();
             format.setMaximumFractionDigits(2); 
         String energiteTot=(bilanElements.size()>0 && EnergieTotale>0)?format.format(EnergieTotale):"0";
         String aetLip=(bilanElements.size()>0 && aetLipide>0)?format.format(aetLipide):"0";

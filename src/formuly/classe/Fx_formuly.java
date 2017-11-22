@@ -5,6 +5,8 @@
  */
 package formuly.classe;
 
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
 import formuly.controler.frontend.DemarrageAppController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -26,6 +28,8 @@ import javafx.stage.Stage;
 public class Fx_formuly extends Application {
     
        FXMLLoader loader=null;
+       static Application app;
+      // public  static  HostServicesDelegate hostServices;
       static DemarrageAppController dem;
     @Override
     public void start(Stage primaryStage) {
@@ -45,6 +49,7 @@ public class Fx_formuly extends Application {
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
            dem.positionnerAcceuille();
+             app=this;
             
         } catch (IOException ex) {        
          Logger.getLogger(Fx_formuly.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,7 +60,6 @@ public class Fx_formuly extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       
         launch(args);
     }
     @Override
@@ -78,5 +82,8 @@ public class Fx_formuly extends Application {
         Platform.exit();
        }
   }
-    
+   public  static Application returnApp()
+   {
+    return app;
+   }
 }
