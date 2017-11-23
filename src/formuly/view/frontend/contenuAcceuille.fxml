@@ -32,7 +32,7 @@
                            <font>
                               <Font name="Cambria Math" size="24.0" />
                            </font></Label>
-                        <Label alignment="CENTER_RIGHT" layoutY="37.0" prefHeight="40.0" prefWidth="259.0" styleClass="labelResume" text="aliment (s) en attente d'insertion:" />
+                        <Label alignment="CENTER_RIGHT" layoutY="37.0" prefHeight="40.0" prefWidth="259.0" styleClass="labelResume" text="Nombre de Faits Enregistrés :" />
                         <Label fx:id="nbreAlmtNonEntierementEnregistrer" alignment="CENTER" layoutX="269.0" layoutY="36.0" prefHeight="43.0" prefWidth="169.0" text="Label">
                            <font>
                               <Font name="Cambria Math" size="24.0" />
@@ -52,14 +52,14 @@
                            <font>
                               <Font name="Cambria" size="24.0" />
                            </font></Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="41.0" prefHeight="38.0" prefWidth="232.0" styleClass="labelResume" text="Aliments Interdits :" />
+                        <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="41.0" prefHeight="38.0" prefWidth="232.0" styleClass="labelResume" text="Nombre d'aliments à éviter :" />
                         <Separator layoutX="-99.0" layoutY="31.0" prefHeight="12.0" prefWidth="502.0" styleClass="ligne" />
                         <Separator layoutY="74.0" prefHeight="9.0" prefWidth="404.0" styleClass="ligne" />
                         <Label fx:id="nbreAlmtInterdit" alignment="CENTER" layoutX="238.0" layoutY="38.0" prefHeight="39.0" prefWidth="166.0" text="Label">
                            <font>
                               <Font name="Cambria" size="24.0" />
                            </font></Label>
-                        <Label fx:id="nbreMenuAlmtInterdit" alignment="CENTER_RIGHT" layoutY="76.0" prefHeight="38.0" prefWidth="240.0" styleClass="labelResume" text="Menu avec aliment Interdit :" />
+                        <Label fx:id="nbreMenuAlmtInterdit" alignment="CENTER_RIGHT" layoutY="76.0" prefHeight="38.0" prefWidth="240.0" styleClass="labelResume" text="Menu(s) avec aliments eviter :" />
                         <Label fx:id="nbreMenuAvecAlimentInterdit" alignment="CENTER" layoutX="240.0" layoutY="79.0" prefHeight="36.0" prefWidth="165.0" text="Label">
                            <font>
                               <Font name="Cambria Math" size="24.0" />
@@ -90,7 +90,7 @@
                      <children>
                         <BorderPane prefHeight="317.0" prefWidth="403.0">
                            <center>
-                              <BarChart fx:id="bc" barGap="2.0" categoryGap="5.0" prefHeight="298.0" prefWidth="403.0" styleClass="barChat" title="Nombre Aliment Enregistrés fonction des Pays" BorderPane.alignment="CENTER">
+                              <BarChart fx:id="bc" barGap="2.0" categoryGap="5.0" prefHeight="298.0" prefWidth="403.0" styleClass="barChat" title="Nombre d'liments Enregistrés fonction des Pays" BorderPane.alignment="CENTER">
                                 <xAxis>
                                   <CategoryAxis fx:id="YRegime" label="Pays " side="BOTTOM" />
                                 </xAxis>

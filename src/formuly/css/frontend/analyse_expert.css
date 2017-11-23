@@ -3,7 +3,7 @@
  */
 
 .fenetrePrincipal{
-  -fx-background-color:linear-gradient(to top right,#90EE90,white 30%,#90EE90,white,white,#90EE90);
+  -fx-background-color:linear-gradient(to top right,greenyellow,white,greenyellow 20%,white);
  
 }
 #buttonCancel
@@ -111,4 +111,52 @@
 #nom_pathologie
 {
  -fx-font-weight:bold;    
+}
+.sexe
+{
+    -fx-text-fill :#a0460b;
+}
+.poid
+{
+    -fx-text-fill :#666600;
+    -fx-font-weight:bold;   
+    -fx-font-size : 16 px; 
+}
+.taille
+{ 
+    -fx-text-fill :#666600;
+    -fx-font-weight:bold;   
+    -fx-font-size : 16 px;
+}
+.age
+{
+  -fx-text-fill :#666600;
+    -fx-font-weight:bold;   
+    -fx-font-size : 16 px;   
+    
+}
+.conclusion
+{
+    -fx-font-size : 18 px;
+    -fx-font-family: "Courier New";
+    // -fx-font-weight:bold;  
+     -fx-text-fill :#000000;
+}
+#energieTotale
+{
+     -fx-font-family: "Courier New";
+      -fx-font-size : 22 px;
+      -fx-text-fill :#cc3300;
+}
+#valeur
+{
+     -fx-font-weight:bold;  
+     -fx-text-fill :#330066;
+     -fx-font-size : 19 px;
+      -fx-font-family: "Courier New";
+}
+.infoHaut
+{
+      -fx-font-size : 20 px;
+      -fx-text-fill :#ffcc00;
 }

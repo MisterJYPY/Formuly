@@ -141,6 +141,7 @@ public class Make_foods_forMenuController implements Initializable {
     private outilsExpert expert;
     private List<FmFait> listFait;
   private boolean analyseFait;
+ private ObservableList<FmAlimentsPathologie>  list;
 
     public Make_foods_forMenuController(repasModel repasM,ObservableList<alimentRepasModel> list)
     {
@@ -458,9 +459,18 @@ public class Make_foods_forMenuController implements Initializable {
 GridPane grid = new GridPane();
 grid.setHgap(10);
 grid.setVgap(10);
+String styleCss="-fx-text-fill: red;\n" +
+"       -fx-font-weight:bold;\n" +
+"       -fx-background-color:#BBD2E1;\n" +
+"       -fx-cursor:hand;\n" +
+"        -fx-alignment: CENTER;";
+String styleCssGrid=" -fx-background-color:linear-gradient(to top right,greenyellow,white,greenyellow 20%,white);";
 grid.setPadding(new javafx.geometry.Insets(0, 10, 0, 10));
  final ComboBox<String> sexP= new ComboBox<>();
  final ComboBox<String> ageP = new ComboBox<>();
+   sexP.setStyle(styleCss);
+   ageP.setStyle(styleCss);
+   grid.setStyle(styleCssGrid);
  final TextField tailleP = new TextField();
  final TextField Poids = new TextField();
  formulyTools.textsConverter(tailleP,Poids);
@@ -577,7 +587,7 @@ Callback myCallback = new Callback() {
                       Logger.getLogger(Select_the_foodsController.class.getName()).log(Level.SEVERE, null, ex);
                   }
                    // alert.show();
-                 System.out.println(conclusion);
+               //  System.out.println(conclusion);
             
               }
               else{
@@ -659,13 +669,32 @@ Callback myCallback = new Callback() {
          public void chargerResultAnalyse() throws IOException
     {
              
+         /**
+          * construction de l'avertissement
+          */
+         String conclusionAdvertissement="";
+        if(list.size()>0)
+        {
+           conclusionAdvertissement=" Votre menu contient un(des) ingrédient(s) à eviter, les details :\n\n";
+            for(FmAlimentsPathologie alp:list)
+            {
+             String ligne=alp.getAliment().getNomFr()+" pour la pathologie : "+alp.getPathologie().getLibelle();
+             conclusionAdvertissement=conclusionAdvertissement.concat(ligne+"\n");
+            }
+             conclusionAdvertissement= conclusionAdvertissement.concat("Pensez à eviter ces aliments dorénavent , l'analyse :\n\n"
+                     + "");
+        }
          FXMLLoader loader = new FXMLLoader();
+           Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
          loader.setLocation(getClass().getResource("/formuly/view/frontend/analyse_expert.fxml"));
-          Analyse_expertController   controller=new Analyse_expertController(expert);
-             loader.setController(controller);
+         Analyse_expertController   controller=new Analyse_expertController(expert,conclusionAdvertissement);
+         loader.setController(controller);
          Parent root = loader.load();
         Stage st=new Stage();
          st.setScene(new Scene(root));
+         st.getIcons().add(image);
          st.setTitle("Analyse expet result");
         st.initOwner(buttonExpert.getScene().getWindow());
         st.initModality(Modality.APPLICATION_MODAL);
@@ -740,10 +769,10 @@ Callback myCallback = new Callback() {
         String content="";
         if(list.size()>0)
         {
-       content=content.concat(" aliments Interdits: \n");
+       content=content.concat(" aliments A éviter : \n");
           for(FmAlimentsPathologie liste :list)
           {
-           String nom=(!"aucun".equals(liste.getAliment().getSurnom()))?liste.getAliment().getSurnom():liste.getAliment().getNomFr();
+           String nom=liste.getAliment().getNomFr();
            String pathologie=liste.getPathologie().getLibelle();
            String ligne=nom.concat(" :pat: "+pathologie);
           content=content.concat(ligne+"\n");
@@ -753,13 +782,12 @@ Callback myCallback = new Callback() {
       }
          public void TraiterInterdi()
          {
-   ObservableList<FmAlimentsPathologie>  list=verificationPathologie(table_aliment_deja_choisi.getItems());
+     list=verificationPathologie(table_aliment_deja_choisi.getItems());
              String info="";
         info = formatageInterdi(list);
     String lesElement="";
         if(list.size()>0)
          {      
-             System.out.println("on est la");
               Image image = new Image(
     getClass().getResourceAsStream("/formuly/image/war.jpg")
      );

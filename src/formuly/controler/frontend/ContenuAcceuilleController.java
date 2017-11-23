@@ -73,7 +73,7 @@ public class ContenuAcceuilleController implements Initializable {
    private int nbreAlimentInterdit=0;
    private int nbrePatho=0;
   private int nbreRepas=0;
-  private int nbreAlimentNonUtilisable=0;
+  private int nbreFaitEnregistres=0;
  private int nbreAlimentMenuInterdit=0;
    private  formulyTools   formul;
    // String [] pays=new String["General","Cote Ivoire","Ghana","Benin","Mali","Burkina Faso","Nigeria","Niger","Senegal","Gambie"];
@@ -84,11 +84,11 @@ public class ContenuAcceuilleController implements Initializable {
             LineChartList=FXCollections.observableArrayList();
             seriesLineChat = new XYChart.Series();
             nbreAlimentMenuInterdit=formulyTools.NbremenuAvecAlimentInterdit();
-          nbreAlr=formulyTools.NbreAlimentEnregistrer(1);
+            nbreAlr=formulyTools.NbreAlimentEnregistrer(1);
             nbreAlimentInterdit=formulyTools.NbreAlimentInterdit();
             nbrePatho=formulyTools.NbrePathologie();
             nbreRepas=formulyTools.NbreRepasEffectuer();
-            nbreAlimentNonUtilisable=formulyTools.nbreAlimentNonUtilisable();
+            nbreFaitEnregistres=formulyTools.NbreFaitsEnregistrer();
            
       //    formul= new formulyTools();
          //chargerDonner();
@@ -100,7 +100,7 @@ public class ContenuAcceuilleController implements Initializable {
     nbreAlmtInterdit.setText(String.valueOf(nbreAlimentInterdit));
    nbrePathologieEnregistrer.setText(String.valueOf( nbrePatho));
    nbreMenu.setText(String.valueOf( nbreRepas));
-    nbreAlmtNonEntierementEnregistrer.setText(String.valueOf(nbreAlimentNonUtilisable));
+    nbreAlmtNonEntierementEnregistrer.setText(String.valueOf(nbreFaitEnregistres));
    nbreMenuAvecAlimentInterdit.setText(String.valueOf(nbreAlimentMenuInterdit));
     }
     public void chargerDonner()

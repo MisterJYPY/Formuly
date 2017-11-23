@@ -7,12 +7,15 @@
  */
 package formuly.controler.frontend;
 
+import formuly.classe.formulyTools;
+import formuly.entities.FmAlimentsPathologie;
 import formuly.entities.FmFaitConclusion;
 import formuly.expert.outilsExpert;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -30,7 +33,7 @@ public class Analyse_expertController implements Initializable {
      * Initializes the controller class.
      */
        @FXML
-    private Button valider;
+    private Button fermer;
 
     @FXML
     private TextArea resultAnalyse;
@@ -88,6 +91,7 @@ public class Analyse_expertController implements Initializable {
     
    private outilsExpert expert;
    private List<FmFaitConclusion> listConclusion;
+    private String avertissementPatho;
     public Analyse_expertController() {
         expert=new outilsExpert();
      //   listConclusion=formulyTools.Liste_FaitConclusion();
@@ -199,6 +203,65 @@ public class Analyse_expertController implements Initializable {
        // expert=new outilsExpert(aetLipid, aetProti, aetGlucid, prcenGlucid, prcenProtid, prcentLipid,reg1000, reg1500, reg2000, reg2500, reg3000, reg3500,energieTotal);
         
     } 
+        public Analyse_expertController(outilsExpert expert,ObservableList<FmAlimentsPathologie> list) {   
+        this.expert=expert;
+         this.aetLipid = expert.getAetLipide();
+        this.aetProti = expert.getAetProide();
+        this.aetGlucid = expert.getAetGlucide();
+        this.energieTotal = expert.getEnergieTotale();
+        this.prcentLipid = expert.getPrcenLipide();
+        this.prcenProtid = expert.getPrcentProtide();
+        this.prcenGlucid = expert.getPrcentGlucide();
+        this.reg1000 = expert.getRegime1000();
+        this.reg1500 = expert.getRegime1500();
+        this.reg2000 = expert.getRegime2000();
+        this.reg2500 = expert.getRegime2500();
+        this.reg3000 = expert.getRegime3000();
+        this.reg3500 = expert.getRegime3500();
+        this.sex = (int) expert.getSexeClient();
+        this.poid = expert.getPoidsClient();
+        this.taill = expert.getTailleclient();
+        this.ages = expert.getAgeClient(); 
+        this.typePersonne=expert.getTypePersonne();
+        this.analys = expert.getConclusion();
+//       listConclusion=formulyTools.Liste_FaitConclusion();
+//       expert.setListConclusion(listConclusion);
+       // expert=new outilsExpert(aetLipid, aetProti, aetGlucid, prcenGlucid, prcenProtid, prcentLipid,reg1000, reg1500, reg2000, reg2500, reg3000, reg3500,energieTotal);
+        
+    } 
+        /**
+         * 
+         * @param expert
+         * @param avertissementPathologie 
+         */
+    public Analyse_expertController(outilsExpert expert,String avertissementPathologie) {   
+        this.expert=expert;
+         this.aetLipid = expert.getAetLipide();
+        this.aetProti = expert.getAetProide();
+        this.aetGlucid = expert.getAetGlucide();
+        this.energieTotal = expert.getEnergieTotale();
+        this.prcentLipid = expert.getPrcenLipide();
+        this.prcenProtid = expert.getPrcentProtide();
+        this.prcenGlucid = expert.getPrcentGlucide();
+        this.reg1000 = expert.getRegime1000();
+        this.reg1500 = expert.getRegime1500();
+        this.reg2000 = expert.getRegime2000();
+        this.reg2500 = expert.getRegime2500();
+        this.reg3000 = expert.getRegime3000();
+        this.reg3500 = expert.getRegime3500();
+        this.sex = (int) expert.getSexeClient();
+        this.poid = expert.getPoidsClient();
+        this.taill = expert.getTailleclient();
+        this.ages = expert.getAgeClient(); 
+        this.typePersonne=expert.getTypePersonne();
+        this.avertissementPatho=avertissementPathologie;
+       // this.analys = expert.getConclusion();
+       // this.analys=avertissementPathologie.concat(expert.getConclusion());
+//       listConclusion=formulyTools.Liste_FaitConclusion();
+//       expert.setListConclusion(listConclusion);
+       // expert=new outilsExpert(aetLipid, aetProti, aetGlucid, prcenGlucid, prcenProtid, prcentLipid,reg1000, reg1500, reg2000, reg2500, reg3000, reg3500,energieTotal);
+        
+    } 
     
     public void intialiserLesLabels()
     {
@@ -223,7 +286,7 @@ public class Analyse_expertController implements Initializable {
     taille.setText((taill>0)?format.format(taill)+" m ":"Général");
     sexe.setText((sex>=0)?donnerSexe(sex):"Grl");
     analys=expert.getConclusion();
-    this.resultAnalyse.setText(!(analys.isEmpty())?analys:"Aucune Interpretation valide pour ce menu");
+    this.resultAnalyse.setText(!(analys.isEmpty())?avertissementPatho.concat(analys):"Aucune Interpretation valide pour ce menu");
     }
     /**
      * methode qui retourne le sexe format string du sujet
@@ -243,14 +306,17 @@ public class Analyse_expertController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         intialiserLesLabels();
+        fermer.setOnAction(e->{
+         formulyTools.fermerFenetre(fermer);
+        });
     }    
 
     public Button getValider() {
-        return valider;
+        return fermer;
     }
 
     public void setValider(Button valider) {
-        this.valider = valider;
+        this.fermer = valider;
     }
 
     public TextArea getResultAnalyse() {

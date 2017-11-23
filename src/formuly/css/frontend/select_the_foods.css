@@ -104,6 +104,14 @@ and open the template in the editor.
        -fx-cursor:hand;
         -fx-alignment: CENTER;
 }
+.combocn
+{
+      -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#BBD2E1;
+       -fx-cursor:hand;
+        -fx-alignment: CENTER;
+}
 .colonneCentre
 {
     -fx-alignment: center;

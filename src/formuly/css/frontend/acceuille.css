@@ -2,7 +2,7 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+#fenetrePrincipal {
   //-fx-background-image: url(/formuly/image/acceuille1.jpg)  ;
 /*  -fx-background-color:red;*/
  -fx-background-color:linear-gradient(to top right,aqua,white,white,white,aqua);
@@ -380,4 +380,8 @@
         #9d4024,
         #d86e3a,
         radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.copyright
+{
+    -fx-text-fill: #330033;
 }

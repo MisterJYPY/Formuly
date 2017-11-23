@@ -320,6 +320,21 @@ public class formulyTools {
     
     return nbre=ls.size();
     }
+          public static int NbreFaitsEnregistrer()
+    {
+        int nbre=0;
+     List<FmAliments> ls=null;
+  
+      String sql="SELECT f.id,f.libelle_fait,f.lettre_fait FROM fm_fait f";
+       EntityManager em=getEm().createEntityManager();
+      Query eqr=em.createNativeQuery(sql,FmFait.class);
+      ls=eqr.getResultList();
+       // entityManger.clear();
+       // entityManger.close();
+        em.clear();
+    
+    return nbre=ls.size();
+    }
         public static int NbreAlimentEnregistrer(int n)
     {
         int nbre=0;

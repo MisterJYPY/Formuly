@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="principal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1359.0" styleClass="mainFxmlClass" stylesheets="@../../css/frontend/acceuille.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.AcceuilleController">
+<BorderPane id="fenetrePrincipal" fx:id="principal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="686.0" prefWidth="1359.0" stylesheets="@../../css/frontend/acceuille.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.AcceuilleController">
    <top>
       <BorderPane prefHeight="144.0" prefWidth="1339.0" BorderPane.alignment="CENTER">
          <left>
@@ -167,6 +167,11 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Button>
+                                    <Label alignment="CENTER" layoutX="-1.0" layoutY="261.0" prefHeight="20.0" prefWidth="199.0" styleClass="copyright" text="Logiciel de Formulation alimentaire">
+                                       <font>
+                                          <Font name="Pristina" size="15.0" />
+                                       </font>
+                                    </Label>
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
@@ -226,6 +231,11 @@
                                        </font>
                                     </Label>
                                     <ProgressBar fx:id="dumpProgressIndicator" layoutX="4.0" layoutY="183.0" prefWidth="200.0" progress="0.0" visible="false" />
+                                    <Label alignment="CENTER" layoutY="262.0" prefHeight="17.0" prefWidth="212.0" styleClass="copyright" text="\@11-2017 Nk.Dev All right reserved">
+                                       <font>
+                                          <Font name="Pristina" size="15.0" />
+                                       </font>
+                                    </Label>
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
