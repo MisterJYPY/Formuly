@@ -378,9 +378,10 @@ public class Modifier_menuController implements Initializable {
             TextArea tex=new TextArea();
               tex.setText(conclusion);
           //    tex.getStyleClass().add("analyse");
-              tex.setStyle(" -fx-text-fill:#660000;\n" +
-"    -fx-font-size: 14px;   \n" +
-"     -fx-font-weight: bold;");
+              tex.setStyle("-fx-font-size : 18 px;\n" +
+"    -fx-font-family: \"Courier New\";\n" +
+"    // -fx-font-weight:bold;  \n" +
+"     -fx-text-fill :#000000;");
               tex.setEditable(false);
               tex.setWrapText(true);
             alert.setHeaderText("votre analyse : ");

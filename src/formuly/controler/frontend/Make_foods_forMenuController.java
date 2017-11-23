@@ -1845,6 +1845,7 @@ else{
                  updateProgress(20, 100);
                  repas.setId(idRepas);
                  em.persist(repas);
+                 List<FmRepasAnalyse> repAN=new ArrayList<>();
             if(analyseFait && (conclusion!=null && !conclusion.isEmpty()))
            {
              // suppression
@@ -1854,6 +1855,7 @@ else{
            repasAnalyse.setRepas(repas);
            repasAnalyse.setConclusion(conclusion);
            repasAnalyse.setDerniereModif(new Timestamp(date.getTime()));
+           repAN.add(repasAnalyse);
             em.persist(repasAnalyse);
            }
                 updateProgress(30, 100);
@@ -1885,6 +1887,7 @@ else{
                updateProgress(80,100);
                 rpM.setNumero(repasModel.getNumero());
                 repas.setFmRepasAlimentsCollection(listAlRepas);
+                repas.setFmRepasAnalyseCollection(repAN);
                 rpM.setRepas(repas);
                 ObslistModelRepas.set(repasModel.getNumero()-1, rpM);
                 table.getItems().set(indexElementModifier, rpM);

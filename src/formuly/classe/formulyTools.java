@@ -173,11 +173,12 @@ public class formulyTools {
     {
       List<FmFait> faitConcl;
       EntityManager em=getEm().createEntityManager();
-      em.getTransaction().begin();
+   //   em.getTransaction().begin();
    //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
       Query eqr=em.createNamedQuery("FmFait.findAll");
          faitConcl=eqr.getResultList();
-         em.getTransaction().commit();
+      //   em.getTransaction().commit();
+          em.clear();
         return faitConcl;
     }
         public static ArrayList<String> RecupererElementFichierFt(File files)
