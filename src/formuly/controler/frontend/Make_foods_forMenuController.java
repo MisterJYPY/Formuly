@@ -1878,10 +1878,9 @@ else{
           listAlRepas.add(repaAlmt);
           AlimentsEnregsiter.add(repaAlmt);
           idRepasAliment++;
-           updateMessage("Aliment "+al.getNomFr()+" actulisé");
-           debut=debut+j;
-         updateProgress(debut, 100);
-         
+          updateMessage("Aliment "+al.getNomFr()+" actulisé");
+          debut=debut+j;
+          updateProgress(debut, 100);
           
         }
                updateProgress(80,100);
