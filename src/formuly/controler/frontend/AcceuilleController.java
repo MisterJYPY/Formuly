@@ -142,9 +142,14 @@ public class AcceuilleController implements Initializable {
                      Logger.getLogger(Moteur_calculController.class.getName()).log(Level.SEVERE, null, ex);
                  }
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+       Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/dec.jpg")
+            );
+       fermer.setGraphic(new ImageView(image));
         listBtn=retournerListBtn();
          placerContenuAcceuille();
         actionFenetreSelectionFoods();
@@ -179,10 +184,12 @@ public class AcceuilleController implements Initializable {
        // cat.setClip(lb);
      fermer.setOnAction(event->{
     // formulyTools.getEm().close();
+         
      });
      dumpLabelIndicator.setVisible(false);
      dumpProgressIndicator.setVisible(false);
      ActionDumpageFoods();
+    
     }
       public void shutdown() {
         // cleanup code here...

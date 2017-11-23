@@ -70,7 +70,7 @@ public class DemarrageAppController implements Initializable {
                     getClass().getResourceAsStream("/formuly/image/iconeAc.png")
             );
                   st=new Stage();
-                  st.setTitle("Acceuille");
+                  st.setTitle("Votre accueil");
                   st.setScene(new Scene(root));
                   st.getIcons().add(image);
                   Stage stage = (Stage) barProgression.getScene().getWindow();

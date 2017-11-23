@@ -18,7 +18,7 @@
       <Label id="info1" layoutX="10.0" layoutY="2.0" prefHeight="25.0" prefWidth="551.0" text="         Votre outil de formulation ,de confection de menu diététique est en cours de chargement ..... " />
       <ProgressBar fx:id="barProgression" layoutX="68.0" layoutY="290.0" prefHeight="18.0" prefWidth="437.0" progress="0.0" />
       <Label id="indication" fx:id="infop" layoutX="74.0" layoutY="263.0" prefHeight="17.0" prefWidth="425.0" text="    nous chargeons votre espace de calcul , veuillez patientez svp ........." />
-      <Label id="autheur" layoutX="252.0" layoutY="324.0" prefHeight="18.0" prefWidth="300.0" text="Nanou kakou Jean-paul   nanoukakoujp@gmail.com" />
+      <Label id="autheur" alignment="CENTER_RIGHT" layoutX="252.0" layoutY="324.0" prefHeight="18.0" prefWidth="300.0" text="Ufr des Sciences et Techniques des aliments " />
       <Label id="info2" layoutX="87.0" layoutY="36.0" prefHeight="25.0" prefWidth="398.0" text="Pratique et personnalisé il vous aidera dans vos prises de décisions " />
       <ImageView fitHeight="25.0" fitWidth="43.0" layoutX="456.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
          <image>

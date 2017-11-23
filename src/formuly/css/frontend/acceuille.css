@@ -342,3 +342,42 @@
         linear-gradient(#ffffcc 0%, whitesmoke 49%, #bee6fd 50%, #ffffcc 100%);
        -fx-alignement:center;
 }
+.btnAcceuille
+{
+    -fx-alignment: CENTER;
+    -fx-background-color:#9d9e9d;
+        -fx-font-weight: bold;
+        -fx-font-size :14px;
+    -fx-cursor:hand;
+    -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
+}
+.btnAcceuille:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.btnAcceuille:pressed {
+       -fx-padding: 2 5 3 15;
+       -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;   
+        
+}
+.fermerButton
+{
+     -fx-alignment: CENTER;
+    // -fx-background-color:linear-gradient(to top right,#663300,white,white,#663300);
+    -fx-background-color: #ffffff;
+  //  -fx-text-fill:#663300;
+  //  -fx-font-size:16px;
+    -fx-font-weight: bold;
+    -fx-cursor:hand;
+    -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
+}
+.fermerButton:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
