@@ -293,7 +293,7 @@
          <right>
             <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" layoutY="14.0" prefHeight="23.0" prefWidth="201.0" text="\% Macro du Menu" textFill="#270b42">
+                  <Label alignment="CENTER" layoutY="14.0" prefHeight="23.0" prefWidth="201.0" text="\% d'Energie du Menu" textFill="#270b42">
                      <font>
                         <Font name="Book Antiqua Bold" size="18.0" />
                      </font>

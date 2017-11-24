@@ -406,6 +406,7 @@ Callback myCallback = new Callback() {
              conclusionAdvertissement= conclusionAdvertissement.concat("Pensez à eviter ces aliments dorénavent , l'analyse :\n\n"
                      + "");
         }
+        conclusion=conclusionAdvertissement.concat(conclusion);
          FXMLLoader loader = new FXMLLoader();
           Image image = new Image(
                     getClass().getResourceAsStream("/formuly/image/iconeAc.png")

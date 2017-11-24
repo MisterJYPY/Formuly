@@ -53,7 +53,6 @@ import formuly.expert.outilsExpert;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -84,10 +83,11 @@ import javax.persistence.EntityManager;
  * @author Mr_JYPY
  */
 public class Make_foods_forMenuController implements Initializable {
-
+    
     /**
      * Initializes the controller class.
      */
+    
     @FXML private TableView<mainModel> table_aliment_a_choisir;
     @FXML private TableView<mainModel> table_aliment_deja_choisi;
     @FXML private TableColumn<mainModel,String> nomAlimentsChoisi;
@@ -313,9 +313,11 @@ public class Make_foods_forMenuController implements Initializable {
        // initialiserLesElementsDepuisLeRepas(list);
      //   liste=FXCollections.observableArrayList();
          liste=list;
+         
 //          listFaitConclusion=formulyTools.Liste_FaitConclusion();
 //        expert=new outilsExpert();
 //        expert.setListConclusion(listFaitConclusion);
+         
          listFait=formulyTools.Liste_Fait();
         expert=new outilsExpert();
         expert.setListeFait(listFait);
@@ -684,6 +686,7 @@ Callback myCallback = new Callback() {
              conclusionAdvertissement= conclusionAdvertissement.concat("Pensez à eviter ces aliments dorénavent , l'analyse :\n\n"
                      + "");
         }
+        conclusion=conclusionAdvertissement.concat(conclusion);
          FXMLLoader loader = new FXMLLoader();
            Image image = new Image(
                     getClass().getResourceAsStream("/formuly/image/iconeAc.png")

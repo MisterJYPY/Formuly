@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/listemenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Modifier_menuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/modifier_menu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Modifier_menuController">
    <top>
       <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
          <center>
@@ -35,15 +35,15 @@
             <TableView fx:id="tableRepas" prefHeight="357.0" prefWidth="957.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="numero" prefWidth="35.0" text="N°" />
-                <TableColumn fx:id="nom_repas" prefWidth="192.0" text="Nom menu" />
+                <TableColumn fx:id="nom_repas" prefWidth="192.0" styleClass="colonne_nom_repas" text="Nom menu" />
                   <TableColumn fx:id="glucideTotale" prefWidth="101.0" text="glucide" />
                   <TableColumn fx:id="lipideTotale" prefWidth="100.0" text="Lipide" />
                   <TableColumn fx:id="protideTotale" prefWidth="123.0" text="Protide" />
-                  <TableColumn fx:id="energieTotale" prefWidth="107.0" text="Energie" />
-                  <TableColumn fx:id="nbreAliment" prefWidth="78.0" text="Nbre Almts" />
-                  <TableColumn fx:id="date" prefWidth="109.0" text="Date" />
-                  <TableColumn fx:id="supMenu" prefWidth="57.0" text="supp" />
-                  <TableColumn fx:id="modifMenu" prefWidth="54.0" text="modif" />
+                  <TableColumn fx:id="energieTotale" prefWidth="107.0" styleClass="energieColonne" text="Energie" />
+                  <TableColumn fx:id="nbreAliment" prefWidth="49.0" styleClass="nombre" text="Nb aL" />
+                  <TableColumn fx:id="date" prefWidth="138.0" styleClass="date" text="Date" />
+                  <TableColumn fx:id="supMenu" prefWidth="54.0" text="supp" />
+                  <TableColumn fx:id="modifMenu" prefWidth="57.0" text="modif" />
               </columns>
             </TableView>
          </center>
@@ -63,12 +63,12 @@
                   <TableView fx:id="tableAliment" layoutX="90.0" prefHeight="200.0" prefWidth="768.0">
                     <columns>
                       <TableColumn fx:id="numeroLocale" prefWidth="36.0" text="N°" />
-                      <TableColumn fx:id="nom_aliment" prefWidth="242.0" text="Nom aliment" />
-                        <TableColumn fx:id="quantite" prefWidth="59.0" text="Qte" />
+                      <TableColumn fx:id="nom_aliment" prefWidth="242.0" styleClass="colonne_nom_aliment" text="Nom aliment" />
+                        <TableColumn id="qte" fx:id="quantite" prefWidth="59.0" styleClass="nombre" text="Qte" />
                         <TableColumn fx:id="glucideLocale" prefWidth="99.0" text="Glucide" />
                         <TableColumn fx:id="lipideLocale" prefWidth="93.0" text="Lipide" />
                         <TableColumn fx:id="protideLocale" prefWidth="94.0" text="Protide" />
-                        <TableColumn fx:id="energieLocale" prefWidth="90.0" text="Energie" />
+                        <TableColumn fx:id="energieLocale" prefWidth="90.0" styleClass="energieColonne" text="Energie" />
                         <TableColumn fx:id="prendre" prefWidth="54.0" text="Del" />
                     </columns>
                   </TableView>

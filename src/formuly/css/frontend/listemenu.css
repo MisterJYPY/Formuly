@@ -10,8 +10,9 @@
 .energieColonne
 {
     
-       -fx-font: bold 9pt "Arial";
+       -fx-font: bold 12pt "Arial";
        -fx-alignment: center;
+       -fx-text-fill :#660000;
 }
 
 .coloneCentre
@@ -40,7 +41,10 @@
 }
 .colonne_nom_repas
 {
-    -fx-text-alignement:CENTER;
+    -fx-text-alignment:CENTER;
+    -fx-font-weight :bold;
+    -fx-font-size : 14 px;
+    -fx-text-fill :#993300;
 }
 .extract{
     -fx-background-color:#EFF0FF;
@@ -294,4 +298,21 @@
     -fx-text-fill:#660000;
     -fx-font-size: 12px;   
      -fx-font-weight: bold;
+}
+
+.nomAliment
+{
+    -fx-text-fill :#330000;
+    -fx-font-weight :bold;
+    -fx-font-size : 13px;
+    -fx-text-alignment :CENTER;
+    
+}
+#nbre{
+    -fx-text-alignment :center;
+    -fx-font-weiht:bold;
+}
+.nombre
+{
+    -fx-text-alignment :center;
 }
