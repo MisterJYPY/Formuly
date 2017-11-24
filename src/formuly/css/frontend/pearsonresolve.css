@@ -2,6 +2,220 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+.fenetrePrincipal{
+  -fx-background-color:linear-gradient(to top right,#90EE90,white 30%,#90EE90,white,white,#90EE90);
+ 
+}
+#buttonCancel
+{
+ //-fx-background-image: url(/formuly/image/cansel.png)   ;
 
+ -fx-border-radius: 5px;
+ -fx-background-color:#B82010;
+     
+}
+.titreRapide
+{
+}
+.buttonCancel
+{
+ //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
+ -fx-border-radius: 5px;
+ -fx-background-color:#B82010;
+     
+}
+.calculRapidePane
+{
+       -fx-background-color:linear-gradient(to top right,white 30%,#90EE90,white 50%,#90EE90,white,white,#90EE90);
+}
+.info
+{
+    -fx-font-size:17px; 
+    -fx-text-fill: #990000;
+}
+.coloneCentre
+{
+    -fx-alignment: center;  
+}
+.btnreload
+{
+    -fx-background-color:whitesmoke;
+}
+.enregistrer
+{
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#20262b, #191d22),
+        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.enregistrer:hover
+{
+     -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.label
+{
+   -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-font-weight:bold;
+}
+.labelshaut
+{
+    -fx-text-alignment: center;
+    -fx-text-fill:#000000;
+      -fx-font-weight:bold;
+      -fx-font-size: 25 px;
+      
+}
+.dark-blue {
+     -fx-background-color: 
+        #3c7fb1,
+        linear-gradient(#fafdfe, #e8f5fc),
+        linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    
+}
+
+.dark-blue:hover
+{
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.dark-blue:pressed
+{
+    -fx-padding: 5;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.nav {
+    -fx-background-color:#2F4F4F;
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+.nav:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.nav:pressed {
+    -fx-padding: 8 12 11 12;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.navi {
+    -fx-background-color:#a34313;
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.navi:pressed {
+    -fx-padding: 8 12 11 12;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-color:#a34313;
+    
+}
+.navi:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+#buttonCancel
+{
+ //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
+ -fx-border-radius: 5px;
+ -fx-background-color:#B82010;
+     
+}
+.nomAliment
+{
+    -fx-font-weight:bold;
+    -fx-font-size :12 px;
+    -fx-alignment: CENTER;
+    -fx-text-fill:#660000;
+}
+.pu
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+     -fx-font-size :12 px;
+     -fx-text-fill:#330066;
+}
+.cuisson
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+}
+.pays
+{
+   -fx-alignment: CENTER;
+    -fx-font-weight :bold;  
+}
+.txt
+{
+    -fx-font-weight :bold;
+    -fx-border-color: #B82010;
+    -fx-font-size : 14 px;
+}
+.recherche
+{
+    -fx-border-color: #00cc00;  
+}
+.num
+{
+   -fx-font-weight :bold; 
+   -fx-alignment: CENTER;
+}
+.valeur
+{
+     -fx-font-weight:bold;  
+     -fx-font-size : 14 px;
+       -fx-alignment: CENTER;
+      -fx-font-family: "Courier New";
+}
+#infoHaut
+{
+      -fx-font-size : 20 px;
+      -fx-text-fill :#440e07;
+      -fx-font-weight:bold;
+}
+.combocn
+{
+       -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#BBD2E1;
+       -fx-cursor:hand;
+       -fx-alignment: CENTER;
 }

@@ -673,8 +673,12 @@ public class AcceuilleController implements Initializable {
                 // registerThread.
             alert.setContentText("preparation pour l'afficahe...");   
             alert.setAlertType(Alert.AlertType.INFORMATION);
+               Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
             st=new Stage();
             st.setScene(new Scene(root));
+            st.getIcons().add(image);
             st.setTitle("Base de calcul");
             st.initOwner(expert.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);

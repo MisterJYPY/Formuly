@@ -32,6 +32,7 @@
 .info
 {
     -fx-font-size:17px; 
+    -fx-text-fill: #990000;
 }
 .coloneCentre
 {
@@ -73,7 +74,11 @@
 }
 .labelshaut
 {
-    background-color:red;
+    -fx-text-alignment: center;
+    -fx-text-fill:#000000;
+      -fx-font-weight:bold;
+      -fx-font-size: 25 px;
+      
 }
 .dark-blue {
      -fx-background-color: 
@@ -86,6 +91,7 @@
     -fx-cursor: hand;
     
 }
+
 .dark-blue:hover
 {
     -fx-background-color: 
@@ -99,14 +105,109 @@
     -fx-padding: 5;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
-.info_path{
-    -fx-text-alignment: center;
-      -fx-text-fill: red;
-       -fx-font-weight:bold;
-       -fx-font-size: 20 px;
+.nav {
+    -fx-background-color:#2F4F4F;
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
 }
-#nom_aliment
+.nav:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.nav:pressed {
+    -fx-padding: 8 12 11 12;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.navi {
+    -fx-background-color:#a34313;
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+.navi:pressed {
+    -fx-padding: 8 12 11 12;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-background-color:#a34313;
+    
+}
+.navi:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+#buttonCancel
 {
+ //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
+ -fx-border-radius: 5px;
+ -fx-background-color:#B82010;
      
-     -fx-font-weight:bold;
+}
+.nomAliment
+{
+    -fx-font-weight:bold;
+    -fx-font-size :12 px;
+    -fx-alignment: CENTER;
+    -fx-text-fill:#660000;
+}
+.pu
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+     -fx-font-size :12 px;
+     -fx-text-fill:#330066;
+}
+.cuisson
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+}
+.pays
+{
+   -fx-alignment: CENTER;
+    -fx-font-weight :bold;  
+}
+.txt
+{
+    -fx-font-weight :bold;
+    -fx-border-color: #B82010;
+    -fx-font-size : 14 px;
+}
+.recherche
+{
+    -fx-border-color: #00cc00;  
+}
+.num
+{
+   -fx-font-weight :bold; 
+   -fx-alignment: CENTER;
+}
+.valeur
+{
+     -fx-font-weight:bold;  
+     -fx-font-size : 14 px;
+       -fx-alignment: CENTER;
+      -fx-font-family: "Courier New";
+}
+#infoHaut
+{
+      -fx-font-size : 20 px;
+      -fx-text-fill :#333300;
+      -fx-font-weight:bold;
 }

@@ -21,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import sun.plugin.javascript.navig.JSType;
 
 /**
  * FXML Controller class
