@@ -9,11 +9,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/listemenu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Liste_alimentsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="957.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/liste_aliments.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.Liste_alimentsController">
    <top>
       <BorderPane prefHeight="67.0" prefWidth="788.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" prefHeight="55.0" prefWidth="644.0" text="Liste de Tous vos aliments" textFill="#801b1b" BorderPane.alignment="CENTER">
+            <Label id="infoHaut" alignment="CENTER" prefHeight="55.0" prefWidth="644.0" styleClass="infoHaut" text="Liste de Tous vos aliments" textFill="#801b1b" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Book Antiqua Bold" size="24.0" />
                </font>
@@ -23,7 +23,7 @@
             <AnchorPane prefHeight="39.0" prefWidth="891.0" BorderPane.alignment="CENTER">
                <children>
                   <Label alignment="CENTER_RIGHT" layoutX="475.0" layoutY="8.0" prefHeight="24.0" prefWidth="153.0" text="Recherche :" />
-                  <TextField fx:id="recherche" layoutX="659.0" layoutY="5.0" prefHeight="29.0" prefWidth="253.0" promptText="saisissez ici" />
+                  <TextField fx:id="recherche" layoutX="659.0" layoutY="5.0" prefHeight="29.0" prefWidth="253.0" promptText="saisissez ici" styleClass="recherche" />
                </children>
             </AnchorPane>
          </bottom>
@@ -34,14 +34,14 @@
          <center>
             <TableView fx:id="table1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="table1_numero" prefWidth="35.0" text="N°" />
-                <TableColumn fx:id="table1_nomFr" prefWidth="244.0" text="Nom Fr" />
+                <TableColumn fx:id="table1_numero" prefWidth="35.0" styleClass="num" text="N°" />
+                <TableColumn fx:id="table1_nomFr" prefWidth="244.0" styleClass="nomAliment" text="Nom Fr" />
                   <TableColumn fx:id="table1_categorie" prefWidth="116.0" text="Categorie" />
-                  <TableColumn fx:id="table1_pays" prefWidth="90.0" text="Pays" />
-                  <TableColumn fx:id="table1_modeCuisson" prefWidth="79.0" text="cuisson" />
-                  <TableColumn fx:id="table1_glucide" prefWidth="94.0" text="Glucide" />
-                  <TableColumn fx:id="table1_protide" prefWidth="94.0" text="Protide" />
-                  <TableColumn fx:id="table1_lipide" prefWidth="93.0" text="Lipide" />
+                  <TableColumn fx:id="table1_pays" prefWidth="90.0" styleClass="pays" text="Pays" />
+                  <TableColumn fx:id="table1_modeCuisson" prefWidth="79.0" styleClass="cuisson" text="cuisson" />
+                  <TableColumn fx:id="table1_glucide" prefWidth="94.0" styleClass="valeur" text="Glucide" />
+                  <TableColumn fx:id="table1_protide" prefWidth="94.0" styleClass="valeur" text="Protide" />
+                  <TableColumn fx:id="table1_lipide" prefWidth="93.0" styleClass="valeur" text="Lipide" />
                   <TableColumn fx:id="table1_del" prefWidth="54.0" text="supp" />
                   <TableColumn fx:id="table1_modif" prefWidth="57.0" text="modif" />
               </columns>

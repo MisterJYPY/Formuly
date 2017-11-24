@@ -21,21 +21,21 @@
          <center>
             <TableView fx:id="aliment" prefHeight="231.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="numero" prefWidth="33.0" text="N°" />
-                <TableColumn fx:id="nom_aliment" prefWidth="203.0" text="Nom de L'aliment" />
-                  <TableColumn fx:id="cloumPcGlucide" prefWidth="67.0" text="Glucide" />
-                  <TableColumn fx:id="cloumPclipide" minWidth="0.0" prefWidth="70.0" text="Lipide" />
-                  <TableColumn fx:id="Prprotide" prefWidth="69.0" text="protide" />
-                  <TableColumn fx:id="Energie" prefWidth="68.0" text="Energie" />
-                  <TableColumn fx:id="fer" prefWidth="71.0" text="Fer(mg)" />
-                  <TableColumn fx:id="mg" prefWidth="71.0" text="Mg(mg)" />
-                  <TableColumn fx:id="na" prefWidth="64.0" text="Na" />
-                  <TableColumn fx:id="ka" prefWidth="66.0" text="Ka" />
-                  <TableColumn fx:id="vitc" prefWidth="52.0" text="vitC" />
-                  <TableColumn fx:id="vite" prefWidth="59.0" text="vitE" />
-                  <TableColumn fx:id="vitb9" prefWidth="49.0" text="vitB9" />
-                  <TableColumn fx:id="vita" prefWidth="50.0" text="vitA" />
-                  <TableColumn fx:id="pays" prefWidth="79.0" text="Pays" />
+                <TableColumn fx:id="numero" prefWidth="33.0" styleClass="num" text="N°" />
+                <TableColumn fx:id="nom_aliment" prefWidth="203.0" styleClass="nomAliment" text="Nom de L'aliment" />
+                  <TableColumn fx:id="cloumPcGlucide" prefWidth="67.0" styleClass="valeur" text="Glucide" />
+                  <TableColumn fx:id="cloumPclipide" minWidth="0.0" prefWidth="70.0" styleClass="valeur" text="Lipide" />
+                  <TableColumn fx:id="Prprotide" prefWidth="69.0" styleClass="valeur" text="protide" />
+                  <TableColumn fx:id="Energie" prefWidth="68.0" styleClass="valeur1" text="Energie" />
+                  <TableColumn fx:id="fer" prefWidth="71.0" styleClass="valeur1" text="Fer(mg)" />
+                  <TableColumn fx:id="mg" prefWidth="71.0" styleClass="valeur1" text="Mg(mg)" />
+                  <TableColumn fx:id="na" prefWidth="64.0" styleClass="valeur1" text="Na" />
+                  <TableColumn fx:id="ka" prefWidth="66.0" styleClass="valeur1" text="Ka" />
+                  <TableColumn fx:id="vitc" prefWidth="52.0" styleClass="valeur1" text="vitC" />
+                  <TableColumn fx:id="vite" prefWidth="59.0" styleClass="valeur1" text="vitE" />
+                  <TableColumn fx:id="vitb9" prefWidth="49.0" styleClass="valeur1" text="vitB9" />
+                  <TableColumn fx:id="vita" prefWidth="50.0" styleClass="valeur1" text="vitA" />
+                  <TableColumn fx:id="pays" prefWidth="79.0" styleClass="pays" text="Pays" />
               </columns>
             </TableView>
          </center>
@@ -91,7 +91,7 @@
                   </VBox>
                   <VBox layoutX="117.0" layoutY="22.0" prefHeight="246.0" prefWidth="186.0">
                      <children>
-                        <TextField fx:id="info_nomFr" promptText="Le Nom en Francais ***">
+                        <TextField fx:id="info_nomFr" promptText="Le Nom en Francais ***" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Inserer le nom" />
                            </tooltip></TextField>
@@ -106,25 +106,25 @@
                               <Tooltip text="Unsurnom Optionel" />
                            </tooltip></TextField>
                         <Separator prefHeight="9.0" prefWidth="186.0" />
-                        <ComboBox fx:id="info_pays" prefHeight="26.0" prefWidth="186.0" promptText="aucun choix">
+                        <ComboBox id="combocn" fx:id="info_pays" prefHeight="26.0" prefWidth="186.0" promptText="aucun choix" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Choisir le Pays D'origine" />
                            </tooltip>
                         </ComboBox>
-                        <Separator prefHeight="21.0" prefWidth="186.0" />
-                        <ComboBox fx:id="info_categorie" prefHeight="25.0" prefWidth="186.0" promptText="aucun choix">
+                        <Separator prefHeight="18.0" prefWidth="185.0" />
+                        <ComboBox id="combocn" fx:id="info_categorie" prefHeight="25.0" prefWidth="186.0" promptText="aucun choix" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Choisir La categorie de l'aliment" />
                            </tooltip>
                         </ComboBox>
-                        <Separator prefHeight="15.0" prefWidth="186.0" />
-                        <ComboBox fx:id="info_modeCuisson" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
+                        <Separator prefHeight="8.0" prefWidth="182.0" />
+                        <ComboBox id="combocn" fx:id="info_modeCuisson" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Choisissez un mode de cuisson" />
                            </tooltip>
                         </ComboBox>
                         <Separator prefHeight="7.0" prefWidth="186.0" />
-                        <ComboBox fx:id="info_path" layoutX="10.0" layoutY="201.0" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
+                        <ComboBox id="combocn" fx:id="info_path" layoutX="10.0" layoutY="201.0" prefHeight="25.0" prefWidth="185.0" promptText="aucun choix">
                            <tooltip>
                               <Tooltip text="Choisissez un mode de cuisson" />
                            </tooltip>
@@ -133,36 +133,36 @@
                   </VBox>
                   <VBox layoutX="322.0" layoutY="34.0" prefHeight="236.0" prefWidth="100.0">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="101.0" text="Val Glucide :" />
+                        <Label alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="90.0" text="Val Glucide :" />
                         <Separator prefHeight="10.0" prefWidth="100.0" />
                         <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="88.0" text="Val Protide :" />
-                        <Separator prefHeight="14.0" prefWidth="100.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="88.0" text="Val Lipide :" />
-                        <Separator prefHeight="16.0" prefWidth="100.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="17.0" prefWidth="88.0" text="Val Fibre :" />
-                        <Separator prefHeight="9.0" prefWidth="100.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="17.0" prefWidth="88.0" text="Val Ash :" />
+                        <Separator prefHeight="14.0" prefWidth="102.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="27.0" prefHeight="23.0" prefWidth="88.0" text="Val Lipide :" />
+                        <Separator prefHeight="0.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="44.0" prefHeight="30.0" prefWidth="86.0" text="Val Fibre :" />
+                        <Separator prefHeight="0.0" prefWidth="100.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="61.0" prefHeight="23.0" prefWidth="88.0" text="Val Ash :" />
                         <Separator prefHeight="17.0" prefWidth="103.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="88.0" text="Val eau :" />
-                        <Separator prefHeight="13.0" prefWidth="87.0" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="17.0" prefWidth="88.0" text="Energie :" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="78.0" prefHeight="23.0" prefWidth="88.0" text="Val eau :" />
+                        <Separator prefHeight="1.0" prefWidth="97.0" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="95.0" prefHeight="28.0" prefWidth="88.0" text="Energie :" />
                      </children>
                   </VBox>
-                  <VBox layoutX="433.0" layoutY="33.0" prefHeight="235.0" prefWidth="100.0">
+                  <VBox layoutX="433.0" layoutY="29.0" prefHeight="239.0" prefWidth="98.0">
                      <children>
-                        <TextField fx:id="nutr_glucide" prefHeight="21.0" prefWidth="100.0" promptText=" Glucide  ***">
+                        <TextField fx:id="nutr_glucide" prefHeight="21.0" prefWidth="100.0" promptText=" Glucide  ***" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Inserer Valeur en Glucide (***Obligatoire)" textAlignment="JUSTIFY" />
                            </tooltip>
                         </TextField>
                         <Separator prefHeight="5.0" prefWidth="100.0" />
-                        <TextField fx:id="nutr_protide" promptText="Protide ***">
+                        <TextField fx:id="nutr_protide" promptText="Protide ***" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Valeur en Protide (***Obligatoire)" />
                            </tooltip>
                         </TextField>
                         <Separator prefHeight="8.0" prefWidth="100.0" />
-                        <TextField fx:id="nutr_lipide" promptText="Lipide ***">
+                        <TextField fx:id="nutr_lipide" promptText="Lipide ***" styleClass="obligatoie">
                            <tooltip>
                               <Tooltip text="Inserer La valeur en Lipide (****Obligatoire)" />
                            </tooltip>

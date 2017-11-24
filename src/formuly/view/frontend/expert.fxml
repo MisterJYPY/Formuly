@@ -41,9 +41,9 @@
             </Pane>
             <Pane layoutX="426.0" layoutY="256.0" prefHeight="123.0" prefWidth="327.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="14.0" prefHeight="29.0" prefWidth="104.0" text="Comparateurs" wrapText="true" />
-                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="52.0" prefHeight="29.0" prefWidth="102.0" text="Connecteurs" />
-                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="90.0" prefHeight="29.0" prefWidth="101.0" text="Outils" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="14.0" prefHeight="29.0" prefWidth="104.0" text="Comparateurs :" wrapText="true" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="52.0" prefHeight="29.0" prefWidth="102.0" text="Oper Logiques :" />
+                  <Label alignment="CENTER_RIGHT" layoutX="8.0" layoutY="90.0" prefHeight="29.0" prefWidth="101.0" text="Outils :" />
                   <ComboBox id="combocn" fx:id="comparateur" layoutX="147.0" layoutY="16.0" prefHeight="25.0" prefWidth="167.0">
                      <tooltip>
                         <Tooltip text="Choix de l'opérateur" />

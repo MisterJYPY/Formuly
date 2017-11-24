@@ -83,3 +83,97 @@
 {
     background-color:red;
 }
+.nomFr
+{
+
+    -fx-font-weight :bold;
+    -fx-border-color: #B82010;
+    -fx-font-size : 14 px;
+
+}
+.obligatoie
+{
+    -fx-font-weight :bold;
+    -fx-border-color:#ff3333;
+    -fx-font-size : 12 px;
+}
+.nomAliment
+{
+    -fx-font-weight:bold;
+    -fx-font-size :12 px;
+    -fx-alignment: CENTER;
+    -fx-text-fill:#660000;
+}
+.pu
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+     -fx-font-size :12 px;
+     -fx-text-fill:#330066;
+}
+.cuisson
+{
+    -fx-alignment: CENTER;
+    -fx-font-weight :bold;
+}
+.pays
+{
+   -fx-alignment: CENTER;
+    -fx-font-weight :bold;  
+}
+.txt
+{
+    -fx-font-weight :bold;
+    -fx-border-color: #B82010;
+    -fx-font-size : 14 px;
+}
+.recherche
+{
+    -fx-border-color: #00cc00;  
+}
+.num
+{
+   -fx-font-weight :bold; 
+   -fx-alignment: CENTER;
+}
+.valeur
+{
+     -fx-font-weight:bold;  
+     -fx-font-size : 14 px;
+       -fx-alignment: CENTER;
+       -fx-text-fill :#000066;
+      -fx-font-family: "Courier New";
+}
+.valeur1
+{
+     -fx-font-weight:bold;  
+     -fx-font-size : 14 px;
+       -fx-alignment: CENTER;
+      -fx-font-family: "Courier New";
+}
+#infoHaut
+{
+      -fx-font-size : 20 px;
+      -fx-text-fill :#333300;
+      -fx-font-weight:bold;
+}
+.combocn
+{
+       -fx-text-fill: red;
+       -fx-font-weight:bold;
+       -fx-background-color:#BBD2E1;
+       -fx-cursor:hand;
+       -fx-alignment: CENTER;
+}
+.combocn:hover
+{
+     
+       -fx-background-color:#00cc00;
+      
+}
+.combocn:pressed
+{
+     
+    -fx-cursor:wait;
+      
+}
