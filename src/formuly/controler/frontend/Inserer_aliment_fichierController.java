@@ -395,7 +395,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
       {
           label[0].setText(file.getName());
           label[1].setText(new Timestamp(file.lastModified()).toString());
-          label[2].setText(file.getAbsolutePath());
+          label[2].setText(file.getPath());
       } 
     }
     public List<String> recupererlaListeEnChaine(List<FmGroupeAliment> liste)

@@ -172,8 +172,6 @@
       
 }
 .combocn:pressed
-{
-     
-    -fx-cursor:wait;
-      
+{     
+    -fx-cursor:wait;    
 }

@@ -27,7 +27,7 @@
                      </cursor></Button>
                   <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="77.0" prefHeight="30.0" prefWidth="175.0" text="Nom du fichier  :" />
                   <Label fx:id="nomFichier" layoutX="240.0" layoutY="75.0" prefHeight="34.0" prefWidth="228.0" styleClass="info" text="aucun" />
-                  <Label alignment="CENTER_RIGHT" layoutX="483.0" layoutY="19.0" prefHeight="36.0" prefWidth="150.0" text="Taille du Fichier :" />
+                  <Label alignment="CENTER_RIGHT" layoutX="483.0" layoutY="19.0" prefHeight="36.0" prefWidth="150.0" text="Chemin du fichier:" />
                   <Label fx:id="tailleFichier" layoutX="656.0" layoutY="17.0" prefHeight="35.0" prefWidth="197.0" styleClass="info" text="aucun" />
                   <Label alignment="CENTER_RIGHT" layoutX="496.0" layoutY="63.0" prefHeight="35.0" prefWidth="139.0" text="Derniere Modif ication :" />
                   <Label fx:id="derniereModif" layoutX="656.0" layoutY="62.0" prefHeight="38.0" prefWidth="198.0" styleClass="info" text="aucun" />

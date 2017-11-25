@@ -21,7 +21,7 @@
                   <Label alignment="CENTER" layoutX="28.0" layoutY="42.0" prefHeight="24.0" prefWidth="284.0" text="nouvelle pathologie" />
                   <Label layoutX="12.0" layoutY="104.0" prefHeight="24.0" prefWidth="73.0" text="Nom :" />
                   <Label layoutX="3.0" layoutY="160.0" prefHeight="17.0" prefWidth="105.0" text="Description :" />
-                  <TextArea fx:id="descriptionPathologie" layoutX="85.0" layoutY="134.0" prefHeight="97.0" prefWidth="225.0" promptText="description de la pathologie" />
+                  <TextArea fx:id="descriptionPathologie" layoutX="85.0" layoutY="134.0" prefHeight="97.0" prefWidth="225.0" promptText="description de la pathologie" wrapText="true" />
                   <TextField fx:id="nomPathologie" layoutX="85.0" layoutY="104.0" prefHeight="25.0" prefWidth="225.0" promptText="nom de la pathologie">
                      <tooltip>
                         <Tooltip fx:id="TtypeNomPathologie" text="Nom de la nouvelle pathologie" />
