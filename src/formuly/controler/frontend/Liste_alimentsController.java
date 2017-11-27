@@ -389,9 +389,9 @@ public class Liste_alimentsController implements Initializable {
                updateProgress(100,100);
             updateMessage("terminer");
           }catch (Exception e) {
-              System.out.println(""+e.getLocalizedMessage());
-              System.out.println(""+e.getMessage());
-              System.out.println(""+e.getCause().toString());
+//              System.out.println(""+e.getLocalizedMessage());
+//              System.out.println(""+e.getMessage());
+//              System.out.println(""+e.getCause().toString());
                Logger.getLogger(Suppression_pathologieController.class.getName()).log(Level.SEVERE, null, e);
                updateMessage("erreur");
           }

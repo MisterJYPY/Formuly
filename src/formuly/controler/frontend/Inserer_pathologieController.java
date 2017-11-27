@@ -542,7 +542,7 @@ public class Inserer_pathologieController implements Initializable {
    {
        ObservableList<mainModel> listInterdit=FXCollections.observableArrayList();
        List<FmAlimentsPathologie> listeAlPa=formulyTools.listeAlimentPathologie(pathologie);
-           System.out.println("taille de la liste aliment pathologie : "+listeAlPa.size());
+          // System.out.println("taille de la liste aliment pathologie : "+listeAlPa.size());
        for(FmAlimentsPathologie listP:listeAlPa)
        {
        int idA1=listP.getAliment().getId();
@@ -563,7 +563,7 @@ public class Inserer_pathologieController implements Initializable {
          public void TraiterInterdi(FmPathologie pathologie)
          {
    ObservableList<FmAlimentsPathologie>  list=verificationPathologie(tableSelection.getItems(),pathologie);
-             System.out.println("taille: "+list.size());
+            // System.out.println("taille: "+list.size());
              String info="";
         info = formulyTools.formatageInterdi(list);
     String lesElement="";
@@ -588,8 +588,8 @@ public class Inserer_pathologieController implements Initializable {
          }
          public ObservableList<mainModel> ListDesAlimentsPourPathologieExistante(ObservableList<mainModel> listRepete,ObservableList<mainModel> listGlobale)
          {
-             System.out.println("list reparete size : "+listRepete.size());
-             System.out.println("listGlobale: "+listGlobale.size());
+             //System.out.println("list reparete size : "+listRepete.size());
+            // System.out.println("listGlobale: "+listGlobale.size());
           ObservableList<mainModel>  list=FXCollections.observableArrayList();
           ArrayList<Integer> listI=new ArrayList<>();
             if(listRepete.size()>0)
@@ -598,7 +598,7 @@ public class Inserer_pathologieController implements Initializable {
           {
              for(int i=0;i<listGlobale.size();i++)
              {
-                 System.out.println("id 1: "+listGlobale.get(i).getIdAliment());
+                // System.out.println("id 1: "+listGlobale.get(i).getIdAliment());
                  boolean estInterdit=false;
                 for(int j=0;j<listRepete.size();j++)
                 { 
@@ -613,7 +613,7 @@ public class Inserer_pathologieController implements Initializable {
                 }
              }
           }
-               System.out.println("list tri: "+list.size());
+              // System.out.println("list tri: "+list.size());
 
             }
             else{

@@ -197,7 +197,7 @@ public class PearsonResolveController implements Initializable {
        //  placerBouton();
        // placerBouton(table1_del,2);
         placerBouton(choix,1);
-         System.out.println("nbre aliment : "+listeAliments.size());
+       //  System.out.println("nbre aliment : "+listeAliments.size());
         table1.setItems(model);
       
     }
@@ -372,10 +372,10 @@ public class PearsonResolveController implements Initializable {
       pearsonCal=new pearsonCalcul( listAliment, valeurMaxx,Objdectif,ListElementsAequilibrer);
       pearsonCal.calculPearson();
       List<Double> resultAutres=pearsonCal.getListResultatEquilibre();
-           System.out.println("affichage des resultats : ");
+          // System.out.println("affichage des resultats : ");
            for(mainModel elmt:alimentsChoisi)
            {
-          System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
+          //System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
            }
            affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
@@ -386,11 +386,11 @@ public class PearsonResolveController implements Initializable {
         pearsonCal.setListAliments( listAliment);
         pearsonCal.calculPearson();
       List<Double> resultAutres=pearsonCal.getListResultatEquilibre();
-           System.out.println("affichage des resultats une fois : ");
-           for(mainModel elmt:alimentsChoisi)
-           {
-          System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
-           }
+          // System.out.println("affichage des resultats une fois : ");
+//           for(mainModel elmt:alimentsChoisi)
+//           {
+//        //  System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
+//           }
          affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
     }

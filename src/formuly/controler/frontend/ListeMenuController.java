@@ -310,7 +310,7 @@ EntityManagerFactory     entityManagerFactory;
      
     public void RemplirTableBas(repasModel repas)
     {
-        System.out.println("repas: "+repas.getLibelle());
+      //  System.out.println("repas: "+repas.getLibelle());
       numeroLocale.setCellValueFactory(new PropertyValueFactory<>("numero")); 
       nom_aliment.setCellValueFactory(new PropertyValueFactory<>("libelle")); 
       glucideLocale.setCellValueFactory(new PropertyValueFactory<>("glucide")); 
@@ -444,7 +444,7 @@ EntityManagerFactory     entityManagerFactory;
           {
            int index=table_aliment_deja_choisi.getSelectionModel().getSelectedIndex(); 
            List<FmRepasAnalyse> listAnalyse=(table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getRepas().getFmRepasAnalyseCollection()!=null)?(List<FmRepasAnalyse>) table_aliment_deja_choisi.getSelectionModel().getSelectedItem().getRepas().getFmRepasAnalyseCollection():null;
-            System.out.println("list "+listAnalyse);
+           // System.out.println("list "+listAnalyse);
            String conclusion =(listAnalyse!=null && listAnalyse.size()>0)?listAnalyse.get(0).getConclusion():"aucune analyse faite pour ce Menu";
                Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("analyse");
@@ -465,7 +465,7 @@ EntityManagerFactory     entityManagerFactory;
           }
           else
           {
-              System.out.println("non instance");
+            //  System.out.println("non instance");
           }
         }
         else

@@ -5,8 +5,6 @@
  */
 package formuly.classe;
 
-import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
-import com.sun.javafx.application.HostServicesDelegate;
 import formuly.controler.frontend.DemarrageAppController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -66,7 +64,7 @@ public class Fx_formuly extends Application {
    public void stop(){
        formulyTools.getEm().getCache().evictAll();
        formulyTools.getEm().close();
-       System.out.println("Application fermée avec succès");
+      // System.out.println("Application fermée avec succès");
     // Save file
 }
   private void traiterFermerture()

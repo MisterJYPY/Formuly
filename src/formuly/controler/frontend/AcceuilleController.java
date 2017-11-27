@@ -184,7 +184,7 @@ public class AcceuilleController implements Initializable {
        // cat.setClip(lb);
      fermer.setOnAction(event->{
     // formulyTools.getEm().close();
-         
+         formulyTools.fermerFenetre(fermer);
      });
      dumpLabelIndicator.setVisible(false);
      dumpProgressIndicator.setVisible(false);

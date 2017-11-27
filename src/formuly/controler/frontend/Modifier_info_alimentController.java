@@ -716,9 +716,9 @@ else{
       main.getAliment().setPays(mainTemp.getAliment().getPays());
       main.getAliment().setGroupe(mainTemp.getAliment().getGroupe());
       main.getAliment().setSurnom(mainTemp.getAliment().getSurnom());
-          System.out.println("nom :"+   main.getAliment().getNomFr());
-           System.out.println("pays :"+   main.getAliment().getPays());
-             System.out.println("groupe :"+   main.getAliment().getGroupe().getNomFr());
+//          System.out.println("nom :"+   main.getAliment().getNomFr());
+//           System.out.println("pays :"+   main.getAliment().getPays());
+//             System.out.println("groupe :"+   main.getAliment().getGroupe().getNomFr());
       int idRetvit=(main.getRetVit()!=null)?main.getRetVit().getId():0;
       int idRetNut=(main.getRetNu()!=null)?main.getRetNu().getId():0;
       int idRetMin=(main.getRetMin()!=null)?main.getRetMin().getId():0;

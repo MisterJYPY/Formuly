@@ -136,7 +136,7 @@ public class formulyTools {
       EntityManager em=emf.createEntityManager();
       String sql="SELECT f.id,f.libelle,f.energie,f.lipide,f.glucide,f.protide FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
       Query eqr=em.createNativeQuery(sql,FmRepas.class);
-        System.out.println("eqr: "+eqr);
+      //  System.out.println("eqr: "+eqr);
       FmRepas repas=(eqr.getResultList().size()>0)?(FmRepas) eqr.getSingleResult():null;
       if(repas!=null)
          {
@@ -792,7 +792,7 @@ public class formulyTools {
         
         id=aliment.getId();
       }
-        System.out.println("id pathologie: "+id);   
+       // System.out.println("id pathologie: "+id);   
        return id;
     }
         /**
@@ -847,7 +847,7 @@ public class formulyTools {
        int numero=1;
         for(FmFait fait : listeFait)
         {
-            System.out.println("fait : "+fait);
+          //  System.out.println("fait : "+fait);
         List<FmRegleFait> listRegleAssociees=(List<FmRegleFait>) fait.getFmRegleFaitCollection();
          int nbreRegleApplicable=listRegleAssociees.size();
         String conclusion=fait.getLibelleFait();
@@ -1048,8 +1048,8 @@ public class formulyTools {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
       mainModel mainM=null;
      List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention(requeteNative, model);
-      System.out.println(requeteNative);
-     System.out.println("nbre pri: "+retentionAliment.size());
+     // System.out.println(requeteNative);
+     //System.out.println("nbre pri: "+retentionAliment.size());
       if(retentionAliment!=null)
       {
            int cpt=1;
@@ -1078,8 +1078,8 @@ public class formulyTools {
       ObservableList<mainModel> inf = FXCollections.observableArrayList();
       mainModel mainM=null;
      List<RetentionAlments> retentionAliment= RetentionAlments.getAllAlimentRetention(requeteNative, model);
-      System.out.println(requeteNative);
-     System.out.println("nbre pri: "+retentionAliment.size());
+   //   System.out.println(requeteNative);
+   //  System.out.println("nbre pri: "+retentionAliment.size());
       if(retentionAliment!=null)
       {
            int cpt=1;
@@ -1183,7 +1183,7 @@ public class formulyTools {
        {
        m="0.0";
        }
-        System.out.println(m);
+       // System.out.println(m);
        t=true;
     }
     
@@ -1208,7 +1208,7 @@ public class formulyTools {
       String pal=m;
       pal=pal.replace(',','.');
       pal=pal.replace('.','_');
-      System.out.println(pal);
+     // System.out.println(pal);
       m=m.replace(',','.');
       String mi=m;
      while(!t){

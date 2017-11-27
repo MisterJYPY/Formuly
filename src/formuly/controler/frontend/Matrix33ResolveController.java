@@ -167,7 +167,7 @@ public class Matrix33ResolveController implements Initializable {
        //  placerBouton();
        // placerBouton(table1_del,2);
         placerBouton(choix,1);
-         System.out.println("nbre aliment : "+listeAliments.size());
+        // System.out.println("nbre aliment : "+listeAliments.size());
         table1.setItems(model);
       
     }
@@ -316,9 +316,9 @@ public class Matrix33ResolveController implements Initializable {
         double glucidMax=Double.parseDouble(glucideMax.getText());
         double lipideMax=Double.parseDouble(LipideMax.getText());
         double protidMax=Double.parseDouble(protideMax.getText());
-         System.out.println("glucide totale : "+glucidMax);
-         System.out.println("lipide  totale : "+lipideMax);
-         System.out.println("protide totale : "+protidMax);
+//         System.out.println("glucide totale : "+glucidMax);
+//         System.out.println("lipide  totale : "+lipideMax);
+//         System.out.println("protide totale : "+protidMax);
          colonneDroite[0]=glucidMax;
          colonneDroite[1]=lipideMax;
          colonneDroite[2]=protidMax;
@@ -351,7 +351,7 @@ public class Matrix33ResolveController implements Initializable {
          for(int m=0;m<x.getColumnDimension();m++)
          {
              double res=x.get(l, m);
-             System.out.print(" "+res);
+            // System.out.print(" "+res);
              resultat[l]=res;
          }
           
@@ -362,11 +362,11 @@ public class Matrix33ResolveController implements Initializable {
            
          element.setResultatCalcul(resultat[cpt]*100);
          cpt++;
-           System.out.println("eleent "+element.getNom_aliment()+" res : "+element.getResultatCalcul());
+         //  System.out.println("eleent "+element.getNom_aliment()+" res : "+element.getResultatCalcul());
        }
         // tableChoix.setItems(alimentsChoisi);
           residu=rnorm;
-        System.out.println("residu"+residu);
+      //  System.out.println("residu"+residu);
         affichageResult(alimentsChoisi);
         }
        

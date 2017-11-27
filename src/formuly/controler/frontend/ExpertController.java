@@ -231,12 +231,12 @@ public class ExpertController implements Initializable {
             String element=elementPrec.toString();
             element=element.concat(caractereSuivant);
             id=element;
-            System.out.println("l'id est : "+id);
+           // System.out.println("l'id est : "+id);
        }
       //si egale a A nous faisons une concatenanion cela permet de garder l'encoien
      else{
          id=dernierIdentifiant.concat(caractereSuivant);
-           System.out.println("l'id est : "+id);
+          // System.out.println("l'id est : "+id);
         }
     //   }
 //      else
@@ -439,13 +439,13 @@ public class ExpertController implements Initializable {
       });
         listeIntelligente.setOnAction(event->{
          String text=listeIntelligente.getValue();
-            System.out.println("valer : "+text);
+          //  System.out.println("valer : "+text);
       });
       parenthese.setOnAction(event->{
          String entite=(parenthese.getValue()!=null)?parenthese.getValue():"";
           if(!entite.isEmpty() && !entite.equals("----Aucun Choix-----"))
          {
-             System.out.println("parenthese:  "+entite);
+           //  System.out.println("parenthese:  "+entite);
          String textVolu=affichageProgressif.getText();
          String nvoText=textVolu.concat(entite);
            affichageProgressif.setText(nvoText+" ");
@@ -464,7 +464,7 @@ public class ExpertController implements Initializable {
       });
       
       effacerDernierElement.setOnAction(event->{
-          System.out.println("text : "+affichageProgressif.getText().length());
+         // System.out.println("text : "+affichageProgressif.getText().length());
           if(affichageProgressif.getText().length()>=1)
           {
                nombreCaractere--;
@@ -490,7 +490,7 @@ public class ExpertController implements Initializable {
           }
       });
        effacerDernierElement2.setOnAction(event->{
-          System.out.println("text : "+affichageProgressif.getText().length());
+         // System.out.println("text : "+affichageProgressif.getText().length());
           if(affichageProgressif.getText().length()>=1)
           {
                nombreCaractere--;
@@ -548,7 +548,7 @@ public class ExpertController implements Initializable {
        {
          if(!element.contains("ALORS"))
            {
-           System.out.println("elemnt : "+element);
+          // System.out.println("elemnt : "+element);
       
            boolean b=ExistenceDelimiteur(element);
          if(b)
@@ -597,9 +597,9 @@ public class ExpertController implements Initializable {
                boolean entite=ExistanceEntite(element);
               if(cmparateur)
               {
-                  System.out.println("op "+element);
+               //   System.out.println("op "+element);
              String operateur=retournerCorrespondanceComparateur(element,false);
-                   System.out.println("op ap "+operateur);
+                //   System.out.println("op ap "+operateur);
              regle=regle.concat(operateur);
               }
               else
@@ -831,7 +831,7 @@ public class ExpertController implements Initializable {
           else{
                b=false;
          message=message.concat("Probleme au niveau des crochets  \n");
-             System.out.println(message);
+            // System.out.println(message);
            break;
               }
           }
@@ -839,8 +839,8 @@ public class ExpertController implements Initializable {
           }
          i++;
          }
-          System.out.println("nbre [ "+cptOuvr);
-          System.out.println("nbre ] "+cptFer);
+          //System.out.println("nbre [ "+cptOuvr);
+          //System.out.println("nbre ] "+cptFer);
         if(cptOuvr!=cptFer)
         {
         b=false;
@@ -1244,7 +1244,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                             btn.getStyleClass().add("dark-blue");
                             btn.setOnAction(event -> {
                      regleFaitModel rgfait= getTableView().getItems().get(getIndex());    
-                                System.out.println("regFait : "+rgfait);
+                             //   System.out.println("regFait : "+rgfait);
                                 lancerDetailsFait(rgfait,btn);
                             });
                         
@@ -1417,9 +1417,9 @@ StringConverter<Double> converter = new StringConverter<Double>() {
             
            em.getTransaction().commit();
           }catch (Exception e) {
-              System.out.println(""+e.getLocalizedMessage());
-              System.out.println(""+e.getMessage());
-              System.out.println(""+e.getCause().toString());
+             // System.out.println(""+e.getLocalizedMessage());
+             // System.out.println(""+e.getMessage());
+              //System.out.println(""+e.getCause().toString());
               Logger.getLogger(ExpertController.class.getName()).log(Level.SEVERE, null, e);
               updateMessage("erreur");
           }

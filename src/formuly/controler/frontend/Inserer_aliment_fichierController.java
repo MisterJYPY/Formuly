@@ -370,7 +370,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
              deuxiemeElement=ligne;
        String concat = premierElement.concat(deuxiemeElement);        
                listExtr.add(concat);
-                   System.out.println(concat);
+                 //  System.out.println(concat);
                    premierElement="";
                    deuxiemeElement="";
               }
@@ -562,7 +562,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                  
                   String  [] donneeAliment;
                   donneeAliment=infoA.split("!");
-                  System.out.println("taille info :"+donneeAliment.length);
+                //  System.out.println("taille info :"+donneeAliment.length);
                   String nomFr;
                   String nomEng;
                   String surnom;
@@ -642,7 +642,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 
                 String infoNut=(tabInfo.length>=2)?tabInfo[1]:"";
                 String[] donneNutr=infoNut.split("!");
-                  System.out.println("taille nutr :"+donneNutr.length);
+                 // System.out.println("taille nutr :"+donneNutr.length);
                      
                  lipide=(donneNutr.length>=1)?formulyTools.preformaterChaineAvecEspace(donneNutr[0]):"0.0";
                  protide=(donneNutr.length>=2)?formulyTools.preformaterChaineAvecEspace(donneNutr[1]):"0.0";
@@ -1074,14 +1074,14 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                        if(extension.equals(".txt"))
                        {
                        EstfichierExcel=false;
-                         System.out.println("fichier txt");
+                        // System.out.println("fichier txt");
                        }
                        else
                        {
                        if(extension.equals(".xlsx"))
                        {
                          EstfichierExcel=true;
-                           System.out.println("exel recuperer");
+                       //    System.out.println("exel recuperer");
                        }
                        }
                         enregistrerAliment(file);
@@ -1103,7 +1103,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         copyWorker.messageProperty().addListener(new ChangeListener<String>() {
           public void changed(ObservableValue<? extends String> observable,
               String oldValue, String newValue) {
-              System.out.println("new value: "+newValue);
+            //  System.out.println("new value: "+newValue);
               if("terminer".equals(newValue))
               { 
                 // registerThread.
@@ -1232,7 +1232,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
               }
           } catch (Exception e) {
                updateMessage("erreur");  
-              System.out.println("une erreur produite : "+e.getLocalizedMessage());
+             // System.out.println("une erreur produite : "+e.getLocalizedMessage());
          Logger.getLogger(ExcelTools.class.getName()).log(Level.SEVERE, null, e);
            
           }
@@ -1264,10 +1264,10 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 
                 // registerThread.
                alert.setContentText("preparation pour l'afficahe...");
-                  System.out.println("taille liste enregister: "+listeEnregistrer.size());
+                 // System.out.println("taille liste enregister: "+listeEnregistrer.size());
                  
                     chargerDonne(listeSaisie,"aj");
-                     System.out.println("taille liste enregister second : "+listeEnregistrer.size());
+                  //   System.out.println("taille liste enregister second : "+listeEnregistrer.size());
               formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
                alert.setAlertType(Alert.AlertType.INFORMATION); 
                alert.close();

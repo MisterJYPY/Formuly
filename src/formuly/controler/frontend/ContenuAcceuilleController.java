@@ -129,7 +129,7 @@ public class ContenuAcceuilleController implements Initializable {
                 nbre=formulyTools.AvoirNbreAlimentPays(nompay);
                 BarChartList.add(new XYChart.Data(decoupe,nbre));
              }
-             System.out.println("count :"+BarChartList.size());
+             //System.out.println("count :"+BarChartList.size());
              seriesBarChat.getData().addAll(BarChartList);
              bc.getData().addAll(seriesBarChat);
              LineChartList.add(new XYChart.Data(1000,formulyTools.NbrerepasFonctionRegime(1000.)));
