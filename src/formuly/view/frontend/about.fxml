@@ -27,7 +27,7 @@
          </font>
       </Label>
       <Label layoutX="24.0" layoutY="74.0" prefHeight="17.0" prefWidth="438.0" text="Pour le laboratoire de Nutrition de L'université Nangui Abrogoua dirigé par  " />
-      <Label layoutX="427.0" layoutY="70.0" prefHeight="26.0" prefWidth="252.0" text="Prof. GBOGOURI ALBARAIN">
+      <Label layoutX="427.0" layoutY="70.0" prefHeight="26.0" prefWidth="252.0" text="Prof. GBOGOURI ALBARIN">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>

@@ -35,6 +35,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -173,9 +175,17 @@ public class formulyTools {
     {
       List<FmFait> faitConcl;
       EntityManager em=getEm().createEntityManager();
-   //   em.getTransaction().begin();
-   //   String sql="SELECT f.id FROM fm_repas f WHERE f.id=(SELECT MAX(s.id) FROM fm_repas s)";
       Query eqr=em.createNamedQuery("FmFait.findAll");
+         faitConcl=eqr.getResultList();
+      //   em.getTransaction().commit();
+          em.clear();
+        return faitConcl;
+    }
+          public static List<FmRegle> Liste_Regle() 
+    {
+      List<FmRegle> faitConcl;
+      EntityManager em=getEm().createEntityManager();
+      Query eqr=em.createNamedQuery("FmRegle.findAll");
          faitConcl=eqr.getResultList();
       //   em.getTransaction().commit();
           em.clear();
@@ -1521,5 +1531,15 @@ StringConverter<Double> converter = new StringConverter<Double>() {
        public static void mettreImageBtn(Button btn ,String urlImage)
        {
       
+       }
+       public static void ouvrirDossier(String cheminDossier,Class clas)
+       {
+        Runtime rutine = Runtime.getRuntime();
+        try {
+            rutine.exec(new String[]{"explorer", cheminDossier});
+
+        } catch (IOException ex) {
+            Logger.getLogger(clas.getName()).log(Level.SEVERE, null, ex);
+        }
        }
 }

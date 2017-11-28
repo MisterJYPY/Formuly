@@ -47,11 +47,13 @@
                         <items>
                               <MenuItem mnemonicParsing="false" text="Fermer " />
                           <MenuItem fx:id="telecharerAlimentItem" styleClass="dump" text="Télécharger aliment" />
+                              <MenuItem fx:id="baseConnaissanceDump" styleClass="dump" text="Telecharger Base de connaissance" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Edit">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="administrator" mnemonicParsing="false" text="administrator" />
+                              <MenuItem mnemonicParsing="false" text="Delete" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">

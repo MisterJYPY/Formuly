@@ -5,7 +5,7 @@
  */
 package formuly.controler.frontend;
 
-import formuly.Excel.Book;
+import formuly.Excel.FoodBook;
 import formuly.Excel.ExcelTools;
 import formuly.classe.TooltipTableRow;
 import formuly.classe.formulyTools;
@@ -835,7 +835,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                
            return list;
     }
-      public ObservableList<mainModel> remetreLalistesousFormeDecouper(List<Book> donneeExtraiteTable)
+      public ObservableList<mainModel> remetreLalistesousFormeDecouper(List<FoodBook> donneeExtraiteTable)
     {
            ObservableList<mainModel> list=FXCollections.observableArrayList();  
           mainModel mainModels = null;
@@ -846,7 +846,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           int dernierIdentifianMin=formulyTools.TrouverDernierIdentifiant_RetentionMineraux()+1; 
           int dernierIdentifiantPathologie=formulyTools.TrouverDernierIdentifiant_Pathologie()+1; 
           int dernierIdentifiantAlimentPathologie=formulyTools.TrouverDernierIdentifiant_Aliment_Pathologie()+1;
-               for(Book ligne :donneeExtraiteTable)
+               for(FoodBook ligne :donneeExtraiteTable)
                {
                   String nomFr;
                   String nomEng;
@@ -1199,7 +1199,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
               }
             else
               {
-                   List<Book> listElement;
+                   List<FoodBook> listElement;
                   updateProgress(5, 100);
               updateMessage("Debut de la lecture du fichier....");
                 ExcelTools lecteurFichirM=new ExcelTools();

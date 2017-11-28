@@ -7,6 +7,8 @@ package formuly.Excel;
 
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
+import formuly.entities.FmFait;
+import formuly.entities.FmRegle;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
@@ -24,6 +26,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -45,11 +48,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExcelTools {
     
-    private List<Book> listBooks;
+    private List<FoodBook> listBooks;
+    private List<KnowBook> listKnowBooks;
     public static int cas=0;
     private boolean dossierCreer;
    private String nomFichier;
     private final String cheminDossierAlimentBc;
+    private final String cheminDossierBaseConnaissanceBc;
+    
     private Object getCellValue(Cell cell) {
     switch (cell.getCellType()) {
         
@@ -70,17 +76,25 @@ public class ExcelTools {
      listBooks=new ArrayList<>();
      cheminDossier = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly";
      cheminDossierAlimentBc = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly\\FoodsBc";
+     cheminDossierBaseConnaissanceBc = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly\\KnowledgeBc";
      
      //si on veut faire un dump  alors on cree le dossier si le dossier n'est pas creer
-     
+     //le cas 1 signifie que on eut faire un dumpage de foods
       if(cas==1)
       {
        File dir = new File(cheminDossierAlimentBc);
        dossierCreer = dir.mkdirs();
       }
+        //le cas 1 signifie que on eut faire un dumpage de  base de connaissance
+      if(cas==2)
+      {
+       File dir = new File(cheminDossierBaseConnaissanceBc);
+       dossierCreer = dir.mkdirs();
+      }
+      
     }
     
-    public List<Book> readBooksFromExcelFile(File file) {
+    public List<FoodBook> readBooksFromExcelFile(File file) {
             listBooks.clear();
         try {
            
@@ -96,7 +110,7 @@ public class ExcelTools {
                 if(ligne!=0)
                 {
                     Iterator<Cell> cellIterator = nextRow.cellIterator();
-                    Book aBook = new Book();
+                    FoodBook aBook = new FoodBook();
                     
                     while (cellIterator.hasNext()) {
                         Cell nextCell = cellIterator.next();
@@ -286,6 +300,63 @@ public class ExcelTools {
         }
         return listBooks;
 }
+    public List<KnowBook> readBooksFromExcelFiles(File file) {
+            listKnowBooks.clear();
+        try {
+           
+            FileInputStream inputStream = new FileInputStream(file);
+            System.out.println("nom fichier : "+file.getName());
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet firstSheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = firstSheet.iterator();
+            
+            while (iterator.hasNext()) {
+                Row nextRow = iterator.next();
+                int ligne=nextRow.getRowNum();
+                if(ligne!=0)
+                {
+                    Iterator<Cell> cellIterator = nextRow.cellIterator();
+                    FoodBook aBook = new FoodBook();
+                    KnowBook kBook=new KnowBook();
+                    
+                    while (cellIterator.hasNext()) {
+                        Cell nextCell = cellIterator.next();
+                        int columnIndex = nextCell.getColumnIndex();
+                        
+                        switch (columnIndex) {
+                            case 0:
+                                // System.out.println("");
+                 kBook.setLibelleRegle((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"aucun");
+       
+                                break;
+                            case 1:
+                                System.out.println("nomEng");
+                kBook.setLibelleClairRegle((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"");
+                                break;
+                            case 2:                 
+                    kBook.setNbreFaitDeclencher(((getCellValue(nextCell))!=null && !(getCellValue(nextCell)).toString().isEmpty())?Integer.parseInt(getCellValue(nextCell).toString()):0);
+                 System.out.println("Surnom");
+                                break;
+                            
+                        }
+                    }
+                    
+                    listKnowBooks.add(kBook); 
+                }
+                        System.out.println("enregisterr");
+                        System.out.println("taille :"+listKnowBooks.size());
+                       
+            }
+           
+           inputStream.close();
+           workbook.close();
+           
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelTools.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("eeeeeeeeeeeeexxxxxeptionnnnnnnnnnnnn");
+        }
+        return listKnowBooks;
+}
     public void DumpFoodsDataBase(List<?> ListAliment,ProgressBar progress,Label indication)
     {
       if(ListAliment.size()>0)
@@ -303,6 +374,15 @@ public class ExcelTools {
        }
       }
     }
+     public void DumpKnowLedgeDataBase(List<FmRegle> listR,List<FmFait> listF,ProgressBar progress,Label indication)
+    {
+     
+          indication.setVisible(true);
+          progress.setVisible(true);
+          LaunchDumpRegleProcess(listR,listF, progress,indication);
+        //  System.out.println("liste des aliments nbre : "+ListAliment.size());
+    
+    }
     private void LaunchDumpProcess(List<FmAliments> list,ProgressBar progress,Label indication)
     {
     
@@ -318,9 +398,19 @@ public class ExcelTools {
               if("terminer".equals(newValue))
               {
                 Image imageSucces = new Image(
-     getClass().getResourceAsStream("/formuly/image/correct.png"));
-                   alert.setGraphic(new ImageView(imageSucces));
-                 
+     getClass().getResourceAsStream("/formuly/image/dossier.png"));
+                  
+                 Button btn=new Button("VOIR");
+                 btn.setMinSize(105,41);
+                 btn.setGraphic(new ImageView(imageSucces));
+                 btn.setStyle("-fx-cursor : HAND ;-fx-text-fill : orange;"
+                         + "-fx-background-color: gray ;-fx-font-weight :bold;");
+                 btn.setOnAction(e-> {
+                 formulyTools.ouvrirDossier(cheminDossierAlimentBc,ExcelTools.class);
+                 alert.close();
+                 });
+                  alert.setGraphic(btn);
+                 //btn.setGraphic(btn);
                     alert.setTitle("Opération terminée");
                alert.setContentText("Votre Téléchargement a été un succès...\n"
                        + "Vous trouverez le fichier au nom de : "+nomFichier+" \n"
@@ -353,7 +443,66 @@ public class ExcelTools {
         
       new Thread(copyWorker).start();
     }
-     public Task createWorker(List<FmAliments> list) {
+     private void LaunchDumpRegleProcess(List<FmRegle> listR,List<FmFait> listF,ProgressBar progress,Label indication)
+    {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Chargement de la base de connaissance");
+                // alert.show();
+                Task copyWorker = createWorkerListeFait(listF, listR);
+          progress.progressProperty().unbind();
+          progress.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {        
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/dossier.png"));
+                  
+                 Button btn=new Button("VOIR");
+                 btn.setMinSize(105,41);
+                 btn.setGraphic(new ImageView(imageSucces));
+                 btn.setStyle("-fx-cursor : HAND ;-fx-text-fill : orange;"
+                         + "-fx-background-color: gray ;-fx-font-weight :bold;");
+                 btn.setOnAction(e-> {
+                 formulyTools.ouvrirDossier(cheminDossierBaseConnaissanceBc,ExcelTools.class);
+                 alert.close();
+                 });
+                  alert.setGraphic(btn);
+                 //btn.setGraphic(btn);
+                    alert.setTitle("Opération terminée");
+               alert.setContentText("Votre Téléchargement a été un succès...\n"
+                       + "Vous trouverez le fichier au nom de : "+nomFichier+" \n"
+                       + " Dans le dossier à L'adresse  : "+cheminDossierBaseConnaissanceBc);
+               indication.setVisible(false);
+               progress.setVisible(false);
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+              else{
+                if(!"erreur".equals(newValue))
+                {
+              indication.setText(newValue);
+                }
+                else
+                {
+              Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                     alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setTitle("Opération Echoué");
+               alert.setContentText("Erreur rencontré lors du téléchargement de vos aliments\n"
+                       + "Reesayer cela à nouveau SVP \n");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();       
+                }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+    }
+     private Task createWorker(List<FmAliments> list) {
     return new Task() {
       @Override
       protected Object call() throws Exception {
@@ -480,11 +629,97 @@ public class ExcelTools {
          }
             };
             }
-    public List<Book> getListBooks() {
+      private Task createWorkerListeFait(List<FmFait> listF,List<FmRegle> listR) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+
+          try {
+               Date dat=new Date();
+               nomFichier="KnowLedge"+dat.getTime();
+                updateMessage("lancement du BackUp....");
+                 int nbreT=listR.size()+listF.size();
+              updateProgress(1,nbreT);
+     FileOutputStream out = new FileOutputStream(cheminDossierBaseConnaissanceBc+"\\" +nomFichier+".xlsx");    
+                XSSFWorkbook wb = new XSSFWorkbook();
+                XSSFSheet mySheet = wb.createSheet();
+                XSSFRow myRow = null;
+                
+            myRow = mySheet.createRow(0);
+         //   myRow.setRowStyle(new XSSFCellStyl);
+           
+      for(int k=0;k<3;k++)
+                   {
+                myRow.createCell(0).setCellValue("Regle Implicite");
+                myRow.createCell(1).setCellValue("Regle Explicite ");
+                myRow.createCell(2).setCellValue("Nbre Fait dec");
+               
+                   }
+       CellStyle style = wb.createCellStyle();
+           style.setFillBackgroundColor(IndexedColors.YELLOW.getIndex());
+          style.setFillPattern(CellStyle.BIG_SPOTS);
+           myRow.setRowStyle(style);
+                 int cmpteur=0;
+                  int nbre=0;
+         for (FmRegle listreglR : listR) {
+          nbre=cmpteur+1;
+           updateMessage("Chargement..."+nbre+"/"+nbreT);
+               myRow = mySheet.createRow(nbre);
+   for(int i=0;i<3;i++)
+                   {
+                          myRow.createCell(0).setCellValue(listreglR.getLibelleRegle());
+                          myRow.createCell(1).setCellValue(listreglR.getLibelleRegleClair());
+                         myRow.createCell(2).setCellValue(listreglR.getNbreFaitDeclencher());
+                   }
+                  cmpteur++;
+                  updateProgress(cmpteur,nbreT);
+                              
+              }
+            nbre=cmpteur+1;
+          myRow = mySheet.createRow(nbre+1);
+          for(int k=0;k<2;k++)
+                   {
+                myRow.createCell(0).setCellValue("Identifiant");
+                myRow.createCell(1).setCellValue("Libelle");
+                   }
+              nbre++;
+             
+            for (FmFait listFait : listF) {
+          // nbre=cmpteur+1;
+           updateMessage("Chargement..."+cmpteur+"/"+nbreT);
+               myRow = mySheet.createRow(nbre);
+   for(int i=0;i<2;i++)
+                   {
+                          myRow.createCell(0).setCellValue(listFait.getLettreFait());
+                          myRow.createCell(1).setCellValue(listFait.getLibelleFait()); 
+                         //   myRow.createCell(33).setCellValue(code_operation);
+                   }
+                  cmpteur++;
+                  nbre++;
+                  updateProgress(cmpteur,nbreT);
+                  
+                
+              }
+               wb.write(out);
+                out.close();
+              updateMessage("terminer");
+              }
+
+       catch (Exception e) {
+               updateMessage("erreur");  
+              System.out.println("une erreur produite : "+e.getLocalizedMessage());
+         Logger.getLogger(ExcelTools.class.getName()).log(Level.SEVERE, null, e);
+           
+          }
+        return true;
+         }
+            };
+            }
+    public List<FoodBook> getListBooks() {
         return listBooks;
     }
 
-    public void setListBooks(List<Book> listBooks) {
+    public void setListBooks(List<FoodBook> listBooks) {
         this.listBooks = listBooks;
     }
    public String cheminDossier ;

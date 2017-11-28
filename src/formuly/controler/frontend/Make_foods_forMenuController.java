@@ -832,7 +832,7 @@ Callback myCallback = new Callback() {
        nom_aliment.setOnKeyReleased(
      event->{
           String sql="";
-             String nom_ali=nom_aliment.getText().replaceAll("'", "_");
+             String nom_ali=nom_aliment.getText().replaceAll("'", "_").toLowerCase();
            String sqlnomA= "select f.id,f.nom_fr ,f.code,f.pays from fm_aliments f WHERE (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%')  "; 
         String sqlcate="";
         String sqlmodec="";
@@ -895,7 +895,7 @@ Callback myCallback = new Callback() {
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                        String nom_ali=nom_aliment.getText().replaceAll("'", "_");
+                        String nom_ali=nom_aliment.getText().replaceAll("'", "_").toLowerCase();
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
@@ -1073,7 +1073,7 @@ Callback myCallback = new Callback() {
                      if(!nom_aliment.getText().isEmpty())
                     {
                         String nom_ali=nom_aliment.getText().replaceAll("'", "_");
-                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
+                sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.nom_eng LIKE "+"'%"+nom_ali.toLowerCase()+"%' or f.surnom LIKE "+"'%"+nom_ali.toLowerCase()+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
                     {
@@ -1112,7 +1112,7 @@ Callback myCallback = new Callback() {
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-          String nom_ali=nom_aliment.getText().replaceAll("'", "_");
+          String nom_ali=nom_aliment.getText().replaceAll("'", "_").toLowerCase();
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(pays_foods.getValue()!=null)
@@ -1153,7 +1153,7 @@ Callback myCallback = new Callback() {
                     }
                      if(!nom_aliment.getText().isEmpty())
                     {
-                 String nom_ali=nom_aliment.getText().replaceAll("'", "_");
+                 String nom_ali=nom_aliment.getText().replaceAll("'", "_").toLowerCase();
                 sqlnomA="and (f.nom_fr LIKE "+"'%"+nom_ali+"%' or f.nom_eng LIKE "+"'%"+nom_ali+"%' or f.surnom LIKE "+"'%"+nom_ali+"%') ";   
                     }
                       if(mode_cuisson.getValue()!=null)

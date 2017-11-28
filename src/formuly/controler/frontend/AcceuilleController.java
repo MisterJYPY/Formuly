@@ -8,6 +8,8 @@ package formuly.controler.frontend;
 import formuly.Excel.ExcelTools;
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
+import formuly.entities.FmFait;
+import formuly.entities.FmRegle;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -76,6 +78,8 @@ public class AcceuilleController implements Initializable {
     @FXML private ProgressBar dumpProgressIndicator;
     @FXML private MenuItem telecharerAlimentItem;
     @FXML private MenuItem  about;
+    @FXML private MenuItem baseConnaissanceDump;
+     @FXML private MenuItem administrator;
 
     private Stage st;
     private Formuly_calculController  fmCalcul;
@@ -118,28 +122,60 @@ public class AcceuilleController implements Initializable {
         }      
     });
     }
+    public void ActionAdminstration()
+    {
+    administrator.setOnAction(e->{
+          String urls="/formuly/view/frontend/importFait.fxml";
+        lancerAbout(urls,ImportFaitController.class,"Mis à j our de la base de connaissance");
+    });
+    }
+    
+      public void ActionDumpageKnowLedgeBase()
+    {
+    baseConnaissanceDump.setOnAction(e->{
+     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de Telechargement");
+            alert.setHeaderText("Voulez vous vraiment lancer le téléchargment \n");
+            alert.setContentText("NB: Le processus est irreversible  \n"
+                    + "CONFIRMER L'OPERATION SVP ?");
+               Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png")
+      );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+       if (alert.getResult() == ButtonType.YES) {
+
+         List<FmFait> listeF=formulyTools.Liste_Fait();
+          List<FmRegle> listeR=formulyTools.Liste_Regle();
+         ExcelTools.cas=2;
+         ExcelTools exlT=new ExcelTools();
+      exlT.DumpKnowLedgeDataBase(listeR,listeF, dumpProgressIndicator,dumpLabelIndicator);
+        }      
+    });
+    }
     public void actionAbout()
     {
     about.setOnAction(e->{
-     String urls="/formuly/view/frontend/about.fxml";
-        lancerAbout(urls);
+      String urls="/formuly/view/frontend/about.fxml";
+        lancerAbout(urls,Moteur_calculController.class,"A propos de Formuly");
     });
     }
-    public void lancerAbout(String url)
+    public void lancerAbout(String url,Class clas,String title)
     {
      try {
            
     FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
-           root = (Parent)loader.load(); 
+      root = (Parent)loader.load(); 
         st=new Stage();
         st.setScene(new Scene(root));
-       st.setTitle("A propos de Formuly");
+       st.setTitle(title);
         st.initOwner(moteurCalcul.getScene().getWindow());
        st.initModality(Modality.APPLICATION_MODAL);
        st.setResizable(false);
         st.showAndWait();
           } catch (IOException ex) {
-                     Logger.getLogger(Moteur_calculController.class.getName()).log(Level.SEVERE, null, ex);
+                     Logger.getLogger(clas.getName()).log(Level.SEVERE, null, ex);
                  }
     }
     
@@ -189,6 +225,8 @@ public class AcceuilleController implements Initializable {
      dumpLabelIndicator.setVisible(false);
      dumpProgressIndicator.setVisible(false);
      ActionDumpageFoods();
+    ActionDumpageKnowLedgeBase();
+    ActionAdminstration();
     
     }
       public void shutdown() {

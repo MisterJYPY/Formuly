@@ -9,7 +9,7 @@ package formuly.Excel;
  *
  * @author Mr_JYPY
  */
-public class Book {
+public class FoodBook {
   
     /**
      * les attributs a recuperer dans le fichier excel
@@ -61,7 +61,7 @@ public class Book {
     private double thiamin;
     private double riboflavin;
      
-    public Book() {
+    public FoodBook() {
     }
  
      @Override
