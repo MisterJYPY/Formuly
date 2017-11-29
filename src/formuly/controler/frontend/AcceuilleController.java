@@ -75,6 +75,7 @@ public class AcceuilleController implements Initializable {
     @FXML private Button formulation;
     @FXML private Button expert;
     @FXML  private Button fermer;
+    @FXML private Button accueille;
     @FXML private Label dumpLabelIndicator;
     @FXML private ProgressBar dumpProgressIndicator;
     @FXML private MenuItem telecharerAlimentItem;
@@ -85,17 +86,24 @@ public class AcceuilleController implements Initializable {
     private Stage st;
     private Formuly_calculController  fmCalcul;
      private ExpertController  fmexpert;
-    private final int NOMBRE_BUTTON_MAX=7;
+    private final int NOMBRE_BUTTON_MAX=8;
     private Button[] listBtn;
     
     public AcceuilleController() {
         windowMteurCacul=null;
         //lisBtn=new Button[NOMBRE_BUTTON_MAX];
     }
-   
+   private void actionButtonAccueille()
+    {
+        accueille.setOnAction(e->{
+        String url="/formuly/view/frontend/contenuAcceuille.fxml";
+        placeInStageMiddle(url,ContenuAcceuilleController.class);
+         miseAjourCouleurBtn(accueille, listBtn, NOMBRE_BUTTON_MAX,"");
+        });
+    }
      public Button[] retournerListBtn()
      {
-        Button[] btns={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment};
+        Button[] btns={faireRepas,modifierMenu,listMenu,listAliment,enregistrer_aliment,MenuAvecMenuExistant,modifierAliment,accueille};
        return btns;
      }
     
@@ -229,6 +237,7 @@ public class AcceuilleController implements Initializable {
      ActionDumpageFoods();
     ActionDumpageKnowLedgeBase();
     ActionAdminstration();
+    actionButtonAccueille();
     
     }
       public void shutdown() {
@@ -506,6 +515,43 @@ public class AcceuilleController implements Initializable {
     };
     
   }
+            public Task createPutInMidlleWorker(String url,Class clas) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+          
+            try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+        // loader.setLocation(getClass().getResource("/formuly/view/frontend/liste_aliments.fxml"));
+       //  Parent roots =loader.load();
+            loader.setController(clas.newInstance());
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+            root = loader.load();
+            Thread.sleep(10);
+            updateProgress(9,10);
+            updateMessage("preparation pour l'affichage...");
+                 Thread.sleep(15);
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+                updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+             }
+        return true;
+      }
+    };
+    
+  }
       public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer)
     {
          btn.getStyleClass().clear();
@@ -513,11 +559,31 @@ public class AcceuilleController implements Initializable {
         String idbtn=btn.getId();
        for(int i=0;i<nbreBtnEnregistrer;i++)
          {
-             if(!(listBntn[i].getId()).equals(idbtn)) 
+             if(!(listBntn[i].getId()).equals(idbtn) && !(listBntn[i].getId()).equals(accueille.getId())) 
              {
              listBntn[i].getStyleClass().clear();  
              listBntn[i].getStyleClass().add("nav");
              } 
+         }
+    }
+      /**
+       * utilisé pour mettre a jour le background des images lorsqu'on clique sur l'accueill btn
+       * @param btn
+       * @param listBntn
+       * @param nbreBtnEnregistrer
+       * @param option 
+       */
+        public void miseAjourCouleurBtn(Button btn,Button[] listBntn,int nbreBtnEnregistrer,String option)
+    {
+        String idbtn=btn.getId();
+       for(int i=0;i<nbreBtnEnregistrer;i++)
+         {
+              if(!(listBntn[i].getId()).equals(idbtn) ) 
+             {
+             listBntn[i].getStyleClass().clear();  
+             listBntn[i].getStyleClass().add("nav");
+             }
+              
          }
     }
     public void placeInStageMiddle(String url)
@@ -529,6 +595,55 @@ public class AcceuilleController implements Initializable {
                 alert.setTitle("Lancement de votre espace");
                alert.show();
                Task copyWorker =createPutInMidlleWorker(url);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+           ((BorderPane)(principal.getCenter())).getChildren().clear();
+                  center.getChildren().clear();
+          ((BorderPane)(principal.getCenter())).getChildren().add(root);
+              alert.close();
+              }
+              else{
+                  if(!"erreur".equals(newValue))
+                  {
+                   alert.setContentText(newValue);  
+                  }
+                  else
+                  {
+                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                 alert.close();
+                 alert.setContentText("Une erreur inatendue s'est produit lors du chargement \n "
+                         + "Cela peut etre due à une indisponibilité du serveur de base de donnée \n"
+                         + " Fermer cette fenetre d'alerte et reessayer SVP !!!! merci \n");
+                 alert.setTitle("erreur ");
+                     Image image = new Image(
+            getClass().getResourceAsStream("/formuly/image/war.jpg")
+        );
+               alert.setGraphic(new ImageView(image));
+            alert.getButtonTypes().setAll(ButtonType.FINISH);
+                 alert.showAndWait();
+                  }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+    }
+      public void placeInStageMiddle(String url,Class clas)
+    {
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Lancement de votre espace");
+               alert.show();
+               Task copyWorker =createPutInMidlleWorker(url,clas);
           progressBar.progressProperty().unbind();
           progressBar.progressProperty().bind(copyWorker.progressProperty());
         copyWorker.messageProperty().addListener(new ChangeListener<String>() {
