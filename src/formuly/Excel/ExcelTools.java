@@ -9,6 +9,7 @@ import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
 import formuly.entities.FmFait;
 import formuly.entities.FmRegle;
+import formuly.entities.FmRegleFait;
 import formuly.entities.FmRetentionMineraux;
 import formuly.entities.FmRetentionNutriments;
 import formuly.entities.FmRetentionVitamines;
@@ -74,6 +75,7 @@ public class ExcelTools {
 
     public ExcelTools() {
      listBooks=new ArrayList<>();
+     listKnowBooks=new ArrayList<>();
      cheminDossier = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly";
      cheminDossierAlimentBc = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly\\FoodsBc";
      cheminDossierBaseConnaissanceBc = "C:\\Users\\" + formulyTools.getUserName() + "\\Documents\\Formuly\\KnowledgeBc";
@@ -313,10 +315,10 @@ public class ExcelTools {
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
                 int ligne=nextRow.getRowNum();
+                System.out.println("ligne : "+ligne);
                 if(ligne!=0)
                 {
                     Iterator<Cell> cellIterator = nextRow.cellIterator();
-                    FoodBook aBook = new FoodBook();
                     KnowBook kBook=new KnowBook();
                     
                     while (cellIterator.hasNext()) {
@@ -326,17 +328,38 @@ public class ExcelTools {
                         switch (columnIndex) {
                             case 0:
                                 // System.out.println("");
-                 kBook.setLibelleRegle((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"aucun");
+                 kBook.setPremiereColonne((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"aucun");
        
                                 break;
                             case 1:
                                 System.out.println("nomEng");
-                kBook.setLibelleClairRegle((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"");
+                kBook.setSecondeColonne((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"");
                                 break;
                             case 2:                 
-                    kBook.setNbreFaitDeclencher(((getCellValue(nextCell))!=null && !(getCellValue(nextCell)).toString().isEmpty())?Integer.parseInt(getCellValue(nextCell).toString()):0);
+                kBook.setTroisiemeColonne(((getCellValue(nextCell))!=null && !(getCellValue(nextCell)).toString().isEmpty() && (getCellValue(nextCell)).toString().length()<3)?Double.parseDouble(getCellValue(nextCell).toString()):0);
+                            System.out.println("el : "+getCellValue(nextCell).toString());
+                if((getCellValue(nextCell))!=null  && !(getCellValue(nextCell)).toString().contains("alors"))
+                      {
+                     // System.out.println("taille : "+getCellValue(nextCell).toString().length());
+                      if(getCellValue(nextCell).toString().length()>0)
+                      {
+                      kBook.setNbreFaitDeclencherEntier(Double.valueOf(getCellValue(nextCell).toString()).intValue());
+                      }
+                      else
+                      {
+                     kBook.setNbreFaitDeclencherEntier(null) ;
+                      }
+                      }
+                    else{
+                     kBook.setNbreFaitDeclencherEntier(null) ;
+                      }
+                  
                  System.out.println("Surnom");
                                 break;
+                           case 3:
+                                System.out.println("nomEng");
+                kBook.setQuatriemeColonne((getCellValue(nextCell))!=null?String.valueOf(getCellValue(nextCell)):"aucun");
+                                break;        
                             
                         }
                     }
@@ -380,6 +403,15 @@ public class ExcelTools {
           indication.setVisible(true);
           progress.setVisible(true);
           LaunchDumpRegleProcess(listR,listF, progress,indication);
+        //  System.out.println("liste des aliments nbre : "+ListAliment.size());
+    
+    }
+      public void DumpKnowLedgeDataBase(List<FmRegle> listR,List<FmFait> listF,List<FmRegleFait> listRegFait,ProgressBar progress,Label indication)
+    {
+     
+          indication.setVisible(true);
+          progress.setVisible(true);
+          LaunchDumpRegleProcess(listR,listF,listRegFait, progress,indication);
         //  System.out.println("liste des aliments nbre : "+ListAliment.size());
     
     }
@@ -449,6 +481,65 @@ public class ExcelTools {
                 alert.setTitle("Chargement de la base de connaissance");
                 // alert.show();
                 Task copyWorker = createWorkerListeFait(listF, listR);
+          progress.progressProperty().unbind();
+          progress.progressProperty().bind(copyWorker.progressProperty());
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {        
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/dossier.png"));
+                  
+                 Button btn=new Button("VOIR");
+                 btn.setMinSize(105,41);
+                 btn.setGraphic(new ImageView(imageSucces));
+                 btn.setStyle("-fx-cursor : HAND ;-fx-text-fill : orange;"
+                         + "-fx-background-color: gray ;-fx-font-weight :bold;");
+                 btn.setOnAction(e-> {
+                 formulyTools.ouvrirDossier(cheminDossierBaseConnaissanceBc,ExcelTools.class);
+                 alert.close();
+                 });
+                  alert.setGraphic(btn);
+                 //btn.setGraphic(btn);
+                    alert.setTitle("Opération terminée");
+               alert.setContentText("Votre Téléchargement a été un succès...\n"
+                       + "Vous trouverez le fichier au nom de : "+nomFichier+" \n"
+                       + " Dans le dossier à L'adresse  : "+cheminDossierBaseConnaissanceBc);
+               indication.setVisible(false);
+               progress.setVisible(false);
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+              else{
+                if(!"erreur".equals(newValue))
+                {
+              indication.setText(newValue);
+                }
+                else
+                {
+              Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                     alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setTitle("Opération Echoué");
+               alert.setContentText("Erreur rencontré lors du téléchargement de vos aliments\n"
+                       + "Reesayer cela à nouveau SVP \n");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();       
+                }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+    }
+       private void LaunchDumpRegleProcess(List<FmRegle> listR,List<FmFait> listF,List<FmRegleFait> listRFait,ProgressBar progress,Label indication)
+    {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Chargement de la base de connaissance");
+                // alert.show();
+                Task copyWorker = createWorkerListeFait(listF, listR,listRFait);
           progress.progressProperty().unbind();
           progress.progressProperty().bind(copyWorker.progressProperty());
         copyWorker.messageProperty().addListener(new ChangeListener<String>() {        
@@ -699,6 +790,123 @@ public class ExcelTools {
                   updateProgress(cmpteur,nbreT);
                   
                 
+              }
+               wb.write(out);
+                out.close();
+              updateMessage("terminer");
+              }
+
+       catch (Exception e) {
+               updateMessage("erreur");  
+              System.out.println("une erreur produite : "+e.getLocalizedMessage());
+         Logger.getLogger(ExcelTools.class.getName()).log(Level.SEVERE, null, e);
+           
+          }
+        return true;
+         }
+            };
+            }
+        private Task createWorkerListeFait(List<FmFait> listF,List<FmRegle> listR,List<FmRegleFait> listregleFait) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+
+          try {
+               Date dat=new Date();
+               nomFichier="KnowLedge"+dat.getTime();
+                updateMessage("lancement du BackUp....");
+                 int nbreT=listR.size()+listF.size()+listregleFait.size();
+              updateProgress(1,nbreT);
+     FileOutputStream out = new FileOutputStream(cheminDossierBaseConnaissanceBc+"\\" +nomFichier+".xlsx");    
+                XSSFWorkbook wb = new XSSFWorkbook();
+                XSSFSheet mySheet = wb.createSheet();
+                XSSFRow myRow = null;
+                
+            myRow = mySheet.createRow(0);
+         //   myRow.setRowStyle(new XSSFCellStyl);
+           
+      for(int k=0;k<3;k++)
+                   {
+                myRow.createCell(0).setCellValue("Regle Implicite");
+                myRow.createCell(1).setCellValue("Regle Explicite ");
+                myRow.createCell(2).setCellValue("Nbre Fait dec");
+               
+                   }
+       CellStyle style = wb.createCellStyle();
+           style.setFillBackgroundColor(IndexedColors.YELLOW.getIndex());
+          style.setFillPattern(CellStyle.BIG_SPOTS);
+           myRow.setRowStyle(style);
+                 int cmpteur=0;
+                  int nbre=0;
+         for (FmRegle listreglR : listR) {
+          nbre=cmpteur+1;
+           updateMessage("Chargement..."+nbre+"/"+nbreT);
+               myRow = mySheet.createRow(nbre);
+   for(int i=0;i<3;i++)
+                   {
+                          myRow.createCell(0).setCellValue(listreglR.getLibelleRegle());
+                          myRow.createCell(1).setCellValue(listreglR.getLibelleRegleClair());
+                         myRow.createCell(2).setCellValue(listreglR.getNbreFaitDeclencher());
+                   }
+                  cmpteur++;
+                  updateProgress(cmpteur,nbreT);
+                              
+              }
+            nbre=cmpteur+1;
+          myRow = mySheet.createRow(nbre+1);
+          for(int k=0;k<2;k++)
+                   {
+                myRow.createCell(0).setCellValue("Identifiant");
+                myRow.createCell(1).setCellValue("Libelle");
+                   }
+              nbre++;
+             
+            for (FmFait listFait : listF) {
+          // nbre=cmpteur+1;
+           updateMessage("Chargement..."+cmpteur+"/"+nbreT);
+               myRow = mySheet.createRow(nbre);
+   for(int i=0;i<2;i++)
+                   {
+                          myRow.createCell(0).setCellValue(listFait.getLettreFait());
+                          myRow.createCell(1).setCellValue(listFait.getLibelleFait()); 
+                         //   myRow.createCell(33).setCellValue(code_operation);
+                   }
+                  cmpteur++;
+                  nbre++;
+                  updateProgress(cmpteur,nbreT);
+                  
+                
+              }
+             nbre=cmpteur+1;
+          myRow = mySheet.createRow(nbre+1);
+           for(int k=0;k<4;k++)
+                   {
+//                myRow.createCell(0).setCellValue("Identifiant");
+//                myRow.createCell(1).setCellValue("fait");
+//                myRow.createCell(2).setCellValue("regle");
+//                myRow.createCell(3).setCellValue("nbre Fait");
+                       
+                myRow.createCell(0).setCellValue("");
+                myRow.createCell(1).setCellValue("");
+                myRow.createCell(2).setCellValue("");
+                myRow.createCell(3).setCellValue("");
+                   }
+              nbre=nbre+2;       
+            for (FmRegleFait listRFait : listregleFait) {
+          // nbre=cmpteur+1;
+           updateMessage("Chargement..."+cmpteur+"/"+nbreT);
+               myRow = mySheet.createRow(nbre);
+   for(int i=0;i<4;i++)
+                   {
+                          myRow.createCell(0).setCellValue(listRFait.getFait().getId()); 
+                          myRow.createCell(1).setCellValue(listRFait.getRegle().getId());
+                          myRow.createCell(2).setCellValue(listRFait.getDerniereModif()); 
+                          myRow.createCell(3).setCellValue(listRFait.getRegle().getNbreFaitDeclencher()); 
+                         //   myRow.createCell(33).setCellValue(code_operation);
+                   }
+                  cmpteur++;
+                  nbre++;
+                  updateProgress(cmpteur,nbreT);
               }
                wb.write(out);
                 out.close();

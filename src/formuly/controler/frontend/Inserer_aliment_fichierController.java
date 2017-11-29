@@ -314,15 +314,6 @@ public final class Inserer_aliment_fichierController implements Initializable {
     
      public void retirerAliment(mainModel model,int id) {
                table1.getItems().remove(model);
-//               int i=id;
-//               int cpt=0;
-//               for(mainModel md:table1.getItems())
-//               {
-//              if(i>0) 
-//              {
-//                md.setNumero(md.getNumero()-1);
-//              }
-//               }
      }
      
     public ArrayList<String> RecupererElementFichier(File files)

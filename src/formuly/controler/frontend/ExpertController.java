@@ -128,6 +128,8 @@ public class ExpertController implements Initializable {
     private int dernierIdRegleFait;
     
     public ExpertController() {
+       // formulyTools.viderClassEnCache(regleFaitModel.class);
+        formulyTools.viderCache();
       list=formulyTools.getobservableListRegleFaitModel();
       listSectionEnregistre=new ArrayList<>();
       listSectionEnregistreClair=new ArrayList<>();

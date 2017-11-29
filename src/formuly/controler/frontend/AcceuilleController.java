@@ -10,6 +10,7 @@ import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
 import formuly.entities.FmFait;
 import formuly.entities.FmRegle;
+import formuly.entities.FmRegleFait;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -148,9 +149,10 @@ public class AcceuilleController implements Initializable {
 
          List<FmFait> listeF=formulyTools.Liste_Fait();
           List<FmRegle> listeR=formulyTools.Liste_Regle();
+          List<FmRegleFait> listRF=formulyTools.Liste_RegleFait();
          ExcelTools.cas=2;
          ExcelTools exlT=new ExcelTools();
-      exlT.DumpKnowLedgeDataBase(listeR,listeF, dumpProgressIndicator,dumpLabelIndicator);
+      exlT.DumpKnowLedgeDataBase(listeR,listeF,listRF, dumpProgressIndicator,dumpLabelIndicator);
         }      
     });
     }

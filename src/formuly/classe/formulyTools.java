@@ -175,7 +175,7 @@ public class formulyTools {
     {
       List<FmFait> faitConcl;
       EntityManager em=getEm().createEntityManager();
-      Query eqr=em.createNamedQuery("FmFait.findAll");
+      Query eqr=em.createNamedQuery("FmFait.findAlls");
          faitConcl=eqr.getResultList();
       //   em.getTransaction().commit();
           em.clear();
@@ -185,7 +185,17 @@ public class formulyTools {
     {
       List<FmRegle> faitConcl;
       EntityManager em=getEm().createEntityManager();
-      Query eqr=em.createNamedQuery("FmRegle.findAll");
+      Query eqr=em.createNamedQuery("FmRegle.findAlls");
+         faitConcl=eqr.getResultList();
+      //   em.getTransaction().commit();
+          em.clear();
+        return faitConcl;
+    }
+              public static List<FmRegleFait> Liste_RegleFait() 
+    {
+      List<FmRegleFait> faitConcl;
+      EntityManager em=getEm().createEntityManager();
+      Query eqr=em.createNamedQuery("FmRegleFait.findAll");
          faitConcl=eqr.getResultList();
       //   em.getTransaction().commit();
           em.clear();
@@ -1541,5 +1551,13 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         } catch (IOException ex) {
             Logger.getLogger(clas.getName()).log(Level.SEVERE, null, ex);
         }
+       }
+       public static void viderClassEnCache(Class clas)
+       {
+        getEm().getCache().evict(clas);
+       }
+        public static void viderCache()
+       {
+        getEm().getCache().evictAll();
        }
 }

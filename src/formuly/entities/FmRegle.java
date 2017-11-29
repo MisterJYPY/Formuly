@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FmRegle.findAll", query = "SELECT f FROM FmRegle f"),
+     @NamedQuery(name = "FmRegle.findAlls", query = "SELECT f FROM FmRegle f ORDER BY f.id"),
     @NamedQuery(name = "FmRegle.findById", query = "SELECT f FROM FmRegle f WHERE f.id = :id"),
     @NamedQuery(name = "FmRegle.findByLibelleRegle", query = "SELECT f FROM FmRegle f WHERE f.libelleRegle = :libelleRegle"),
     @NamedQuery(name = "FmRegle.findByDerniereModif", query = "SELECT f FROM FmRegle f WHERE f.derniereModif = :derniereModif"),

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="799.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ImortFaitController">
+<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="799.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ImportFaitController">
     <stylesheets>
         <URL value="@/formuly/css/frontend/imortfait.css" />
     </stylesheets>
@@ -28,7 +29,7 @@
       <TableView fx:id="tableRegle" layoutX="32.0" layoutY="159.0" prefHeight="191.0" prefWidth="729.0">
         <columns>
           <TableColumn fx:id="numRegle" prefWidth="56.0" text="N°" />
-          <TableColumn prefWidth="272.0" text="Regle Explicite" />
+          <TableColumn fx:id="regle" prefWidth="272.0" text="Regle Explicite" />
             <TableColumn fx:id="nbFaitDe" prefWidth="134.0" text="Nbre Fait Declencher" />
             <TableColumn fx:id="date" prefWidth="200.0" text="Date de mise à jour " />
             <TableColumn fx:id="actionR" minWidth="0.0" prefWidth="68.0" text="Back" />
@@ -45,7 +46,10 @@
             <TableColumn fx:id="actionFait" prefWidth="85.0" text="Back" />
         </columns>
       </TableView>
-      <Button layoutX="573.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Lancez la mise à jour" />
+      <Button fx:id="valider" layoutX="573.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Lancez la mise à jour">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Button fx:id="fermer" layoutX="736.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="X">
          <cursor>
             <Cursor fx:constant="HAND" />

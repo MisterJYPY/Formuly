@@ -5,6 +5,9 @@
  */
 package formuly.model.frontend;
 
+import formuly.entities.FmRegle;
+import java.util.Date;
+
 /**
  *
  * @author Mr_JYPY
@@ -16,6 +19,8 @@ public class regleModel {
     private String libelleExplicite;
     private int nombreFaitDeclencher;
     private String action;
+    private FmRegle regle;
+    private Date dateModif;
 
     public int getNumRegle() {
         return numRegle;
@@ -27,6 +32,14 @@ public class regleModel {
 
     public String getLibelleImplicite() {
         return libelleImplicite;
+    }
+
+    public Date getDateModif() {
+        return dateModif;
+    }
+
+    public void setDateModif(Date dateModif) {
+        this.dateModif = dateModif;
     }
 
     public void setLibelleImplicite(String libelleImplicite) {
@@ -55,6 +68,14 @@ public class regleModel {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public FmRegle getRegle() {
+        return regle;
+    }
+
+    public void setRegle(FmRegle regle) {
+        this.regle = regle;
     }
     
     

@@ -25,6 +25,10 @@ public class regleFaitModel {
     private FmFait Fait;
     private Date dateModif;
 
+    public regleFaitModel() {
+    }
+
+    
     public regleFaitModel(int numero, String fait, String Conclusion, int nombreRegleApplicable) {
         this.numero = numero;
         this.identifiantFait = fait;

@@ -11,51 +11,66 @@ package formuly.Excel;
  */
 public class KnowBook {
     
-    private String libelleRegle;
-    private String libelleClairRegle;
-    private int nbreFaitDeclencher;
+    private String premiereColonne;
+    private String secondeColonne;
+    private double troisiemeColonne;
     
-    private String identifiantFait;
+    private String quatriemeColonne;
     private String fait;
+    private Integer nbreFaitDeclencherEntier;
+
+    public KnowBook() {
+        this.premiereColonne=null;
+        this.secondeColonne=null;
+        this.quatriemeColonne=null;
+        this.nbreFaitDeclencherEntier=null;
+    }
     
     
     
     
       @Override
     public String toString() {
-        return String.format("%s - %s - %f",libelleRegle,libelleRegle,libelleRegle);
+        return String.format("%s - %s - %f",premiereColonne,premiereColonne,premiereColonne);
     }
 
-    public String getLibelleRegle() {
-        return libelleRegle;
+    public String getPremiereColonne() {
+        return premiereColonne;
     }
 
-    public void setLibelleRegle(String libelleRegle) {
-        this.libelleRegle = libelleRegle;
+    public void setPremiereColonne(String premiereColonne) {
+        this.premiereColonne = premiereColonne;
     }
 
-    public String getLibelleClairRegle() {
-        return libelleClairRegle;
+    public String getSecondeColonne() {
+        return secondeColonne;
     }
 
-    public void setLibelleClairRegle(String libelleClairRegle) {
-        this.libelleClairRegle = libelleClairRegle;
+    public void setSecondeColonne(String secondeColonne) {
+        this.secondeColonne = secondeColonne;
     }
 
-    public int getNbreFaitDeclencher() {
-        return nbreFaitDeclencher;
+    public double getTroisiemeColonne() {
+        return troisiemeColonne;
+    }
+     public Integer getNbreFaitDeclencherEntier() {
+        return nbreFaitDeclencherEntier;
     }
 
-    public void setNbreFaitDeclencher(int nbreFaitDeclencher) {
-        this.nbreFaitDeclencher = nbreFaitDeclencher;
+    public void setNbreFaitDeclencherEntier(Integer nbreFaitDeclencherEntier) {
+        this.nbreFaitDeclencherEntier = nbreFaitDeclencherEntier;
     }
 
-    public String getIdentifiantFait() {
-        return identifiantFait;
+    public void setTroisiemeColonne(double troisiemeColonne) {
+        this.troisiemeColonne = troisiemeColonne;
     }
 
-    public void setIdentifiantFait(String identifiantFait) {
-        this.identifiantFait = identifiantFait;
+    public String getQuatriemeColonne() {
+        return quatriemeColonne;
+    }
+
+    public void setQuatriemeColonne(String quatriemeColonne) {
+        this.quatriemeColonne = quatriemeColonne;
     }
 
     public String getFait() {
