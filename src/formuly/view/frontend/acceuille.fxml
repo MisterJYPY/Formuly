@@ -45,20 +45,20 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="File">
                         <items>
-                              <MenuItem mnemonicParsing="false" text="Fermer " />
-                          <MenuItem fx:id="telecharerAlimentItem" styleClass="dump" text="Télécharger aliment" />
-                              <MenuItem fx:id="baseConnaissanceDump" styleClass="dump" text="Telecharger Base de connaissance" />
+                              <MenuItem mnemonicParsing="false" styleClass="item" text="Fermer " />
+                          <MenuItem fx:id="telecharerAlimentItem" styleClass="item" text="Télécharger aliment" />
+                              <MenuItem fx:id="baseConnaissanceDump" styleClass="item" text="Telecharger Base de connaissance" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Edit">
                         <items>
-                          <MenuItem fx:id="administrator" mnemonicParsing="false" text="administrator" />
-                              <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="administrator" mnemonicParsing="false" styleClass="item" text="administrator" />
+                              <MenuItem mnemonicParsing="false" styleClass="item" text="Delete" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">
                         <items>
-                          <MenuItem fx:id="about" mnemonicParsing="false" text="About" />
+                          <MenuItem fx:id="about" mnemonicParsing="false" styleClass="item" text="About" />
                         </items>
                       </Menu>
                     </menus>
@@ -232,7 +232,7 @@
                                           <Font name="System Bold" size="11.0" />
                                        </font>
                                     </Label>
-                                    <ProgressBar fx:id="dumpProgressIndicator" layoutX="4.0" layoutY="183.0" prefWidth="200.0" progress="0.0" visible="false" />
+                                    <ProgressBar fx:id="dumpProgressIndicator" layoutX="4.0" layoutY="183.0" prefWidth="200.0" progress="0.0" styleClass="progress" visible="false" />
                                     <Label alignment="CENTER" layoutY="262.0" prefHeight="17.0" prefWidth="212.0" styleClass="copyright" text="\@11-2017 Nk.Dev All right reserved">
                                        <font>
                                           <Font name="Pristina" size="15.0" />

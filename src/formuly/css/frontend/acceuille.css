@@ -385,3 +385,37 @@
 {
     -fx-text-fill: #330033;
 }
+.menu-bar {
+  //  -fx-background-color:#999999;
+    -fx-cursor: hand;
+}
+
+.context-menu {
+   // -fx-background-color: derive(#1d1d1d,50%);
+   -fx-background-color:white;
+   -fx-border-style:solid;
+   -fx-border-radius: 5px;
+   -fx-border-color:transparent;
+}
+
+.menu-bar .label {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill:#333300;
+    -fx-opacity: 0.9;
+     -fx-cursor: hand;
+}
+
+.menu .left-container {
+    -fx-background-color: black;
+   
+}
+.item
+{
+    -fx-cursor: hand;
+    -fx-text-fill: #666600;
+}
+.progress
+{
+    -fx-progress-color:#006600;
+}

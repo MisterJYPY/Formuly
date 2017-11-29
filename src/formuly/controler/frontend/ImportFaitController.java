@@ -375,7 +375,7 @@ public class ImportFaitController implements Initializable {
     }  
           public void ImporterBaseDepuisFichierExcel(File file)
          {
-              ProgressBar  progressBar =new ProgressBar(0);
+               ProgressBar  progressBar =new ProgressBar(0);
                progressBar.prefWidth(100.0);
                  Alert alert = new Alert(Alert.AlertType.NONE);
                alert.setGraphic( progressBar);
@@ -404,6 +404,10 @@ public class ImportFaitController implements Initializable {
                        + " vous Trouverez dans les tableaux suivants les informations de \n"
                        + " connaissances recceuillies depuis l'importation\n"
                        + " Merci de valider ");
+               if(listFait.size()>0 || listRel.size()>0)
+               {
+               valider.setDisable(false);
+               }
                alert.getButtonTypes().setAll(ButtonType.FINISH);  
                alert.showAndWait();
                

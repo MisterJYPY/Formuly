@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -8,18 +9,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="606.0" prefWidth="799.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ImportFaitController">
-    <stylesheets>
-        <URL value="@/formuly/css/frontend/imortfait.css" />
-    </stylesheets>
+<AnchorPane id="fenetrePrincipal" prefHeight="606.0" prefWidth="799.0" styleClass="mainFxmlClass" stylesheets="@../../css/frontend/importfait.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ImportFaitController">
+   
    <children>
-      <Label alignment="CENTER" layoutX="209.0" prefHeight="41.0" prefWidth="356.0" text="Administrez vos Faits" />
-      <Label layoutX="32.0" layoutY="41.0" prefHeight="23.0" prefWidth="165.0" text="Information principal :" />
-      <Label layoutX="209.0" layoutY="44.0" prefHeight="23.0" prefWidth="521.0" text="Pour faire le recyclage nous allons vider les enciennes informations pour inserer les nouvelles" />
+      <Label alignment="CENTER" layoutX="234.0" prefHeight="41.0" prefWidth="385.0" styleClass="infoHaut" text="MISE A JOUR DE LA BASE DE CONNAISSANCE" />
+      <Label layoutX="209.0" layoutY="44.0" prefHeight="23.0" prefWidth="551.0" styleClass="infoaccueil" text="cette interface permet de faire une mise à jour complète de votre base de connaissance" />
       <Pane layoutX="44.0" layoutY="78.0" prefHeight="41.0" prefWidth="620.0">
          <children>
-            <Label layoutX="42.0" layoutY="4.0" prefHeight="31.0" prefWidth="214.0" text="Importer le fichier généré par Formuly :" />
-            <Button fx:id="choisirFichier" layoutX="317.0" layoutY="7.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="291.0" text="Choose here ............................................">
+            <Label layoutX="15.0" layoutY="4.0" prefHeight="31.0" prefWidth="291.0" styleClass="messageImport" text="Importer le fichier généré par Formuly :" />
+            <Button fx:id="choisirFichier" layoutX="317.0" layoutY="7.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="291.0" styleClass="btnfile" text="Choose here ............................................">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -28,32 +26,46 @@
       </Pane>
       <TableView fx:id="tableRegle" layoutX="32.0" layoutY="159.0" prefHeight="191.0" prefWidth="729.0">
         <columns>
-          <TableColumn fx:id="numRegle" prefWidth="56.0" text="N°" />
-          <TableColumn fx:id="regle" prefWidth="272.0" text="Regle Explicite" />
-            <TableColumn fx:id="nbFaitDe" prefWidth="134.0" text="Nbre Fait Declencher" />
-            <TableColumn fx:id="date" prefWidth="200.0" text="Date de mise à jour " />
-            <TableColumn fx:id="actionR" minWidth="0.0" prefWidth="68.0" text="Back" />
-            <TableColumn prefWidth="259.0" text="C2" />
+          <TableColumn fx:id="numRegle" prefWidth="49.0" styleClass="num" text="N°" />
+          <TableColumn fx:id="regle" prefWidth="279.0" styleClass="regle" text="Regle Explicite" />
+            <TableColumn fx:id="nbFaitDe" prefWidth="87.0" styleClass="nbreFait" text="Nbre Fait Declencher" />
+            <TableColumn fx:id="date" prefWidth="206.0" styleClass="date" text="Date de mise à jour " />
+            <TableColumn fx:id="actionR" minWidth="0.0" prefWidth="109.0" styleClass="back" text="Back" />
         </columns>
       </TableView>
-      <Label layoutX="197.0" layoutY="128.0" prefHeight="31.0" prefWidth="347.0" text="Liste des Regles détectées du fichier importé" />
-      <Label layoutX="176.0" layoutY="359.0" prefHeight="12.0" prefWidth="500.0" text="Liste des Faits detectés du fichier importé" />
+      <Label layoutX="201.0" layoutY="130.0" prefHeight="25.0" prefWidth="392.0" styleClass="infoTab1" text="Liste des Regles détectées du fichier importé" />
+      <Label layoutX="176.0" layoutY="353.0" prefHeight="23.0" prefWidth="500.0" styleClass="infoTab1" text="Liste des Faits detectés du fichier importé" />
       <TableView fx:id="tableFait" layoutX="28.0" layoutY="385.0" prefHeight="178.0" prefWidth="738.0">
         <columns>
-          <TableColumn fx:id="numFait" prefWidth="49.0" text="N°" />
-          <TableColumn fx:id="idFait" prefWidth="136.0" text="Identifiant du fait" />
-            <TableColumn fx:id="fait" prefWidth="467.0" text="Fait " />
-            <TableColumn fx:id="actionFait" prefWidth="85.0" text="Back" />
+          <TableColumn fx:id="numFait" prefWidth="49.0" styleClass="num" text="N°" />
+          <TableColumn fx:id="idFait" prefWidth="136.0" styleClass="idFait" text="Identifiant du fait" />
+            <TableColumn fx:id="fait" prefWidth="467.0" styleClass="fait" text="Fait " />
+            <TableColumn fx:id="actionFait" prefWidth="85.0" styleClass="back" text="Back" />
         </columns>
       </TableView>
-      <Button fx:id="valider" layoutX="573.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="Lancez la mise à jour">
+      <Button fx:id="valider" disable="true" layoutX="573.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" styleClass="lancer" text="Lancez la mise à jour">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="fermer" layoutX="736.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="X">
+      <Button fx:id="fermer" layoutX="736.0" layoutY="574.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" styleClass="fermer" text="X">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <ImageView fitHeight="23.0" fitWidth="41.0" layoutX="696.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="23.0" fitWidth="41.0" layoutX="181.0" layoutY="574.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="23.0" fitWidth="41.0" layoutX="82.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
