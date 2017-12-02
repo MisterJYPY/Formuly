@@ -117,7 +117,7 @@ public class formulyTools {
          {  
            entityManagerFactory = Persistence.createEntityManagerFactory("fx_formulyPU");          
          }
-         else{
+     else{
            if(!entityManagerFactory .isOpen())
            {
            entityManagerFactory=Persistence.createEntityManagerFactory("fx_formulyPU");
