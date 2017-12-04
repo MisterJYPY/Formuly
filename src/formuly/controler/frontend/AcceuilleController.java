@@ -210,12 +210,25 @@ public class AcceuilleController implements Initializable {
            placeInStageMiddle(urlLi);
             miseAjourCouleurBtn(listAliment, listBtn, NOMBRE_BUTTON_MAX);
         });
+         modifierAliment.setOnAction(event->{
+        String urlLi="/formuly/view/frontend/liste_aliments.fxml";
+         //  placerListAliment(urlLi);
+           placeInStageMiddle(urlLi);
+            miseAjourCouleurBtn(modifierAliment, listBtn, NOMBRE_BUTTON_MAX);
+        });
      modifierMenu.setOnAction(event->{
 //      String urls="/formuly/view/frontend/modifier_menu.fxml";
 //         placerVue(urls);
         String urlLi="/formuly/view/frontend/modifier_menu.fxml";
            placeInStageMiddle(urlLi);
      miseAjourCouleurBtn(modifierMenu, listBtn, NOMBRE_BUTTON_MAX);
+     });
+       listMenu.setOnAction(event->{
+//      String urls="/formuly/view/frontend/modifier_menu.fxml";
+//         placerVue(urls);
+        String urlLi="/formuly/view/frontend/modifier_menu.fxml";
+           placeInStageMiddle(urlLi);
+     miseAjourCouleurBtn(listMenu, listBtn, NOMBRE_BUTTON_MAX);
      });
      formulation.setOnAction(event->{
       String urls="/formuly/view/frontend/formuly_calcul.fxml";
