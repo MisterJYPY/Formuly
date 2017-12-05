@@ -82,6 +82,7 @@ public class AcceuilleController implements Initializable {
     @FXML private MenuItem  about;
     @FXML private MenuItem baseConnaissanceDump;
      @FXML private MenuItem administrator;
+     @FXML private MenuItem updateFoods;
 
     private Stage st;
     private Formuly_calculController  fmCalcul;
@@ -136,6 +137,10 @@ public class AcceuilleController implements Initializable {
     administrator.setOnAction(e->{
           String urls="/formuly/view/frontend/importFait.fxml";
         lancerAbout(urls,ImportFaitController.class,"Mis à j our de la base de connaissance");
+    });
+     updateFoods.setOnAction(e->{
+          String urls="/formuly/view/frontend/updateFoods.fxml";
+        LancerToutProcessus(urls,UpdateFoodsController.class,"Mise à jour de la base de connaissance",expert) ;
     });
     }
     
@@ -311,6 +316,42 @@ public class AcceuilleController implements Initializable {
       }
     };
   }
+        public Task createAllTaskWorker(String url,Class clas) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+            
+          try {
+            updateMessage("debut du traitement....");
+             updateProgress(1,10);
+            FXMLLoader loader = new FXMLLoader();
+            updateMessage("mise à jour ....");
+            updateProgress(2,10);
+            loader.setLocation(getClass().getResource(url));
+            updateMessage("création du controleur de traitement ....");
+            updateProgress(4,10);
+            //fmexpert=new ExpertController();
+            loader.setController(clas.newInstance());
+            updateProgress(6,10);
+            updateMessage("chargement des modules supplémentaires...");
+             root = loader.load();
+             updateProgress(9,10);
+            updateMessage("presque terminé patientez juste un peu SVP...");
+            updateProgress(10,10);
+            updateMessage("terminer");
+           } catch (Exception e) {
+               updateMessage("erreur");
+                 Logger.getLogger(AcceuilleController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+            
+             }
+
+        return true;
+      }
+    };
+  }
+      
         public Task createNewFoodsWorker(String url) {
     return new Task() {
       @Override
@@ -909,6 +950,50 @@ public class AcceuilleController implements Initializable {
             st.getIcons().add(image);
             st.setTitle("Votre Expert");
             st.initOwner(expert.getScene().getWindow());
+            st.initModality(Modality.APPLICATION_MODAL);
+              alert.close();
+                st.setResizable(false);
+            st.showAndWait();
+              }
+              else{
+             alert.setContentText(newValue);   
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+       
+      }
+        private void LancerToutProcessus(String url,Class clas,String title,Button btn) 
+    {
+             
+       ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle(title);
+               alert.show();
+               Task copyWorker =createAllTaskWorker(url, clas);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+            alert.setContentText("preparation pour l'afficahe...");   
+            alert.setAlertType(Alert.AlertType.INFORMATION);
+             Image image = new Image(
+                    getClass().getResourceAsStream("/formuly/image/iconeAc.png")
+            );
+            st=new Stage();
+            st.setScene(new Scene(root));
+            st.getIcons().add(image);
+            st.setTitle(title);
+            st.initOwner(btn.getScene().getWindow());
             st.initModality(Modality.APPLICATION_MODAL);
               alert.close();
                 st.setResizable(false);

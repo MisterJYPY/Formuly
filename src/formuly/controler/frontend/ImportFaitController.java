@@ -459,7 +459,7 @@ public class ImportFaitController implements Initializable {
           try {
                 EntityManager em=formulyTools.getEm().createEntityManager();
                 em.getTransaction().begin();
-                   updateMessage("Debut du processus ...");
+                updateMessage("Debut du processus ...");
                          updateProgress(5, 100);
                  Query q1=em.createNativeQuery("DELETE FROM fm_fait");
                  Query q2=em.createNativeQuery("DELETE FROM fm_regle");

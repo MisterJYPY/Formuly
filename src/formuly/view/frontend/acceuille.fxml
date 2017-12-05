@@ -52,8 +52,8 @@
                       </Menu>
                       <Menu mnemonicParsing="false" text="Edit">
                         <items>
-                          <MenuItem fx:id="administrator" mnemonicParsing="false" styleClass="item" text="administrator" />
-                              <MenuItem mnemonicParsing="false" styleClass="item" text="Delete" />
+                          <MenuItem fx:id="administrator" mnemonicParsing="false" styleClass="item" text="update Knowledge" />
+                              <MenuItem fx:id="updateFoods" mnemonicParsing="false" styleClass="item" text="Update Foods Base" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">
