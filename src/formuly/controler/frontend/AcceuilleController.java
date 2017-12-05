@@ -140,7 +140,7 @@ public class AcceuilleController implements Initializable {
     });
      updateFoods.setOnAction(e->{
           String urls="/formuly/view/frontend/updateFoods.fxml";
-        LancerToutProcessus(urls,UpdateFoodsController.class,"Mise à jour de la base de connaissance",expert) ;
+        LancerToutProcessus(urls,UpdateFoodsController.class,"Mise à jour de la base des aliments",expert) ;
     });
     }
     

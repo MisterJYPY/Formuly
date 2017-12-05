@@ -332,6 +332,19 @@ public class UpdateFoodsController implements Initializable {
       );
            alert.setGraphic(new ImageView(image));
               alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+              String messageAjout="NB : LES ALIMENTS EXTRAITS DU FICHIER SERONT AJOUTER \n"
+                      + " AUX ALIMENTS DEJA PRESENT DANS LA BASE DE DONNEE \n "
+                      + " Confirmer l'opération .. Merci \n";
+              String messageReinit="!!! ATTENTION !!! TOUS LES ALIMENTS PRESENTS DANS LA BASE DE DONNEES \n"
+                      + " SERONT REMPLACES PAR CEUX EXTRAITS DE VOTRE FICHIER \n"
+                      + " NB : CELA Causera la perte de toutes la liste de vos menu \n"
+                      + " Pensez à exporter tous vos menus avant . ";
+              String titleAjout="Ajout d'element";
+              String titleReinit="Reinitialisation";
+              String message=(doitAjouter==true)?messageAjout:(doitReinitialiser==true)?messageReinit:"Confirmation";
+               String title=(doitAjouter==true)?titleAjout:(doitReinitialiser==true)?titleAjout:"Confirmation";
+               alert.setContentText(message);
+               alert.setTitle(title);
               alert.showAndWait();
        if (alert.getResult() == ButtonType.YES) {
        enregistrerAliment();
@@ -1393,10 +1406,12 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                   updateMessage("Réinitialisation de la base des aliments ... ");
                   Thread.sleep(70);
                  Query q1=em.createNativeQuery("DELETE FROM fm_aliments");
+                 Query q2=em.createNativeQuery("DELETE FROM fm_repas");
                  updateMessage("mise a jour");
                   q1.executeUpdate();
+                  q2.executeUpdate();
               }
-                   updateProgress(14, 100);
+                 //  updateProgress(14, 100);
                for(mainModel model:Listmodel)    
                {
                FmAliments aliments=model.getAliment();
@@ -1419,7 +1434,10 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
           }
          else{
          updateMessage("Finalisation de :"+aliments.getNomFr());
+         if(alPath!=null)
+         {
               em.persist(alPath);
+         }
              }
           updateProgress(debut, 100);
           debut=debut+increment;
@@ -1431,12 +1449,11 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
          updateMessage("terminer");
           }
          i++;
-          em.getTransaction().commit();
-              
                }
+                    em.getTransaction().commit();
           
            } catch (Exception e) {
-               updateMessage("terminer");
+               updateMessage("erreur");
              Logger.getLogger(UpdateFoodsController.class.getName()).log(
                 Level.SEVERE, null, e
             );

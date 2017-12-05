@@ -57,6 +57,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -1273,13 +1274,102 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
             
               }
               else{
+              if(!"erreur".equals(newValue))
+                {
              alert.setContentText(newValue);   
+                }
+                else
+                {
+             String message="Une erreur Innatendue s'est produite lors de l'enregistrement \n "
+                     + " Cela peut être causé par une indisponibilité du serveur de base de données \n"
+                     + " Ou d'une erreur d'organisation des informations des aliments \n"
+                     + " Reessayer ou Revoir votre Fichier importé ..Merci \n" ;
+             String title="Erreur";
+              alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                 Image imageSucces = new Image(
+                 getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle(title);
+               alert.setContentText(message);
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+                }  
               }
          }
                 });
         
       new Thread(copyWorker).start();
          }
+       public Task createWorker(ObservableList<mainModel> Listmodel) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+             EntityManager em=formulyTools.getEm().createEntityManager();
+             int tailleDonnee=Listmodel.size();
+          if(tailleDonnee>0)
+          {
+              int i=1,j=4;
+              double increment=100/tailleDonnee;
+              double debut=5;
+              updateMessage("Debut du déroulement ...");
+              updateProgress(debut,100);
+              debut=increment;
+          try {
+              em.getTransaction().begin();
+             
+                 //  updateProgress(14, 100);
+               for(mainModel model:Listmodel)    
+               {
+               FmAliments aliments=model.getAliment();
+               FmPathologie pat=model.getFmpathologie();
+               FmAlimentsPathologie alPath=model.getAlimentPathologie();
+               FmRetentionMineraux retMin=  model.getRetMin();
+               FmRetentionNutriments retNu=model.getRetNu();
+               FmRetentionVitamines retVit=model.getRetVit();
+               updateMessage("Insertion de :"+aliments.getNomFr());
+               em.persist(aliments); 
+               em.persist(retNu);
+               em.persist(retMin);
+               em.persist(retVit);  
+            
+              if(model.isPathologieAinsere())
+          {
+         updateMessage("Finalisation de :"+aliments.getNomFr());
+               em.persist(pat);
+               em.persist(alPath);
+          }
+         else{
+         updateMessage("Finalisation de :"+aliments.getNomFr());
+         if(alPath!=null)
+         {
+              em.persist(alPath);
+         }
+             }
+          updateProgress(debut, 100);
+          debut=debut+increment;
+          if(i!=tailleDonnee)
+          {
+          updateMessage("fin de : "+aliments.getNomFr());
+          }
+          else{
+         updateMessage("terminer");
+          }
+         i++;
+               }
+                    em.getTransaction().commit();
+          
+           } catch (Exception e) {
+               updateMessage("erreur");
+             Logger.getLogger(UpdateFoodsController.class.getName()).log(
+                Level.SEVERE, null, e
+            );
+          }
+          }
+        return true;
+      }
+    };
+  }
     public void viderTableau(TableView<mainModel> model)
     {
      model.getItems().clear();
@@ -1311,73 +1401,73 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
         }
       
     }
-    public Task createWorker(ObservableList<mainModel> Listmodel) {
-    return new Task() {
-      @Override
-      protected Object call() throws Exception {
-             EntityManager em=formulyTools.getEm().createEntityManager();
-             int tailleDonnee=Listmodel.size();
-             int i=1,j=4;
-             if(tailleDonnee==1)
-             {
-             j=99;
-             }
-          try {
-               for(mainModel model:Listmodel)    
-               {
-         em.getTransaction().begin(); 
-               FmAliments aliments=model.getAliment();
-               FmPathologie pat=model.getFmpathologie();
-               FmAlimentsPathologie alPath=model.getAlimentPathologie();
-               FmRetentionMineraux retMin=  model.getRetMin();
-               FmRetentionNutriments retNu=model.getRetNu();
-               FmRetentionVitamines retVit=model.getRetVit();
-               updateMessage("Insertion de :"+aliments.getNomFr());
-               Thread.sleep(30);
-               em.persist(aliments); 
-               Thread.sleep(30);
-               em.persist(retNu);
-               Thread.sleep(30);
-               em.persist(retMin);
-               Thread.sleep(30);
-               em.persist(retVit);  
-            
-              if(model.isPathologieAinsere())
-          {
-         updateMessage("Finalisation de :"+aliments.getNomFr());
-               Thread.sleep(200);
-               em.persist(pat);
-               Thread.sleep(30);
-               em.persist(alPath);
-          }
-         else{
-         updateMessage("Finalisation de :"+aliments.getNomFr());
-              Thread.sleep(200);
-              em.persist(alPath);
-             }
-          updateProgress(j + 1, 10);
-          j=(100/tailleDonnee);
-          if(i!=tailleDonnee)
-          {
-          updateMessage("fin de : "+aliments.getNomFr());
-          }
-          else{
-         updateMessage("terminer");
-          }
-         i++;
-          em.getTransaction().commit();
-              
-               }
-           } catch (Exception e) {
-          }
-         
-         
-          
-      
-        return true;
-      }
-    };
-  }
+//    public Task createWorker(ObservableList<mainModel> Listmodel) {
+//    return new Task() {
+//      @Override
+//      protected Object call() throws Exception {
+//             EntityManager em=formulyTools.getEm().createEntityManager();
+//             int tailleDonnee=Listmodel.size();
+//             int i=1,j=4;
+//             if(tailleDonnee==1)
+//             {
+//             j=99;
+//             }
+//          try {
+//               for(mainModel model:Listmodel)    
+//               {
+//         em.getTransaction().begin(); 
+//               FmAliments aliments=model.getAliment();
+//               FmPathologie pat=model.getFmpathologie();
+//               FmAlimentsPathologie alPath=model.getAlimentPathologie();
+//               FmRetentionMineraux retMin=  model.getRetMin();
+//               FmRetentionNutriments retNu=model.getRetNu();
+//               FmRetentionVitamines retVit=model.getRetVit();
+//               updateMessage("Insertion de :"+aliments.getNomFr());
+//               Thread.sleep(30);
+//               em.persist(aliments); 
+//               Thread.sleep(30);
+//               em.persist(retNu);
+//               Thread.sleep(30);
+//               em.persist(retMin);
+//               Thread.sleep(30);
+//               em.persist(retVit);  
+//            
+//              if(model.isPathologieAinsere())
+//          {
+//         updateMessage("Finalisation de :"+aliments.getNomFr());
+//               Thread.sleep(200);
+//               em.persist(pat);
+//               Thread.sleep(30);
+//               em.persist(alPath);
+//          }
+//         else{
+//         updateMessage("Finalisation de :"+aliments.getNomFr());
+//              Thread.sleep(200);
+//              em.persist(alPath);
+//             }
+//          updateProgress(j + 1, 10);
+//          j=(100/tailleDonnee);
+//          if(i!=tailleDonnee)
+//          {
+//          updateMessage("fin de : "+aliments.getNomFr());
+//          }
+//          else{
+//         updateMessage("terminer");
+//          }
+//         i++;
+//          em.getTransaction().commit();
+//              
+//               }
+//           } catch (Exception e) {
+//          }
+//         
+//         
+//          
+//      
+//        return true;
+//      }
+//    };
+//  }
     private  static void openFile(File file) {
         try {
             desktop.open(file);
