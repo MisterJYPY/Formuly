@@ -12,7 +12,7 @@
    <top>
       <BorderPane prefHeight="163.0" prefWidth="814.0" BorderPane.alignment="CENTER">
          <top>
-            <Label alignment="CENTER" prefHeight="38.0" prefWidth="388.0" text="UPDATE FOODS DATABASE FROM FILE" BorderPane.alignment="CENTER" />
+            <Label alignment="CENTER" prefHeight="38.0" prefWidth="388.0" styleClass="infoHaut" text="UPDATE FOODS DATABASE FROM FILE" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <Pane prefHeight="125.0" prefWidth="851.0" BorderPane.alignment="CENTER">
@@ -37,9 +37,9 @@
          <left>
             <Pane prefHeight="125.0" prefWidth="171.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="23.0" prefWidth="147.0" text="Mode de Mise à jour" textAlignment="CENTER" />
-                  <CheckBox fx:id="reinitialiser" layoutX="31.0" layoutY="46.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="114.0" selected="true" text="Réinitialisation" />
-                  <CheckBox fx:id="ajoutAliment" layoutX="31.0" layoutY="73.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" text="Ajout d'aliment" />
+                  <Label alignment="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="23.0" prefWidth="147.0" styleClass="infoTab1" text="Mode de Mise à jour" textAlignment="CENTER" />
+                  <CheckBox fx:id="reinitialiser" layoutX="31.0" layoutY="46.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="114.0" selected="true" styleClass="reinitialiser" text="Réinitialisation" />
+                  <CheckBox fx:id="ajoutAliment" layoutX="31.0" layoutY="73.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="112.0" styleClass="ajout" text="Ajout d'aliment" />
                </children></Pane>
          </left>
          <right>

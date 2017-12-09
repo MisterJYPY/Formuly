@@ -76,6 +76,8 @@ public class ExpertController implements Initializable {
     private TableColumn<regleFaitModel ,String> action;
      @FXML
     private TableColumn<regleFaitModel ,String>  detailsFait;
+     @FXML
+    private TableColumn<regleFaitModel ,String>  supprimer;
 
     @FXML
     private ComboBox<String> parenthese;
@@ -980,6 +982,7 @@ public class ExpertController implements Initializable {
         nbreRegleApplicable.setCellValueFactory(new PropertyValueFactory<>("nombreRegleApplicable"));
         placerBouton(action,1);
          placerBouton(detailsFait,2);
+          placerBouton(supprimer,3);
         listFaitConclusion.setItems(list);
     }
     private List<String> listEntitite()
@@ -1226,7 +1229,7 @@ StringConverter<Double> converter = new StringConverter<Double>() {
         };
          colonne.setCellFactory(cellFactory);
         }
-      else{
+      if(option==2){
         
      colonne.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
   Callback<TableColumn<regleFaitModel,String>, TableCell<regleFaitModel,String>> cellFactory = new Callback<TableColumn<regleFaitModel,String>, TableCell<regleFaitModel,String>>() {      
@@ -1271,7 +1274,68 @@ StringConverter<Double> converter = new StringConverter<Double>() {
          colonne.setCellFactory(cellFactory);     
         
         }
+      if(option==3)
+        {
+    colonne.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+  Callback<TableColumn<regleFaitModel,String>, TableCell<regleFaitModel,String>> cellFactory = new Callback<TableColumn<regleFaitModel,String>, TableCell<regleFaitModel,String>>() {      
+                    @Override
+            public TableCell call(final TableColumn<regleFaitModel,String> param) {
+                final TableCell<regleFaitModel,String> cell = new TableCell<regleFaitModel,String>() {
+
+                    final Button btn = new Button();
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            btn.getStyleClass().add("dark-blue");
+                            btn.setOnAction(event -> {
+                      regleFaitModel regleFModel= getTableView().getItems().get(getIndex());
+                      
+                          supprimerRegleAction(regleFModel,getIndex());
+                             
+                            });
+                        
+//                            btn.setOnMouseDragOver(event->{
+//                             btn.getStyleClass().add("dark-blue-hover"); 
+//                            });
+                            //btn.setGraphic(valider);
+                             Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/del.png"));
+                             btn.setGraphic(new ImageView(image));
+                            setGraphic(btn);
+                            
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+                
+            }
+        };
+         colonne.setCellFactory(cellFactory);
+        }
     }
+     private void supprimerRegleAction(regleFaitModel rgfM,int position)
+     {
+       Alert alerts=new Alert(Alert.AlertType.CONFIRMATION);
+       String messages="Etes vous sure de supprimer cette connaissance \n "
+               + " Confirmez l'opération SVP !!!!!";
+       String title="confirmation";
+        Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/question.png"));
+        alerts.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+       alerts.setContentText(messages);
+       alerts.setTitle(title);
+       alerts.showAndWait();
+       if(alerts.getResult()==ButtonType.OK)
+       {
+           supprimerFait(rgfM);
+       }
+     }
      public void lancerDetailsFait(regleFaitModel rgfait,Button btn)
       {
           try {
@@ -1480,6 +1544,110 @@ StringConverter<Double> converter = new StringConverter<Double>() {
                 });
       new Thread(copyWorker).start();
          }
+      public void supprimerFait(regleFaitModel model)
+     {
+               ProgressBar  progressBar =new ProgressBar(0);
+               progressBar.prefWidth(100.0);
+                 Alert alert = new Alert(Alert.AlertType.NONE);
+               alert.setGraphic( progressBar);
+                alert.setTitle("Suppression de fait");
+               alert.show();
+               Task copyWorker = ProccessusSupressionFait(model);
+          progressBar.progressProperty().unbind();
+          progressBar.progressProperty().bind(copyWorker.progressProperty());
+        
+        copyWorker.messageProperty().addListener(new ChangeListener<String>() {
+          public void changed(ObservableValue<? extends String> observable,
+              String oldValue, String newValue) {
+            
+              if("terminer".equals(newValue))
+              {
+                
+                // registerThread.
+               alert.setContentText("terminer mise a jour de votre espace...");
+              //  initialisation();
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Fin chargement");
+               alert.setContentText("L'operation a ete un succes");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+            
+              }
+              else{
+                    if("erreur".equals(newValue))
+              {
+               
+                 //   chargerDonne(listeSaisie,"aj");
+                  //   System.out.println("taille liste enregister second : "+listeEnregistrer.size());
+            //  formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+                  //viderTableau(table1);
+                Image imageSucces = new Image(
+     getClass().getResourceAsStream("/formuly/image/war.jpg"));
+                   alert.setGraphic(new ImageView(imageSucces));
+                    alert.setTitle("Erreur");
+               alert.setContentText("Une erreur est Survenue lors de l'operation causant un arret du processus \n"
+                       + " Veuillez reessayer SVP !!!!!!");
+              alert.getButtonTypes().setAll(ButtonType.FINISH);  
+              alert.show();
+              }
+                else{
+             alert.setContentText(newValue); 
+                    }
+              }
+         }
+                });
+        
+      new Thread(copyWorker).start();
+     }
+       public Task ProccessusSupressionFait(regleFaitModel models) {
+    return new Task() {
+      @Override
+      protected Object call() throws Exception {
+              EntityManager em=formulyTools.getEm().createEntityManager();
+              updateMessage("debut de la suppression......");
+              updateProgress(15,100);
+          try {
+            em.getTransaction().begin(); 
+          FmFait fait=models.getFait();
+            updateMessage("en cour ......");
+            updateProgress(50,100);
+            FmFait current=fait;
+             if (!em.contains(fait)) {
+             current = em.merge(fait);
+             }
+            em.remove(current);
+            //listFaitConclusion.getItems().remove(models);
+            list.remove(models);
+           updateMessage("suppression des interdits lié.....");
+            updateProgress(69,100);
+            updateMessage("preparation pour affichage.....");
+            updateProgress(85,100);
+       
+            em.getTransaction().commit();
+            updateMessage("presque terminé");
+            updateProgress(85,100);
+           formulyTools.actualisserNumeroListeRepas(list,models.getNumero()-1);
+          // formulyTools.actualisserNumeroTable(table1,models.getNumero()-1);
+               updateProgress(100,100);
+            updateMessage("terminer");
+          }catch (Exception e) {
+//              System.out.println(""+e.getLocalizedMessage());
+//              System.out.println(""+e.getMessage());
+//              System.out.println(""+e.getCause().toString());
+               Logger.getLogger(ExpertController.class.getName()).log(Level.SEVERE, null, e);
+               updateMessage("erreur");
+          }
+        return true;
+      }
+    };
+  }
      private List<String> alphabet;
      private DetailsFaitController ctr_details;
      private FXMLLoader loader;

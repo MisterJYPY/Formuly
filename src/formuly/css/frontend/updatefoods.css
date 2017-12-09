@@ -249,3 +249,13 @@
 {
    -fx-background-color: #990000;  
 }
+.reinitialiser
+{
+    -fx-background-color:#ffcc33;  
+   -fx-text-fill: #ffffff;
+}
+.ajout
+{
+    -fx-background-color:#999900; 
+   -fx-text-fill: #ffffff;
+}

@@ -45,7 +45,7 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="File">
                         <items>
-                              <MenuItem mnemonicParsing="false" styleClass="item" text="Fermer " />
+                              <MenuItem fx:id="Menufermer" mnemonicParsing="false" styleClass="item" text="Fermer " />
                           <MenuItem fx:id="telecharerAlimentItem" styleClass="item" text="Télécharger aliment" />
                               <MenuItem fx:id="baseConnaissanceDump" styleClass="item" text="Telecharger Base de connaissance" />
                         </items>

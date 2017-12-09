@@ -83,6 +83,7 @@ public class AcceuilleController implements Initializable {
     @FXML private MenuItem baseConnaissanceDump;
      @FXML private MenuItem administrator;
      @FXML private MenuItem updateFoods;
+      @FXML private MenuItem  Menufermer;
 
     private Stage st;
     private Formuly_calculController  fmCalcul;
@@ -248,7 +249,33 @@ public class AcceuilleController implements Initializable {
        // cat.setClip(lb);
      fermer.setOnAction(event->{
     // formulyTools.getEm().close();
+          Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        String content=" Assurez vous que tous vos opérations ont été enregistré\n "
+                + " Veuillez confirmer la fermerture de Formuly SVP!!! \n";
+        String title="confirmation";
+        alert.setContentText(content);
+        alert.setTitle(title);
+        alert.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+        alert.showAndWait();
+        if(alert.getResult()==ButtonType.OK)
+        {
          formulyTools.fermerFenetre(fermer);
+        }
+     });
+      Menufermer.setOnAction(event->{
+    // formulyTools.getEm().close();
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        String content=" Assurez vous que tous vos opérations ont été enregistré\n "
+                + " Veuillez confirmer la fermerture de Formuly SVP!!! \n";
+        String title="confirmation";
+        alert.setContentText(content);
+        alert.setTitle(title);
+        alert.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+        alert.showAndWait();
+        if(alert.getResult()==ButtonType.OK)
+        {
+         formulyTools.fermerFenetre(fermer);
+        }
      });
      dumpLabelIndicator.setVisible(false);
      dumpProgressIndicator.setVisible(false);

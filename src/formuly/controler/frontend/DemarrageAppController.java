@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -87,7 +88,15 @@ public class DemarrageAppController implements Initializable {
                 }
                 else
                 {
-            infop.setText("Une erreur s'est produit lors du chargement , Veuillez ressayer...");   
+            infop.setText("Une erreur s'est produit lors du chargement , Veuillez ressayer...");  
+           Alert  alert=new Alert(Alert.AlertType.ERROR);
+           String message="!!!!!Une Erreur Inattendue s'est produite \n "
+                   + " Cela peut etre due à l'indisponibilité du serveur de base de données \n"
+                   + " Veuillez fermer l'application et la relancé à nouveau SVP \n";
+           String title="erreur Chargement";
+           alert.setTitle(title);
+           alert.setContentText(message);
+           alert.show();
                 }
                  }
           }
@@ -116,7 +125,7 @@ public class DemarrageAppController implements Initializable {
                Thread.sleep(10);
                 updateProgress(73, 100);
             updateMessage("Chargement des modules de l'interface......");
-           root = loader.load();
+             root = loader.load();
             updateMessage("Juste Une derniere étape......");
             updateProgress(75, 100);
              updateProgress(80, 100);     

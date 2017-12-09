@@ -1393,6 +1393,13 @@ public class formulyTools {
              liste.get(i).setNumero(liste.get(i).getNumero()-1);
               }
          }
+          public static void actualisserNumeroListeRepas(ObservableList<regleFaitModel> liste,int nbre)
+         {
+           for(int i=nbre;i<liste.size();i++)
+              { 
+             liste.get(i).setNumero(liste.get(i).getNumero()-1);
+              }
+         }
           /**
           * methode permettant d'actualiser les numero d'un table view 
           * en reorganisant les numero les identifainats dans la table

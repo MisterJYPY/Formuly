@@ -12,7 +12,7 @@
    <top>
       <BorderPane prefHeight="163.0" prefWidth="814.0" BorderPane.alignment="CENTER">
          <top>
-            <Label alignment="CENTER" prefHeight="38.0" prefWidth="388.0" text="InserTion d'aliment(s)  à l'aide d'un fichier" BorderPane.alignment="CENTER" />
+            <Label alignment="CENTER" prefHeight="38.0" prefWidth="388.0" styleClass="infoHaut" text="InserTion d'aliment(s)  à l'aide d'un fichier" BorderPane.alignment="CENTER" />
          </top>
          <center>
             <Pane prefHeight="125.0" prefWidth="851.0" BorderPane.alignment="CENTER">
@@ -40,7 +40,7 @@
          <right>
             <Pane prefHeight="125.0" prefWidth="137.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="quitter" layoutX="69.0" layoutY="91.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0" styleClass="buttonCancel" text="X">
+                  <Button fx:id="quitter" layoutX="69.0" layoutY="91.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0" styleClass="fermer" text="X">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -55,13 +55,13 @@
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="347.0" text="Recapitulatif des Information" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
-            <Button fx:id="lancer" mnemonicParsing="false" prefHeight="25.0" prefWidth="231.0" styleClass="enregistrer" text="Valider L'insertion" BorderPane.alignment="CENTER">
+            <Button fx:id="lancer" mnemonicParsing="false" prefHeight="25.0" prefWidth="231.0" styleClass="lancer" text="Valider L'insertion" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
          </bottom>
          <center>
-            <TableView fx:id="table1" prefHeight="234.0" prefWidth="1167.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="table1" prefHeight="236.0" prefWidth="1168.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="table1_numero" prefWidth="32.0" styleClass="num" text="N°" />
                 <TableColumn id="nomFr" fx:id="table1_nomFr" prefWidth="185.0" styleClass="nomAliment" text="Nom Fr" />
@@ -71,14 +71,14 @@
                   <TableColumn fx:id="table1_glucide" prefWidth="70.0" styleClass="valeur" text="Glucide" />
                   <TableColumn fx:id="table1_protide" prefWidth="65.0" styleClass="valeur" text="Protide" />
                   <TableColumn fx:id="table1_lipide" prefWidth="64.0" styleClass="valeur" text="Lipide" />
-                  <TableColumn fx:id="table1_energie" minWidth="0.0" prefWidth="72.0" styleClass="valeur1" text="Energie" />
-                  <TableColumn fx:id="table1_fer" prefWidth="57.0" styleClass="valeur1" text="Fer(mg)" />
+                  <TableColumn fx:id="table1_energie" minWidth="0.0" prefWidth="64.0" styleClass="valeur1" text="Energie" />
+                  <TableColumn fx:id="table1_fer" prefWidth="65.0" styleClass="valeur1" text="Fer(mg)" />
                   <TableColumn fx:id="table1_mg" prefWidth="63.0" styleClass="valeur1" text="Mg(mg)" />
                   <TableColumn fx:id="table1_na" prefWidth="54.0" styleClass="valeur1" text="Na" />
                   <TableColumn fx:id="table1_ka" prefWidth="58.0" styleClass="valeur1" text="Ka" />
-                  <TableColumn fx:id="table1_vitc" prefWidth="55.0" styleClass="valeur1" text="vitC" />
-                  <TableColumn fx:id="table1_vite" prefWidth="55.0" styleClass="valeur1" text="vitE" />
-                  <TableColumn fx:id="table1_action" prefWidth="54.0" styleClass="coloneCentre" text="action" />
+                  <TableColumn fx:id="table1_vitc" prefWidth="49.0" styleClass="valeur1" text="vitC" />
+                  <TableColumn fx:id="table1_vite" prefWidth="59.0" styleClass="valeur1" text="vitE" />
+                  <TableColumn fx:id="table1_action" minWidth="0.0" prefWidth="56.0" styleClass="coloneCentre" text="action" />
               </columns>
             </TableView>
          </center>

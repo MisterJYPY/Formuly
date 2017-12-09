@@ -240,7 +240,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
             public TableCell call(final TableColumn<mainModel, String> param) {
             final TableCell<mainModel, String> cell = new TableCell<mainModel, String>() {
 
-                    final Button btn = new Button("Back");
+                    final Button btn = new Button();
 
                     @Override
                     public void updateItem(String item, boolean empty) {
@@ -249,12 +249,16 @@ public final class Inserer_aliment_fichierController implements Initializable {
                             setGraphic(null);
                             setText(null);
                         } else {
-                          //  btn.getStyleClass().add("dark-blue");
+                           btn.getStyleClass().add("enleve");
                             btn.setOnAction(event -> {
                        mainModel model= getTableView().getItems().get(getIndex());
                        int id=getIndex();
                         retirerAliment(model,id);
                             });
+                             Image image= new Image(
+     getClass().getResourceAsStream("/formuly/image/del.png"));
+                             btn.setGraphic(new ImageView(image));
+                            setGraphic(btn);
                             setGraphic(btn);
                             
                             setText(null);
