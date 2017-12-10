@@ -311,6 +311,7 @@ public class Matrix33ResolveController implements Initializable {
      public void chargerMatrix()
      {
      ObservableList<mainModel> alimentsChoisi=tableChoix.getItems();
+    
       int nombreAliment=tableChoix.getItems().size();
         int i=0;
         double glucidMax=Double.parseDouble(glucideMax.getText());
@@ -319,6 +320,8 @@ public class Matrix33ResolveController implements Initializable {
 //         System.out.println("glucide totale : "+glucidMax);
 //         System.out.println("lipide  totale : "+lipideMax);
 //         System.out.println("protide totale : "+protidMax);
+      if(nombreAliment>=2 && (glucidMax>0 || protidMax>0 || lipideMax>0))
+      {
          colonneDroite[0]=glucidMax;
          colonneDroite[1]=lipideMax;
          colonneDroite[2]=protidMax;
@@ -370,7 +373,19 @@ public class Matrix33ResolveController implements Initializable {
         affichageResult(alimentsChoisi);
         }
        
-//       } 
+    } 
+      else
+      {
+       Alert alert=new Alert(Alert.AlertType.ERROR);
+     String content="Veuillez Construire correctement votre equation\n "
+             + " Verifier la liste des aliments intervenants et les valeurs des nutriments\n "
+             + " NB: Toutes les valeurs des nutriments ne peuvent etre nulles \n"
+             + "Essayer à nouveau \n ";
+     String title="Erreur";
+     alert.setContentText(content);
+     alert.setTitle(title);
+     alert.showAndWait();
+      }
       
     }
       public void textConverter(TextField...textField)

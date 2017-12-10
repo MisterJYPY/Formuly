@@ -365,18 +365,14 @@ public class PearsonResolveController implements Initializable {
       int i=0;
      double valeurMaxx=Double.parseDouble(valeurMax.getText());
      String Objdectif=listeNutriment.getValue();
-   if(valeurMaxx>0 && !Objdectif.equals("aucun choix"))
+     
+   if(valeurMaxx>0 && !Objdectif.equals("aucun choix") && nombreAliment>0)
    {
       if(pearsonCal==null)
        {
       pearsonCal=new pearsonCalcul( listAliment, valeurMaxx,Objdectif,ListElementsAequilibrer);
       pearsonCal.calculPearson();
       List<Double> resultAutres=pearsonCal.getListResultatEquilibre();
-          // System.out.println("affichage des resultats : ");
-           for(mainModel elmt:alimentsChoisi)
-           {
-          //System.out.println(elmt.getNom_aliment()+" : "+elmt.getResultatCalcul()); 
-           }
            affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
    else{
@@ -394,6 +390,17 @@ public class PearsonResolveController implements Initializable {
          affichageResult(alimentsChoisi, Objdectif, valeurMaxx,resultAutres);
        }
     }
+   else
+   {
+     Alert alert=new Alert(Alert.AlertType.ERROR);
+     String content="Veuillez Construire correctement votre formulation \n "
+             + " Verifier la liste des aliments intervenants et le nutriment à satisfaire SVP "
+             + " Essayer à nouveau \n ";
+     String title="Erreur";
+     alert.setContentText(content);
+     alert.setTitle(title);
+     alert.showAndWait();
+   }
      }
       public void textConverter(TextField...textField)
     {
