@@ -1080,6 +1080,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                        //    System.out.println("exel recuperer");
                        }
                        }
+                        listeEnregistrer.clear();
                         enregistrerAliment(file);
                     }
                    

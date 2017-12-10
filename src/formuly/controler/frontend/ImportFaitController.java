@@ -153,6 +153,9 @@ public class ImportFaitController implements Initializable {
                      ArrayList<String> infoTrie;
                      //String extension=file.
                     if (file != null) {
+                        listFait.clear();
+                        lisReGleFait.clear();
+                        listRel.clear();
                       ImporterBaseDepuisFichierExcel(file);
                     }
                     else
@@ -394,6 +397,7 @@ public class ImportFaitController implements Initializable {
                 // registerThread.
                alert.setAlertType(Alert.AlertType.INFORMATION); 
                alert.close();
+               
                 initTableFait();
                 initTableRegle();
                 Image imageSucces = new Image(
