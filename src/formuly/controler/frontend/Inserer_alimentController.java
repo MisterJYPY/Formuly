@@ -5,6 +5,7 @@
  */
 package formuly.controler.frontend;
 
+import formuly.Excel.ExcelTools;
 import formuly.classe.formulyTools;
 import formuly.entities.FmAliments;
 import formuly.entities.FmAlimentsPathologie;
@@ -23,6 +24,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -767,7 +770,7 @@ else{
    aliments.setCode(code);
         //  System.out.println("code: "+code);
      FmPathologie path=info_path.getValue();
-     FmAlimentsPathologie fmp=(path!=null || !path.getLibelle().equals("aucun choix"))?new FmAlimentsPathologie(idAlPath):null;
+     FmAlimentsPathologie fmp=(path!=null && !path.getLibelle().equals("aucun choix"))?new FmAlimentsPathologie(idAlPath):null;
        if(fmp != null)
        {
          fmp.setAliment(aliments);
@@ -853,32 +856,36 @@ else{
         //proccedure d'insertion
   try {
             
-           em.getTransaction().begin(); 
+          em.getTransaction().begin(); 
            em.persist(aliments); 
-           updateProgress(25, 10);
+           updateProgress(25, 100);
             updateMessage("aliment");
            Thread.sleep(100);
             Thread.sleep(100);
            em.persist(retNu);
-           updateProgress(50, 10);
+           updateProgress(50, 100);
             updateMessage("nutriments");
              Thread.sleep(100);
             em.persist(retMin);
-           updateProgress(75, 10);
+           updateProgress(75, 100);
           updateMessage("mineraux");
              Thread.sleep(100);
              if(fmp!=null)
          {
-           em.persist(fmp);
-           updateProgress(80, 10);
+           em.persist(path);
+            em.persist(fmp);
+           updateProgress(80, 100);
             Thread.sleep(90);
          }
            em.persist(retVit);    
-           updateProgress(100, 10);
+           updateProgress(100, 100);
            updateMessage("terminer");
            em.getTransaction().commit();
             
           } catch (Exception e) {
+                updateMessage("erreur");  
+             // System.out.println("une erreur produite : "+e.getLocalizedMessage());
+         Logger.getLogger(Inserer_aliment_fichierController.class.getName()).log(Level.SEVERE, null, e);
           }
          
          
@@ -924,7 +931,21 @@ else{
           initialiserPathologie();
               }
               else{
-               
+                if("erreur".equals(newValue))
+                   {
+               alert.setAlertType(Alert.AlertType.INFORMATION); 
+               alert.close();
+               alert.setGraphic(null);
+               alert.setTitle("Erreur rencontre");
+               alert.setContentText("Une erreur innatendue s'est produite lors :\n"
+                       + " de la lecture du fichier choisie  \n"
+                       + " Veuillez revoir le format du fichier et reessayer SVP !!!! ");
+               alert.getButtonTypes().setAll(ButtonType.FINISH);  
+               alert.showAndWait();     
+                   }
+                 else{
+              alert.setContentText(newValue)  ;
+                   }
               }
          }
                 });

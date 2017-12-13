@@ -1262,11 +1262,11 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
                 // registerThread.
                alert.setContentText("preparation pour l'afficahe...");
                  // System.out.println("taille liste enregister: "+listeEnregistrer.size());
-                 
                     chargerDonne(listeSaisie,"aj");
                   //   System.out.println("taille liste enregister second : "+listeEnregistrer.size());
-              formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
+               formulyTools.initialiserLabelInfoAliment(derniereModif,nomFichier,tailleFichier);
                alert.setAlertType(Alert.AlertType.INFORMATION); 
+               formulyTools.getEm().getCache().evictAll();
                alert.close();
                   viderTableau(table1);
                 Image imageSucces = new Image(

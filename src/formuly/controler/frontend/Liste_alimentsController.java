@@ -91,6 +91,7 @@ public class Liste_alimentsController implements Initializable {
     ObservableList<mainModel> listeAliments;
 
     public Liste_alimentsController() {
+        formulyTools.getEm().getCache().evict(FmAliments.class);
          listeAliments=formulyTools.getobservableListMainModel();
          listeRecherche=listeAliments;
     }
