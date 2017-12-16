@@ -61,6 +61,11 @@
                           <MenuItem fx:id="about" mnemonicParsing="false" styleClass="item" text="About" />
                         </items>
                       </Menu>
+                        <Menu mnemonicParsing="false" text="Tools">
+                           <items>
+                              <MenuItem fx:id="secureExpert" mnemonicParsing="false" styleClass="item" text="sécuriser l'expert" />
+                           </items>
+                        </Menu>
                     </menus>
                   </MenuBar>
                   <AnchorPane prefHeight="13.0" prefWidth="1359.0" />

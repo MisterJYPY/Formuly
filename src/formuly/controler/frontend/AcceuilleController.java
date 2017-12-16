@@ -13,6 +13,7 @@ import formuly.entities.FmRegle;
 import formuly.entities.FmRegleFait;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,17 +34,23 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -83,17 +91,99 @@ public class AcceuilleController implements Initializable {
     @FXML private MenuItem baseConnaissanceDump;
      @FXML private MenuItem administrator;
      @FXML private MenuItem updateFoods;
-      @FXML private MenuItem  Menufermer;
+     @FXML private MenuItem  Menufermer;
+      @FXML private MenuItem  secureExpert;
 
     private Stage st;
     private Formuly_calculController  fmCalcul;
      private ExpertController  fmexpert;
     private final int NOMBRE_BUTTON_MAX=8;
     private Button[] listBtn;
+    private ControlExpertController ctr;
     
     public AcceuilleController() {
         windowMteurCacul=null;
+       
         //lisBtn=new Button[NOMBRE_BUTTON_MAX];
+    }
+    private void securiserExpert()
+      {
+           secureExpert.setOnAction(e->{
+     Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        
+     String content1="Confirmer l'opération SVP !!! "
+             + " Celà vous permettrera de mettre un mot de passe avant d'avoir "
+             + " Acces à votre espace espace expert";
+     String content2="Espace déjà sécurisé"
+             + " Merci!!!!!! ";
+     String title1="confirmation";
+     String title2="information";
+       Image image = new Image(
+     getClass().getResourceAsStream("/formuly/image/correct.png")
+      );
+               alert.setGraphic(new ImageView(image));
+     if(formulyTools.accesExpert==0)
+     {
+     alert.setAlertType(Alert.AlertType.INFORMATION);
+     alert.setContentText(content2);
+     alert.setTitle(title2);
+     alert.showAndWait();
+     }
+     else
+     {
+     formulyTools.accesExpert=0;
+     alert.setAlertType(Alert.AlertType.INFORMATION);
+     alert.setContentText("Espace sécurisé");
+     alert.setTitle("succes");
+    alert.show();
+     }
+           });
+      }
+      public void lancerControl(String url,String urlsExpert)
+    {
+     try {
+          if(formulyTools.accesExpert==0)
+           {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+            
+        root = (Parent)loader.load(); 
+     ctr=loader.getController();
+     ctr.getValider().setOnAction(e->{
+         if(ctr.getPassword().getText().equalsIgnoreCase(formulyTools.passwordExpert))
+         {
+        
+          if(ctr.getMessageAffich().isSelected())
+          {
+          formulyTools.accesExpert=1;
+          }
+          else
+          {
+          formulyTools.accesExpert=0;
+          }
+           formulyTools.fermerFenetre(ctr.getAnnuler());
+           LancerExpert(urlsExpert);
+         }
+         else
+         {
+         ctr.getInfoError().setText("Mot de pass Incorrect, veuilez reessayer SVP");
+         }
+        });
+        st=new Stage();
+        st.setScene(new Scene(root));
+       st.setTitle("sécurité");
+        st.initOwner(moteurCalcul.getScene().getWindow());
+       st.initModality(Modality.APPLICATION_MODAL);
+       st.setResizable(false);
+        st.showAndWait();
+          } 
+     else
+          {
+            LancerExpert(urlsExpert);
+          }
+     }catch (IOException ex) {
+                     Logger.getLogger(ControlExpertController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+  
     }
    private void actionButtonAccueille()
     {
@@ -195,6 +285,7 @@ public class AcceuilleController implements Initializable {
                  }
     }
     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -243,13 +334,33 @@ public class AcceuilleController implements Initializable {
      });
      expert.setOnMouseClicked(event->{
       String urls="/formuly/view/frontend/expert.fxml";
-     LancerExpert(urls) ;
+      String urlss="/formuly/view/frontend/controlExpert.fxml";
+         lancerControl(urlss,urls);
+//      boolean b=true;
+//      if(formulyTools.accesExpert==0)
+//      {
+//          Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+//        String content="Espace sécurisé, veuillez entrer le mot de passe\n "
+//                + " Merci!!! \n";
+//        String title="Vérification";
+//        alert.setContentText(content);
+//        alert.setTitle(title);
+//       b=faireControl(alert);
+//      }
+//      if(b)
+//      {
+//     LancerExpert(urls) ;
+//      }
+//      else
+//      {
+//      
+//      }
      //  lancerExpert(urls);
      });
        // cat.setClip(lb);
      fermer.setOnAction(event->{
     // formulyTools.getEm().close();
-          Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         String content=" Assurez vous que tous vos opérations ont été enregistré\n "
                 + " Veuillez confirmer la fermerture de Formuly SVP!!! \n";
         String title="confirmation";
@@ -283,7 +394,10 @@ public class AcceuilleController implements Initializable {
     ActionDumpageKnowLedgeBase();
     ActionAdminstration();
     actionButtonAccueille();
+   
+     securiserExpert();
     
+   
     }
       public void shutdown() {
         // cleanup code here...
@@ -295,6 +409,62 @@ public class AcceuilleController implements Initializable {
           traiterFermerture();
           }
     }
+      private Boolean faireControl(Alert alert)
+      {
+        alert.getButtonTypes().setAll(ButtonType.OK,ButtonType.CANCEL);
+       
+        GridPane grid = new GridPane();
+grid.setHgap(10);
+grid.setVgap(10);
+String styleCss="-fx-text-fill: red;\n" +
+"       -fx-font-weight:bold;\n" +
+"       -fx-background-color:#BBD2E1;\n" +
+"       -fx-cursor:hand;\n" +
+"        -fx-alignment: CENTER;";
+String styleCssGrid=" -fx-background-color:linear-gradient(to top right,greenyellow,white,greenyellow 20%,white);";
+grid.setPadding(new javafx.geometry.Insets(0, 10, 0, 10));
+ 
+  grid.setStyle(styleCssGrid);
+  
+ final PasswordField tailleP = new PasswordField();
+ final CheckBox choix = new CheckBox();
+ 
+grid.add(new Label("passWord:"), 0, 0);
+grid.add(tailleP, 1, 0);
+grid.add(new Label("ne plus afficher :"), 0, 1);
+grid.add(choix, 1, 1);
+
+Callback myCallback = new Callback() {
+     @Override
+   public Object call(Object param) {
+//              usernameResult = username.getText();
+//              passwordResult = password.getText();
+       return null;
+              }
+          }; 
+ 
+choix.selectedProperty().addListener(new ChangeListener<Boolean>(){
+
+          @Override
+   public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+       if(newValue==true)
+       {
+       formulyTools.accesExpert=1;    
+       }
+          }
+      
+      });
+    alert.setGraphic(grid);
+    boolean estOk=true;
+      alert.showAndWait();
+             if (alert.getResult() == ButtonType.OK) {
+          if(!tailleP.getText().equalsIgnoreCase(formulyTools.passwordExpert))
+          {
+          estOk=false;
+          }
+      }
+       return estOk;
+      }
        private void traiterFermerture()
   {
 //       Alert alerts =new Alert(Alert.AlertType.CONFIRMATION);

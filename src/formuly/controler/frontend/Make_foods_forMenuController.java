@@ -1563,7 +1563,7 @@ Callback myCallback = new Callback() {
          
           }
           else{
-           System.out.println("entrer");
+          // System.out.println("entrer");
          PieChartData[0].clear();
            pchart.setTitle("");
           }

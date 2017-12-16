@@ -76,7 +76,12 @@ public class formulyTools {
         static EntityManagerFactory   entityManagerFactory=null ;
         static EntityManagerFactory   entityManagerFactoryss =null;
         static   EntityManager entityManger;
-
+        /**
+         * variable qui gere le controle de l'acces de la page expert
+         * s'il est à zero celà voudra dire qu'il devra avoir de control si non pas de control
+         */
+       public static int accesExpert=0;
+      public static String passwordExpert="expert";
   
 /**
  * constructeur non parametrer qui cree automtiquement une instance du manager factory au demarage

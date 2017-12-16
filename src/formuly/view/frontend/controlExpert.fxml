@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="210.0" prefWidth="347.0" styleClass="fenetrePrincipal" stylesheets="@../../css/frontend/controlexpert.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="formuly.controler.frontend.ControlExpertController">
+   
+   <children>
+      <Label layoutX="57.0" layoutY="3.0" prefHeight="28.0" prefWidth="258.0" styleClass="infoHautMini" text="Control de Sécurité pour l'espace Expert" />
+      <Label layoutX="7.0" layoutY="61.0" prefHeight="28.0" prefWidth="71.0" styleClass="pass" text="Mot de passe" />
+      <PasswordField fx:id="password" layoutX="88.0" layoutY="62.0" prefHeight="17.0" prefWidth="196.0" />
+      <CheckBox fx:id="messageAffich" layoutX="49.0" layoutY="116.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="284.0" styleClass="session" text="Ne plus afficher ce message pour cette session" />
+      <Button fx:id="valider" alignment="BOTTOM_LEFT" layoutX="163.0" layoutY="173.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="71.0" styleClass="lancer" text="OK" />
+      <Button fx:id="annuler" layoutX="249.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" styleClass="fermer" text="Exit" />
+      <ImageView fitHeight="37.0" fitWidth="43.0" layoutX="294.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/cle.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="infoError" layoutX="7.0" layoutY="144.0" prefHeight="25.0" prefWidth="334.0" styleClass="messageImport" />
+      <ImageView fitHeight="28.0" fitWidth="42.0" layoutX="14.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/iconeAc.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
