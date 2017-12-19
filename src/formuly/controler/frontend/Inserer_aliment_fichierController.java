@@ -201,6 +201,7 @@ public final class Inserer_aliment_fichierController implements Initializable {
     ObservableList<String> ListmodeCuisson;
    private boolean EstfichierExcel;
     public Inserer_aliment_fichierController() {
+         formulyTools.getEm().getCache().evict(FmAliments.class);
          desktop = Desktop.getDesktop();
          fileChooser = new FileChooser();
         listeCategorie=modelFoodSelect.listeCategories(); 

@@ -213,6 +213,7 @@ public class Inserer_alimentController implements Initializable {
     List<FmPathologie> listePathologie;
    
     public Inserer_alimentController() {
+         formulyTools.getEm().getCache().evict(FmAliments.class);
         listeCategorie=modelFoodSelect.listeCategories(); 
         listePathologie=modelFoodSelect.listePathologie();
     }
@@ -393,12 +394,12 @@ StringConverter<Double> converter = new StringConverter<Double>() {
     }
     public void initialiserCategorie()
     {
-        info_categorie.getItems().clear();
+         //info_categorie.getItems().clear();
          info_categorie.setItems(FXCollections.observableList(listeCategorie));
     }
      public void initialiserPathologie()
     {
-        info_path.getItems().clear();
+         // info_path.getItems().clear();
          info_path.setItems(FXCollections.observableList(listePathologie));
     }
     public void ActionSurLeBoutonCategorie()
@@ -872,7 +873,7 @@ else{
              Thread.sleep(100);
              if(fmp!=null)
          {
-           em.persist(path);
+           // em.persist(path);
             em.persist(fmp);
            updateProgress(80, 100);
             Thread.sleep(90);
@@ -910,7 +911,7 @@ else{
         copyWorker.messageProperty().addListener(new ChangeListener<String>() {
           public void changed(ObservableValue<? extends String> observable,
               String oldValue, String newValue) {
-              System.out.println("new value: "+newValue);
+             // System.out.println("new value: "+newValue);
               if("terminer".equals(newValue))
               {
                 
@@ -938,8 +939,9 @@ else{
                alert.setGraphic(null);
                alert.setTitle("Erreur rencontre");
                alert.setContentText("Une erreur innatendue s'est produite lors :\n"
-                       + " de la lecture du fichier choisie  \n"
-                       + " Veuillez revoir le format du fichier et reessayer SVP !!!! ");
+                       + " de l'enregistrement du fichier  \n"
+                       + " Les aliments ne peuvent avoir les memes dénominations\n"
+                       + " Veuillez revoir vos saisies et reessayer SVP !!!! ");
                alert.getButtonTypes().setAll(ButtonType.FINISH);  
                alert.showAndWait();     
                    }

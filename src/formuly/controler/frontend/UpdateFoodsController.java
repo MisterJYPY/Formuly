@@ -488,6 +488,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
     public String recupererModecuissonParNomFichier(ObservableList<String> listeOb,String chaine)
    {
       String n="";
+       System.out.println("chaine : "+chaine);
       boolean estPresent;
       FmGroupeAliment groupe=null;
      String modeCuisson="";
@@ -1337,6 +1338,7 @@ BufferedReader buffer=new BufferedReader(new FileReader(files));
              String message="Une erreur Innatendue s'est produite lors de l'enregistrement \n "
                      + " Cela peut être causé par une indisponibilité du serveur de base de données \n"
                      + " Ou d'une erreur d'organisation des informations des aliments \n"
+                     + "NB: Les noms des aliments ne peut etre dupliqué \n"
                      + " Reessayer ou Revoir votre Fichier importé ..Merci \n" ;
              String title="Erreur";
               alert.setAlertType(Alert.AlertType.INFORMATION); 

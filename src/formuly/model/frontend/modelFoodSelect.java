@@ -148,19 +148,19 @@ public class modelFoodSelect {
           
           List<FmGroupeAliment> retentionAl = null;
           EntityManager entityM=formulyTools.getEm().createEntityManager(); 
-           entityM.getTransaction().begin();
+          // entityM.getTransaction().begin();
           Query reqAliment =entityM.createNativeQuery("SELECT unnest(enum_range(NULL::fm_md_cuisson))::text as mode_cuisson");
           List<String> modesc= reqAliment.getResultList();
           grpe.add("aucun choix");
           for(String element :modesc)
           {
             //  System.out.println("elemnt:"+element);
-          if( !"nd".equals(element))
-               {
+//          if( !"nd".equals(element))
+//               {
               grpe.add(element);
-              }
+             // }
           }
-          grpe.removeAll("nd");
+         // grpe.removeAll("nd");
           return grpe;
     }
             public List<FmAliments> getAllAlimentByFoods(String sql)
