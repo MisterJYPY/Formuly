@@ -19,12 +19,11 @@
 }
 .info
 {
-   //  -fx-background-color:#757575;
+   
        -fx-font-size:15px; 
 }
 #buttonCancel
 {
- //-fx-background-image: url(/formuly/image/cansel.png)   ;
 
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
@@ -35,7 +34,6 @@
 }
 .buttonCancel
 {
- //-fx-background-image: url(/formuly/image/cansel.png)   ;
 
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
@@ -54,7 +52,6 @@
        -fx-text-fill:#7D0000;
       -fx-font-size:16px; 
       -fx-font-weight:bold;
-  //  -fx-background-color: red;
 }
 #nomAliment
 {

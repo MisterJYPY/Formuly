@@ -31,7 +31,7 @@ and open the template in the editor.
 }
 #buttonCancel
 {
- //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
 
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
@@ -39,7 +39,7 @@ and open the template in the editor.
 }
 #envoi
 {
-// -fx-background-image: url(/formuly/image/poussez.png)   ;
+
  -fx-border-color: white;   
 }
 #buttonValider

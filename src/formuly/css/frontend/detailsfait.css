@@ -7,7 +7,7 @@
 }
 #buttonCancel
 {
- //-fx-background-image: url(/formuly/image/cansel.png)   ;
+
 
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;
@@ -50,7 +50,6 @@
 }
 .buttonCancel
 {
- //-fx-background-image: url(/formuly/image/cansel.png)   ;
  -fx-text-fill:#191d22; 
  -fx-border-radius: 5px;
  -fx-background-color:#B82010;

@@ -25,7 +25,7 @@
                                     <TableColumn fx:id="description" prefWidth="187.0" styleClass="coloneCentre" text="Description" />
                                     <TableColumn fx:id="nbreAliments" prefWidth="101.0" styleClass="coloneCentre" text="nbre Aliments " />
                                     <TableColumn fx:id="supPathologie" prefWidth="59.0" text="Del" />
-                                    <TableColumn fx:id="modifPathologie" prefWidth="53.0" text="Modif" />
+                                    <TableColumn fx:id="modifPathologie" prefWidth="53.0" text="Modif" visible="false" />
                                 </columns>
                               </TableView>
                            </children>

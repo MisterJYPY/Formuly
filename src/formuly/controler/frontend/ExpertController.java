@@ -144,8 +144,8 @@ public class ExpertController implements Initializable {
     }
     public void initialiserLesElementsDeConception()
     {
-      entites.getItems().clear();
-      parenthese.getItems().clear();
+       entites.getItems().clear();
+        parenthese.getItems().clear();
       connecteur.getItems().clear();
       comparateur.getItems().clear();
        listeIntelligente.getItems().clear();
@@ -157,6 +157,7 @@ public class ExpertController implements Initializable {
     parenthese.setItems(FXCollections.observableList(listParenthese()));
     connecteur.setItems(FXCollections.observableList(listConnecteur()));
     comparateur.setItems(FXCollections.observableList(listComparateur()));
+    entites.setDisable(false);
     }
     public final void remplirListAlphabet()
      {
@@ -223,7 +224,7 @@ public class ExpertController implements Initializable {
 //      if(nbreElement>1)
 //       {
       //recuperation du dernierCaractere
-          String dernierCaractere=dernierIdentifiant.substring(nbreElement-1);
+           String dernierCaractere=dernierIdentifiant.substring(nbreElement-1);
            int indiceElement=returnerIndiceCaractere(dernierCaractere);
            String caractereSuivant=retournerCaractereSuivant(indiceElement);
            /*dans le ou le caractere suivant le dernier caractere est different de A alors

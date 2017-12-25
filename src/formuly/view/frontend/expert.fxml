@@ -83,7 +83,7 @@
                <tooltip>
                   <Tooltip text="Enregistré le fait" />
                </tooltip></Button>
-            <Button id="retour" fx:id="effacerDernierElement2" layoutX="800.0" layoutY="541.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" styleClass="dark-blue" text="&lt;&lt;&lt;&lt;">
+            <Button id="retour" fx:id="effacerDernierElement2" layoutX="800.0" layoutY="541.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="52.0" styleClass="dark-blue" text="&lt;&lt;&lt;&lt;" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

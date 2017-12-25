@@ -44,7 +44,6 @@
 }
 .back
 {
-    //-fx-background-color: #cccccc;
     -fx-cursor: hand;
     -fx-alignment: CENTER;
      -fx-background-color: grey;
@@ -148,12 +147,11 @@
 
 .table-view .column-header .label {
     -fx-font-size: 10pt;
- //   -fx-font-family: "Segoe UI Light";
     -fx-text-fill:black;
     -fx-font-weight:bold;
     -fx-alignment: center-left;
     -fx-alignment: CENTER;
-  //  -fx-opacity: 1;
+
 }
 
 /*.table-view:focused .table-row-cell:filled:focused:selected {

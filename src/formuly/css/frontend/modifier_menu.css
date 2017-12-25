@@ -5,7 +5,7 @@
 .fenetrePrincipal
 {
    -fx-background-color:linear-gradient(to top right,#90EE90,white 30%,aqua,white,white,#90EE90);
-//-fx-background-color:red;
+
 }
 .energieColonne
 {
@@ -28,9 +28,9 @@
 }
 .labelResume
 {
-// -fx-padding: 10px;   
+  
  -fx-font: bold 12pt "Arial";
-  //  -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+
 }
 .separator
 {

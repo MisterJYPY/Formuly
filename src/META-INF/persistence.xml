@@ -7,11 +7,23 @@
     <class>formuly.entities.FmAliments</class>
     <class>formuly.entities.FmRetentionMineraux</class>
     <class>formuly.entities.FmGroupeAliment</class>
+    <class>formuly.entities.FmPathologie</class>
+    <class>formuly.entities.FmRepas</class>
+    <class>formuly.entities.FmRepasAliments</class>
+    <class>formuly.entities.FmAlimentsPathologie</class>
+    <class>formuly.classe.alimentRepasModel</class>
+    <class>formuly.entities.FmFaitConclusion</class>
+    <class>formuly.entities.FmRepasAnalyse</class>
+    <class>formuly.entities.FmRegleFait</class>
+    <class>formuly.entities.FmFait</class>
+    <class>formuly.entities.FmRegle</class>
+    <shared-cache-mode>ALL</shared-cache-mode>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/formuly"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="paul1990"/>
+     <!-- <property name="eclipselink.jpa.uppercase-column-names" value="true"/> -->
     </properties>
   </persistence-unit>
 </persistence>
